@@ -44,7 +44,6 @@ define(
                 this._super();
                 Adapter.setEmailAddress();
                 this.data = {'method': this.methodId};
-                console.log(this.config);
             },
 
             initObservable: function() {

@@ -20,4 +20,4 @@ David Fiaty
 https://www.davidfiaty.com
 
 ## License
-[Open Source License](LICENSE.txt)
+[The MIT License (MIT)](LICENSE.txt)

@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Cmsbox.fr Magento 2 Payment module (https://www.cmsbox.fr)
+ *
+ * Copyright (c) 2017 Cmsbox.fr (https://www.cmsbox.fr)
+ * Author: David Fiaty | contact@cmsbox.fr
+ *
+ * License GNU/GPL V3 https://www.gnu.org/licenses/gpl-3.0.en.html
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <type name="Magento\Checkout\Model\CompositeConfigProvider">
+        <arguments>
+            <argument name="configProviders" xsi:type="array">
+                <item name="payment_gateway_config_provider" xsi:type="object">Cmsbox\Mercanet\Model\Ui\ConfigProvider</item>
+            </argument>
+        </arguments>
+    </type>
+    <type name="Cmsbox\Mercanet\Block\Info">
+        <arguments>
+            <argument name="data" xsi:type="array">
+                <item xsi:type="string" name="is_secure_mode">1</item>
+            </argument>
+        </arguments>
+    </type>
+</config>

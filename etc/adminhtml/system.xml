@@ -1,0 +1,314 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+        <section id="payment" translate="label" sortOrder="0" showInDefault="1" showInWebsite="1" showInStore="1">
+            <group id="cmsbox_mercanet" translate="label" type="text" sortOrder="0" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Cmsbox Mercanet</label>
+                <group id="base_settings" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="10">
+                    <label>Base Settings</label>
+
+                    <field id="debug" translate="label" type="select" sortOrder="0" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Debug</label>
+                        <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                        <config_path>payment/cmsbox_mercanet/debug</config_path>
+                    </field>
+
+                    <field id="logging" translate="label" type="select" sortOrder="0" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Logging</label>
+                        <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                        <config_path>payment/cmsbox_mercanet/logging</config_path>
+                    </field>
+
+                    <field id="payment_brands" translate="label comment" sortOrder="70" type="multiselect" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Payment brands</label>
+                        <source_model>Cmsbox\Mercanet\Model\Adminhtml\Source\PaymentBrands</source_model>
+                        <config_path>payment/cmsbox_mercanet/payment_brands</config_path>
+                        <comment>The payment brands available for payment.</comment>
+                   </field>
+                   
+                    <field id="sort_order" translate="label" sortOrder="30" type="text" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Sort Order</label>
+                        <validate>validate-number</validate>
+                        <config_path>payment/cmsbox_mercanet/sort_order</config_path>
+                    </field>
+                </group>
+
+                <group id="payment_methods" translate="label" showInDefault="1" showInWebsite="1" sortOrder="30">
+                    <label>Payment Methods</label>
+                    <group id="cmsbox_mercanet_redirect_method" translate="label" showInDefault="1" showInWebsite="1" sortOrder="0">
+                        <label>Redirect Method</label>
+                        <attribute type="activity_path">payment/cmsbox_mercanet_redirect_method/active</attribute>
+
+                        <field id="redirect_method_active" translate="label" type="select" sortOrder="0" showInDefault="1" showInWebsite="1" showInStore="1">
+                            <label>Enabled</label>
+                            <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                            <config_path>payment/cmsbox_mercanet_redirect_method/active</config_path>
+                        </field>
+
+                        <field id="redirect_method_title" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                            <label>Title</label>
+                            <config_path>payment/cmsbox_mercanet_redirect_method/title</config_path>
+                        </field>
+
+                        <field id="redirect_method_button_label" translate="label" type="text" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+                            <label>Button label</label>
+                            <config_path>payment/cmsbox_mercanet_redirect_method/button_label</config_path>
+                        </field>
+
+                        <field id="redirect_method_bypass_receipt" translate="label comment" sortOrder="30" type="select" showInDefault="1" showInWebsite="1" showInStore="1">
+                            <label>Bypass receipt page</label>
+                            <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                            <config_path>payment/cmsbox_mercanet_redirect_method/bypass_receipt</config_path>
+                            <comment>If set to yes, the shopper will be redirected directly to the site after payment without the receipt step.</comment>       
+                        </field>
+
+                        <field id="redirect_method_verify_3ds" translate="label" sortOrder="10" type="select" showInDefault="1" showInWebsite="1" showInStore="1">
+                            <label>3D Secure Verification</label>
+                            <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                            <config_path>payment/cmsbox_mercanet_redirect_method/verify_3ds</config_path>
+                        </field>
+
+                        <field id="redirect_method_sort_order" translate="label" sortOrder="40" type="text" showInDefault="1" showInWebsite="1" showInStore="1">
+                            <label>Sort Order</label>
+                            <validate>validate-number</validate>
+                            <config_path>payment/cmsbox_mercanet_redirect_method/sort_order</config_path>
+                        </field>
+                    </group>
+
+                    <group id="cmsbox_mercanet_form_method" translate="label" showInDefault="1" showInWebsite="1" sortOrder="10">
+                        <label>Form Method</label>
+                        <attribute type="activity_path">payment/cmsbox_mercanet_form_method/active</attribute>
+
+                        <field id="form_method_active" translate="label" type="select" sortOrder="0" showInDefault="1" showInWebsite="1" showInStore="1">
+                            <label>Enabled</label>
+                            <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                            <config_path>payment/cmsbox_mercanet_form_method/active</config_path>
+                        </field>
+
+                        <field id="form_method_title" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                            <label>Title</label>
+                            <config_path>payment/cmsbox_mercanet_form_method/title</config_path>
+                        </field>
+
+                        <field id="form_method_button_label" translate="label" type="text" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+                            <label>Button label</label>
+                            <config_path>payment/cmsbox_mercanet_form_method/button_label</config_path>
+                        </field>
+
+                        <field id="form_method_verify_3ds" translate="label" sortOrder="10" type="select" showInDefault="1" showInWebsite="1" showInStore="1">
+                            <label>3D Secure Verification</label>
+                            <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                            <config_path>payment/cmsbox_mercanet_form_method/verify_3ds</config_path>
+                        </field>
+
+                        <field id="form_method_capture_mode" translate="label" sortOrder="20" type="select" showInDefault="1" showInWebsite="1" showInStore="1">
+                            <label>Capture mode</label>
+                            <source_model>Cmsbox\Mercanet\Model\Adminhtml\Source\CaptureMode</source_model>
+                            <config_path>payment/cmsbox_mercanet_form_method/capture_mode</config_path>
+                        </field>
+
+                        <field id="form_method_capture_day" translate="label comment" sortOrder="30" type="text" showInDefault="1" showInWebsite="1" showInStore="1">
+                            <label>Capture Day</label>
+                            <config_path>payment/cmsbox_mercanet_form_method/capture_day</config_path>
+                            <validate>validate-required validate-digits validate-zero-or-greater</validate>
+                            <depends>
+                                <field id="form_method_capture_mode" separator=",">AUTHOR_CAPTURE,VALIDATION</field>
+                            </depends>
+                            <comment>
+                                Deferred capture in number of days.
+                            </comment>
+                        </field>
+
+                        <field id="form_method_auto_generate_invoice" translate="label comment" sortOrder="50" type="select" showInDefault="1" showInWebsite="1" showInStore="1">
+                            <label>Automatically generate invoice</label>
+                            <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                            <config_path>payment/cmsbox_mercanet_form_method/auto_generate_invoice</config_path>
+                        </field>
+
+                        <field id="form_method_invoice_creation" translate="label comment" sortOrder="60" type="select" showInDefault="1" showInWebsite="1" showInStore="1">
+                            <label>Invoice creation</label>
+                            <source_model>Cmsbox\Mercanet\Model\Adminhtml\Source\InvoiceCreation</source_model>
+                            <config_path>payment/cmsbox_mercanet_form_method/invoice_creation</config_path>
+                            <depends>
+                                <field id="form_method_auto_generate_invoice">1</field>
+                            </depends>                        
+                        </field>
+
+                        <field id="form_method_sort_order" translate="label" sortOrder="30" type="text" showInDefault="1" showInWebsite="1" showInStore="1">
+                            <label>Sort Order</label>
+                            <validate>validate-number</validate>
+                            <config_path>payment/cmsbox_mercanet_form_method/sort_order</config_path>
+                        </field>
+                    </group>
+                    <group id="cmsbox_mercanet_admin_method" translate="label" showInDefault="1" showInWebsite="1" sortOrder="20">
+                        <label>Admin Method</label>
+                        <attribute type="activity_path">payment/cmsbox_mercanet_admin_method/active</attribute>
+
+                        <field id="admin_method_active" translate="label" type="select" sortOrder="0" showInDefault="1" showInWebsite="1" showInStore="1">
+                            <label>Enabled</label>
+                            <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                            <config_path>payment/cmsbox_mercanet_form_method/active</config_path>
+                        </field>
+
+                        <field id="admin_method_title" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                            <label>Title</label>
+                            <config_path>payment/cmsbox_mercanet_form_method/title</config_path>
+                        </field>
+
+                        <field id="admin_method_sort_order" translate="label" sortOrder="20" type="text" showInDefault="1" showInWebsite="1" showInStore="1">
+                            <label>Sort Order</label>
+                            <validate>validate-number</validate>
+                            <config_path>payment/cmsbox_mercanet_admin_method/sort_order</config_path>
+                        </field>
+
+                        <field id="admin_method_capture_mode" translate="label" sortOrder="20" type="select" showInDefault="1" showInWebsite="1" showInStore="1">
+                            <label>Capture mode</label>
+                            <source_model>Cmsbox\Mercanet\Model\Adminhtml\Source\CaptureMode</source_model>
+                            <config_path>payment/cmsbox_mercanet_admin_method/capture_mode</config_path>
+                        </field>
+
+                        <field id="admin_method_capture_day" translate="label comment" sortOrder="30" type="text" showInDefault="1" showInWebsite="1" showInStore="1">
+                            <label>Capture Day</label>
+                            <config_path>payment/cmsbox_mercanet_admin_method/capture_day</config_path>
+                            <validate>validate-required validate-digits validate-zero-or-greater</validate>
+                            <depends>
+                                <field id="admin_method_capture_mode" separator=",">AUTHOR_CAPTURE,VALIDATION</field>
+                            </depends>
+                            <comment>
+                                Deferred capture in number of days.
+                            </comment>
+                        </field>
+
+                        <field id="admin_method_auto_generate_invoice" translate="label comment" sortOrder="50" type="select" showInDefault="1" showInWebsite="1" showInStore="1">
+                            <label>Automatically generate invoice</label>
+                            <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                            <config_path>payment/cmsbox_mercanet_admin_method/auto_generate_invoice</config_path>
+                        </field>
+
+                        <field id="admin_method_invoice_creation" translate="label comment" sortOrder="60" type="select" showInDefault="1" showInWebsite="1" showInStore="1">
+                            <label>Invoice creation</label>
+                            <source_model>Cmsbox\Mercanet\Model\Adminhtml\Source\InvoiceCreation</source_model>
+                            <config_path>payment/cmsbox_mercanet_admin_method/invoice_creation</config_path>
+                            <depends>
+                                <field id="admin_method_auto_generate_invoice">1</field>
+                            </depends>                        
+                        </field>
+                    </group>
+                </group>
+
+                <group id="account_parameters" translate="label" showInDefault="1" showInWebsite="1" sortOrder="40">
+                    <label>Account parameters</label>
+                    <field id="environment" translate="label" sortOrder="1" type="select" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Environment</label>
+                        <source_model>Cmsbox\Mercanet\Model\Adminhtml\Source\Environment</source_model>
+                        <config_path>payment/cmsbox_mercanet/environment</config_path>
+                    </field>
+
+                    <field id="simu_merchant_id" translate="label" type="text" sortOrder="2" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Merchant ID</label>
+                        <config_path>payment/cmsbox_mercanet/simu_merchant_id</config_path>
+                        <depends>
+                            <field id="environment">simu</field>
+                        </depends>
+                    </field>
+
+                    <field id="test_merchant_id" translate="label" type="text" sortOrder="3" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Merchant ID</label>
+                        <config_path>payment/cmsbox_mercanet/test_merchant_id</config_path>
+                        <depends>
+                            <field id="environment">test</field>
+                        </depends>
+                    </field>
+
+                    <field id="prod_merchant_id" translate="label" type="text" sortOrder="4" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Merchant ID</label>
+                        <depends>
+                            <field id="environment">prod</field>
+                        </depends>
+                    </field>
+
+                    <field id="simu_secret_key" translate="label" type="text" sortOrder="5" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Secret key</label>
+                        <config_path>payment/cmsbox_mercanet/simu_secret_key</config_path>
+                        <depends>
+                            <field id="environment">simu</field>
+                        </depends>
+                    </field>
+
+                    <field id="test_secret_key" translate="label" type="text" sortOrder="6" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Secret key</label>
+                        <config_path>payment/cmsbox_mercanet/test_secret_key</config_path>
+                        <depends>
+                            <field id="environment">test</field>
+                        </depends>
+                    </field>
+
+                    <field id="prod_secret_key" translate="label" type="text" sortOrder="7" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Secret key</label>
+                        <config_path>payment/cmsbox_mercanet/prod_secret_key</config_path>
+                        <depends>
+                            <field id="environment">prod</field>
+                        </depends>
+                    </field>
+
+                    <field id="key_version" translate="label" type="text" sortOrder="8" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Key version</label>
+                        <config_path>payment/cmsbox_mercanet/key_version</config_path>
+                    </field>
+                </group>
+
+                <group id="order_settings" translate="label" showInDefault="1" showInWebsite="1" sortOrder="50">
+                    <label>Order Status Settings</label>
+
+                    <field id="new_order_status" translate="label comment" type="select" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>New order status</label>
+                        <source_model>Cmsbox\Mercanet\Model\Adminhtml\Source\OrderStatus</source_model>
+                        <config_path>payment/cmsbox_mercanet/new_order_status</config_path>
+                        <comment>Select the status that should be used for new orders.</comment>
+                    </field>
+
+                    <field id="order_status_authorized" translate="label comment" type="select" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Authorisation order status</label>
+                        <source_model>Cmsbox\Mercanet\Model\Adminhtml\Source\OrderStatus</source_model>
+                        <config_path>payment/cmsbox_mercanet/order_status_authorized</config_path>
+                        <comment>Select the status that should be used for orders with successful payment authorisation.</comment>
+                    </field>
+
+                    <field id="order_status_captured" translate="label comment" type="select" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Capture order status</label>
+                        <source_model>Cmsbox\Mercanet\Model\Adminhtml\Source\OrderStatus</source_model>
+                        <config_path>payment/cmsbox_mercanet/order_status_captured</config_path>
+                        <comment>Select the status that should be used for orders with successful payment capture.</comment>
+                    </field>
+                </group>
+
+                <group id="currency_settings" translate="label" showInDefault="1" showInWebsite="1" sortOrder="60">
+                    <label>Currency Settings</label>
+                    <field id="accepted_currencies" translate="label comment" sortOrder="20" type="multiselect" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Accepted Currencies</label>
+                        <source_model>Magento\Config\Model\Config\Source\Locale\Currency</source_model>
+                        <config_path>payment/cmsbox_mercanet/accepted_currencies</config_path>
+                        <comment>The payment option will not be displayed if the shopper's order currency is not part of the ones selected here.</comment>
+                   </field>
+                </group>
+
+                <group id="country_settings" translate="label" showInDefault="1" showInWebsite="1" sortOrder="70">
+                    <label>Country Settings</label>
+                    <field id="accepted_countries_billing" translate="label" sortOrder="10" type="multiselect" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Billing countries</label>
+                        <source_model>Magento\Directory\Model\Config\Source\Country</source_model>
+                        <config_path>payment/cmsbox_mercanet/accepted_countries_billing</config_path>
+                        <comment>The payment option will not be displayed if the shopper's billing country is not part of the ones selected here.</comment>
+                    </field>
+
+                    <field id="accepted_countries_shipping" translate="label" sortOrder="20" type="multiselect" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Shipping countries</label>
+                        <source_model>Magento\Directory\Model\Config\Source\Country</source_model>
+                        <config_path>payment/cmsbox_mercanet/accepted_countries_shipping</config_path>
+                        <comment>The payment option will not be displayed if the shopper's shipping country is not part of the ones selected here.</comment>
+                    </field>
+                </group>
+            </group>
+        </section>
+    </system>
+</config>

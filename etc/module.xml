@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * Cmsbox.fr Magento 2 Payment module (https://www.cmsbox.fr)
+ *
+ * Copyright (c) 2017 Cmsbox.fr (https://www.cmsbox.fr)
+ * Author: David Fiaty | contact@cmsbox.fr
+ *
+ * License GNU/GPL V3 https://www.gnu.org/licenses/gpl-3.0.en.html
+ */
+-->
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Module/etc/module.xsd">
+    <module name="Cmsbox_Mercanet" setup_version="2.0.0">
+        <sequence>
+            <module name="Magento_Sales"/>
+            <module name="Magento_Payment"/>
+            <module name="Magento_Checkout"/>
+        </sequence>
+    </module>
+</config>

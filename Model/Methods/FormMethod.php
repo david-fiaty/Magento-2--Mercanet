@@ -159,7 +159,7 @@ class FormMethod extends AbstractMethod {
      *
      * @return bool
      */
-    public static function isOn($config, $methodId) {
+    public static function isFrontend($config, $methodId) {
         // Get the quote entity
         $entity = $config->cart->getQuote();
 

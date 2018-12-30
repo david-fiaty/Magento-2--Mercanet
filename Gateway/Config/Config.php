@@ -181,16 +181,20 @@ class Config {
      * @return string
      */
     public function getFrontendConfig() {
+        // Prepare the output
+        $output = [];
+
         // Get request data for each method
         foreach ($this->params as $key => $val) {
             $arr = explode('_', $key);
             if ($this->methodIsValid($arr, $key, $val)) {
                 $methodInstance = $this->methodHandler->getStaticInstance($key);
-                if ($methodInstance && $methodInstance::isOn($this, $key)) {
-                    $this->params[$key]['active'] = $methodInstance::isOn($this, $key);
-                    $this->params[$key]['api_url'] = $this->getApiUrl('charge', $key);
-                    $this->params[$key]['request_data'] = $methodInstance::getRequestData($this, $key);
-                }   
+                if ($methodInstance && $methodInstance::isFrontend($this, $key)) {
+                    $output[$key] = $val;
+                    $output[$key]['active'] = $methodInstance::isFrontend($this, $key);
+                    $output[$key]['api_url'] = $this->getApiUrl('charge', $key);
+                    $output[$key]['request_data'] = $methodInstance::getRequestData($this, $key);
+                } 
             }
         } 
 
@@ -198,7 +202,7 @@ class Config {
         return [
             'payment' => [
                 Core::moduleId() => array_merge(
-                    $this->params, 
+                    $output, 
                     $this->base
                 )
             ]

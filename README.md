@@ -16,7 +16,8 @@ Payment gateway module depends on `Sales`, `Payment` and `Checkout` Magento modu
 For more module configuration details, please look through [module development docs](http://devdocs.magento.com/guides/v2.0/extension-dev-guide/module-load-order.html).
 
 ## Contributors
-Magento Core team
+David Fiaty
+https://www.davidfiaty.com
 
 ## License
 [Open Source License](LICENSE.txt)

@@ -121,11 +121,16 @@ class FormMethod extends AbstractMethod {
         return parent::isAvailable($quote);
     }
 
+    public static function getRequestData($config, $methodId) {
+        return [];
+    }
+
     /**
      * Returns the card request data.
      *
      * @return string
      */
+    /*
     public static function getRequestData($config, $methodId) {
         // Prepare the parameters array
         $entity = $config->cart->getQuote();
@@ -153,6 +158,7 @@ class FormMethod extends AbstractMethod {
         // Return the parameters
         return $params;
     }
+    */
 
     /**
      * Determines if the method is active.

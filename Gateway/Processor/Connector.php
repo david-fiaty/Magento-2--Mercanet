@@ -10,7 +10,6 @@
  
 namespace Cmsbox\Mercanet\Gateway\Processor;
 
-use Magento\Framework\Locale\Resolver;
 use Magento\Framework\Exception\LocalizedException;
 use Magento\Checkout\Model\Cart;
 use Cmsbox\Mercanet\Model\Adminhtml\Source\CaptureMode;
@@ -21,25 +20,12 @@ class Connector {
 
     use \Cmsbox\Mercanet\Gateway\Processor\ResponseProcessor;
 
-    const KEY_SIMU_MERCHANT_ID = 'simu_merchant_id';
-    const KEY_TEST_MERCHANT_ID = 'test_merchant_id';
-    const KEY_PROD_MERCHANT_ID = 'prod_merchant_id';
-    const KEY_SIMU_SECRET_KEY = 'simu_secret_key';
-    const KEY_TEST_SECRET_KEY = 'test_secret_key';
-    const KEY_PROD_SECRET_KEY = 'prod_secret_key';
     const KEY_REQUEST = 'request';
     const KEY_RESPONSE = 'response';
-    const KEY_DEFAULT_LANGUAGE = 'en';
     const KEY_RESPONSE_ERROR = 'error';
     const KEY_RESPONSE_SUCCESS = 'success';
     const KEY_RESPONSE_FRAUD = 'fraud';
     const KEY_RESPONSE_FLAG = 'flag';
-    const KEY_ENVIRONMENT = 'environment';
-
-    /**
-     * @var Resolver
-     */    
-    protected $localeResolver;
 
     /**
      * @var Tools
@@ -55,11 +41,9 @@ class Connector {
      * Connector constructor.
      */
     public function __construct(
-        Resolver $localeResolver,
         Tools $tools,
         Cart $cart
     ) {
-        $this->localeResolver  = $localeResolver;
         $this->tools           = $tools;
         $this->cart            = $cart;
     }
@@ -104,11 +88,13 @@ class Connector {
         return $currencies[$currency];
     }
 
+    // Todo - move or remove cause handled by vendor
     /**
      * Creates a seal for a request.
      *
      * @return string
      */
+    /*
     public function getSeal($params, $config, $exclude = []) {
         $separator = true;
 
@@ -124,85 +110,17 @@ class Connector {
         // Return the seal
         return hash('sha256', $params . $this->getSecretKey($config));
     }
+    */
 
-    /**
-     * Retrieves the customer language.
-     */
-    public function getCustomerLanguage() {
-        $lang = explode('_', $this->localeResolver->getLocale()) ;
-        return (isset($lang[0]) && !empty($lang[0])) ? $lang[0] : self::KEY_DEFAULT_LANGUAGE;
-    }
 
-    /**
-     * Formats an amount for a gateway request.
-     */   
-    public function formatAmount($amount) {
-        return (number_format($amount, 2))*100;
-    }
-
-    /**
-     * Returns the transaction reference.
-     *
-     * @return string
-     */
-    public function getTransactionReference() {
-        return (string) time();   
-    }
-
-    /**
-     * Returns the merchant ID.
-     *
-     * @return string
-     */
-    public function getMerchantId($config) {
-        switch ($config->base[self::KEY_ENVIRONMENT]) {
-            case 'simu': 
-            $id = $config->base[self::KEY_SIMU_MERCHANT_ID];
-            break;
-
-            case 'test': 
-            $id = $config->base[self::KEY_TEST_MERCHANT_ID];
-            break;
-
-            case 'prod': 
-            $id = $config->base[self::KEY_PROD_MERCHANT_ID];;
-            break;
-        }
-
-        return (string) $id;
-    }
-
-    /**
-     * Returns the active secret key.
-     *
-     * @return string
-     */
-    public function getSecretKey($config) {
-        // Return the secret key
-        switch ($config->base[self::KEY_ENVIRONMENT]) {
-            case 'simu': 
-            $key = $config->params[Core::moduleId()][self::KEY_SIMU_SECRET_KEY];
-            break;
-
-            case 'test': 
-            $key = $config->params[Core::moduleId()][self::KEY_TEST_SECRET_KEY];
-            break;
-
-            case 'prod': 
-            $key = $config->params[Core::moduleId()][self::KEY_PROD_SECRET_KEY];
-            break;
-        }
-
-        return $key;
-    }
-
+    // Todo - move or remove cause handled by vendor
     /**
      * Checks if the response is valid.
      *
      * @return bool
      */
+    /*
     public function isValid($response, $config) {
-        // Todo - calculate seal identical to request
         return true;
 
         if (isset($response['Data'])) {
@@ -216,6 +134,7 @@ class Connector {
         
         return false;
     }
+    */
 
     /**
      * Returns the billing address.

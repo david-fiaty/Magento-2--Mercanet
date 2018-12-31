@@ -31,6 +31,7 @@ class Core {
     const KEY_ACCEPTED_COUNTRIES_SHIPPING = 'accepted_countries_shipping';
     const KEY_PAYMENT_BRANDS = 'payment_brands';
     const KEY_SUPPORTED_CURRENCIES = 'supported_currencies';
+    const KEY_VENDOR = 'vendor';
 
     /**
      * Build a payment method ID.

@@ -15,7 +15,6 @@ use Magento\Quote\Api\Data\PaymentInterface;
 use Magento\Payment\Model\Method\AbstractMethod;
 use Cmsbox\Mercanet\Gateway\Config\Core;
 use Cmsbox\Mercanet\Helper\Tools;
-
 class RedirectMethod extends AbstractMethod {
 
     protected $_code;
@@ -105,8 +104,7 @@ class RedirectMethod extends AbstractMethod {
      * @param \Magento\Quote\Api\Data\CartInterface|\Magento\Quote\Model\Quote|null $quote
      * @return bool
      */
-    public function isAvailable(\Magento\Quote\Api\Data\CartInterface $quote = null)
-    {
+    public function isAvailable(\Magento\Quote\Api\Data\CartInterface $quote = null) {
         return parent::isAvailable($quote) && null !== $quote;
     }
 
@@ -116,9 +114,45 @@ class RedirectMethod extends AbstractMethod {
      * @param \Magento\Quote\Model\Quote|null $quote
      * @return bool
      */
-    public function isAvailableInConfig($quote = null)
-    {
+    public function isAvailableInConfig($quote = null) {
         return parent::isAvailable($quote);
+    }
+
+    public static function getRequestData($config, $methodId) {
+        // Get the order entity
+        $entity = $config->cart->getQuote();
+
+        // Get the vendor class
+        $fn = "\\" . $config->params[$methodId][Core::KEY_VENDOR];
+
+        // Prepare the request
+        $paymentRequest = new $fn($config->getSecretKey());
+        $paymentRequest->setMerchantId($config->getMerchantId());
+        $paymentRequest->setKeyVersion($config->params[Core::moduleId()][Core::KEY_VERSION]);
+        $paymentRequest->setTransactionReference($config->getTransactionReference());
+        $paymentRequest->setAmount($config->formatAmount($entity->getGrandTotal()));
+        $paymentRequest->setCurrency(Tools::getCurrencyCode($entity));
+        $paymentRequest->setNormalReturnUrl(
+            $config->storeManager->getStore()->getBaseUrl() 
+            . '/' . $config->params[$methodId][Core::KEY_NORMAL_RETURN_URL]
+        );    
+        $paymentRequest->setAutomaticResponseUrl(
+            $config->storeManager->getStore()->getBaseUrl() 
+            . '/' . $config->params[$methodId][Core::KEY_AUTOMATIC_RESPONSE_URL]
+        );
+        $paymentRequest->setLanguage($config->getCustomerLanguage());
+
+        // Set the 3DS parameter
+        if (!$config->params[$methodId][Core::KEY_VERIFY_3DS]) {
+            $paymentRequest->setFraudDataBypass3DS($config->params[$methodId][Core::KEY_BYPASS_RECEIPT]);
+        }
+
+        $paymentRequest->validate();
+
+        return [
+            'params' => $paymentRequest->toParameterString(),
+            'seal' => $paymentRequest->getShaSign()
+        ];
     }
 
     /**
@@ -126,7 +160,12 @@ class RedirectMethod extends AbstractMethod {
      *
      * @return string
      */
+    /*
     public static function getRequestData($config, $methodId) {
+        // Get the vendor class
+        $fn = "\" . $config->params->vendor;
+        $vendor = new $fn();
+
         // Prepare the parameters array
         $entity = $config->cart->getQuote();
         $params = [
@@ -172,7 +211,7 @@ class RedirectMethod extends AbstractMethod {
             'seal' => $config->processor->getSeal($params, $config)
         ];
     }
-
+    */
     /**
      * Determines if the method is active.
      *

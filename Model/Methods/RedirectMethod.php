@@ -132,6 +132,11 @@ class RedirectMethod extends AbstractMethod {
         $paymentRequest->setTransactionReference($config->getTransactionReference());
         $paymentRequest->setAmount($config->formatAmount($entity->getGrandTotal()));
         $paymentRequest->setCurrency(Tools::getCurrencyCode($entity));
+        $paymentRequest->setCustomerContactEmail($entity->getCustomerEmail());
+        $paymentRequest->setOrderId(Tools::getIncrementId($entity));
+        $paymentRequest->setCaptureMode($config->params[$methodId][Core::KEY_CAPTURE_MODE]);
+        $paymentRequest->setCaptureDay((string) $config->params[$methodId][Core::KEY_CAPTURE_DAY]);
+        $paymentRequest->setLanguage($config->getCustomerLanguage());
         $paymentRequest->setNormalReturnUrl(
             $config->storeManager->getStore()->getBaseUrl() 
             . '/' . $config->params[$methodId][Core::KEY_NORMAL_RETURN_URL]
@@ -140,59 +145,15 @@ class RedirectMethod extends AbstractMethod {
             $config->storeManager->getStore()->getBaseUrl() 
             . '/' . $config->params[$methodId][Core::KEY_AUTOMATIC_RESPONSE_URL]
         );
-        $paymentRequest->setLanguage($config->getCustomerLanguage());
 
         // Set the 3DS parameter
         if (!$config->params[$methodId][Core::KEY_VERIFY_3DS]) {
             $paymentRequest->setFraudDataBypass3DS($config->params[$methodId][Core::KEY_BYPASS_RECEIPT]);
         }
 
-        $paymentRequest->validate();
-
-        return [
-            'params' => $paymentRequest->toParameterString(),
-            'seal' => $paymentRequest->getShaSign()
-        ];
-    }
-
-    /**
-     * Returns the redirect request data.
-     *
-     * @return string
-     */
-    /*
-    public static function getRequestData($config, $methodId) {
-        // Get the vendor class
-        $fn = "\" . $config->params->vendor;
-        $vendor = new $fn();
-
-        // Prepare the parameters array
-        $entity = $config->cart->getQuote();
-        $params = [
-            'amount' => $config->processor->formatAmount($entity->getGrandTotal()),
-            'currencyCode' => $config->processor->convertCurrencyToCurrencyCode(Tools::getCurrencyCode($entity), $config),
-            'merchantId' => $config->processor->getMerchantId($config),
-            'customerId' => $entity->getCustomerId(),
-            'normalReturnUrl' => $config->storeManager->getStore()->getBaseUrl() . '/' . $config->params[$methodId][Core::KEY_NORMAL_RETURN_URL],
-            'automaticResponseUrl' => $config->storeManager->getStore()->getBaseUrl() . '/' . $config->params[$methodId][Core::KEY_AUTOMATIC_RESPONSE_URL],
-            'transactionReference' => $config->processor->getTransactionReference(),
-            'customerEmail' => $entity->getCustomerEmail(),
-            'orderId' => Tools::getIncrementId($entity),
-            'keyVersion' => $config->params[Core::moduleId()][Core::KEY_VERSION],
-            'captureMode' => $config->params[$methodId][Core::KEY_CAPTURE_MODE],
-            'captureDay' => (string) $config->params[$methodId][Core::KEY_CAPTURE_DAY],
-            'customerLanguage' => $config->processor->getCustomerLanguage(),
-             // Todo - check why not working in test mode
-            'bypassReceiptPage' => $config->params[$methodId][Core::KEY_BYPASS_RECEIPT] 
-        ];
-
-        // Set the 3DS parameter
-        if (!$config->params[$methodId][Core::KEY_VERIFY_3DS]) {
-            // Todo - check why not working in test mode
-            //$params['fraudData.bypass3DS'] = 'ALL';
-        }
-
+        // Todo  - add extra data
         // Set the billing address info
+        /*
         $params = array_merge($params, $config->processor->getBillingAddress($entity));
 
         // Set the shipping address info
@@ -204,14 +165,17 @@ class RedirectMethod extends AbstractMethod {
             // Todo - check payment brand list with test mode
             //$params['paymentMeanBrandList'] = $paymentBrands;
         }
+        */
 
-        // Return the parameters and the seal
+        $paymentRequest->validate();
+
         return [
-            'params' => $config->processor->toParameterString($params),
-            'seal' => $config->processor->getSeal($params, $config)
+            'params' => $paymentRequest->toParameterString(),
+            'seal' => $paymentRequest->getShaSign()
         ];
     }
-    */
+
+
     /**
      * Determines if the method is active.
      *

@@ -61,8 +61,8 @@ class PostInterface
         'customerContact.gender', 'customerContact.lastname', 'customerContact.mobile',
         'customerContact.phone', 'customerContact.title', 'expirationDate', 'automaticResponseUrl',
         'templateName','paymentMeanBrandList', 'instalmentData.number', 'instalmentData.datesList',
-	'instalmentData.transactionReferencesList', 'instalmentData.amountsList', 'paymentPattern',
-	'captureDay', 'fraudData.bypass3DS'
+	    'instalmentData.transactionReferencesList', 'instalmentData.amountsList', 'paymentPattern',
+	    'captureDay', 'captureMode', 'fraudData.bypass3DS', 'orderId'
     );
 
     private $requiredFields = array(
@@ -136,6 +136,15 @@ class PostInterface
     {
         $this->validateUri($pspUrl);
         $this->pspURL = $pspUrl;
+    }
+
+    // Added function
+    public function setOrderId($value)
+    {
+        if (strlen($value) > 32) {
+            throw new InvalidArgumentException("orderId is too long");
+        }
+        $this->parameters['orderId'] = $value;
     }
 
     public function setNormalReturnUrl($url)
@@ -278,6 +287,15 @@ class PostInterface
         $this->parameters['captureDay'] = $number;
     }
     
+    // Added function
+    public function setCaptureMode($value)
+    {
+        if (strlen($value) > 20) {
+            throw new InvalidArgumentException("captureMode is too long");
+        }
+        $this->parameters['captureMode'] = $value;
+    }
+
     // Methodes liees a la lutte contre la fraude
     
     public function setFraudDataBypass3DS($value)

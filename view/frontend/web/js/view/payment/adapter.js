@@ -78,10 +78,11 @@ define([
          *
          * @param {String} errorMessage
          */
-        showError: function(errorMessage) {
-            GlobalMessageList.addErrorMessage({
-                message: errorMessage
-            });
+        showMessage: function(type, message) {
+            var messageContainer = $('message');
+            messageContainer.addClass('message-' + type + ' ' + type);
+            messageContainer.append('<div>' + message + '</div>');
+            messageContainer.show();
         },
 
         /**

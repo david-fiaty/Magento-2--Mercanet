@@ -72,8 +72,7 @@ define(
              * @returns {string}
              */
             getPaymentForm: function() {
-                //FullScreenLoader.startLoader();
-                //MessageList.addSuccessMessage({ message: 'Mercanet is working great!.' });
+                FullScreenLoader.startLoader();
 
                 var self = this;
                 $.ajax({
@@ -82,7 +81,9 @@ define(
                     data: {task: 'block'},
                     success: function(data) {
                         $('#' + self.targetForm).append(data.response);
-                        //FullScreenLoader.stopLoader();
+                        FullScreenLoader.stopLoader();
+
+                        Adapter.showMessage('error', 'hello mercanet');
 
                     },
                     error: function(request, status, error) {

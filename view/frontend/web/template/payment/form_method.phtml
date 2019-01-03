@@ -19,14 +19,13 @@
 
     <div class="payment-method-content">
         <div>
-            <div class="message message-success success">
-                <div>my test message</div>
-            </div>
+            <div class="message" style="display: none"></div>
             <form class="form" data-bind="attr: {id: targetForm, action: formControllerUrl, visible: getPaymentForm()}" method="POST" novalidate="novalidate">
                 <input type="hidden" name="method_id" data-bind="attr: {value: getCode()}">
                 <input type="hidden" name="task" value="charge">
             </form>
         </div>
+        
         <div class="payment-method-billing-address">
             <!-- ko foreach: $parent.getRegion(getBillingAddressFormName()) -->
             <!-- ko template: getTemplate() -->

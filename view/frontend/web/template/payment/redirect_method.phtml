@@ -18,10 +18,15 @@
     </div>
 
     <div class="payment-method-content">
-        <!-- ko foreach: getRegion('messages') -->
-        <!-- ko template: getTemplate() -->
-        <!-- /ko -->
-        <!--/ko-->
+        <div class="message" style="display: none"></div>
+        <div>
+            <form class="form" data-bind="attr: {id: targetForm, action: config.api_url}" method="POST" novalidate="novalidate" style="display:none">
+                <input name="Data" data-bind="attr: {value: config.request_data.params}">
+                <input name="InterfaceVersion" data-bind="attr: {value: config.interface_version_charge}">
+                <input name="Seal" data-bind="attr: {value: config.request_data.seal}">
+            </form>
+        </div>
+
         <div class="payment-method-billing-address">
             <!-- ko foreach: $parent.getRegion(getBillingAddressFormName()) -->
             <!-- ko template: getTemplate() -->
@@ -35,12 +40,6 @@
             <!-- /ko -->
             <!--/ko-->
         </div>
-
-        <form class="form" data-bind="attr: {id: targetForm, action: config.api_url}" method="POST" novalidate="novalidate" style="display:none">
-            <input name="Data" data-bind="attr: {value: config.request_data.params}">
-            <input name="InterfaceVersion" data-bind="attr: {value: config.interface_version_charge}">
-            <input name="Seal" data-bind="attr: {value: config.request_data.seal}">
-        </form>
 
         <div class="actions-toolbar">
             <div class="primary">

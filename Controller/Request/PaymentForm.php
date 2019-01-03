@@ -148,7 +148,11 @@ class PaymentForm extends Action {
 
                         // Place the order
                         $order = $this->orderHandler->placeOrder($params);
- 
+
+                        // Perform after place order actions
+                        $this->orderHandler->afterPlaceOrder($quote, $order);
+
+                        // Return the result
                         return ($order) ? $order->getId() : false;
                     }
                 }

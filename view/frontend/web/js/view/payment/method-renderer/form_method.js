@@ -20,9 +20,10 @@ define(
         'Magento_Checkout/js/model/full-screen-loader',
         'Magento_Checkout/js/model/payment/additional-validators',
         'mage/translate',
-        'Magento_Checkout/js/action/redirect-on-success'
+        'Magento_Checkout/js/action/redirect-on-success',
+        'Magento_Ui/js/model/messageList'
     ],
-    function($, Component, Adapter, PlaceOrderAction, Url, FullScreenLoader, AdditionalValidators, t, RedirectOnSuccessAction) {
+    function($, Component, Adapter, PlaceOrderAction, Url, FullScreenLoader, AdditionalValidators, t, RedirectOnSuccessAction, MessageList) {
         'use strict';
 
         window.checkoutConfig.reloadOnBillingAddress = true;
@@ -37,7 +38,7 @@ define(
                 targetButton:  Adapter.getMethodId(code) + '_button',
                 targetForm:  Adapter.getMethodId(code) + '_form',
                 formControllerUrl: Url.build(Adapter.getCode() + '/request/paymentform'),
-                redirectAfterPlaceOrder: true
+                redirectAfterPlaceOrder: false
             },
 
             /**
@@ -72,7 +73,8 @@ define(
              * @returns {string}
              */
             getPaymentForm: function() {
-                FullScreenLoader.startLoader();
+                //FullScreenLoader.startLoader();
+                MessageList.addSuccessMessage({ message: 'Mercanet is working great!.' });
 
                 var self = this;
                 $.ajax({
@@ -81,7 +83,8 @@ define(
                     data: {task: 'block'},
                     success: function(data) {
                         $('#' + self.targetForm).append(data.response);
-                        FullScreenLoader.stopLoader();
+                        //FullScreenLoader.stopLoader();
+
                     },
                     error: function(request, status, error) {
                         alert(error);
@@ -141,7 +144,6 @@ define(
                     url: self.formControllerUrl,
                     data: payLoad,
                     success: function(res) {
-                        console.log(res);
                         if (JSON.parse(res.response)) {
                             RedirectOnSuccessAction.execute();
                         }
@@ -151,12 +153,6 @@ define(
                         alert(t('The transaction could not be processed. Please check your details or contact the site administrator.'));
                     }
                 });
-            },
-
-            getPlaceOrderDeferredObject: function() {
-                return $.when(
-                    PlaceOrderAction(this.data, this.messageContainer)
-                );
             },
 
             /**

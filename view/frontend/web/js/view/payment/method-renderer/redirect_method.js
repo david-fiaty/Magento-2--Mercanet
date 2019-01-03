@@ -35,7 +35,7 @@ define(
                 config: Adapter.getPaymentConfig()[Adapter.getMethodId(code)],
                 targetButton:  Adapter.getMethodId(code) + '_button',
                 targetForm:  Adapter.getMethodId(code) + '_form',
-                redirectAfterPlaceOrder: true
+                redirectAfterPlaceOrder: false
             },
 
             /**
@@ -101,12 +101,6 @@ define(
 
                 // Submit the form
                 $('#' + this.targetForm).submit();
-            },
-
-            getPlaceOrderDeferredObject: function() {
-                return $.when(
-                    PlaceOrderAction(this.data, this.messageContainer)
-                );
             },
 
             /**

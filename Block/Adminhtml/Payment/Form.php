@@ -21,7 +21,7 @@ class Form extends Cc {
     /**
      * @var String
      */
-    protected $_template = 'Cmsbox_Mercanet::form/payment_form.phtml';
+    protected $_template = 'Cmsbox_Mercanet::payment_form.phtml';
 
     /**
      * @var FormHandlerService

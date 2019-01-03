@@ -209,8 +209,10 @@ class Config {
                 if ($methodInstance && $methodInstance::isFrontend($this, $key)) {
                     $output[$key] = $val;
                     $output[$key]['active'] = $methodInstance::isFrontend($this, $key);
-                    $output[$key]['api_url'] = $this->getApiUrl('charge', $key);
-                    $output[$key]['request_data'] = $methodInstance::getRequestData($this, $key);
+                    if (isset($val['load_request_data']) && (int) $val['load_request_data'] == 1) {
+                        $output[$key]['api_url'] = $this->getApiUrl('charge', $key);
+                        $output[$key]['request_data'] = $methodInstance::getRequestData($this, $key);
+                    }
                 } 
             }
         } 
@@ -247,8 +249,7 @@ class Config {
 
     public function methodIsValid($arr, $key, $val) {
         return isset($arr[2]) && isset($arr[3]) 
-        && isset($val['can_use_internal']) 
-        && (int) $val['can_use_internal'] != 1
+        && isset($val['can_use_internal']) && (int) $val['can_use_internal'] != 1
         && !in_array($key, $arr);
     }
 

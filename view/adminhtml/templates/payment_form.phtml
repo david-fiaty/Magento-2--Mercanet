@@ -28,7 +28,7 @@
                 <div class="month">
                     <select name="card_data[month]">
                         <?php foreach ($block->months as $k => $v): ?>
-                            <option value="<?= /* @noEscape */ $block->escapeHtml($k) ?>">
+                            <option value="<?= /* @noEscape */ $block->escapeHtml(sprintf("%02d", $k)) ?>">
                                 <?= $block->escapeHtml($v) ?>
                             </option>
                         <?php endforeach; ?>
@@ -37,13 +37,14 @@
                 <div class="year">
                     <select name="card_data[year]">
                         <?php foreach ($block->years as $k => $v): ?>
-                            <option value="<?= /* @noEscape */ $block->escapeHtml($k) ?>">
+                            <option value="<?= /* @noEscape */ $block->escapeHtml($v) ?>">
                                 <?= $block->escapeHtml($v) ?>
                             </option>
                         <?php endforeach; ?>
                     </select>
                 </div>
             </div>
+            
             <!-- Card Verification Field -->
             <div class="card-verification">
                 <div class="cvv-input">

@@ -88,11 +88,11 @@ class GestionPlusInterface
         'customerContact.gender', 'customerContact.lastname', 'customerContact.mobile',
         'customerContact.phone', 'customerContact.title', 'expirationDate', 'automaticResponseUrl',
         'templateName','paymentMeanBrandList', 'instalmentData', 'paymentPattern',
-	'captureDay', 'captureMode', 'merchantTransactionDateTime', 'fraudData.bypass3DS', 'seal',
-	'orderChannel', 'orderId', 'returnContext', 'transactionOrigin', 'merchantWalletId', 'paymentMeanId',
+	    'captureDay', 'captureMode', 'merchantTransactionDateTime', 'fraudData.bypass3DS', 'seal',
+	    'orderChannel', 'orderId', 'returnContext', 'transactionOrigin', 'merchantWalletId', 'paymentMeanId',
         'operationAmount', 'operationOrigin', 's10TransactionReference', 'fromTransactionReference', 
         'fromMerchantId', 's10FromTransactionReference', 'statementReference', 'shoppingCartDetail',
-        'redirectionData', 'paResMessage', 'messageVersion'
+        'redirectionData', 'paResMessage', 'messageVersion', 'customerContact', 'customerContact.email'
     );
 
     private $requiredFieldsCardOrder = array(
@@ -156,8 +156,8 @@ class GestionPlusInterface
     {
         global $shaString;
         $this->validate();
-        
-        array_walk_recursive($this->toArray(), [$this, 'shaCompose']); 
+        $arr = $this->toArray();
+        array_walk_recursive($arr, [$this, 'shaCompose']); 
         if (self::TRACE == 1)
           echo "<br>Seal composed by : " . $this->shaString . "<br>";
 	return hash_hmac('sha256', utf8_encode($this->shaString), $this->secretKey);
@@ -317,6 +317,17 @@ class GestionPlusInterface
             throw new InvalidArgumentException("Unknown Brand [$brand].");
         }
         $this->parameters['paymentMeanBrandList'] = strtoupper($brand);
+    }
+
+	public function setCustomerContactEmail($email)
+    {
+        if(strlen($email) > 50) {
+            throw new InvalidArgumentException("Email is too long");
+        }
+        if(!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            throw new InvalidArgumentException("Email is invalid");
+        }
+        $this->parameters['customerContact'] = ['email' => $email];
     }
 
     public function setBillingContactEmail($email)

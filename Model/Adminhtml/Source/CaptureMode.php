@@ -11,12 +11,10 @@
 namespace Cmsbox\Mercanet\Model\Adminhtml\Source;
 
 use Magento\Framework\Option\ArrayInterface;
-
+use Cmsbox\Mercanet\Gateway\Processor\Connector;
 class CaptureMode implements ArrayInterface {
 
-    const IMMEDIATE = 'IMMEDIATE';
-    const AUTHOR_CAPTURE = 'AUTHOR_CAPTURE';
-    const VALIDATION = 'VALIDATION';
+
 
     /**
      * Possible environment types
@@ -26,15 +24,15 @@ class CaptureMode implements ArrayInterface {
     public function toOptionArray() {
         return [
             [
-                'value' => self::IMMEDIATE,
+                'value' => Connector::KEY_CAPTURE_IMMEDIATE,
                 'label' => __('Immediate'),
             ],
             [
-                'value' => self::AUTHOR_CAPTURE,
+                'value' => Connector::KEY_CAPTURE_DEFERRED,
                 'label' => __('Deferred'),
             ],
             [
-                'value' => self::VALIDATION,
+                'value' => Connector::KEY_CAPTURE_MANUAL,
                 'label' => __('Validation'),
             ],
         ];

@@ -16,6 +16,7 @@ use Magento\Sales\Api\InvoiceRepositoryInterface;
 use Magento\Sales\Model\Order\Payment\Transaction;
 use Cmsbox\Mercanet\Gateway\Config\Config;
 use Cmsbox\Mercanet\Helper\Watchdog;
+use Cmsbox\Mercanet\Gateway\Config\Core;
 
 class InvoiceHandlerService {
 
@@ -25,7 +26,7 @@ class InvoiceHandlerService {
     protected $config;
 
     /**
-     * @var InvoiceHandlerService
+     * @var InvoiceService
      */
     protected $invoiceService;
 
@@ -41,13 +42,10 @@ class InvoiceHandlerService {
 
     /**
      * InvoiceHandlerService constructor.
-     * @param Config $config
-     * @param InvoiceHandlerService $invoiceService
-     * @param InvoiceRepositoryInterface $invoiceRepository
     */
     public function __construct(
         Config $config,
-        InvoiceHandlerService $invoiceService,
+        InvoiceService $invoiceService,
         InvoiceRepositoryInterface $invoiceRepository,
         Watchdog $watchdog      
     ) {
@@ -62,7 +60,7 @@ class InvoiceHandlerService {
     }
 
     public function shouldInvoice($order) {
-        return $order->canInvoice() && ($this->config->getAutoGenerateInvoice());
+        return $order->canInvoice() && ($this->config->params[$order->getPayment()->getMethodInstance()->getCode()][Core::KEY_AUTO_GENERATE_INVOICE]);
     }
 
     public function createInvoice($order) {

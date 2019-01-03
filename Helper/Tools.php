@@ -97,29 +97,6 @@ class Tools {
     }
 
     /**
-     * Turns a data string into an array.
-     */
-    public function unpackData($params, $separator1, $separator2 = null) {
-        // Prepare the output array
-        $output = [];
-
-        // Process first level data
-        $arr = explode($separator1, $params);
-
-        // Process second level data
-        if (is_array($arr) && !empty($arr) && ($separator2)) {
-            foreach ($arr as $row) {
-                $members = explode($separator2, $row);
-                $output[$members[0]] = $members[1];
-            }
-
-            return $output;
-        }
-
-        return $arr;
-    }
-
-    /**
      * Sort multi dimensional array.
      *
      * @return string

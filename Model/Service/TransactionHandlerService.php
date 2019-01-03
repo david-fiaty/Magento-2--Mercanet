@@ -17,10 +17,11 @@ use Magento\Framework\Api\FilterBuilder;
 use Magento\Framework\Api\SearchCriteriaBuilder;
 use Magento\Sales\Model\Order\Payment\Transaction\Repository as TransactionRepository;
 use Cmsbox\Mercanet\Model\Ui\ConfigProvider;
-use Cmsbox\Mercanet\Helper\Tools;
 use Cmsbox\Mercanet\Model\Service\InvoiceHandlerService;
 use Cmsbox\Mercanet\Gateway\Config\Config;
 use Cmsbox\Mercanet\Helper\Watchdog;
+use Cmsbox\Mercanet\Gateway\Config\Core;
+use Cmsbox\Mercanet\Gateway\Processor\Connector;
 
 class TransactionHandlerService {
 
@@ -35,14 +36,9 @@ class TransactionHandlerService {
     protected $messageManager;
 
     /**
-     * @var Tools
-     */
-    protected $tools;
-
-    /**
      * @var InvoiceHandlerService
      */
-    protected $invoiceHandlerService;
+    protected $invoiceHandler;
 
     /**
      * @var Config
@@ -75,8 +71,7 @@ class TransactionHandlerService {
     public function __construct(
         BuilderInterface $transactionBuilder,
         ManagerInterface $messageManager,
-        Tools $tools,
-        InvoiceHandlerService $invoiceHandlerService,
+        InvoiceHandlerService $invoiceHandler,
         Config $config,
         Watchdog $watchdog,
         SearchCriteriaBuilder $searchCriteriaBuilder,
@@ -85,8 +80,7 @@ class TransactionHandlerService {
     ) {
         $this->transactionBuilder    = $transactionBuilder;
         $this->messageManager        = $messageManager;
-        $this->tools                 = $tools;
-        $this->invoiceHandlerService = $invoiceHandlerService;
+        $this->invoiceHandler        = $invoiceHandler;
         $this->config                = $config;
         $this->watchdog              = $watchdog;
         $this->searchCriteriaBuilder = $searchCriteriaBuilder;
@@ -97,13 +91,17 @@ class TransactionHandlerService {
     /**
      * Create a transaction for an order.
      */
-    public function createTransaction($order, $paymentData, $transactionMode) {
+    public function createTransaction($order, $paymentData, $transactionMode, $methodId = null) {
+        // Prepare the method id
+        $methodId = ($methodId) ? $methodId : Core::moduleId();
+
+        // Process the transaction
         try {
             // Prepare payment object
             $payment = $order->getPayment();
-            $payment->setMethod($this->tools->modmeta['tag']); 
-            $payment->setLastTransId($paymentData['transactionReference']);
-            $payment->setTransactionId($paymentData['transactionReference']);
+            $payment->setMethod($methodId); 
+            $payment->setLastTransId($paymentData[Connector::KEY_TRANSACTION_ID_FIELD]);
+            $payment->setTransactionId($paymentData[Connector::KEY_TRANSACTION_ID_FIELD]);
             $payment->setAdditionalInformation([Transaction::RAW_DETAILS => (array) $paymentData]);
 
             // Formatted price
@@ -112,12 +110,12 @@ class TransactionHandlerService {
             // Prepare transaction
             $transaction = $this->transactionBuilder->setPayment($payment)
             ->setOrder($order)
-            ->setTransactionId($paymentData['transactionReference'])
+            ->setTransactionId($paymentData[Connector::KEY_TRANSACTION_ID_FIELD])
             ->setAdditionalInformation([Transaction::RAW_DETAILS => (array) $paymentData])
             ->setFailSafe(true)
             ->build($transactionMode);
  
-            // Add authorisation transaction to payment if needed
+            // Add authorization transaction to payment if needed
             if ($transactionMode == Transaction::TYPE_AUTH) {
                 $payment->addTransactionCommentsToOrder($transaction, __('The authorized amount is %1.', $formatedPrice));
                 $payment->setParentTransactionId(null);
@@ -129,8 +127,8 @@ class TransactionHandlerService {
             $transaction->save();
 
             // Create the invoice
-            if ($this->config->getInvoiceCreationMode() == $transactionMode) {
-                $this->invoiceHandlerService->processInvoice($order);
+            if ($this->config->params[$methodId][Core::KEY_INVOICE_CREATION] == $transactionMode) {
+                $this->invoiceHandler->processInvoice($order);
             }   
  
             return $transaction->getTransactionId();

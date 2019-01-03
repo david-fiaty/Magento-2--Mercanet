@@ -13,7 +13,7 @@
 define(
     [
         'jquery',
-        'Magento_Payment/js/view/payment/cc-form',
+        'Magento_Checkout/js/view/payment/default',
         'Cmsbox_Mercanet/js/view/payment/adapter',
         'Magento_Checkout/js/action/place-order',
         'mage/url',
@@ -34,7 +34,8 @@ define(
                 methodId: Adapter.getMethodId(code),
                 config: Adapter.getPaymentConfig()[Adapter.getMethodId(code)],
                 targetButton:  Adapter.getMethodId(code) + '_button',
-                targetForm:  Adapter.getMethodId(code) + '_form'
+                targetForm:  Adapter.getMethodId(code) + '_form',
+                redirectAfterPlaceOrder: true
             },
 
             /**
@@ -56,13 +57,6 @@ define(
              */
             getCode: function() {
                 return this.methodId;
-            },
-
-            /**
-             * @returns {string}
-             */
-            getRequestData: function() {
-                return this.config.request_data;
             },
 
             /**
@@ -101,14 +95,10 @@ define(
             /**
              * @returns {string}
              */
-            getInterfaceVersion: function() {
-                return this.config['interface_version_charge'];
-            },
-
-            /**
-             * @returns {string}
-             */
             proceedWithSubmission: function() {
+                // Disable jQuery validate checks
+                $('#' + this.targetForm).validate().cancelSubmit = true;
+
                 // Submit the form
                 $('#' + this.targetForm).submit();
             },
@@ -128,7 +118,6 @@ define(
 
                 // Validate before submission
                 if (AdditionalValidators.validate()) {
-
                     // Check cart and submit
                     if (!this.cartIsEmpty()) {
                         this.proceedWithSubmission();

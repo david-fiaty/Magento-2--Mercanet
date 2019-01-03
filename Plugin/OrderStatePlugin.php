@@ -49,8 +49,17 @@ class OrderStatePlugin {
         $amount, 
         OrderInterface $order
     ) {
+        // Prepare the result
         $result = $proceed($payment, $amount, $order);
-        if ($payment->getMethod() == Core::moduleId()) {
+
+        // Build the module id from the payment method
+        $methodCode = $payment->getMethodInstance()->getCode();
+        $members = explode('_', $methodCode);
+        $moduleId = isset($members[0]) && isset($members[1]) 
+        ? $members[0] . $members[1] : '';
+
+        // Check the payment method and update order status
+        if (!empty($moduleId) && $moduleId == Core::moduleId()) {
             if ($order->getState() == Order::STATE_PROCESSING) {
                 $order->setStatus($this->config->params[Core::moduleId()][Core::KEY_ORDER_STATUS_CAPTURED]);
             }            

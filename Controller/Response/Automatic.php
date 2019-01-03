@@ -81,6 +81,7 @@ class Automatic extends Action
         $this->watchdog->bark(Connector::KEY_RESPONSE, $responseData, $canDisplay = false);
 
         // Check validity
+        // Todo - check isvalid function
         if ($this->processor->isValid($responseData, $this->config) && $this->processor->isSuccess($responseData)) {    
             // Place order
             $order = $this->orderHandler->placeOrder($responseData);

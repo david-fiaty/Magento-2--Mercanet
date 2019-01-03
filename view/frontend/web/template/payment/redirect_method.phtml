@@ -36,10 +36,10 @@
             <!--/ko-->
         </div>
 
-        <form class="form" data-bind="attr: {id: targetForm, action: config.api_url}" method="post" novalidate="novalidate" style="display:none">
-            <input name="Data" data-bind="attr: {value: getRequestData()['params']}">
-            <input name="InterfaceVersion" data-bind="attr: {value: getInterfaceVersion()}">
-            <input name="Seal" data-bind="attr: {value: getRequestData()['seal']}">
+        <form class="form" data-bind="attr: {id: targetForm, action: config.api_url}" method="POST" novalidate="novalidate" style="display:none">
+            <input name="Data" data-bind="attr: {value: config.request_data.params}">
+            <input name="InterfaceVersion" data-bind="attr: {value: config.interface_version_charge}">
+            <input name="Seal" data-bind="attr: {value: config.request_data.seal}">
         </form>
 
         <div class="actions-toolbar">

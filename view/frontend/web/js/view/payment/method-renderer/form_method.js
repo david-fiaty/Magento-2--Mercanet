@@ -13,15 +13,16 @@
 define(
     [
         'jquery',
-        'Magento_Payment/js/view/payment/cc-form',
+        'Magento_Checkout/js/view/payment/default',
         'Cmsbox_Mercanet/js/view/payment/adapter',
         'Magento_Checkout/js/action/place-order',
         'mage/url',
         'Magento_Checkout/js/model/full-screen-loader',
         'Magento_Checkout/js/model/payment/additional-validators',
-        'mage/translate'
+        'mage/translate',
+        'Magento_Checkout/js/action/redirect-on-success'
     ],
-    function($, Component, Adapter, PlaceOrderAction, Url, FullScreenLoader, AdditionalValidators, t) {
+    function($, Component, Adapter, PlaceOrderAction, Url, FullScreenLoader, AdditionalValidators, t, RedirectOnSuccessAction) {
         'use strict';
 
         window.checkoutConfig.reloadOnBillingAddress = true;
@@ -34,7 +35,9 @@ define(
                 methodId: Adapter.getMethodId(code),
                 config: Adapter.getPaymentConfig()[Adapter.getMethodId(code)],
                 targetButton:  Adapter.getMethodId(code) + '_button',
-                targetForm:  Adapter.getMethodId(code) + '_form'
+                targetForm:  Adapter.getMethodId(code) + '_form',
+                formControllerUrl: Url.build(Adapter.getCode() + '/request/paymentform'),
+                redirectAfterPlaceOrder: true
             },
 
             /**
@@ -69,13 +72,16 @@ define(
              * @returns {string}
              */
             getPaymentForm: function() {
+                FullScreenLoader.startLoader();
+
                 var self = this;
                 $.ajax({
                     type: "POST",
-                    url: Url.build(this.moduleId + '/request/paymentform'),
+                    url: self.formControllerUrl,
                     data: {task: 'block'},
                     success: function(data) {
-                        $('#' + self.targetForm).html(data.response);
+                        $('#' + self.targetForm).append(data.response);
+                        FullScreenLoader.stopLoader();
                     },
                     error: function(request, status, error) {
                         alert(error);
@@ -116,16 +122,35 @@ define(
             /**
              * @returns {string}
              */
-            getInterfaceVersion: function() {
-                return this.config['interface_version_charge'];
-            },
-
-            /**
-             * @returns {string}
-             */
             proceedWithSubmission: function() {
-                // Submit the form
-                $('#' + this.targetForm).submit();
+                // Assign self to this
+                var self = this;
+
+                // Prepare the selector
+                var sel = '#' + this.targetForm;
+
+                // Disable jQuery validate checks
+                $(sel).validate().cancelSubmit = true;
+                
+                // Serialize the data
+                var payLoad = $(sel).serializeArray();
+
+                // Send the request
+                $.ajax({
+                    type: "POST",
+                    url: self.formControllerUrl,
+                    data: payLoad,
+                    success: function(res) {
+                        console.log(res);
+                        if (JSON.parse(res.response)) {
+                            RedirectOnSuccessAction.execute();
+                        }
+                    },
+                    error: function(request, status, error) {
+                        FullScreenLoader.stopLoader();
+                        alert(t('The transaction could not be processed. Please check your details or contact the site administrator.'));
+                    }
+                });
             },
 
             getPlaceOrderDeferredObject: function() {
@@ -143,7 +168,6 @@ define(
 
                 // Validate before submission
                 if (AdditionalValidators.validate()) {
-
                     // Check cart and submit
                     if (!this.cartIsEmpty()) {
                         this.proceedWithSubmission();

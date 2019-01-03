@@ -10,15 +10,7 @@
  
 namespace Cmsbox\Mercanet\Gateway\Processor;
 
-use Magento\Framework\Exception\LocalizedException;
-use Magento\Checkout\Model\Cart;
-use Cmsbox\Mercanet\Model\Adminhtml\Source\CaptureMode;
-use Cmsbox\Mercanet\Helper\Tools;
-use Cmsbox\Mercanet\Gateway\Config\Core;
-
 class Connector {
-
-    use \Cmsbox\Mercanet\Gateway\Processor\ResponseProcessor;
 
     const KEY_REQUEST = 'request';
     const KEY_RESPONSE = 'response';
@@ -26,120 +18,82 @@ class Connector {
     const KEY_RESPONSE_SUCCESS = 'success';
     const KEY_RESPONSE_FRAUD = 'fraud';
     const KEY_RESPONSE_FLAG = 'flag';
+    const KEY_ORDER_ID_FIELD = 'orderId';
+    const KEY_CUSTOMER_EMAIL_FIELD = 'customerEmail';
+    const KEY_RESPONSE_CODE_FIELD = 'responseCode';
+    const KEY_CAPTURE_MODE_FIELD = 'captureMode';
+    const KEY_TRANSACTION_ID_FIELD = 'transactionReference';
+    const KEY_CAPTURE_MODE = 'capture_mode';
+    const KEY_CAPTURE_DAY = 'capture_day';
+    const KEY_CAPTURE_IMMEDIATE = 'IMMEDIATE';
+    const KEY_CAPTURE_DEFERRED = 'AUTHOR_CAPTURE';
+    const KEY_CAPTURE_MANUAL = 'VALIDATION';
+    const KEY_ORDER_STATUS_AUTHORIZED = 'order_status_authorized';
+    const KEY_ORDER_STATUS_CAPTURED = 'order_status_captured';
+    const KEY_ORDER_STATUS_REFUNDED = 'order_status_refunded';
+    const KEY_ORDER_STATUS_FLAGGED = 'order_status_flagged';
 
     /**
-     * @var Tools
+     * Turns a data response string into an array.
      */
-    protected $tools;
+    public static function unpackData($params) {
+        // Prepare the separators
+        $separator1 = '|';
+        $separator2 = '=';
 
-    /**
-     * @var Cart
-     */
-    protected $cart;
+        // Prepare the output array
+        $output = [];
 
-    /**
-     * Connector constructor.
-     */
-    public function __construct(
-        Tools $tools,
-        Cart $cart
-    ) {
-        $this->tools           = $tools;
-        $this->cart            = $cart;
-    }
+        // Process first level data
+        $arr = explode($separator1, $params);
 
-    /**
-     * Creates a string from a request parameters array.
-     *
-     * @return string
-     */
-    public function toParameterString($params, $separator = true) {
-        $arr = [];
-        if ($separator) {
-            // Prepare the parameters
-            foreach ($params as $key => $value) {
-                $arr[] = $key . '=' . $value;
+        // Process second level data
+        if (is_array($arr) && !empty($arr)) {
+            foreach ($arr as $row) {
+                $members = explode($separator2, $row);
+                $output[$members[0]] = $members[1];
             }
 
-            // Create a string
-            $str = implode('|', $arr);
-        }
-        else {
-            $str = '';
-            foreach ($params as $key => $value) {
-                $str .= $value;
-            }
+            return $output;
         }
 
-        return $str;
+        return $arr;
     }
 
+     /**
+     * Formats a response payload to an array for internal use.
+     */   
+    public static function prepareResponse($responseData) {
+        return (array) json_decode($responseData);
+    }
+
+     /**
+     * Turns a data request array into a string.
+     */   
+    public static function packData($arr) {
+        $output = [];
+        foreach ($arr as $key => $val) {
+            $output[] = $key . '=' . $val;
+        }
+
+        return implode('|', $output);
+    }
+  
     /**
-     * Conversion to a currency code.
+     * Returns the authorized order status.
      *
      * @return string
      */
-    public function convertCurrencyToCurrencyCode($currency, $config) {
-        $currencies = $config->getSupportedCurrencies();
-        if (!in_array($currency, array_keys($currencies))) {
-            throw new LocalizedException(__('Currency not supported by') . ' ' . $config->base[Core::moduleLabel()]);
-        }
-
-        return $currencies[$currency];
+  /*
+    public function getOrderStatusAuthorized() {
+        return (string) $this->getValue(self::KEY_ORDER_STATUS_AUTHORIZED);
     }
-
-    // Todo - move or remove cause handled by vendor
-    /**
-     * Creates a seal for a request.
-     *
-     * @return string
-     */
-    /*
-    public function getSeal($params, $config, $exclude = []) {
-        $separator = true;
-
-        // Exclude fields by key if needed
-        if (!empty($exclude)) {
-            $params = array_diff_key($params, array_flip($exclude));
-            $separator = false;
-        }
-
-        // Parameters to string
-        $params = $this->toParameterString($params, $separator);
-
-        // Return the seal
-        return hash('sha256', $params . $this->getSecretKey($config));
-    }
-    */
-
-
-    // Todo - move or remove cause handled by vendor
-    /**
-     * Checks if the response is valid.
-     *
-     * @return bool
-     */
-    /*
-    public function isValid($response, $config) {
-        return true;
-
-        if (isset($response['Data'])) {
-            // Prepare the seal
-            $seal = hash('sha256', $response['Data'] . $this->getSecretKey($config));
-
-            // Test conditions
-            return isset($response['Data']) 
-            && isset($response['Seal']) && $response['Seal'] == $seal;
-        }
-        
-        return false;
-    }
-    */
-
+*/
     /**
      * Returns the billing address.
      */
-    public function getBillingAddress($entity) {
+    /*
+    public static function getBillingAddress($entity) {
         // Retrieve the address object
         $address = $entity->getBillingAddress();
 
@@ -153,11 +107,12 @@ class Connector {
             'billingAddress.state'   => !empty($address->getRegionCode()) ? $address->getRegionCode() : '',
         ];
     }
-
+*/
     /**
      * Returns the shipping address.
      */
-    public function getShippingAddress($entity) {
+    /*
+    public static function getShippingAddress($entity) {
         // Retrieve the address object
         $address = $entity->getBillingAddress();
 
@@ -171,7 +126,7 @@ class Connector {
             'customerContact.email'   => $entity->getCustomerEmail()
         ];
     }
-
+*/
     /**
      * Returns the available payment brands.
      *

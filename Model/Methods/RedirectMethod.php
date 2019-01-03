@@ -15,6 +15,8 @@ use Magento\Quote\Api\Data\PaymentInterface;
 use Magento\Payment\Model\Method\AbstractMethod;
 use Cmsbox\Mercanet\Gateway\Config\Core;
 use Cmsbox\Mercanet\Helper\Tools;
+use Cmsbox\Mercanet\Gateway\Processor\Connector;
+
 class RedirectMethod extends AbstractMethod {
 
     protected $_code;
@@ -134,8 +136,8 @@ class RedirectMethod extends AbstractMethod {
         $paymentRequest->setCurrency(Tools::getCurrencyCode($entity));
         $paymentRequest->setCustomerContactEmail($entity->getCustomerEmail());
         $paymentRequest->setOrderId(Tools::getIncrementId($entity));
-        $paymentRequest->setCaptureMode($config->params[$methodId][Core::KEY_CAPTURE_MODE]);
-        $paymentRequest->setCaptureDay((string) $config->params[$methodId][Core::KEY_CAPTURE_DAY]);
+        $paymentRequest->setCaptureMode($config->params[$methodId][Connector::KEY_CAPTURE_MODE]);
+        $paymentRequest->setCaptureDay((string) $config->params[$methodId][Connector::KEY_CAPTURE_DAY]);
         $paymentRequest->setLanguage($config->getCustomerLanguage());
         $paymentRequest->setNormalReturnUrl(
             $config->storeManager->getStore()->getBaseUrl() 
@@ -175,6 +177,19 @@ class RedirectMethod extends AbstractMethod {
         ];
     }
 
+    /**
+     * Checks if a response is success.
+     *
+     * @return bool
+     */  
+    public static function isSuccess($response) {
+        $response = Connector::unpackData($response);
+        if (is_array($response) && isset($response['responseCode']) && $response['responseCode'] == '00') {
+            return true;
+        }
+
+        return false;
+    }
 
     /**
      * Determines if the method is active.

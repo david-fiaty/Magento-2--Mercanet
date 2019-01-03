@@ -15,6 +15,7 @@ use Magento\Quote\Api\Data\PaymentInterface;
 use Magento\Payment\Model\Method\AbstractMethod;
 use Cmsbox\Mercanet\Gateway\Config\Core;
 use Cmsbox\Mercanet\Helper\Tools;
+use Cmsbox\Mercanet\Gateway\Processor\Connector;
 
 class FormMethod extends AbstractMethod {
 
@@ -121,44 +122,46 @@ class FormMethod extends AbstractMethod {
         return parent::isAvailable($quote);
     }
 
-    public static function getRequestData($config, $methodId) {
-        return [];
+    public static function getRequestData($config, $methodId, $cardData = null) {
+        // Get the order entity
+        $entity = $config->cart->getQuote();
+
+        // Get the vendor class
+        $fn = "\\" . $config->params[$methodId][Core::KEY_VENDOR];
+
+        // Prepare the request
+        $paymentRequest = new $fn($config->getSecretKey());
+        $paymentRequest->setMerchantId($config->getMerchantId());
+        $paymentRequest->setInterfaceVersion($config->params[$methodId][Core::KEY_INTERFACE_VERSION_CHARGE]);
+        $paymentRequest->setKeyVersion($config->params[Core::moduleId()][Core::KEY_VERSION]);
+        $paymentRequest->setAmount($config->formatAmount($entity->getGrandTotal()));
+        $paymentRequest->setCurrency(Tools::getCurrencyCode($entity));
+        $paymentRequest->setCardNumber($cardData[Core::KEY_CARD_NUMBER]);
+        $paymentRequest->setCardExpiryDate($cardData[Core::KEY_CARD_YEAR] . $cardData[Core::KEY_CARD_MONTH]);
+        $paymentRequest->setCardCSCValue($cardData[Core::KEY_CARD_CVV]);
+        $paymentRequest->setTransactionReference($config->getTransactionReference());
+        $paymentRequest->setCaptureDay((string) $config->params[$methodId][Connector::KEY_CAPTURE_DAY]);
+        $paymentRequest->setCaptureMode($config->params[$methodId][Connector::KEY_CAPTURE_MODE]);
+        $paymentRequest->setOrderId(Tools::getIncrementId($entity));
+        $paymentRequest->setUrl($config->params[$methodId]['api_url_test']); // Todo- add prod detection linked to config
+        $paymentRequest->setPspRequest($config->params[$methodId][Core::KEY_CHARGE_SUFFIX]);
+        $paymentRequest->setOrderChannel("INTERNET");
+        $paymentRequest->setCustomerContactEmail($entity->getCustomerEmail());
+
+        // Return the request object
+        return $paymentRequest;
     }
 
     /**
-     * Returns the card request data.
+     * Checks if a response is success.
      *
-     * @return string
-     */
-    /*
-    public static function getRequestData($config, $methodId) {
-        // Prepare the parameters array
-        $entity = $config->cart->getQuote();
-        $params = [
-            'amount' => $config->processor->formatAmount($entity->getGrandTotal()),
-            'currencyCode' => $config->processor->convertCurrencyToCurrencyCode(Tools::getCurrencyCode($entity), $config),
-            'merchantId' => $config->processor->getMerchantId($config),
-            'customerId' => $entity->getCustomerId(),
-            'transactionReference' => $config->processor->getTransactionReference(),
-            'orderId' => Tools::getIncrementId($entity),
-            'keyVersion' => $config->params[Core::moduleId()][Core::KEY_VERSION],
-            'captureMode' => $config->params[$methodId][Core::KEY_CAPTURE_MODE],
-            'captureDay' => (string) $config->params[$methodId][Core::KEY_CAPTURE_DAY],
-            'orderChannel' => 'INTERNET',
-            // Todo - Get interface version
-            //'interfaceVersion' => $this->getInterfaceVersionCard()
-        ];
-
-        // Sort the parameters
-        $params = Tools::multiSort($params);
-
-        // Add the seal
-        $params['seal'] = $config->processor->getSeal($params, $config, $exclude = ['keyVersion']);
-
-        // Return the parameters
-        return $params;
+     * @return bool
+     */  
+    public static function isSuccess($response) {
+        return is_array($response) 
+        && isset($response[Connector::KEY_RESPONSE_CODE_FIELD]) 
+        && $response[Connector::KEY_RESPONSE_CODE_FIELD] == '00';
     }
-    */
 
     /**
      * Determines if the method is active.

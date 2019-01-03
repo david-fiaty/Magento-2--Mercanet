@@ -15,16 +15,12 @@ class Core {
     const CODE = 'cmsbox_mercanet';
     const CODE_ADMIN = 'cmsbox_mercanet_admin_method';
     const CODE_FORM = 'cmsbox_mercanet_form_method';
+    const KEY_METHOD_ID = 'method_id';
     const KEY_VERIFY_3DS = 'verify_3ds';
     const KEY_NORMAL_RETURN_URL = 'normal_return_url';
     const KEY_AUTOMATIC_RESPONSE_URL = 'automatic_response_url';
     const KEY_VERSION = 'key_version';
-    const KEY_CAPTURE_MODE = 'capture_mode';
-    const KEY_CAPTURE_DAY = 'capture_day';
     const KEY_BYPASS_RECEIPT = 'bypass_receipt';
-    const KEY_ORDER_STATUS_AUTHORIZED = 'order_status_authorized';
-    const KEY_ORDER_STATUS_CAPTURED = 'order_status_captured';
-    const KEY_AUTO_GENERATE_INVOICE = 'auto_generate_invoice';
     const KEY_INVOICE_CREATION = 'invoice_creation';
     const KEY_ACCEPTED_CURRENCIES = 'accepted_currencies';
     const KEY_ACCEPTED_COUNTRIES_BILLING = 'accepted_countries_billing';
@@ -32,7 +28,16 @@ class Core {
     const KEY_PAYMENT_BRANDS = 'payment_brands';
     const KEY_SUPPORTED_CURRENCIES = 'supported_currencies';
     const KEY_VENDOR = 'vendor';
-
+    const KEY_INTERFACE_VERSION_CHARGE = 'interface_version_charge';
+    const KEY_CARD_NUMBER = 'number';
+    const KEY_CARD_CVV = 'cvv';
+    const KEY_CARD_MONTH = 'month';
+    const KEY_CARD_YEAR = 'year';
+    const KEY_URL_CHARGE = 'url_charge';
+    const KEY_URL_VOID = 'url_void';
+    const KEY_URL_REFUND = 'url_refund';
+    const KEY_CHARGE_SUFFIX = 'charge_suffix';
+    const KEY_AUTO_GENERATE_INVOICE = 'auto_generate_invoice';
     /**
      * Build a payment method ID.
      */

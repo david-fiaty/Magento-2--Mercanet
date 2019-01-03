@@ -36,11 +36,16 @@
             <!--/ko-->
         </div>
 
-        <div data-bind="attr: {id: targetForm, visible: getPaymentForm()}"></div>
+        <div>
+            <form class="form" data-bind="attr: {id: targetForm, action: formControllerUrl, visible: getPaymentForm()}" method="POST" novalidate="novalidate">
+                <input type="hidden" name="method_id" data-bind="attr: {value: getCode()}">
+                <input type="hidden" name="task" value="charge">
+            </form>
+        </div>
 
         <div class="actions-toolbar">
             <div class="primary">
-                <button class="action primary checkout" type="submit" data-bind="
+                <button class="cancel action primary checkout" type="submit" data-bind="
                         id: targetButton,
                         click: beforePlaceOrder,
                         attr: {title: $t(config.button_label)},

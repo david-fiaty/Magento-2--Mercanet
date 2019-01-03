@@ -17,7 +17,6 @@ use Magento\Framework\Message\ManagerInterface;
 use Cmsbox\Mercanet\Helper\Tools;
 use Cmsbox\Mercanet\Model\Service\OrderHandlerService;
 use Cmsbox\Mercanet\Gateway\Processor\Connector;
-use Cmsbox\Mercanet\Model\Service\QuoteHandlerService;
 use Cmsbox\Mercanet\Helper\Watchdog;
 use Cmsbox\Mercanet\Gateway\Config\Config;
 
@@ -43,11 +42,6 @@ class Normal extends Action {
     protected $processor;
 
     /**
-     * @var QuoteHandlerService
-     */
-    protected $quoteHandler;
-
-    /**
      * @var ManagerInterface
      */
     protected $messageManager;
@@ -71,7 +65,6 @@ class Normal extends Action {
         OrderHandlerService $orderHandler,
         CheckoutSession $checkoutSession,
         Connector $processor,
-        QuoteHandlerService $quoteHandler,
         ManagerInterface $messageManager,
         Watchdog $watchdog,
         Config $config
@@ -82,7 +75,6 @@ class Normal extends Action {
         $this->orderHandler          = $orderHandler;
         $this->checkoutSession       = $checkoutSession;
         $this->processor             = $processor;
-        $this->quoteHandler          = $quoteHandler;
         $this->messageManager        = $messageManager;
         $this->watchdog              = $watchdog;
         $this->config                = $config;
@@ -96,6 +88,7 @@ class Normal extends Action {
         $this->watchdog->bark(Connector::KEY_RESPONSE, $responseData, $canDisplay = true, $canLog = false);
 
         // Check validity
+        // Todo - check isvalid function
         if ($this->processor->isValid($responseData, $this->config)) {
             if ($this->processor->isSuccess($responseData)) {
                 // Place order
@@ -104,23 +97,15 @@ class Normal extends Action {
                 // Process the order result
                 if (isset($order) && (int)$order->getId() > 0) {
                     // Get the fields
-                    $fields = $this->tools->unpackData($responseData['Data'], '|', '=');
+                    $fields = Connector::unpackData($responseData);
 
                     // Find the quote
-                    $quote = $this->quoteHandler->findQuote($fields['orderId']);
+                    $quote = $this->orderHandler->findQuote($fields[Connector::KEY_ORDER_ID_FIELD]);
 
                     // Set the success redirection parameters
                     if (isset($quote) && (int)$quote->getId() > 0) {
-                        // Prepare session quote info for redirection after payment
-                        $this->checkoutSession
-                        ->setLastQuoteId($quote->getId())
-                        ->setLastSuccessQuoteId($quote->getId())
-                        ->clearHelperData();
-
-                        // Prepare session order info for redirection after payment
-                        $this->checkoutSession->setLastOrderId($order->getId())
-                        ->setLastRealOrderId($order->getIncrementId())
-                        ->setLastOrderStatus($order->getStatus());
+                        // Perform after place order actions
+                        $this->orderHandler->afterPlaceOrder($quote, $order);
 
                         // Display a success message
                         $this->messageManager->addSuccessMessage(__('The order was placed successfully.'));
@@ -144,7 +129,7 @@ class Normal extends Action {
 
         // Restore the cart
         // todo - rebuild the cart on failure
-        //$this->quoteHandler->restoreCart();
+        //$this->orderHandler->restoreCart();
 
         // Redirect to the cart by default
         return $this->_redirect('checkout/cart', ['_secure' => true]);

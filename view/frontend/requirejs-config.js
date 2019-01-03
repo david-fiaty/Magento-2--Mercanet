@@ -7,6 +7,7 @@
  * License GNU/GPL V3 https://www.gnu.org/licenses/gpl-3.0.en.html
  */
 
+/*
 var config = {
     map: {
         '*': {
@@ -15,3 +16,14 @@ var config = {
         }
     }
 };
+*/
+
+var config = {
+    config: {
+            mixins: {
+                'Magento_Ui/js/view/messages': {
+                    'Cmsbox_Mercanet/js/messages-mixin': true
+                }
+            }
+        }
+    };

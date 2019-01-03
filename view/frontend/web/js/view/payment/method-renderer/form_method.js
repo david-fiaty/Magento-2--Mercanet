@@ -21,9 +21,8 @@ define(
         'Magento_Checkout/js/model/payment/additional-validators',
         'mage/translate',
         'Magento_Checkout/js/action/redirect-on-success',
-        'Magento_Ui/js/model/messageList'
     ],
-    function($, Component, Adapter, PlaceOrderAction, Url, FullScreenLoader, AdditionalValidators, t, RedirectOnSuccessAction, MessageList) {
+    function($, Component, Adapter, PlaceOrderAction, Url, FullScreenLoader, AdditionalValidators, t, RedirectOnSuccessAction) {
         'use strict';
 
         window.checkoutConfig.reloadOnBillingAddress = true;
@@ -74,7 +73,7 @@ define(
              */
             getPaymentForm: function() {
                 //FullScreenLoader.startLoader();
-                MessageList.addSuccessMessage({ message: 'Mercanet is working great!.' });
+                //MessageList.addSuccessMessage({ message: 'Mercanet is working great!.' });
 
                 var self = this;
                 $.ajax({

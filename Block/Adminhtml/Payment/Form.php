@@ -12,6 +12,7 @@ namespace Cmsbox\Mercanet\Block\Adminhtml\Payment;
 
 use Magento\Framework\View\Element\Template;
 use Magento\Catalog\Block\Product\Context;
+use Magento\Payment\Model\Config as PaymentModelConfig;
 use Magento\Payment\Block\Form\Cc;
 use Cmsbox\Mercanet\Model\Service\FormHandlerService;
 use Cmsbox\Mercanet\Gateway\Config\Core;
@@ -54,11 +55,11 @@ class Form extends Cc {
      */
     public function __construct(
         Context $context,
-        array $data = [],
+        PaymentModelConfig $paymentModelConfig,
         FormHandlerService $formHandler,
         Config $config
     ) {
-        parent::__construct($context, $data);
+        parent::__construct($context, $paymentModelConfig);
         $this->formHandler = $formHandler;
         $this->config = $config;
 

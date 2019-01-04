@@ -172,8 +172,9 @@ class Form extends Action {
 
     // Create the block
     return $this->pageFactory->create()->getLayout()
-    ->createBlock(Core::moduleClass() . '\Block\Payment\Form')
-    ->setTemplate(Core::moduleName() . '::payment_form.phtml')
-    ->toHtml();
+        ->createBlock(Core::moduleClass() . '\Block\Payment\Form')
+        ->setTemplate(Core::moduleName() . '::payment_form.phtml')
+        ->setMethodId($methodId)
+        ->toHtml();
     }
 }

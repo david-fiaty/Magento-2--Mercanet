@@ -45,10 +45,12 @@
             </div>
             
             <!-- Card Verification Field -->
-            <div class="card-verification">
-                <div class="cvv-input">
-                    <input type="text" name="card_data[cvv]" placeholder="<?= $block->escapeHtml(__('CVV')) ?>">
+            <?php if ($block->config[$block->methodId]->check_cvv): ?>
+                <div class="card-verification">
+                    <div class="cvv-input">
+                        <input type="text" name="card_data[cvv]" placeholder="<?= $block->escapeHtml(__('CVV')) ?>">
+                    </div>
                 </div>
-            </div>
+            <?php endif; ?>
         </div>
     </div>

@@ -15,6 +15,7 @@ use Magento\Catalog\Block\Product\Context;
 use Magento\Payment\Block\Form\Cc;
 use Cmsbox\Mercanet\Model\Service\FormHandlerService;
 use Cmsbox\Mercanet\Gateway\Config\Core;
+use Cmsbox\Mercanet\Gateway\Config\Config;
 
 class Form extends Cc {
 
@@ -27,6 +28,11 @@ class Form extends Cc {
      * @var FormHandlerService
      */
     protected $formHandler;
+
+    /**
+     * @var Config
+     */
+    protected $config;
 
     /**
      * @var Array
@@ -48,10 +54,12 @@ class Form extends Cc {
      */
     public function __construct(
         Context $context,
-        FormHandlerService $formHandler
+        FormHandlerService $formHandler,
+        Config $config
     ) {
         parent::__construct($context, $paymentConfig);
         $this->formHandler = $formHandler;
+        $this->config = $config;
 
         $this->months = $this->formHandler->getMonths();
         $this->years = $this->formHandler->getYears();

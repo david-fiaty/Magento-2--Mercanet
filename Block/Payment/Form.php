@@ -13,6 +13,8 @@ namespace Cmsbox\Mercanet\Block\Payment;
 use Magento\Framework\View\Element\Template;
 use Magento\Catalog\Block\Product\Context;
 use Cmsbox\Mercanet\Model\Service\FormHandlerService;
+use Cmsbox\Mercanet\Gateway\Config\Config;
+use Magento\Checkout\Model\Cart;
 
 class Form extends Template {
 
@@ -20,6 +22,16 @@ class Form extends Template {
      * @var FormHandlerService
      */
     public $formHandler;
+
+    /**
+     * @var Config
+     */
+    protected $config;
+
+    /**
+     * @var Cart
+     */
+    protected $cart;
 
     /**
      * @var Array
@@ -32,16 +44,26 @@ class Form extends Template {
     public $years;
 
     /**
+     * @var String
+     */
+    public $methodId;
+
+    /**
      * Form constructor.
      */
     public function __construct(
         Context $context,
-        FormHandlerService $formHandler
+        FormHandlerService $formHandler,
+        Config $config,
+        Cart $cart
     ) {
         parent::__construct($context);
         $this->formHandler = $formHandler;
+        $this->config = $config;
+        $this->cart = $cart;
 
         $this->months = $this->formHandler->getMonths();
         $this->years = $this->formHandler->getYears();
+        $this->methodId = $this->cart->getQuote()->getPayment()->getMethodInstance()->getCode();
     }
 }

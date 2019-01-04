@@ -134,6 +134,24 @@
                             </depends>                        
                         </field>
 
+                        <field id="form_method_cvv_check_customer" translate="label comment" sortOrder="60" type="select" showInDefault="1" showInWebsite="1" showInStore="1">
+                            <label>Customer CVV Check</label>
+                            <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                            <config_path>payment/cmsbox_mercanet_form_method/cvv_check_customer</config_path>     
+                            <comment>
+                                Shoud the CVV (Card Verifivation Value) be requested for customer card payments).
+                            </comment>
+                        </field>
+
+                        <field id="form_method_cvv_check_admin" translate="label comment" sortOrder="60" type="select" showInDefault="1" showInWebsite="1" showInStore="1">
+                            <label>CVV Check</label>
+                            <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                            <config_path>payment/cmsbox_mercanet_form_method/cvv_check_admin</config_path>     
+                            <comment>
+                                Shoud the CVV (Card Verifivation Value) be requested for admin card payments).
+                            </comment>
+                        </field>
+
                         <field id="form_method_sort_order" translate="label" sortOrder="30" type="text" showInDefault="1" showInWebsite="1" showInStore="1">
                             <label>Sort Order</label>
                             <validate>validate-number</validate>
@@ -192,6 +210,24 @@
                             <depends>
                                 <field id="admin_method_auto_generate_invoice">1</field>
                             </depends>                        
+                        </field>
+
+                        <field id="admin_method_cvv_check_customer" translate="label comment" sortOrder="60" type="select" showInDefault="1" showInWebsite="1" showInStore="1">
+                            <label>Customer CVV Check</label>
+                            <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                            <config_path>payment/cmsbox_mercanet_admin_method/cvv_check_customer</config_path>     
+                            <comment>
+                                Shoud the CVV (Card Verifivation Value) be requested for customer card payments).
+                            </comment>
+                        </field>
+
+                        <field id="admin_method_cvv_check_admin" translate="label comment" sortOrder="60" type="select" showInDefault="1" showInWebsite="1" showInStore="1">
+                            <label>Admin CVV Check</label>
+                            <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                            <config_path>payment/cmsbox_mercanet_admin_method/cvv_check_admin</config_path>     
+                            <comment>
+                                Shoud the CVV (Card Verifivation Value) be requested for admin card payments).
+                            </comment>
                         </field>
                     </group>
                 </group>

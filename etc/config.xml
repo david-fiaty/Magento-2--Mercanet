@@ -80,6 +80,7 @@
                 <invoice_creation>capture</invoice_creation>
                 <capture_mode>IMMEDIATE</capture_mode>
                 <capture_day>0</capture_day>
+                <cvv_check>1</cvv_check>
                 <sort_order>2</sort_order>              
                 <api_url_test><![CDATA[https://office-server-mercanet.test.sips-atos.com/rs-services/v2/]]></api_url_test>
                 <api_url_prod><![CDATA[ https://office-server.mercanet.bnpparibas.net/rs-services/v2/]]></api_url_prod>
@@ -111,6 +112,7 @@
                 <invoice_creation>capture</invoice_creation>
                 <capture_mode>IMMEDIATE</capture_mode>
                 <capture_day>0</capture_day>
+                <cvv_check>1</cvv_check>
                 <sort_order>1</sort_order>  
                 <api_url_test><![CDATA[https://office-server-mercanet.test.sips-atos.com/rs-services/v2/]]></api_url_test>
                 <api_url_prod><![CDATA[ https://office-server.mercanet.bnpparibas.net/rs-services/v2/]]></api_url_prod>

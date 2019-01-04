@@ -14,7 +14,8 @@
 }
 
 #cmsbox_mercanet_form_method_form .credit-card {
-    margin-top       : 20px;
+    margin-top       : 0px;
+    margin-bottom    : 20px;
     width            : 360px;
     border           : 1px solid #ddd;
     border-radius    : 6px;

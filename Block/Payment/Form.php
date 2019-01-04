@@ -14,7 +14,6 @@ use Magento\Framework\View\Element\Template;
 use Magento\Catalog\Block\Product\Context;
 use Cmsbox\Mercanet\Model\Service\FormHandlerService;
 use Cmsbox\Mercanet\Gateway\Config\Config;
-use Magento\Checkout\Model\Cart;
 
 class Form extends Template {
 
@@ -27,11 +26,6 @@ class Form extends Template {
      * @var Config
      */
     protected $config;
-
-    /**
-     * @var Cart
-     */
-    protected $cart;
 
     /**
      * @var Array
@@ -54,16 +48,13 @@ class Form extends Template {
     public function __construct(
         Context $context,
         FormHandlerService $formHandler,
-        Config $config,
-        Cart $cart
+        Config $config
     ) {
         parent::__construct($context);
         $this->formHandler = $formHandler;
         $this->config = $config;
-        $this->cart = $cart;
 
         $this->months = $this->formHandler->getMonths();
         $this->years = $this->formHandler->getYears();
-        $this->methodId = $this->cart->getQuote()->getPayment()->getMethodInstance()->getCode();
     }
 }

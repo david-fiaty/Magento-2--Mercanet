@@ -21,6 +21,7 @@ use Cmsbox\Mercanet\Gateway\Config\Config;
 use Cmsbox\Mercanet\Gateway\Processor\Connector;
 use Cmsbox\Mercanet\Helper\Tools;
 use Cmsbox\Mercanet\Helper\Watchdog;
+use Magento\Framework\Exception\LocalizedException;
 
 class PaymentForm extends Action {
 
@@ -153,14 +154,16 @@ class PaymentForm extends Action {
                         $this->orderHandler->afterPlaceOrder($quote, $order);
 
                         // Return the result
-                        return ($order) ? $order->getId() : false;
+                        return true;
                     }
                 }
+
+                return __('Invalid method id or card data.');
             } 
         }
         catch (\Exception $e) {
             $this->watchdog->log($e);
-            return false;
+            return __($e->getMessage());
         }
     }
 

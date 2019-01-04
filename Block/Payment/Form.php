@@ -47,6 +47,7 @@ class Form extends Template {
      */
     public function __construct(
         Context $context,
+        array $data = [],
         FormHandlerService $formHandler,
         Config $config
     ) {

@@ -54,9 +54,9 @@ class Form extends Cc {
      */
     public function __construct(
         Context $context,
+        array $data = [],
         FormHandlerService $formHandler,
-        Config $config,
-        array $data = []
+        Config $config
     ) {
         parent::__construct($context, $data);
         $this->formHandler = $formHandler;

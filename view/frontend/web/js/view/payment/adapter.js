@@ -75,14 +75,22 @@ define([
 
         /**
          * Show error message
-         *
-         * @param {String} errorMessage
          */
         showMessage: function(type, message) {
-            var messageContainer = $('message');
+            this.clearMessages();
+            var messageContainer = $('.message');
             messageContainer.addClass('message-' + type + ' ' + type);
             messageContainer.append('<div>' + message + '</div>');
             messageContainer.show();
+        },
+
+        /**
+         * Clear messages
+         */
+        clearMessages: function() {
+            var messageContainer = $('.message');
+            messageContainer.hide();
+            messageContainer.empty();
         },
 
         /**

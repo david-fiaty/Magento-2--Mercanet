@@ -82,9 +82,6 @@ define(
                     success: function(data) {
                         $('#' + self.targetForm).append(data.response);
                         FullScreenLoader.stopLoader();
-
-                        Adapter.showMessage('error', 'hello mercanet');
-
                     },
                     error: function(request, status, error) {
                         alert(error);
@@ -144,13 +141,17 @@ define(
                     url: self.formControllerUrl,
                     data: payLoad,
                     success: function(res) {
-                        if (JSON.parse(res.response)) {
+                        if (res.response === true) {
                             RedirectOnSuccessAction.execute();
+                        }
+                        else {
+                            FullScreenLoader.stopLoader();
+                            Adapter.showMessage('error', res.response);
                         }
                     },
                     error: function(request, status, error) {
                         FullScreenLoader.stopLoader();
-                        alert(t('The transaction could not be processed. Please check your details or contact the site administrator.'));
+                        Adapter.showMessage(t('The transaction could not be processed. Please check your details or contact the site administrator.'));
                     }
                 });
             },

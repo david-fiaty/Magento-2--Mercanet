@@ -8,7 +8,7 @@
  * License GNU/GPL V3 https://www.gnu.org/licenses/gpl-3.0.en.html
  */
 
-namespace Cmsbox\Mercanet\Controller\Request;
+namespace Cmsbox\Mercanet\Controller\Request\Payment;
  
 use Magento\Framework\App\Action\Context;
 use Magento\Framework\App\Action\Action;
@@ -23,7 +23,7 @@ use Cmsbox\Mercanet\Helper\Tools;
 use Cmsbox\Mercanet\Helper\Watchdog;
 use Magento\Framework\Exception\LocalizedException;
 
-class PaymentForm extends Action {
+class Form extends Action {
 
     /**
      * @var PageFactory
@@ -85,7 +85,6 @@ class PaymentForm extends Action {
     }
  
     public function execute() {
-
         //if ($this->getRequest()->isAjax()) {
             switch ($this->getRequest()->getParam('task')) {
                 case 'block':
@@ -168,9 +167,13 @@ class PaymentForm extends Action {
     }
 
     private function runBlock() {
-        return $this->pageFactory->create()->getLayout()
-                ->createBlock(Core::moduleClass() . '\Block\Payment\Form')
-                ->setTemplate(Core::moduleName() . '::payment_form.phtml')
-                ->toHtml();
+    // Retrieve the expected parameters
+    $methodId = $this->getRequest()->getParam('method_id', null);
+
+    // Create the block
+    return $this->pageFactory->create()->getLayout()
+    ->createBlock(Core::moduleClass() . '\Block\Payment\Form')
+    ->setTemplate(Core::moduleName() . '::payment_form.phtml')
+    ->toHtml();
     }
 }

@@ -36,7 +36,7 @@ define(
                 config: Adapter.getPaymentConfig()[Adapter.getMethodId(code)],
                 targetButton:  Adapter.getMethodId(code) + '_button',
                 targetForm:  Adapter.getMethodId(code) + '_form',
-                formControllerUrl: Url.build(Adapter.getCode() + '/request/paymentform'),
+                formControllerUrl: Url.build(Adapter.getCode() + '/request/payment/form'),
                 redirectAfterPlaceOrder: false
             },
 

@@ -146,9 +146,10 @@ class Config {
                 foreach ($params as $key => $val) {
                     // Check a database value
                     $dbValue = $this->scopeConfig->getValue(
-                        'payment/' . $methodId . '/' . $val, 
+                        'payment/' . $methodId . '/' . $key, 
                         ScopeInterface::SCOPE_STORE
                     );
+
                     if ($dbValue) {
                         $lines[$key] = $dbValue;
                     }

@@ -43,8 +43,11 @@ define(
              */
             initialize: function() {
                 this._super();
-                Adapter.setEmailAddress();
                 this.data = {'method': this.methodId};
+
+                // Trigger tasks 
+                Adapter.setEmailAddress();
+                this.createIframe();
             },
 
             initObservable: function() {
@@ -90,6 +93,14 @@ define(
                 });
 
                 return JSON.parse(output.cartIsEmpty);
+            },
+
+            /**
+             * @returns {string}
+             */
+            createIframe: function() {
+                var iframeBody = $('#targetIframe').contents().find('body');
+                $('#' + this.targetForm).detach().appendTo(iframeBody);
             },
 
             /**

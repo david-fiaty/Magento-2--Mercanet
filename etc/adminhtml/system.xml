@@ -179,6 +179,21 @@
                             <config_path>payment/cmsbox_mercanet_iframe_method/button_label</config_path>
                         </field>
 
+                        <field id="iframe_method_width" translate="label" type="text" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+                            <label>Iframe width</label>
+                            <config_path>payment/cmsbox_mercanet_iframe_method/iframe_width</config_path>
+                        </field>
+
+                        <field id="iframe_method_height" translate="label" type="text" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+                            <label>Iframe height</label>
+                            <config_path>payment/cmsbox_mercanet_iframe_method/iframe_height</config_path>
+                        </field>
+
+                        <field id="iframe_method_border" translate="label" type="text" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+                            <label>Iframe height</label>
+                            <config_path>payment/cmsbox_mercanet_iframe_method/iframe_border</config_path>
+                        </field>
+
                         <field id="iframe_method_bypass_receipt" translate="label comment" sortOrder="30" type="select" showInDefault="1" showInWebsite="1" showInStore="1">
                             <label>Bypass receipt page</label>
                             <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>

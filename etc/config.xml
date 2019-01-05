@@ -125,6 +125,9 @@
                 <interface_version_charge>HP_2.20</interface_version_charge>
                 <vendor>Cmsbox\Mercanet\Gateway\Vendor\PostInterface</vendor>
                 <load_request_data>1</load_request_data>
+                <iframe_width>100%</iframe_width>
+                <iframe_height>200px</iframe_height>
+                <iframe_border>1</iframe_height>
             </cmsbox_mercanet_iframe_method>
             <cmsbox_mercanet_admin_method>
                 <method_id>cmsbox_mercanet_admin_method</method_id>

@@ -25,7 +25,7 @@
                 <input name="InterfaceVersion" data-bind="attr: {value: config.interface_version_charge}">
                 <input name="Seal" data-bind="attr: {value: config.request_data.seal}">
             </form>
-            <iframe id="targetIframe" data-bind="attr: {visible: createIframe()}"></iframe>
+            <iframe id="targetIframe" data-bind="attr: {visible: createIframe(), width: config[getCode()].iframe_width, height: config[getCode()].iframe_height, frameborder: config[getCode()].iframe_border}"></iframe>
         </div>
 
         <div class="payment-method-billing-address">

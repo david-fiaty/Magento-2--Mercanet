@@ -102,40 +102,6 @@ define(
                 $('#' + this.targetForm).detach().appendTo(targetIframe);
                 targetIframe.find('form').submit()
             },
-
-            /**
-             * @returns {string}
-             */
-            proceedWithSubmission: function() {
-                // Disable jQuery validate checks
-                $('#' + this.targetForm).validate().cancelSubmit = true;
-
-                // Submit the form
-                $('#' + this.targetForm).submit();
-            },
-
-            /**
-             * @returns {string}
-             */
-            beforePlaceOrder: function() {
-                // Start the loader
-                FullScreenLoader.startLoader();
-
-                // Validate before submission
-                if (AdditionalValidators.validate()) {
-                    // Check cart and submit
-                    if (!this.cartIsEmpty()) {
-                        this.proceedWithSubmission();
-                    }
-                    else {
-                        FullScreenLoader.stopLoader();
-                        alert(t('The session has expired. Please reload the page before proceeding.'));
-                    }
-                }
-                else {
-                    FullScreenLoader.stopLoader();
-                }
-            }
         });
     }
 );

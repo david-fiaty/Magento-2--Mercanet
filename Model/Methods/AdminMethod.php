@@ -18,6 +18,7 @@ use Cmsbox\Mercanet\Helper\Tools;
 
 class AdminMethod extends AbstractMethod {
 
+    protected $_formBlockType = \Cmsbox\Mercanet\Block\Adminhtml\Payment\Form::class;
     protected $_code;
     protected $_isInitializeNeeded = true;
     protected $_isGateway = true;

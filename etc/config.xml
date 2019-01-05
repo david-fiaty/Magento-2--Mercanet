@@ -96,6 +96,36 @@
                 <interface_version_fraud>DR_WS_2.20</interface_version_fraud>
                 <load_request_data>0</load_request_data>
             </cmsbox_mercanet_form_method>
+            <cmsbox_mercanet_iframe_method>
+                <method_id>cmsbox_mercanet_iframe_method</method_id>
+                <model>Cmsbox\Mercanet\Model\Methods\IframeMethod</model>
+                <can_use_checkout>1</can_use_checkout>
+                <can_authorize>1</can_authorize>
+                <can_capture>1</can_capture>
+                <can_cancel>1</can_cancel>
+                <can_refund>1</can_refund>
+                <can_void>1</can_void>
+                <can_use_internal>0</can_use_internal>
+                <payment_action>authorize_capture</payment_action>                
+                <title>Iframe Card Payment (Mercanet)</title>
+                <active>1</active>
+                <button_label>Place order</button_label>
+                <verify_3ds>0</verify_3ds>
+                <auto_generate_invoice>1</auto_generate_invoice>
+                <invoice_creation>capture</invoice_creation>
+                <capture_mode>IMMEDIATE</capture_mode>
+                <capture_day>0</capture_day>
+                <sort_order>3</sort_order>
+                <bypass_receipt>0</bypass_receipt>
+                <normal_return_url><![CDATA[response/normal]]></normal_return_url>
+                <automatic_response_url><![CDATA[response/automatic]]></automatic_response_url>
+                <api_url_simu_charge><![CDATA[https://payment-webinit.simu.mercanet.bnpparibas.net/paymentInit]]></api_url_simu_charge>
+                <api_url_test_charge><![CDATA[https://payment-webinit-mercanet.test.sips-atos.com/paymentInit]]></api_url_test_charge>
+                <api_url_prod_charge><![CDATA[https://payment-webinit.mercanet.bnpparibas.net/paymentInit]]></api_url_prod_charge>
+                <interface_version_charge>HP_2.20</interface_version_charge>
+                <vendor>Cmsbox\Mercanet\Gateway\Vendor\PostInterface</vendor>
+                <load_request_data>1</load_request_data>
+            </cmsbox_mercanet_iframe_method>
             <cmsbox_mercanet_admin_method>
                 <method_id>cmsbox_mercanet_admin_method</method_id>
                 <model>Cmsbox\Mercanet\Model\Methods\AdminMethod</model>

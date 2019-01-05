@@ -36,7 +36,7 @@ define(
                 config: Adapter.getPaymentConfig()[Adapter.getMethodId(code)],
                 targetButton:  Adapter.getMethodId(code) + '_button',
                 targetForm:  Adapter.getMethodId(code) + '_form',
-                formControllerUrl: Url.build(Adapter.getCode() + '/request/payment/form'),
+                formControllerUrl: Url.build(Adapter.getCode() + '/request/form'),
                 redirectAfterPlaceOrder: false
             },
 
@@ -73,12 +73,11 @@ define(
              */
             getPaymentForm: function() {
                 FullScreenLoader.startLoader();
-
                 var self = this;
                 $.ajax({
                     type: "POST",
                     url: self.formControllerUrl,
-                    data: {task: 'block'},
+                    data: {task: 'block', method_id: self.methodId},
                     success: function(data) {
                         $('#' + self.targetForm).append(data.response);
                         FullScreenLoader.stopLoader();

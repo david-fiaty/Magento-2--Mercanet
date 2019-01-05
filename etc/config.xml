@@ -52,8 +52,8 @@
                 <capture_day>0</capture_day>
                 <sort_order>1</sort_order>
                 <bypass_receipt>0</bypass_receipt>
-                <normal_return_url><![CDATA[response/payment/normal]]></normal_return_url>
-                <automatic_response_url><![CDATA[response/payment/automatic]]></automatic_response_url>
+                <normal_return_url><![CDATA[response/normal]]></normal_return_url>
+                <automatic_response_url><![CDATA[response/automatic]]></automatic_response_url>
                 <api_url_simu_charge><![CDATA[https://payment-webinit.simu.mercanet.bnpparibas.net/paymentInit]]></api_url_simu_charge>
                 <api_url_test_charge><![CDATA[https://payment-webinit-mercanet.test.sips-atos.com/paymentInit]]></api_url_test_charge>
                 <api_url_prod_charge><![CDATA[https://payment-webinit.mercanet.bnpparibas.net/paymentInit]]></api_url_prod_charge>

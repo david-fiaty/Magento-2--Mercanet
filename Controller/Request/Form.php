@@ -8,7 +8,7 @@
  * License GNU/GPL V3 https://www.gnu.org/licenses/gpl-3.0.en.html
  */
 
-namespace Cmsbox\Mercanet\Controller\Request\Payment;
+namespace Cmsbox\Mercanet\Controller\Request;
  
 use Magento\Framework\App\Action\Context;
 use Magento\Framework\App\Action\Action;
@@ -174,7 +174,7 @@ class Form extends Action {
     return $this->pageFactory->create()->getLayout()
         ->createBlock(Core::moduleClass() . '\Block\Payment\Form')
         ->setTemplate(Core::moduleName() . '::payment_form.phtml')
-        ->setMethodId($methodId)
+        ->setData('method_id', $methodId)
         ->toHtml();
     }
 }

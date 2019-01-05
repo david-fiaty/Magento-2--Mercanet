@@ -8,7 +8,7 @@
  * License GNU/GPL V3 https://www.gnu.org/licenses/gpl-3.0.en.html
  */
 
-namespace Cmsbox\Mercanet\Controller\Response\Payment;
+namespace Cmsbox\Mercanet\Controller\Response;
  
 use Magento\Framework\App\Action\Context;
 use Magento\Framework\App\Action\Action;

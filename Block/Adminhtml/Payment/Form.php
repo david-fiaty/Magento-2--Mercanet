@@ -33,7 +33,7 @@ class Form extends Cc {
     /**
      * @var Config
      */
-    protected $config;
+    public $config;
 
     /**
      * @var Array

@@ -25,7 +25,7 @@ class Form extends Template {
     /**
      * @var Config
      */
-    protected $config;
+    public $config;
 
     /**
      * @var Array
@@ -38,20 +38,15 @@ class Form extends Template {
     public $years;
 
     /**
-     * @var String
-     */
-    public $methodId;
-
-    /**
      * Form constructor.
      */
     public function __construct(
         Context $context,
-        array $data = [],
         FormHandlerService $formHandler,
-        Config $config
+        Config $config,
+        array $data = []
     ) {
-        parent::__construct($context);
+        parent::__construct($context, $data);
         $this->formHandler = $formHandler;
         $this->config = $config;
 

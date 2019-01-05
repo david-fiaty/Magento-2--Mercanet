@@ -150,7 +150,11 @@ class Config {
                         ScopeInterface::SCOPE_STORE
                     );
 
-                    if ($dbValue) {
+                    // Convert the value to string for empty testin
+                    $testValue = var_export($dbValue, true);
+
+                    // Assign the value or override with db value
+                    if (!empty($testValue)) {
                         $lines[$key] = $dbValue;
                     }
                     else {

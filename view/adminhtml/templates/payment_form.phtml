@@ -13,9 +13,10 @@
  * @var \Magento\Payment\Block\Transparent\Form $block
  */
 
+$code = $block->escapeHtml($block->getMethodCode());
 ?>
-<fieldset class="cmsbox_mercanet_admin_method fieldset payment items ccard <?= /* @noEscape */ $block->code ?>" id="payment_form_<?= /* @noEscape */ $block->code ?>">
-<div class="credit-card">
+<fieldset class="admin__fieldset payment-method cmsbox_mercanet_admin_method" id="payment_form_<?= /* @noEscape */ $code ?>"
+    <div class="credit-card">
         <div class="form-header">
             <h4 class="title"><?= $block->escapeHtml(__('Card Details')); ?></h4>
         </div>

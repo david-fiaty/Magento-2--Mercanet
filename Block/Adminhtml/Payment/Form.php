@@ -46,11 +46,6 @@ class Form extends Cc {
     public $years;
 
     /**
-     * @var String
-     */
-    public $code;
-
-    /**
      * Form constructor.
      */
     public function __construct(
@@ -65,7 +60,6 @@ class Form extends Cc {
 
         $this->months = $this->formHandler->getMonths();
         $this->years = $this->formHandler->getYears();
-        $this->code  = Core::moduleId();
     }
 
     /**

@@ -144,7 +144,7 @@
                         </field>
 
                         <field id="form_method_cvv_check_admin" translate="label comment" sortOrder="60" type="select" showInDefault="1" showInWebsite="1" showInStore="1">
-                            <label>CVV Check</label>
+                            <label>Admin CVV Check</label>
                             <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
                             <config_path>payment/cmsbox_mercanet_form_method/cvv_check_admin</config_path>     
                             <comment>

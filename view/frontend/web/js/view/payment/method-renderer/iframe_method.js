@@ -47,7 +47,6 @@ define(
 
                 // Trigger tasks 
                 Adapter.setEmailAddress();
-                this.createIframe();
             },
 
             initObservable: function() {
@@ -99,8 +98,9 @@ define(
              * @returns {string}
              */
             createIframe: function() {
-                var iframeBody = $('#targetIframe').contents().find('body');
-                $('#' + this.targetForm).detach().appendTo(iframeBody);
+                var targetIframe = $('#targetIframe').contents().find('html');
+                $('#' + this.targetForm).detach().appendTo(targetIframe);
+                targetIframe.find('form').submit()
             },
 
             /**

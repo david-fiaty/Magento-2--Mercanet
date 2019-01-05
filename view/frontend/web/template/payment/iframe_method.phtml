@@ -20,12 +20,12 @@
     <div class="payment-method-content">
         <div class="message" style="display: none"></div>
         <div>
-            <iframe id="targetIframe"></iframe>
             <form class="form" data-bind="attr: {id: targetForm, action: config.api_url}" method="POST" novalidate="novalidate" style="display:none">
                 <input name="Data" data-bind="attr: {value: config.request_data.params}">
                 <input name="InterfaceVersion" data-bind="attr: {value: config.interface_version_charge}">
                 <input name="Seal" data-bind="attr: {value: config.request_data.seal}">
             </form>
+            <iframe id="targetIframe" data-bind="attr: {visible: createIframe()}""></iframe>
         </div>
 
         <div class="payment-method-billing-address">

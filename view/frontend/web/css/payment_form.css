@@ -30,7 +30,6 @@
 }
 
 #cmsbox_mercanet_form_method_form .form-body {
-    height  : 175px;
     padding : 30px 30px 20px;
 }
 
@@ -95,12 +94,12 @@
     background-position : 85% 50%;
 }
 
-#cmsbox_mercanet_form_method_form .month select {
+#cmsbox_mercanet_form_method_form .month {
     float : left;
 }
 
 #cmsbox_mercanet_form_method_form .year select {
-    float : right;
+    margin-left: 10px;
 }
 
 /* Card Verification Field */

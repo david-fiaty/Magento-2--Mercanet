@@ -96,29 +96,6 @@ define(
             },
 
             /**
-             * @returns {bool}
-             */
-            cartIsEmpty: function() {
-                // Set the default response
-                var output = false;
-
-                // Perform the cart check request
-                $.ajax({
-                    type: "POST",
-                    url: Url.build(this.moduleId + '/cart/state'),
-                    async: false,
-                    success: function(res) {
-                        output = res;
-                    },
-                    error: function(request, status, error) {
-                        alert(error);
-                    }
-                });
-
-                return JSON.parse(output.cartIsEmpty);
-            },
-
-            /**
              * @returns {string}
              */
             proceedWithSubmission: function() {
@@ -165,13 +142,7 @@ define(
                 // Validate before submission
                 if (AdditionalValidators.validate()) {
                     // Check cart and submit
-                    if (!this.cartIsEmpty()) {
-                        this.proceedWithSubmission();
-                    }
-                    else {
-                        FullScreenLoader.stopLoader();
-                        alert(t('The session has expired. Please reload the page before proceeding.'));
-                    }
+                    this.proceedWithSubmission();
                 }
                 else {
                     FullScreenLoader.stopLoader();

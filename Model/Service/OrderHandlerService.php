@@ -25,6 +25,7 @@ use Magento\Checkout\Model\Cart;
 use Cmsbox\Mercanet\Model\Service\TransactionHandlerService;
 use Cmsbox\Mercanet\Gateway\Processor\Connector;
 use Cmsbox\Mercanet\Gateway\Config\Core;
+use Cmsbox\Mercanet\Gateway\Config\Config;
 use Cmsbox\Mercanet\Helper\Watchdog;
 
 class OrderHandlerService {
@@ -87,6 +88,11 @@ class OrderHandlerService {
     protected $watchdog;
 
     /**
+     * @var Config
+     */
+    protected $config;
+
+    /**
      * OrderHandlerService constructor.
      */
     public function __construct(
@@ -100,7 +106,8 @@ class OrderHandlerService {
         OrderSender $orderSender,
         OrderRepositoryInterface $orderRepository,
         OrderInterface $orderInterface,
-        Watchdog $watchdog
+        Watchdog $watchdog,
+        Config $config
     ) {
         $this->cookieManager         = $cookieManager;
         $this->quoteFactory          = $quoteFactory;
@@ -113,6 +120,7 @@ class OrderHandlerService {
         $this->orderRepository       = $orderRepository;
         $this->orderInterface        = $orderInterface;
         $this->watchdog              = $watchdog;
+        $this->config                = $config;
     }
 
     public function placeOrder($data = null) {
@@ -120,9 +128,9 @@ class OrderHandlerService {
         $fields = Connector::unpackData($data);
 
         // If a track id is available
-        if (isset($fields[Connector::KEY_ORDER_ID_FIELD])) {
+        if (isset($fields[$this->config->base['order_id_field']])) {
             // Check if the order exists
-            $order = $this->orderInterface->loadByIncrementId($fields[Connector::KEY_ORDER_ID_FIELD]);
+            $order = $this->orderInterface->loadByIncrementId($fields[$this->config->base['order_id_field']]);
 
             // Update the order
             if ($order) {
@@ -141,7 +149,7 @@ class OrderHandlerService {
     public function createOrder($fields) {
         try {
             // Find the quote
-            $quote = $this->findQuote($fields[Connector::KEY_ORDER_ID_FIELD]);
+            $quote = $this->findQuote($fields[$this->config->base['order_id_field']]);
 
             // If there is a quote, create the order
             if ($quote->getId()) {

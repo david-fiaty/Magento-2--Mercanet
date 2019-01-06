@@ -135,7 +135,7 @@ class Form extends Action {
                     if ($methodInstance::isSuccess($response)) {
                         // Prepare the order data
                         $params = Connector::packData([
-                            Connector::KEY_ORDER_ID_FIELD       => $this->tools->getIncrementId($quote),
+                            $this->config->base['order_id_field']       => $this->tools->getIncrementId($quote),
                             Connector::KEY_TRANSACTION_ID_FIELD => $response[Connector::KEY_TRANSACTION_ID_FIELD],
                             $this->config->base['customer_email_field'] => isset($response[$this->config->base['customer_email_field']])
                                 ? $response[$this->config->base['customer_email_field']]

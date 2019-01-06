@@ -15,14 +15,13 @@ define(
         'jquery',
         'Magento_Checkout/js/view/payment/default',
         'Cmsbox_Mercanet/js/view/payment/adapter',
-        'Magento_Checkout/js/action/place-order',
         'mage/url',
         'Magento_Checkout/js/model/full-screen-loader',
         'Magento_Checkout/js/model/payment/additional-validators',
         'mage/translate',
-        'Magento_Checkout/js/action/redirect-on-success',
+        'Magento_Checkout/js/action/redirect-on-success'
     ],
-    function($, Component, Adapter, PlaceOrderAction, Url, FullScreenLoader, AdditionalValidators, t, RedirectOnSuccessAction) {
+    function($, Component, Adapter, Url, FullScreenLoader, AdditionalValidators, t, RedirectOnSuccessAction) {
         'use strict';
 
         window.checkoutConfig.reloadOnBillingAddress = true;

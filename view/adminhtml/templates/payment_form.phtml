@@ -15,7 +15,7 @@
 
 $code = $block->escapeHtml($block->getMethodCode());
 ?>
-<fieldset class="admin__fieldset payment-method cmsbox_mercanet_admin_method" id="payment_form_<?= /* @noEscape */ $code ?>">
+<fieldset class="admin__fieldset payment-method cmsbox_mercanet_admin_method" id="payment_form_<?= /* @noEscape */ $code ?>" style="display: none;">
     <div class="credit-card">
         <div class="form-header">
             <h4 class="title"><?= $block->escapeHtml(__('Card Details')); ?></h4>

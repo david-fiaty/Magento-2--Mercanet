@@ -22,13 +22,15 @@ $code = $block->escapeHtml($block->getMethodCode());
         </div>
         <div class="form-body">
             <!-- Card Number -->
-            <input type="number"
-                   name="card_data[number]"
-                   class="card-number"
-                   placeholder="<?= $block->escapeHtml(__('Card Number')); ?>"
-                   title="<?= $block->escapeHtml(__('Card Number')) ?>"
-                   data-validate="{'required-entry':true, 'validate-cc-number':true, 'validate-number':true}"
-                   >
+            <div class="control">
+                <input type="number"
+                    name="card_data[number]"
+                    class="card-number"
+                    placeholder="<?= $block->escapeHtml(__('Card Number')); ?>"
+                    title="<?= $block->escapeHtml(__('Card Number')) ?>"
+                    data-validate="{'required-entry':true, 'validate-cc-number':true, 'credit-card-types':true}"
+                    >
+            </div>
 
             <!-- Date Field -->
             <div class="date-field">

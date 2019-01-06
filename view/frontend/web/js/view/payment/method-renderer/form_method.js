@@ -20,7 +20,7 @@ define(
         'Magento_Checkout/js/model/payment/additional-validators',
         'mage/translate',
         'Magento_Checkout/js/action/redirect-on-success',
-        'Magento_Payment/js/model/credit-card-validation/validator'
+        'Magento_Payment/js/model/credit-card-validation/validator',
         'mage/validation'
     ],
     function($, Component, Adapter, Url, FullScreenLoader, AdditionalValidators, t, RedirectOnSuccessAction) {

@@ -70,4 +70,25 @@ $code = $block->escapeHtml($block->getMethodCode());
         </div>
 
     </div>
+
+    <script>
+    //<![CDATA[
+    require(
+        [
+            'jquery',
+            'uiComponent',
+            'domReady!',
+            'Magento_Payment/js/model/credit-card-validation/validator',
+            'mage/validation'
+        ], function($, Component) {
+ 
+            return Component.extend({
+                validateForm: function (form) {
+                    return $(form).validation() && $(form).validation('isValid');
+                }
+            });
+        });
+    //]]>
+    </script>
+
 </fieldset>

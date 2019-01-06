@@ -15,10 +15,11 @@ define(
         'jquery',
         'Magento_Checkout/js/view/payment/default',
         'Cmsbox_Mercanet/js/view/payment/adapter',
+        'Magento_Checkout/js/model/full-screen-loader',
         'Magento_Checkout/js/model/payment/additional-validators',
         'mage/translate'
     ],
-    function($, Component, Adapter, AdditionalValidators, t) {
+    function($, Component, Adapter, FullScreenLoader, AdditionalValidators, t) {
         'use strict';
 
         window.checkoutConfig.reloadOnBillingAddress = true;
@@ -32,6 +33,7 @@ define(
                 config: Adapter.getPaymentConfig()[Adapter.getMethodId(code)],
                 targetButton:  Adapter.getMethodId(code) + '_button',
                 targetForm:  Adapter.getMethodId(code) + '_form',
+                targetIframe: '#targetIframe',
                 redirectAfterPlaceOrder: false
             },
 
@@ -69,10 +71,33 @@ define(
              * @returns {string}
              */
             createIframe: function() {
-                var targetIframe = $('#targetIframe').contents().find('html');
+                var targetIframe = $(this.targetIframe).contents().find('html');
                 $('#' + this.targetForm).detach().appendTo(targetIframe);
-                targetIframe.find('form').submit()
             },
+
+            /**
+             * @returns {string}
+             */
+            proceedWithSubmission: function() {
+                var targetIframe = $(this.targetIframe).contents().find('html');
+                targetIframe.find('form').submit();
+            },
+
+            /**
+             * @returns {string}
+             */
+            beforePlaceOrder: function() {
+                // Start the loader
+                FullScreenLoader.startLoader();
+
+                // Validate before submission
+                if (AdditionalValidators.validate()) {
+                    this.proceedWithSubmission();
+                }
+                else {
+                    FullScreenLoader.stopLoader();
+                }
+            }
         });
     }
 );

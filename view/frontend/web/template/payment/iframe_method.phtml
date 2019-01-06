@@ -41,5 +41,19 @@
             <!-- /ko -->
             <!--/ko-->
         </div>
+
+        <div class="actions-toolbar">
+            <div class="primary">
+                <button class="cancel action primary checkout" type="submit" data-bind="
+                        id: targetButton,
+                        click: beforePlaceOrder,
+                        attr: {title: $t(config.button_label)},
+                        css: {disabled: !isPlaceOrderActionAllowed()},
+                        enable: (getCode() == isChecked())
+                        " disabled>
+                    <span data-bind="i18n: config.button_label"></span>
+                </button>
+            </div>
+        </div>
     </div>
 </div>

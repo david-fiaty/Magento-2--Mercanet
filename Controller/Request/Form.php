@@ -85,7 +85,7 @@ class Form extends Action {
     }
  
     public function execute() {
-        //if ($this->getRequest()->isAjax()) {
+        if ($this->getRequest()->isAjax()) {
             switch ($this->getRequest()->getParam('task')) {
                 case 'block':
                 $response = $this->runBlock();
@@ -101,7 +101,7 @@ class Form extends Action {
             }
 
             return $this->jsonFactory->create()->setData(['response' => $response]);
-        //}
+        }
 
         return $this->jsonFactory->create()->setData([]);
     }

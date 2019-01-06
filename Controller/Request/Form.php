@@ -137,8 +137,8 @@ class Form extends Action {
                         $params = Connector::packData([
                             Connector::KEY_ORDER_ID_FIELD       => $this->tools->getIncrementId($quote),
                             Connector::KEY_TRANSACTION_ID_FIELD => $response[Connector::KEY_TRANSACTION_ID_FIELD],
-                            Connector::KEY_CUSTOMER_EMAIL_FIELD => isset($response[Connector::KEY_CUSTOMER_EMAIL_FIELD])
-                                ? $response[Connector::KEY_CUSTOMER_EMAIL_FIELD]
+                            $this->config->base['customer_email_field'] => isset($response[$this->config->base['customer_email_field']])
+                                ? $response[$this->config->base['customer_email_field']]
                                 : $this->orderHandler->findCustomerEmail($quote),
                             Connector::KEY_CAPTURE_MODE_FIELD   => $this->config->params[$methodId][Connector::KEY_CAPTURE_MODE],
                             Core::KEY_METHOD_ID                 => $methodId

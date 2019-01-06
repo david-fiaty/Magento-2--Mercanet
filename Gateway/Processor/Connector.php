@@ -19,7 +19,6 @@ class Connector {
     const KEY_RESPONSE_FRAUD = 'fraud';
     const KEY_RESPONSE_FLAG = 'flag';
     const KEY_ORDER_ID_FIELD = 'orderId';
-    const KEY_CUSTOMER_EMAIL_FIELD = 'customerEmail';
     const KEY_RESPONSE_CODE_FIELD = 'responseCode';
     const KEY_CAPTURE_MODE_FIELD = 'captureMode';
     const KEY_TRANSACTION_ID_FIELD = 'transactionReference';

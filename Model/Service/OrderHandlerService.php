@@ -150,7 +150,7 @@ class OrderHandlerService {
 
                 // Check for guest user quote
                 if ($this->customerSession->isLoggedIn() === false) {
-                    $quote = $this->prepareGuestQuote($quote, $fields[Connector::KEY_CUSTOMER_EMAIL_FIELD]);
+                    $quote = $this->prepareGuestQuote($quote, $fields[$this->config->base['customer_email_field']]);
                 }
 
                 // Set the payment information

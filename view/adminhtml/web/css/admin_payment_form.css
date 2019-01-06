@@ -20,11 +20,11 @@
 
 /* Credit Card */
 
-fieldset.cmsbox_mercanet_admin_method {
-    border: none; !important;
+.cmsbox_mercanet_admin_method {
+    border: none !important;
 }
 
-fieldset.cmsbox_mercanet_admin_method .credit-card {
+.cmsbox_mercanet_admin_method .credit-card {
     margin-top       : 0px;
     margin-bottom    : 20px;
     width            : 360px;
@@ -34,54 +34,53 @@ fieldset.cmsbox_mercanet_admin_method .credit-card {
     box-shadow       : 1px 2px 3px 0px rgba(0,0,0,0.10);
 }
 
-fieldset.cmsbox_mercanet_admin_method .form-header {
+.cmsbox_mercanet_admin_method .form-header {
     padding       : 20px 30px 20px;
     border-bottom : 1px solid #E1E8EE;
 }
 
-fieldset.cmsbox_mercanet_admin_method .form-body {
+.cmsbox_mercanet_admin_method .form-body {
     padding : 30px 30px 20px;
 }
 
 /* Title */
 
-fieldset.cmsbox_mercanet_admin_method .title {
+.cmsbox_mercanet_admin_method .title {
     margin    : 0;
     color     : #5e6977;
     font-size : 18px;
 }
 
 /* Common */
-
-fieldset.cmsbox_mercanet_admin_method .card-number,
-fieldset.cmsbox_mercanet_admin_method .cvv-input input,
-fieldset.cmsbox_mercanet_admin_method .month select,
-fieldset.cmsbox_mercanet_admin_method .paypal-btn,
-fieldset.cmsbox_mercanet_admin_method .proceed-btn,
-fieldset.cmsbox_mercanet_admin_method .year select {
+.cmsbox_mercanet_admin_method .card-number,
+.cmsbox_mercanet_admin_method .cvv-input input,
+.cmsbox_mercanet_admin_method .month select,
+.cmsbox_mercanet_admin_method .paypal-btn,
+.cmsbox_mercanet_admin_method .proceed-btn,
+.cmsbox_mercanet_admin_method .year select {
     height : 42px;
 }
 
-fieldset.cmsbox_mercanet_admin_method .card-number,
-fieldset.cmsbox_mercanet_admin_method .month select,
-fieldset.cmsbox_mercanet_admin_method .year select {
+.cmsbox_mercanet_admin_method .card-number,
+.cmsbox_mercanet_admin_method .month select,
+.cmsbox_mercanet_admin_method .year select {
     font-size   : 14px;
     font-weight : 100;
     line-height : 14px;
 }
 
-fieldset.cmsbox_mercanet_admin_method .card-number,
-fieldset.cmsbox_mercanet_admin_method .cvv-details,
-fieldset.cmsbox_mercanet_admin_method .cvv-input input,
-fieldset.cmsbox_mercanet_admin_method .month select,
-fieldset.cmsbox_mercanet_admin_method .year select {
+.cmsbox_mercanet_admin_method .card-number,
+.cmsbox_mercanet_admin_method .cvv-details,
+.cmsbox_mercanet_admin_method .cvv-input input,
+.cmsbox_mercanet_admin_method .month select,
+.cmsbox_mercanet_admin_method .year select {
     color   : #86939e;
     opacity : .7;
 }
 
 /* Card Number */
 
-fieldset.cmsbox_mercanet_admin_method .card-number {
+.cmsbox_mercanet_admin_method .card-number {
     width         : 100%;
     margin-bottom : 20px;
     padding-left  : 20px;
@@ -91,8 +90,8 @@ fieldset.cmsbox_mercanet_admin_method .card-number {
 
 /* Date Field */
 
-fieldset.cmsbox_mercanet_admin_method .month select,
-fieldset.cmsbox_mercanet_admin_method .year select {
+.cmsbox_mercanet_admin_method .month select,
+.cmsbox_mercanet_admin_method .year select {
     -moz-appearance     : none;
     -webkit-appearance  : none;
     width               : 145px;
@@ -104,17 +103,17 @@ fieldset.cmsbox_mercanet_admin_method .year select {
     background-position : 85% 50%;
 }
 
-fieldset.cmsbox_mercanet_admin_method .month {
+.cmsbox_mercanet_admin_method .month {
     float : left;
 }
 
-fieldset.cmsbox_mercanet_admin_method .year select {
+.cmsbox_mercanet_admin_method .year select {
     margin-left: 8px;
 }
 
 /* Card Verification Field */
 
-fieldset.cmsbox_mercanet_admin_method .cvv-input input {
+.cmsbox_mercanet_admin_method .cvv-input input {
     width         : 145px;
     float         : left;
     padding-left  : 20px;
@@ -123,7 +122,7 @@ fieldset.cmsbox_mercanet_admin_method .cvv-input input {
     background    : #fff;
 }
 
-fieldset.cmsbox_mercanet_admin_method .cvv-details {
+.cmsbox_mercanet_admin_method .cvv-details {
     float         : right;
     margin-bottom : 20px;
     font-size     : 12px;
@@ -131,7 +130,7 @@ fieldset.cmsbox_mercanet_admin_method .cvv-details {
     line-height   : 16px;
 }
 
-fieldset.cmsbox_mercanet_admin_method .cvv-details p {
+.cmsbox_mercanet_admin_method .cvv-details p {
     margin-top : 6px;
 }
   

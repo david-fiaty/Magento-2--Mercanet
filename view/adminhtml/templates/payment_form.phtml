@@ -28,7 +28,7 @@ $code = $block->escapeHtml($block->getMethodCode());
                     class="card-number"
                     placeholder="<?= $block->escapeHtml(__('Card Number')); ?>"
                     title="<?= $block->escapeHtml(__('Card Number')) ?>"
-                    data-validate="{'required-entry':true, 'validate-cc-number':true, 'credit-card-types':true}"
+                    data-validate="{'required-entry':true, 'validate-cc-number':true}"
                     >
             </div>
 
@@ -70,8 +70,9 @@ $code = $block->escapeHtml($block->getMethodCode());
         </div>
 
     </div>
+</fieldset>
 
-    <script>
+<script>
     //<![CDATA[
     require(
         [
@@ -81,7 +82,6 @@ $code = $block->escapeHtml($block->getMethodCode());
             'Magento_Payment/js/model/credit-card-validation/validator',
             'mage/validation'
         ], function($, Component) {
- 
             return Component.extend({
                 validateForm: function (form) {
                     return $(form).validation() && $(form).validation('isValid');
@@ -89,6 +89,4 @@ $code = $block->escapeHtml($block->getMethodCode());
             });
         });
     //]]>
-    </script>
-
-</fieldset>
+</script>

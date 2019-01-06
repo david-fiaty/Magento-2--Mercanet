@@ -22,12 +22,20 @@ $code = $block->escapeHtml($block->getMethodCode());
         </div>
         <div class="form-body">
             <!-- Card Number -->
-            <input type="number" name="card_data[number]" class="card-number" placeholder="<?= $block->escapeHtml(__('Card Number')); ?>" title="<?= $block->escapeHtml(__('Card Number')) ?>">
+            <input type="number"
+                   name="card_data[number]"
+                   class="card-number"
+                   placeholder="<?= $block->escapeHtml(__('Card Number')); ?>"
+                   title="<?= $block->escapeHtml(__('Card Number')) ?>"
+                   data-validate="{'required-entry':true, 'validate-cc-number':true, 'validate-number':true}"
+                   >
 
             <!-- Date Field -->
             <div class="date-field">
                 <div class="month">
-                    <select name="card_data[month]">
+                    <select name="card_data[month]"
+                            data-validate="{'required-entry':true, 'validate-card-date':true}"
+                    >
                         <?php foreach ($block->months as $k => $v): ?>
                             <option value="<?= /* @noEscape */ $block->escapeHtml(sprintf("%02d", $k)) ?>">
                                 <?= $block->escapeHtml($v) ?>
@@ -36,7 +44,9 @@ $code = $block->escapeHtml($block->getMethodCode());
                     </select>
                 </div>
                 <div class="year">
-                    <select name="card_data[year]">
+                    <select name="card_data[year]"
+                            data-validate="{'required-entry':true, 'validate-card-year':true}"
+                        >
                         <?php foreach ($block->years as $k => $v): ?>
                             <option value="<?= /* @noEscape */ $block->escapeHtml($v) ?>">
                                 <?= $block->escapeHtml($v) ?>

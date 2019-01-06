@@ -19,7 +19,9 @@ define(
         'Magento_Checkout/js/model/full-screen-loader',
         'Magento_Checkout/js/model/payment/additional-validators',
         'mage/translate',
-        'Magento_Checkout/js/action/redirect-on-success'
+        'Magento_Checkout/js/action/redirect-on-success',
+        'Magento_Payment/js/model/credit-card-validation/validator'
+        'mage/validation'
     ],
     function($, Component, Adapter, Url, FullScreenLoader, AdditionalValidators, t, RedirectOnSuccessAction) {
         'use strict';
@@ -37,6 +39,10 @@ define(
                 targetForm:  Adapter.getMethodId(code) + '_form',
                 formControllerUrl: Url.build(Adapter.getCode() + '/request/form'),
                 redirectAfterPlaceOrder: false
+            },
+
+            validateForm: function (form) {
+                return $(form).validation() && $(form).validation('isValid');
             },
 
             /**
@@ -139,7 +145,7 @@ define(
                 FullScreenLoader.startLoader();
 
                 // Validate before submission
-                if (AdditionalValidators.validate()) {
+                if (AdditionalValidators.validate() && this.validateForm('#' + this.targetForm)) {
                     // Check cart and submit
                     this.proceedWithSubmission();
                 }

@@ -120,7 +120,7 @@ class IframeMethod extends AbstractMethod {
         return parent::isAvailable($quote);
     }
 
-    public static function getRequestData($config, $methodId) {
+    public static function getRequestData($config, $methodId, $cardData = null) {
         // Get the order entity
         $entity = $config->cart->getQuote();
 

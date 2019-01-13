@@ -8,7 +8,6 @@
  */
 
 /* Credit Card */
-
 #cmsbox_mercanet_form_method_form {
     border: none !important;
 }
@@ -31,10 +30,11 @@
 
 #cmsbox_mercanet_form_method_form .form-body {
     padding : 30px 30px 20px;
+    display: flex;
+    flex-direction: column;
 }
 
 /* Title */
-
 #cmsbox_mercanet_form_method_form .title {
     margin    : 0;
     color     : #5e6977;
@@ -42,7 +42,6 @@
 }
 
 /* Common */
-
 #cmsbox_mercanet_form_method_form .card-number,
 #cmsbox_mercanet_form_method_form .cvv-input input,
 #cmsbox_mercanet_form_method_form .month select,
@@ -70,7 +69,6 @@
 }
 
 /* Card Number */
-
 #cmsbox_mercanet_form_method_form .card-number {
     width         : 100%;
     margin-bottom : 20px;
@@ -80,7 +78,6 @@
 }
 
 /* Date Field */
-
 #cmsbox_mercanet_form_method_form .month select,
 #cmsbox_mercanet_form_method_form .year select {
     -moz-appearance     : none;
@@ -103,7 +100,6 @@
 }
 
 /* Card Verification Field */
-
 #cmsbox_mercanet_form_method_form .cvv-input input {
     width         : 145px;
     float         : left;

@@ -58,6 +58,11 @@ $code = $block->escapeHtml($block->getMethodCode());
                 </div>
             </div>
             
+            <div class="card-verification">
+                <div class="cvv-input">
+                    <input type="text" name="card_data[cvv]" placeholder="<?= $block->escapeHtml(__('CVV')) ?>">
+                </div>
+            </div>
             <!-- Card Verification Field 
             <?php //if ($block->config->params[$block->getData('method_id')]['cvv_check_customer']): ?>
                 <div class="card-verification">

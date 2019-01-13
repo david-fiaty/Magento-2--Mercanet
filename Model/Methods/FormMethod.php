@@ -153,17 +153,6 @@ class FormMethod extends AbstractMethod {
     }
 
     /**
-     * Checks if a response is success.
-     *
-     * @return bool
-     */  
-    public static function isSuccess($response) {
-        return is_array($response) 
-        && isset($response[Connector::KEY_RESPONSE_CODE_FIELD]) 
-        && $response[Connector::KEY_RESPONSE_CODE_FIELD] == '00';
-    }
-
-    /**
      * Determines if the method is active.
      *
      * @return bool

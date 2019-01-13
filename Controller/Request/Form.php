@@ -125,23 +125,21 @@ class Form extends Action {
                     // Execute the request
                     $paymentRequest->executeRequest();
 
-                    // Get the response
-                    $response = Connector::prepareResponse($paymentRequest->getResponseRequest());
-
-                    // Get the quote
-                    $quote = $this->orderHandler->findQuote();
-                
                     // Process the response
-                    if ($methodInstance::isSuccess($response)) {
+                    if ($paymentRequest->isValid()) {
+                        // Get the quote
+                        $quote = $this->orderHandler->findQuote();
+
                         // Prepare the order data
+                        // Todo - Replace the fields by config constants
                         $params = Connector::packData([
-                            $this->config->base['order_id_field']       => $this->tools->getIncrementId($quote),
-                            Connector::KEY_TRANSACTION_ID_FIELD => $response[Connector::KEY_TRANSACTION_ID_FIELD],
-                            $this->config->base['customer_email_field'] => isset($response[$this->config->base['customer_email_field']])
+                            $this->config->base['order_id_field']          => $this->tools->getIncrementId($quote),
+                            Connector::KEY_TRANSACTION_ID_FIELD            => $paymentRequest->getParam($this->config->base[Connector::KEY_TRANSACTION_ID_FIELD]),
+                            $this->config->base[Connector::KEY_CUSTOMER_EMAil_FIELD]    => isset($response[$this->config->base[Connector::KEY_CUSTOMER_EMAil_FIELD]])
                                 ? $response[$this->config->base['customer_email_field']]
                                 : $this->orderHandler->findCustomerEmail($quote),
-                            Connector::KEY_CAPTURE_MODE_FIELD   => $this->config->params[$methodId][Connector::KEY_CAPTURE_MODE],
-                            Core::KEY_METHOD_ID                 => $methodId
+                            $this->base[Connector::KEY_CAPTURE_MODE_FIELD] => $this->config->params[$methodId][Connector::KEY_CAPTURE_MODE],
+                            Core::KEY_METHOD_ID                            => $methodId
                         ]);
 
                         // Place the order

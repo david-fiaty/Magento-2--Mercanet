@@ -178,20 +178,6 @@ class IframeMethod extends AbstractMethod {
     }
 
     /**
-     * Checks if a response is success.
-     *
-     * @return bool
-     */  
-    public static function isSuccess($response) {
-        $response = Connector::unpackData($response);
-        if (is_array($response) && isset($response['responseCode']) && $response['responseCode'] == '00') {
-            return true;
-        }
-
-        return false;
-    }
-
-    /**
      * Determines if the method is active.
      *
      * @return bool

@@ -18,8 +18,8 @@ class Connector {
     const KEY_RESPONSE_SUCCESS = 'success';
     const KEY_RESPONSE_FRAUD = 'fraud';
     const KEY_RESPONSE_FLAG = 'flag';
-    const KEY_RESPONSE_CODE_FIELD = 'responseCode';
-    const KEY_CAPTURE_MODE_FIELD = 'captureMode';
+    const KEY_CAPTURE_MODE_FIELD = 'capture_mode_field';
+    const KEY_CUSTOMER_EMAil_FIELD = 'customer_email_field';
     const KEY_TRANSACTION_ID_FIELD = 'transactionReference';
     const KEY_CAPTURE_MODE = 'capture_mode';
     const KEY_CAPTURE_DAY = 'capture_day';
@@ -56,13 +56,6 @@ class Connector {
         }
 
         return $arr;
-    }
-
-     /**
-     * Formats a response payload to an array for internal use.
-     */   
-    public static function prepareResponse($responseData) {
-        return (array) json_decode($responseData);
     }
 
      /**

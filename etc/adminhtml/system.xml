@@ -139,7 +139,7 @@
                             <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
                             <config_path>payment/cmsbox_mercanet_form_method/cvv_check_customer</config_path>     
                             <comment>
-                                Shoud the CVV (Card Verifivation Value) be requested for customer card payments).
+                                Should the CVV (Card Verifivation Value) be requested for customer card payments).
                             </comment>
                         </field>
 
@@ -148,7 +148,7 @@
                             <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
                             <config_path>payment/cmsbox_mercanet_form_method/cvv_check_admin</config_path>     
                             <comment>
-                                Shoud the CVV (Card Verifivation Value) be requested for admin card payments).
+                                Should the CVV (Card Verifivation Value) be requested for admin card payments).
                             </comment>
                         </field>
 
@@ -273,7 +273,7 @@
                             <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
                             <config_path>payment/cmsbox_mercanet_admin_method/cvv_check_customer</config_path>     
                             <comment>
-                                Shoud the CVV (Card Verifivation Value) be requested for customer card payments).
+                                Should the CVV (Card Verifivation Value) be requested for customer card payments).
                             </comment>
                         </field>
 
@@ -282,7 +282,7 @@
                             <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
                             <config_path>payment/cmsbox_mercanet_admin_method/cvv_check_admin</config_path>     
                             <comment>
-                                Shoud the CVV (Card Verifivation Value) be requested for admin card payments).
+                                Should the CVV (Card Verifivation Value) be requested for admin card payments).
                             </comment>
                         </field>
                     </group>

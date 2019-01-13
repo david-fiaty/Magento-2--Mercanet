@@ -122,9 +122,9 @@ class FormMethod extends AbstractMethod {
         return parent::isAvailable($quote);
     }
 
-    public static function getRequestData($config, $methodId, $cardData = null) {
+    public static function getRequestData($config, $methodId, $cardData = null, $entity = null) {
         // Get the order entity
-        $entity = $config->cart->getQuote();
+        $entity = ($entity) ? $entity : $config->cart->getQuote();
 
         // Get the vendor class
         $fn = "\\" . $config->params[$methodId][Core::KEY_VENDOR];

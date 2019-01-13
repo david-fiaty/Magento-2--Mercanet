@@ -125,6 +125,9 @@ class Form extends Action {
                     // Execute the request
                     $paymentRequest->executeRequest();
 
+                    // Get the response
+                    $paymentRequest->getResponseRequest();
+
                     // Process the response
                     if ($paymentRequest->isValid()) {
                         // Get the quote

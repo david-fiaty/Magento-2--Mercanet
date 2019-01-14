@@ -247,11 +247,11 @@ class OrderHandlerService {
     /**
      * Find a quote
      */
-    public function findQuote($orderId = null) {
+    public function findQuote($reservedIncrementId = null) {
         if ($orderId) {
             return $this->quoteFactory
             ->create()->getCollection()
-            ->addFieldToFilter('reserved_order_id', $orderId)
+            ->addFieldToFilter('reserved_order_id', $reservedIncrementId)
             ->getFirstItem();
         }
 

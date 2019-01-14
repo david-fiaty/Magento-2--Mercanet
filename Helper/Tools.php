@@ -132,7 +132,14 @@ class Tools {
      * @return string
      */
     public static function getCurrencyCode($entity) {
-        $className = (new \ReflectionClass($entity))->getShortName();
+        // Get a reflection instance
+        $reflection = new \ReflectionClass($entity);
+
+        // Get the class name
+        $className = $reflection->getShortName() == 'Interceptor'
+        ? $reflection->getParentClass()->getShortName() : $reflection->getShortName();
+
+        // Return the currency code
         $fn = 'get' . $className . 'CurrencyCode';
         return $entity->$fn();
     }

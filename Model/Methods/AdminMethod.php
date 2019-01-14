@@ -15,6 +15,7 @@ use Magento\Quote\Api\Data\PaymentInterface;
 use Magento\Payment\Model\Method\AbstractMethod;
 use Cmsbox\Mercanet\Gateway\Config\Core;
 use Cmsbox\Mercanet\Helper\Tools;
+use Cmsbox\Mercanet\Gateway\Processor\Connector;
 
 class AdminMethod extends AbstractMethod {
 
@@ -122,33 +123,36 @@ class AdminMethod extends AbstractMethod {
         return parent::isAvailable($quote);
     }
 
-    public static function getRequestData($config, $methodId, $cardData = null) {
-        // Get the order entity
-        $entity = $config->cart->getQuote();
+    public static function getRequestData($config, $methodId, $cardData = null, $entity = null) {
+        if ($entity) {
+            var_dump(Tools::getCurrencyCode($entity));
 
-        // Get the vendor class
-        $fn = "\\" . $config->params[$methodId][Core::KEY_VENDOR];
+            // Get the vendor class
+            $fn = "\\" . $config->params[$methodId][Core::KEY_VENDOR];
 
-        // Prepare the request
-        $paymentRequest = new $fn($config->getSecretKey());
-        $paymentRequest->setMerchantId($config->getMerchantId());
-        $paymentRequest->setInterfaceVersion($config->params[$methodId][Core::KEY_INTERFACE_VERSION_CHARGE]);
-        $paymentRequest->setKeyVersion($config->params[Core::moduleId()][Core::KEY_VERSION]);
-        $paymentRequest->setAmount($config->formatAmount($entity->getGrandTotal()));
-        $paymentRequest->setCurrency(Tools::getCurrencyCode($entity));
-        $paymentRequest->setCardNumber($cardData[Core::KEY_CARD_NUMBER]);
-        $paymentRequest->setCardExpiryDate($cardData[Core::KEY_CARD_YEAR] . $cardData[Core::KEY_CARD_MONTH]);
-        $paymentRequest->setCardCSCValue($cardData[Core::KEY_CARD_CVV]);
-        $paymentRequest->setTransactionReference($config->getTransactionReference());
-        $paymentRequest->setCaptureDay((string) $config->params[$methodId][Connector::KEY_CAPTURE_DAY]);
-        $paymentRequest->setCaptureMode($config->params[$methodId][Connector::KEY_CAPTURE_MODE]);
-        $paymentRequest->setOrderId(Tools::getIncrementId($entity));
-        $paymentRequest->setUrl($config->params[$methodId]['api_url_test']); // Todo- add prod detection linked to config
-        $paymentRequest->setPspRequest($config->params[$methodId][Core::KEY_CHARGE_SUFFIX]);
-        $paymentRequest->setOrderChannel("INTERNET");
-        $paymentRequest->setCustomerContactEmail($entity->getCustomerEmail());
+            // Prepare the request
+            $paymentRequest = new $fn($config->getSecretKey());
+            $paymentRequest->setMerchantId($config->getMerchantId());
+            $paymentRequest->setInterfaceVersion($config->params[$methodId][Core::KEY_INTERFACE_VERSION_CHARGE]);
+            $paymentRequest->setKeyVersion($config->params[Core::moduleId()][Core::KEY_VERSION]);
+            $paymentRequest->setAmount($config->formatAmount($entity->getGrandTotal()));
+            $paymentRequest->setCurrency(Tools::getCurrencyCode($entity));
+            $paymentRequest->setCardNumber($cardData[Core::KEY_CARD_NUMBER]);
+            $paymentRequest->setCardExpiryDate($cardData[Core::KEY_CARD_YEAR] . $cardData[Core::KEY_CARD_MONTH]);
+            $paymentRequest->setCardCSCValue($cardData[Core::KEY_CARD_CVV]);
+            $paymentRequest->setTransactionReference($config->getTransactionReference());
+            $paymentRequest->setCaptureDay((string) $config->params[$methodId][Connector::KEY_CAPTURE_DAY]);
+            $paymentRequest->setCaptureMode($config->params[$methodId][Connector::KEY_CAPTURE_MODE]);
+            $paymentRequest->setOrderId(Tools::getIncrementId($entity));
+            $paymentRequest->setUrl($config->params[$methodId]['api_url_test']); // Todo- add prod detection linked to config
+            $paymentRequest->setPspRequest($config->params[$methodId][Core::KEY_CHARGE_SUFFIX]);
+            $paymentRequest->setOrderChannel("INTERNET");
+            $paymentRequest->setCustomerContactEmail($entity->getCustomerEmail());
 
-        // Return the request object
-        return $paymentRequest;
+            // Return the request object
+            return $paymentRequest;
+        }
+
+        return null;
     }
 }

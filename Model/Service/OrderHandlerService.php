@@ -255,6 +255,11 @@ class OrderHandlerService {
             ->getFirstItem();
         }
 
-        return $this->cart->getQuote();
+        try {
+            return $this->cart->getQuote();
+        } catch (\Exception $e) {
+            $this->watchdog->log($e);
+            return false;
+        }
     }
 }

@@ -125,8 +125,6 @@ class AdminMethod extends AbstractMethod {
 
     public static function getRequestData($config, $methodId, $cardData = null, $entity = null) {
         if ($entity) {
-            var_dump(Tools::getCurrencyCode($entity));
-
             // Get the vendor class
             $fn = "\\" . $config->params[$methodId][Core::KEY_VENDOR];
 

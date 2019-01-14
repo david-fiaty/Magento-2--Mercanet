@@ -169,7 +169,7 @@ class OrderHandlerService {
                 $order = $this->quoteManagement->submit($quote);
 
                 // Update order status
-                if ($fields[$this->base[Connector::KEY_CAPTURE_MODE_FIELD]] == Connector::KEY_CAPTURE_IMMEDIATE) {
+                if ($fields[$this->config->base[Connector::KEY_CAPTURE_MODE_FIELD]] == Connector::KEY_CAPTURE_IMMEDIATE) {
                     // Create the transaction
                     $transactionId = $this->transactionHandler->createTransaction($order, $fields, Transaction::TYPE_CAPTURE, $fields[Core::KEY_METHOD_ID]);
                 } else {

@@ -95,13 +95,19 @@ class TransactionHandlerService {
         // Prepare the method id
         $methodId = ($methodId) ? $methodId : Core::moduleId();
 
+        var_dump($this->config->base[Connector::KEY_TRANSACTION_ID_FIELD]);
+
+        var_dump($paymentData);
+
+        exit();
+
         // Process the transaction
         try {
             // Prepare payment object
             $payment = $order->getPayment();
             $payment->setMethod($methodId); 
-            $payment->setLastTransId($paymentData[Connector::KEY_TRANSACTION_ID_FIELD]);
-            $payment->setTransactionId($paymentData[Connector::KEY_TRANSACTION_ID_FIELD]);
+            $payment->setLastTransId($paymentData[$this->config->base[Connector::KEY_TRANSACTION_ID_FIELD]]);
+            $payment->setTransactionId($paymentData[$this->config->base[Connector::KEY_TRANSACTION_ID_FIELD]]);
             $payment->setAdditionalInformation([Transaction::RAW_DETAILS => (array) $paymentData]);
 
             // Formatted price
@@ -110,7 +116,7 @@ class TransactionHandlerService {
             // Prepare transaction
             $transaction = $this->transactionBuilder->setPayment($payment)
             ->setOrder($order)
-            ->setTransactionId($paymentData[Connector::KEY_TRANSACTION_ID_FIELD])
+            ->setTransactionId($paymentData[$this->config->base[Connector::KEY_TRANSACTION_ID_FIELD]])
             ->setAdditionalInformation([Transaction::RAW_DETAILS => (array) $paymentData])
             ->setFailSafe(true)
             ->build($transactionMode);

@@ -20,7 +20,8 @@ class Connector {
     const KEY_RESPONSE_FLAG = 'flag';
     const KEY_CAPTURE_MODE_FIELD = 'capture_mode_field';
     const KEY_CUSTOMER_EMAil_FIELD = 'customer_email_field';
-    const KEY_TRANSACTION_ID_FIELD = 'transactionReference';
+    const KEY_ORDER_ID_FIELD = 'order_id_field';
+    const KEY_TRANSACTION_ID_FIELD = 'transaction_id_field';
     const KEY_CAPTURE_MODE = 'capture_mode';
     const KEY_CAPTURE_DAY = 'capture_day';
     const KEY_CAPTURE_IMMEDIATE = 'IMMEDIATE';

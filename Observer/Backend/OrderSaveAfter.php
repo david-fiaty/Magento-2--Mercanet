@@ -78,36 +78,6 @@ class OrderSaveAfter implements ObserverInterface {
             // Get the order and method id
             $order = $observer->getEvent()->getOrder();
             $methodId = $order->getPayment()->getMethodInstance()->getCode();
-            //$methodInstance = $this->methodHandler->getMethodInstance($methodId);
-
-            // Prepare the curl options
-            $this->client->setOption(CURLOPT_RETURNTRANSFER, true);
-            $this->client->setOption(CURLOPT_POST, true);
-            $this->client->setOption(CURLOPT_PORT, 443);
-
-            // Prepare the url
-            //$url = $methodInstance->getApiUrl('charge');
-
-            // Get the card data
-            $post = $this->request->getPostValue();
-            //$data = $methodInstance->getRequestData->getRequestData($order, $post['card_data']);
-
-            // Retrieve the response
-            $responseData =  $this->client->getPostResponse($url, $data);
-
-            // Process the response
-            if ($this->processor->isValid($responseData, $this->config) && $this->processor->isSuccess($responseData)) {
-                // Todo - Add payment success info and update order
-            }
-
-            $writer = new \Zend\Log\Writer\Stream(BP . '/var/log/backorder.log');
-            $logger = new \Zend\Log\Logger();
-            $logger->addWriter($writer);
-            $logger->info($url . "\n");
-            $logger->info(print_r($responseData ,1) . "\n");
-
-            exit('dd');
-            // Todo - Retrieve the response and place the order
         }
     }
 }

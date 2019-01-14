@@ -100,7 +100,7 @@ class Normal extends Action {
                     $fields = Connector::unpackData($responseData);
 
                     // Find the quote
-                    $quote = $this->orderHandler->findQuote($fields[$this->config->base['order_id_field']]);
+                    $quote = $this->orderHandler->findQuote($fields[$this->config->base[Connector::KEY_ORDER_ID_FIELD]]);
 
                     // Set the success redirection parameters
                     if (isset($quote) && (int)$quote->getId() > 0) {

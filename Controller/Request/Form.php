@@ -21,7 +21,6 @@ use Cmsbox\Mercanet\Gateway\Config\Config;
 use Cmsbox\Mercanet\Gateway\Processor\Connector;
 use Cmsbox\Mercanet\Helper\Tools;
 use Cmsbox\Mercanet\Helper\Watchdog;
-use Magento\Framework\Exception\LocalizedException;
 
 class Form extends Action {
 
@@ -134,15 +133,14 @@ class Form extends Action {
                         $quote = $this->orderHandler->findQuote();
 
                         // Prepare the order data
-                        // Todo - Replace the fields by config constants
                         $params = Connector::packData([
-                            $this->config->base['order_id_field']          => $this->tools->getIncrementId($quote),
-                            Connector::KEY_TRANSACTION_ID_FIELD            => $paymentRequest->getParam($this->config->base[Connector::KEY_TRANSACTION_ID_FIELD]),
-                            $this->config->base[Connector::KEY_CUSTOMER_EMAil_FIELD]    => isset($response[$this->config->base[Connector::KEY_CUSTOMER_EMAil_FIELD]])
-                                ? $response[$this->config->base['customer_email_field']]
+                            $this->config->base[Connector::KEY_ORDER_ID_FIELD]       => $this->tools->getIncrementId($quote),
+                            Connector::KEY_TRANSACTION_ID_FIELD                      => $paymentRequest->getParam($this->config->base[Connector::KEY_TRANSACTION_ID_FIELD]),
+                            $this->config->base[Connector::KEY_CUSTOMER_EMAil_FIELD] => isset($response[$this->config->base[Connector::KEY_CUSTOMER_EMAil_FIELD]])
+                                ? $response[$this->config->base[Connector::KEY_CUSTOMER_EMAil_FIELD]]
                                 : $this->orderHandler->findCustomerEmail($quote),
-                            $this->base[Connector::KEY_CAPTURE_MODE_FIELD] => $this->config->params[$methodId][Connector::KEY_CAPTURE_MODE],
-                            Core::KEY_METHOD_ID                            => $methodId
+                            $this->base[Connector::KEY_CAPTURE_MODE_FIELD]           => $this->config->params[$methodId][Connector::KEY_CAPTURE_MODE],
+                            Core::KEY_METHOD_ID                                      => $methodId
                         ]);
 
                         // Place the order
@@ -156,7 +154,7 @@ class Form extends Action {
                     }
                 }
 
-                return __('Invalid method id or card data.');
+                throw new \Magento\Framework\Exception\LocalizedException(__('Invalid method id or card data.'));
             } 
         }
         catch (\Exception $e) {

@@ -14,7 +14,6 @@ use Magento\Checkout\Model\Session as CheckoutSession;
 use Magento\Customer\Model\Session as CustomerSession;
 use Magento\Customer\Api\Data\GroupInterface;
 use Magento\Quote\Model\QuoteManagement;
-use Magento\Framework\Exception\LocalizedException;
 use Magento\Sales\Model\Order\Email\Sender\OrderSender;
 use Magento\Sales\Api\OrderRepositoryInterface;
 use Magento\Sales\Api\Data\OrderInterface;
@@ -128,9 +127,9 @@ class OrderHandlerService {
         $fields = Connector::unpackData($data);
 
         // If a track id is available
-        if (isset($fields[$this->config->base['order_id_field']])) {
+        if (isset($fields[$this->config->base[Connector::KEY_ORDER_ID_FIELD]])) {
             // Check if the order exists
-            $order = $this->orderInterface->loadByIncrementId($fields[$this->config->base['order_id_field']]);
+            $order = $this->orderInterface->loadByIncrementId($fields[$this->config->base[Connector::KEY_ORDER_ID_FIELD]]);
 
             // Update the order
             if ($order) {
@@ -149,7 +148,7 @@ class OrderHandlerService {
     public function createOrder($fields) {
         try {
             // Find the quote
-            $quote = $this->findQuote($fields[$this->config->base['order_id_field']]);
+            $quote = $this->findQuote($fields[$this->config->base[Connector::KEY_ORDER_ID_FIELD]]);
 
             // If there is a quote, create the order
             if ($quote->getId()) {
@@ -158,7 +157,7 @@ class OrderHandlerService {
 
                 // Check for guest user quote
                 if ($this->customerSession->isLoggedIn() === false) {
-                    $quote = $this->prepareGuestQuote($quote, $fields[$this->config->base['customer_email_field']]);
+                    $quote = $this->prepareGuestQuote($quote, $fields[$this->config->base[Connector::KEY_CUSTOMER_EMAil_FIELD]]);
                 }
 
                 // Set the payment information

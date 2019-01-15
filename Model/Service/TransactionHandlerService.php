@@ -95,12 +95,6 @@ class TransactionHandlerService {
         // Prepare the method id
         $methodId = ($methodId) ? $methodId : Core::moduleId();
 
-        var_dump($this->config->base[Connector::KEY_TRANSACTION_ID_FIELD]);
-
-        var_dump($paymentData);
-
-        exit();
-
         // Process the transaction
         try {
             // Prepare payment object

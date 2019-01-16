@@ -112,17 +112,6 @@ class AdminMethod extends AbstractMethod {
         return parent::isAvailable($quote) && null !== $quote;
     }
 
-    /**
-     * Check whether method is enabled in config
-     *
-     * @param \Magento\Quote\Model\Quote|null $quote
-     * @return bool
-     */
-    public function isAvailableInConfig($quote = null)
-    {
-        return parent::isAvailable($quote);
-    }
-
     public static function getRequestData($config, $methodId, $cardData = null, $entity = null) {
         if ($entity) {
             // Get the vendor class

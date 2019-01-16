@@ -105,7 +105,7 @@ class OrderSaveBefore implements ObserverInterface {
                 }
             }
             catch (\Exception $e) {
-                throw new \Magento\Framework\Exception\LocalizedException($e->getMessage());
+                throw new \Magento\Framework\Exception\LocalizedException(__($e->getMessage()));
             }
         }
 

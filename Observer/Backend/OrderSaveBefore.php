@@ -71,12 +71,7 @@ class OrderSaveBefore implements ObserverInterface {
     /**
      * Observer execute function.
      */
-    public function execute(Observer $observer) { 
-        $writer = new \Zend\Log\Writer\Stream(BP . '/var/log/savebefore.log');
-        $logger = new \Zend\Log\Logger();
-        $logger->addWriter($writer);
-        $logger->info('test');
-
+    public function execute(Observer $observer) {
         if ($this->backendAuthSession->isLoggedIn()) {
             try {
                 // Get the request parameters

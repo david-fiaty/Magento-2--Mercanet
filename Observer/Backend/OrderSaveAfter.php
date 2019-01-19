@@ -61,12 +61,6 @@ class OrderSaveAfter implements ObserverInterface {
      * Observer execute function.
      */
     public function execute(Observer $observer) { 
-
-        $writer = new \Zend\Log\Writer\Stream(BP . '/var/log/saveafter.log');
-        $logger = new \Zend\Log\Logger();
-        $logger->addWriter($writer);
-        $logger->info('test');
-
         if ($this->backendAuthSession->isLoggedIn()) {
             // Get the order
             $order = $observer->getEvent()->getOrder();

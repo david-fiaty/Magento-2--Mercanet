@@ -19,7 +19,7 @@ class Connector {
     const KEY_RESPONSE_FRAUD = 'fraud';
     const KEY_RESPONSE_FLAG = 'flag';
     const KEY_CAPTURE_MODE_FIELD = 'capture_mode_field';
-    const KEY_CUSTOMER_EMAil_FIELD = 'customer_email_field';
+    const KEY_CUSTOMER_EMAIL_FIELD = 'customer_email_field';
     const KEY_ORDER_ID_FIELD = 'order_id_field';
     const KEY_TRANSACTION_ID_FIELD = 'transaction_id_field';
     const KEY_CAPTURE_MODE = 'capture_mode';
@@ -31,7 +31,9 @@ class Connector {
     const KEY_ORDER_STATUS_CAPTURED = 'order_status_captured';
     const KEY_ORDER_STATUS_REFUNDED = 'order_status_refunded';
     const KEY_ORDER_STATUS_FLAGGED = 'order_status_flagged';
-
+    const KEY_TRANSACTION_INFO = 'transaction_info';
+    const KEY_ADDITIONAL_INFORMATION = 'additional_information';
+    
     /**
      * Turns a data response string into an array.
      */

@@ -15,6 +15,7 @@ use Magento\Framework\Event\ObserverInterface;
 use Magento\Framework\Event\Observer;
 use Magento\Framework\App\RequestInterface;
 use Magento\Sales\Model\Order\Payment\Transaction;
+use Magento\Sales\Api\OrderRepositoryInterface;
 use Cmsbox\Mercanet\Gateway\Processor\Connector;
 use Cmsbox\Mercanet\Gateway\Http\Client;
 use Cmsbox\Mercanet\Gateway\Config\Config;
@@ -22,7 +23,7 @@ use Cmsbox\Mercanet\Model\Service\TransactionHandlerService;
 use Cmsbox\Mercanet\Gateway\Config\Core;
 
 class OrderSaveAfter implements ObserverInterface { 
- 
+
     /**
      * @var Session
      */
@@ -49,6 +50,11 @@ class OrderSaveAfter implements ObserverInterface {
     protected $transactionHandler;
 
     /**
+     * @var OrderRepositoryInterface
+     */
+    protected $orderRepository;
+
+    /**
      * OrderSaveBefore constructor.
      */
     public function __construct(
@@ -56,13 +62,15 @@ class OrderSaveAfter implements ObserverInterface {
         RequestInterface $request,
         Client $client,
         TransactionHandlerService $transactionHandler,
-        Config $config
+        Config $config,
+        OrderRepositoryInterface $orderRepository
     ) { 
         $this->backendAuthSession = $backendAuthSession;
         $this->request            = $request;
         $this->client             = $client;
         $this->transactionHandler = $transactionHandler;
         $this->config             = $config;
+        $this->orderRepository    = $orderRepository;
     }
  
     /**
@@ -73,29 +81,40 @@ class OrderSaveAfter implements ObserverInterface {
             // Get the order
             $order = $observer->getEvent()->getOrder();
 
+            // Get the transaction id
+            $paymentInfo = $order->getPayment()->getMethodInstance()->getInfoInstance();
+            $transactionId = $paymentInfo->getData()
+            [Connector::KEY_ADDITIONAL_INFORMATION]
+            [Connector::KEY_TRANSACTION_INFO]
+            [$this->config->base[Connector::KEY_TRANSACTION_ID_FIELD]];
+
             // Get the method id
             $methodId = $order->getPayment()->getMethodInstance()->getCode();
 
             // Prepare the order data
             $fields = [
                 $this->config->base[Connector::KEY_ORDER_ID_FIELD]       => $order->getIncrementId(),
-                $this->config->base[Connector::KEY_TRANSACTION_ID_FIELD] => 'test_12345',
-                $this->config->base[Connector::KEY_CUSTOMER_EMAil_FIELD] => 'dfiaty@gmail.com',
-                $this->config->base[Connector::KEY_CAPTURE_MODE_FIELD]           => $this->config->params[$methodId][Connector::KEY_CAPTURE_MODE],
+                $this->config->base[Connector::KEY_TRANSACTION_ID_FIELD] => $transactionId,
+                $this->config->base[Connector::KEY_CUSTOMER_EMAIL_FIELD] => $order->getCustomerEmail(),
+                $this->config->base[Connector::KEY_CAPTURE_MODE_FIELD]   => $this->config->params[$methodId][Connector::KEY_CAPTURE_MODE],
                 Core::KEY_METHOD_ID                                      => $methodId
             ];
 
-            // Create the auth transaction
-            $authorizationTransactionId = $this->transactionHandler->createTransaction($order, $fields, Transaction::TYPE_AUTH, $methodId);
-
-            // Create the capture transaction if needed
-            if ($this->config->params[$methodId][Connector::KEY_CAPTURE_MODE_FIELD]  == Connector::KEY_CAPTURE_IMMEDIATE) {
+            // Handle the transactions
+            if ($this->config->params[$methodId][Connector::KEY_CAPTURE_MODE] == Connector::KEY_CAPTURE_IMMEDIATE) {
+                // Create the capture transaction
                 $captureTransactionId = $this->transactionHandler->createTransaction($order, $fields, Transaction::TYPE_CAPTURE, $methodId);
+                $order->setStatus($this->config->params[Core::moduleId()][Connector::KEY_ORDER_STATUS_CAPTURED]);
             }
-
-            // Update order status
-            $order->setStatus($this->params[Core::moduleId()][Connector::KEY_ORDER_STATUS_AUTHORIZED]);
+            else {
+                // Create the authorization transaction
+                $authorizationTransactionId = $this->transactionHandler->createTransaction($order, $fields, Transaction::TYPE_AUTH, $methodId);
+                $order->setStatus($this->config->params[Core::moduleId()][Connector::KEY_ORDER_STATUS_AUTHORIZED]);
+            }
         }
+
+        // Save the order
+        $this->orderRepository->save($order);
 
         return $this;
     }

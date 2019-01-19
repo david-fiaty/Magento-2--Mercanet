@@ -14,6 +14,7 @@ use Magento\Backend\Model\Auth\Session;
 use Magento\Framework\Event\ObserverInterface; 
 use Magento\Framework\Event\Observer;
 use Magento\Framework\App\Request\Http;
+use Magento\Sales\Model\Order\Payment\Transaction;
 use Cmsbox\Mercanet\Helper\Tools;
 use Cmsbox\Mercanet\Gateway\Config\Config;
 use Cmsbox\Mercanet\Gateway\Processor\Connector;
@@ -84,6 +85,9 @@ class OrderSaveBefore implements ObserverInterface {
                 // Get the order
                 $order = $observer->getEvent()->getOrder();
 
+                // Get the payment info instance
+                $paymentInfo = $order->getPayment()->getMethodInstance()->getInfoInstance();
+
                 // Load the method instance if parameters are valid
                 if ($methodId && is_array($cardData) && !empty($cardData)) {
                     // Load the method instance
@@ -98,7 +102,13 @@ class OrderSaveBefore implements ObserverInterface {
                         $paymentRequest->executeRequest();
 
                         // Get the response
-                        if (!$paymentRequest->isValid()) {
+                        if ($paymentRequest->isValid()) {
+                            $paymentInfo->setAdditionalInformation(
+                                Connector::KEY_TRANSACTION_INFO,
+                                [$this->config->base[Connector::KEY_TRANSACTION_ID_FIELD] => $paymentRequest->getParam($this->config->base[Connector::KEY_TRANSACTION_ID_FIELD])]
+                            );
+                        }
+                        else {
                             throw new \Magento\Framework\Exception\LocalizedException(__('The transaction could not be processed'));
                         }
                     }

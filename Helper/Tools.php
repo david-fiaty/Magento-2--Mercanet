@@ -82,21 +82,6 @@ class Tools {
     }
 
     /**
-     * Sanitize http request data.
-     */
-    public function getInputData() {
-        // Get all parameters from request
-        $params = $this->request->getParams();
-
-        // Sanitize the array
-        $params = array_map(function($val) {
-            return filter_var($val, FILTER_SANITIZE_STRING);
-        }, $params);
-
-        return $params;
-    }
-
-    /**
      * Sort multi dimensional array.
      *
      * @return string

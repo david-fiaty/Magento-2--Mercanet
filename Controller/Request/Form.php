@@ -118,24 +118,18 @@ class Form extends Action {
 
                 // Perform the charge request
                 if ($methodInstance && $methodInstance::isFrontend($this->config, $methodId)) {
-                    // Get the request object
-                    $paymentRequest = $methodInstance::getRequestData($this->config, $methodId, $cardData);
-
-                    // Execute the request
-                    $paymentRequest->executeRequest();
-
-                    // Get the response
-                    $paymentRequest->getResponseRequest();
+                    // Process the payment
+                    $paymentObject = $methodInstance::getRequestData($this->config, $methodId, $cardData);
 
                     // Process the response
-                    if ($paymentRequest->isValid()) {
+                    if ($methodInstance::isValidResponse($this->config, $paymentObject) && $methodInstance::isSuccessResponse($this->config, $paymentObject)) {
                         // Get the quote
                         $quote = $this->orderHandler->findQuote();
 
                         // Prepare the order data
                         $params = Connector::packData([
                             $this->config->base[Connector::KEY_ORDER_ID_FIELD]       => $this->tools->getIncrementId($quote),
-                            Connector::KEY_TRANSACTION_ID_FIELD                      => $paymentRequest->getParam($this->config->base[Connector::KEY_TRANSACTION_ID_FIELD]),
+                            Connector::KEY_TRANSACTION_ID_FIELD                      => $paymentObject->getParam($this->config->base[Connector::KEY_TRANSACTION_ID_FIELD]),
                             $this->config->base[Connector::KEY_CUSTOMER_EMAIL_FIELD] => isset($response[$this->config->base[Connector::KEY_CUSTOMER_EMAIL_FIELD]])
                                 ? $response[$this->config->base[Connector::KEY_CUSTOMER_EMAIL_FIELD]]
                                 : $this->orderHandler->findCustomerEmail($quote),

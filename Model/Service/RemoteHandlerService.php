@@ -43,7 +43,7 @@ class RemoteHandlerService {
     /**
      * @var Connector
      */
-    protected $processor;
+    protected $connector;
 
     /**
      * RemoteHandlerService constructor.
@@ -53,13 +53,13 @@ class RemoteHandlerService {
         Config $config,
         Tools $tools,
         Client $client,
-        Connector $processor
+        Connector $connector
     ) {
         $this->orderRepository    = $orderRepository;
         $this->config             = $config;
         $this->tools              = $tools;
         $this->client             = $client;
-        $this->processor          = $processor;
+        $this->connector          = $connector;
     }
 
     /**

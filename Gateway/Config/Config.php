@@ -65,11 +65,6 @@ class Config {
     protected $core;
 
     /**
-     * @var Connector
-     */
-    public $processor;
-
-    /**
      * @var StoreManagerInterface
      */
     public $storeManager;
@@ -103,7 +98,6 @@ class Config {
         ScopeConfigInterface $scopeConfig,
         CheckoutSession $checkoutSession,
         Cart $cart,
-        Connector $processor,
         StoreManagerInterface $storeManager,
         MethodHandlerService $methodHandler,
         Resolver $localeResolver
@@ -113,7 +107,6 @@ class Config {
         $this->scopeConfig     = $scopeConfig;
         $this->checkoutSession = $checkoutSession;
         $this->cart            = $cart;
-        $this->processor       = $processor;
         $this->storeManager    = $storeManager;
         $this->methodHandler   = $methodHandler;
         $this->localeResolver  = $localeResolver;
@@ -213,7 +206,7 @@ class Config {
                 $methodInstance = $this->methodHandler->getStaticInstance($key);
                 if ($methodInstance && $methodInstance::isFrontend($this, $key)) {
                     $output[$key] = $val;
-                    $output[$key]['active'] = $methodInstance::isFrontend($this, $key);
+                    $output[$key][Connector::KEY_ACTIVE] = $methodInstance::isFrontend($this, $key);
                     if (isset($val['load_request_data']) && (int) $val['load_request_data'] == 1) {
                         $output[$key]['api_url'] = $this->getApiUrl('charge', $key);
                         $output[$key]['request_data'] = $methodInstance::getRequestData($this, $key);

@@ -44,8 +44,6 @@ class IframeMethod extends AbstractMethod {
     protected $quoteManagement;
     protected $orderSender;
     protected $sessionQuote;
-    protected $transactionService;
-    protected $remoteService;
 
     public function __construct(
         \Magento\Framework\Model\Context $context,
@@ -146,10 +144,10 @@ class IframeMethod extends AbstractMethod {
         // Todo  - add extra data
         // Set the billing address info
         /*
-        $params = array_merge($params, $config->processor->getBillingAddress($entity));
+        $params = array_merge($params, $config->connector->getBillingAddress($entity));
 
         // Set the shipping address info
-        $params = array_merge($params, $config->processor->getShippingAddress($entity));
+        $params = array_merge($params, $config->connector->getShippingAddress($entity));
 
         // Set the payment brands list
         $paymentBrands = $config->params[Core::moduleId()][Core::KEY_PAYMENT_BRANDS];
@@ -194,7 +192,7 @@ class IframeMethod extends AbstractMethod {
             explode(',', $config->params[Core::moduleId()][Core::KEY_ACCEPTED_COUNTRIES_SHIPPING])
         );
 
-        return (int) (((int)  $config->params[$methodId]['active'] == 1)
+        return (int) (((int)  $config->params[$methodId][Connector::KEY_ACTIVE] == 1)
         && $currencyAccepted
         && $countryBillingAccepted);
         // todo - check why this option not saving

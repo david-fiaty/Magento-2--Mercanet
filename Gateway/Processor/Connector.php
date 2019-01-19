@@ -33,6 +33,8 @@ class Connector {
     const KEY_ORDER_STATUS_FLAGGED = 'order_status_flagged';
     const KEY_TRANSACTION_INFO = 'transaction_info';
     const KEY_ADDITIONAL_INFORMATION = 'additional_information';
+    const KEY_ACTIVE = 'active';
+    const KEY_REDIRECT_METHOD = 'redirect_method';
     
     /**
      * Turns a data response string into an array.
@@ -61,7 +63,7 @@ class Connector {
         return $arr;
     }
 
-     /**
+    /**
      * Turns a data request array into a string.
      */   
     public static function packData($arr) {

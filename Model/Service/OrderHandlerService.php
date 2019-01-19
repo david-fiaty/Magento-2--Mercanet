@@ -140,7 +140,7 @@ class OrderHandlerService {
 
         // Fraud check
         // Todo - Handle fraud info
-        //$order = $this->processor->checkFraud($order);
+        //$order = $this->connector->checkFraud($order);
 
         return null;
     }

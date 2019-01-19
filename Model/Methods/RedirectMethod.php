@@ -44,8 +44,6 @@ class RedirectMethod extends AbstractMethod {
     protected $quoteManagement;
     protected $orderSender;
     protected $sessionQuote;
-    protected $transactionService;
-    protected $remoteService;
 
     public function __construct(
         \Magento\Framework\Model\Context $context,
@@ -114,11 +112,11 @@ class RedirectMethod extends AbstractMethod {
         // Get the order entity
         $entity = ($entity) ? $entity : $config->cart->getQuote();
 
-        // Get the vendor class
+        // Get the vendor instance
         $fn = "\\" . $config->params[$methodId][Core::KEY_VENDOR];
+        $paymentRequest = new $fn($config->getSecretKey());
 
         // Prepare the request
-        $paymentRequest = new $fn($config->getSecretKey());
         $paymentRequest->setMerchantId($config->getMerchantId());
         $paymentRequest->setKeyVersion($config->params[Core::moduleId()][Core::KEY_VERSION]);
         $paymentRequest->setTransactionReference($config->getTransactionReference());
@@ -146,10 +144,10 @@ class RedirectMethod extends AbstractMethod {
         // Todo  - add extra data
         // Set the billing address info
         /*
-        $params = array_merge($params, $config->processor->getBillingAddress($entity));
+        $params = array_merge($params, $config->connector->getBillingAddress($entity));
 
         // Set the shipping address info
-        $params = array_merge($params, $config->processor->getShippingAddress($entity));
+        $params = array_merge($params, $config->connector->getShippingAddress($entity));
 
         // Set the payment brands list
         $paymentBrands = $config->params[Core::moduleId()][Core::KEY_PAYMENT_BRANDS];
@@ -168,17 +166,37 @@ class RedirectMethod extends AbstractMethod {
     }
 
     /**
+     * Checks if a response is valid.
+     *
+     * @return bool
+     */  
+    public static function isValidResponse($config, $methodId, $asset) {
+        // Get the vendor instance
+        $fn = "\\" . $config->params[$methodId][Core::KEY_VENDOR];
+        $paymentResponse = new $fn($config->getSecretKey());
+
+        // Set the response
+        $paymentResponse->setResponse($asset);
+    
+        // Return the validity status
+        return $paymentResponse->isValid(); 
+    }
+
+    /**
      * Checks if a response is success.
      *
      * @return bool
      */  
-    public static function isSuccess($response) {
-        $response = Connector::unpackData($response);
-        if (is_array($response) && isset($response['responseCode']) && $response['responseCode'] == '00') {
-            return true;
-        }
+    public static function isSuccessResponse($config, $methodId, $asset) {
+        // Get the vendor instance
+        $fn = "\\" . $config->params[$methodId][Core::KEY_VENDOR];
+        $paymentResponse = new $fn($config->getSecretKey());
 
-        return false;
+        // Set the response
+        $paymentResponse->setResponse($asset);
+
+        // Return the success status
+        return $paymentResponse->isSuccessful();      
     }
 
     /**
@@ -208,7 +226,7 @@ class RedirectMethod extends AbstractMethod {
             explode(',', $config->params[Core::moduleId()][Core::KEY_ACCEPTED_COUNTRIES_SHIPPING])
         );
 
-        return (int) (((int)  $config->params[$methodId]['active'] == 1)
+        return (int) (((int)  $config->params[$methodId][Connector::KEY_ACTIVE] == 1)
         && $currencyAccepted
         && $countryBillingAccepted);
         // todo - check why this option not saving

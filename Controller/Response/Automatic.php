@@ -13,19 +13,13 @@ namespace Cmsbox\Mercanet\Controller\Response;
 use Magento\Framework\App\Action\Context;
 use Magento\Framework\App\Action\Action;
 use Magento\Framework\Controller\Result\JsonFactory;
-use Cmsbox\Mercanet\Helper\Tools;
 use Cmsbox\Mercanet\Model\Service\OrderHandlerService;
 use Cmsbox\Mercanet\Gateway\Processor\Connector;
 use Cmsbox\Mercanet\Helper\Watchdog;
 use Cmsbox\Mercanet\Gateway\Config\Config;
+use Cmsbox\Mercanet\Gateway\Config\Core;
 
-class Automatic extends Action
-{
-    /**
-     * @var Tools
-     */    
-    protected $tools;
-
+class Automatic extends Action {
     /**
      * @var OrderHandlerService
      */
@@ -34,7 +28,7 @@ class Automatic extends Action
     /**
      * @var Connector
      */
-    protected $processor;
+    protected $connector;
 
     /**
      * @var JsonFactory
@@ -56,18 +50,16 @@ class Automatic extends Action
      */
     public function __construct(
         Context $context,
-        Tools $tools,
         OrderHandlerService $orderHandler,
-        Connector $processor,
+        Connector $connector,
         JsonFactory $resultJsonFactory,
         Watchdog $watchdog,
         Config $config
     ) {
         parent::__construct($context);
         
-        $this->tools               = $tools;
         $this->orderHandler        = $orderHandler;
-        $this->processor           = $processor;
+        $this->connector           = $connector;
         $this->resultJsonFactory   = $resultJsonFactory;
         $this->watchdog            = $watchdog;
         $this->config              = $config;
@@ -75,16 +67,23 @@ class Automatic extends Action
  
     public function execute() {
         // Get the request data
-        $responseData = $this->tools->getInputData();
+        $responseData = $this->getRequest()->getPostValue();
 
         // Log the response
         $this->watchdog->bark(Connector::KEY_RESPONSE, $responseData, $canDisplay = false);
 
-        // Check validity
-        // Todo - check isvalid function
-        if ($this->processor->isValid($responseData, $this->config) && $this->processor->isSuccess($responseData)) {    
-            // Place order
-            $order = $this->orderHandler->placeOrder($responseData);
+        // Load the method instance
+        $methodId = Core::moduleId() . '_' . Connector::KEY_REDIRECT_METHOD;
+        $methodInstance = $this->methodHandler->getStaticInstance($methodId);
+
+        // Process the response
+        if ($methodInstance && $methodInstance::isFrontend($this->config, $methodId)) {
+            if ($methodInstance::isValidResponse($this->config, $responseData)) {
+                if ($methodInstance::isSuccessResponse($this->config, $responseData)) {
+                    // Place order
+                    $order = $this->orderHandler->placeOrder($responseData);
+                }
+            }
         }
 
         // Stop the execution

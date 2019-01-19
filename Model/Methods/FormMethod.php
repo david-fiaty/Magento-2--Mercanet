@@ -115,11 +115,11 @@ class FormMethod extends AbstractMethod {
         // Get the order entity
         $entity = ($entity) ? $entity : $config->cart->getQuote();
 
-        // Get the vendor class
+        // Get the vendor instance
         $fn = "\\" . $config->params[$methodId][Core::KEY_VENDOR];
+        $paymentRequest = new $fn($config->getSecretKey());
 
         // Prepare the request
-        $paymentRequest = new $fn($config->getSecretKey());
         $paymentRequest->setMerchantId($config->getMerchantId());
         $paymentRequest->setInterfaceVersion($config->params[$methodId][Core::KEY_INTERFACE_VERSION_CHARGE]);
         $paymentRequest->setKeyVersion($config->params[Core::moduleId()][Core::KEY_VERSION]);
@@ -137,8 +137,32 @@ class FormMethod extends AbstractMethod {
         $paymentRequest->setOrderChannel("INTERNET");
         $paymentRequest->setCustomerContactEmail($entity->getCustomerEmail());
 
+        // Execute the request
+        $paymentRequest->executeRequest();
+
+        // Get the response
+        $paymentRequest->getResponseRequest();
+
         // Return the request object
         return $paymentRequest;
+    }
+
+    /**
+     * Checks if a response is valid.
+     *
+     * @return bool
+     */  
+    public static function isValidResponse($config, $methodId, $asset) {
+        return $asset->isValid();
+    }
+
+    /**
+     * Checks if a response is success.
+     *
+     * @return bool
+     */  
+    public static function isSuccessResponse($config, $methodId, $asset) {
+        return $asset->isValid();
     }
 
     /**
@@ -168,7 +192,7 @@ class FormMethod extends AbstractMethod {
             explode(',', $config->params[Core::moduleId()][Core::KEY_ACCEPTED_COUNTRIES_SHIPPING])
         );
 
-        return (int) (((int)  $config->params[$methodId]['active'] == 1)
+        return (int) (((int)  $config->params[$methodId][Connector::KEY_ACTIVE] == 1)
         && $currencyAccepted
         && $countryBillingAccepted);
         // todo - check why this option not saving

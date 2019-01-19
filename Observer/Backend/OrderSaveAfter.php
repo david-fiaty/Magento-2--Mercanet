@@ -13,9 +13,7 @@ namespace Cmsbox\Mercanet\Observer\Backend;
 use Magento\Backend\Model\Auth\Session;
 use Magento\Framework\Event\ObserverInterface; 
 use Magento\Framework\Event\Observer;
-use Magento\Framework\App\RequestInterface;
 use Magento\Sales\Model\Order\Payment\Transaction;
-use Magento\Sales\Api\OrderRepositoryInterface;
 use Cmsbox\Mercanet\Gateway\Processor\Connector;
 use Cmsbox\Mercanet\Gateway\Http\Client;
 use Cmsbox\Mercanet\Gateway\Config\Config;
@@ -28,11 +26,6 @@ class OrderSaveAfter implements ObserverInterface {
      * @var Session
      */
     protected $backendAuthSession;
-
-    /**
-     * @var RequestInterface
-     */
-    protected $request;
 
     /**
      * @var Client
@@ -50,33 +43,30 @@ class OrderSaveAfter implements ObserverInterface {
     protected $transactionHandler;
 
     /**
-     * @var OrderRepositoryInterface
-     */
-    protected $orderRepository;
-
-    /**
      * OrderSaveBefore constructor.
      */
     public function __construct(
         Session $backendAuthSession,
-        RequestInterface $request,
         Client $client,
-        TransactionHandlerService $transactionHandler,
         Config $config,
-        OrderRepositoryInterface $orderRepository
+        TransactionHandlerService $transactionHandler
     ) { 
         $this->backendAuthSession = $backendAuthSession;
-        $this->request            = $request;
         $this->client             = $client;
-        $this->transactionHandler = $transactionHandler;
         $this->config             = $config;
-        $this->orderRepository    = $orderRepository;
+        $this->transactionHandler = $transactionHandler;
     }
  
     /**
      * Observer execute function.
      */
     public function execute(Observer $observer) { 
+
+        $writer = new \Zend\Log\Writer\Stream(BP . '/var/log/saveafter.log');
+        $logger = new \Zend\Log\Logger();
+        $logger->addWriter($writer);
+        $logger->info('test');
+
         if ($this->backendAuthSession->isLoggedIn()) {
             // Get the order
             $order = $observer->getEvent()->getOrder();
@@ -102,19 +92,12 @@ class OrderSaveAfter implements ObserverInterface {
 
             // Handle the transactions
             if ($this->config->params[$methodId][Connector::KEY_CAPTURE_MODE] == Connector::KEY_CAPTURE_IMMEDIATE) {
-                // Create the capture transaction
                 $captureTransactionId = $this->transactionHandler->createTransaction($order, $fields, Transaction::TYPE_CAPTURE, $methodId);
-                $order->setStatus($this->config->params[Core::moduleId()][Connector::KEY_ORDER_STATUS_CAPTURED]);
             }
             else {
-                // Create the authorization transaction
                 $authorizationTransactionId = $this->transactionHandler->createTransaction($order, $fields, Transaction::TYPE_AUTH, $methodId);
-                $order->setStatus($this->config->params[Core::moduleId()][Connector::KEY_ORDER_STATUS_AUTHORIZED]);
             }
         }
-
-        // Save the order
-        $this->orderRepository->save($order);
 
         return $this;
     }

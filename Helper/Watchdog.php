@@ -62,11 +62,6 @@ class Watchdog {
         $output = ($data) ? print_r($data, 1) : '';
         $output = strtoupper($action) . "\n" . $output;
 
-        $writer = new \Zend\Log\Writer\Stream(BP . '/var/log/test.log');
-        $logger = new \Zend\Log\Logger();
-        $logger->addWriter($writer);
-        $logger->info(print_r($this->config->params[Core::moduleId()][Connector::KEY_LOGGING], 1));
-
         // Process file logging
         if ((int) $this->config->params[Core::moduleId()][Connector::KEY_LOGGING] == 1 && $canLog) {
             // Build the log file name

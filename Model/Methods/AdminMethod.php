@@ -115,6 +115,10 @@ class AdminMethod extends AbstractMethod {
         return parent::isAvailable($quote) && null !== $quote;
     }
 
+    /**
+     * Check whether method is active
+     * @return bool
+     */
     public function isActive($storeId = null)
     {
         return (int) $this->config->params[$this->_code][Connector::KEY_ACTIVE] == 1;

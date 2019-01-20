@@ -16,6 +16,7 @@ use Magento\Payment\Model\Method\AbstractMethod;
 use Cmsbox\Mercanet\Gateway\Config\Core;
 use Cmsbox\Mercanet\Helper\Tools;
 use Cmsbox\Mercanet\Gateway\Processor\Connector;
+use Cmsbox\Mercanet\Gateway\Config\Config;
 
 class RedirectMethod extends AbstractMethod {
 
@@ -44,6 +45,7 @@ class RedirectMethod extends AbstractMethod {
     protected $quoteManagement;
     protected $orderSender;
     protected $sessionQuote;
+    protected $config;
 
     public function __construct(
         \Magento\Framework\Model\Context $context,
@@ -54,6 +56,7 @@ class RedirectMethod extends AbstractMethod {
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Payment\Model\Method\Logger $logger,
         \Magento\Backend\Model\Auth\Session $backendAuthSession,
+        Config $config,
         \Magento\Checkout\Model\Cart $cart,
         \Magento\Framework\UrlInterface $urlBuilder,
         \Magento\Framework\ObjectManagerInterface $objectManager, 
@@ -95,6 +98,7 @@ class RedirectMethod extends AbstractMethod {
         $this->quoteManagement    = $quoteManagement;
         $this->orderSender        = $orderSender;
         $this->sessionQuote       = $sessionQuote;
+        $this->config             = $config;
         $this->_code              = Core::methodId(get_class());
     }
 

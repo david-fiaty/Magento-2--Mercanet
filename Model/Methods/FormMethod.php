@@ -16,6 +16,7 @@ use Magento\Payment\Model\Method\AbstractMethod;
 use Cmsbox\Mercanet\Gateway\Config\Core;
 use Cmsbox\Mercanet\Helper\Tools;
 use Cmsbox\Mercanet\Gateway\Processor\Connector;
+use Cmsbox\Mercanet\Gateway\Config\Config;
 
 class FormMethod extends AbstractMethod {
 
@@ -46,6 +47,7 @@ class FormMethod extends AbstractMethod {
     protected $sessionQuote;
     protected $transactionService;
     protected $remoteService;
+    protected $config;
 
     public function __construct(
         \Magento\Framework\Model\Context $context,
@@ -56,6 +58,7 @@ class FormMethod extends AbstractMethod {
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Payment\Model\Method\Logger $logger,
         \Magento\Backend\Model\Auth\Session $backendAuthSession,
+        Config $config,
         \Magento\Checkout\Model\Cart $cart,
         \Magento\Framework\UrlInterface $urlBuilder,
         \Magento\Framework\ObjectManagerInterface $objectManager, 
@@ -97,6 +100,7 @@ class FormMethod extends AbstractMethod {
         $this->quoteManagement    = $quoteManagement;
         $this->orderSender        = $orderSender;
         $this->sessionQuote       = $sessionQuote;
+        $this->config             = $config;
         $this->_code              = Core::methodId(get_class());
     }
 
@@ -109,6 +113,15 @@ class FormMethod extends AbstractMethod {
     public function isAvailable(\Magento\Quote\Api\Data\CartInterface $quote = null)
     {
         return parent::isAvailable($quote) && null !== $quote;
+    }
+
+    /**
+     * Check whether method is active
+     * @return bool
+     */
+    public function isActive($storeId = null)
+    {
+        return (int) $this->config->params[$this->_code][Connector::KEY_ACTIVE] == 1;
     }
 
     public static function getRequestData($config, $methodId, $cardData = null, $entity = null) {

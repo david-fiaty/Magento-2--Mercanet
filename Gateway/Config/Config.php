@@ -143,12 +143,12 @@ class Config {
                         ScopeInterface::SCOPE_STORE
                     );
 
-                    // Convert the value to string for empty testin
-                    $testValue = var_export($dbValue, true);
+                    // Convert the value to string for empty testing
+                    $testValue = stripslashes(trim(var_export($dbValue, true), "'"));
 
                     // Assign the value or override with db value
                     if (!empty($testValue)) {
-                        $lines[$key] = $dbValue;
+                        $lines[$key] = $testValue;
                     }
                     else {
                         $lines[$key] = $val;
@@ -161,6 +161,41 @@ class Config {
 
         // Set the payment methods config array
         $this->params = $output;
+    }
+
+    /**
+     * Builds the base module parameters.
+     *
+     * @return bool
+     */
+    public function buildBase($fileData) {
+        $output = [];
+        $exclude = explode(',', $fileData['base']['exclude']);
+
+        foreach ($fileData['payment'][Core::moduleId()] as $key => $val) {
+            if (!in_array($key, $exclude)) {
+                // Check a database value
+                $dbValue = $this->scopeConfig->getValue(
+                    'payment/' . Core::moduleId() . '/' . $key, 
+                    ScopeInterface::SCOPE_STORE
+                );
+
+                // Convert the value to string for empty testing
+                $testValue = stripslashes(trim(var_export($dbValue, true), "'"));
+
+                // Assign the value or override with db value
+                if (!empty($testValue)) {
+                    $output[$key] = $testValue;
+                }
+                else {
+                    $output[$key] = $val;
+                }
+            }
+        }
+        
+        unset($fileData['base']['exclude']);
+
+        return array_merge($fileData['base'], $output);
     }
 
     /**
@@ -226,25 +261,6 @@ class Config {
         ];
     }
 
-    /**
-     * Builds the base module parameters.
-     *
-     * @return bool
-     */
-    public function buildBase($fileData) {
-        $output = [];
-        $exclude = explode(',', $fileData['base']['exclude']);
-        foreach ($fileData['payment'][Core::moduleId()] as $key => $val) {
-            if (!in_array($key, $exclude)) {
-                $output[$key] = $val;
-            }
-        }
-        
-        unset($fileData['base']['exclude']);
-
-        return array_merge($fileData['base'], $output);
-    }
-
     public function methodIsValid($arr, $key, $val) {
         return isset($arr[2]) && isset($arr[3]) 
         && isset($val['can_use_internal']) && (int) $val['can_use_internal'] != 1
@@ -282,6 +298,12 @@ class Config {
      * @return string
      */
     public function getMerchantId() {
+
+        $writer = new \Zend\Log\Writer\Stream(BP . '/var/log/getMerchantId.log');
+$logger = new \Zend\Log\Logger();
+$logger->addWriter($writer);
+$logger->info($this->base[self::KEY_ENVIRONMENT]);
+
         switch ($this->base[self::KEY_ENVIRONMENT]) {
             case 'simu': 
             $id = $this->base[self::KEY_SIMU_MERCHANT_ID];

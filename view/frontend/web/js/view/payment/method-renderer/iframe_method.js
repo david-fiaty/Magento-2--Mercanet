@@ -43,9 +43,8 @@ define(
             initialize: function() {
                 this._super();
                 this.data = {'method': this.methodId};
-
-                // Trigger tasks 
                 Adapter.setEmailAddress();
+                Adapter.log(this.config.request_data.params);
             },
 
             initObservable: function() {

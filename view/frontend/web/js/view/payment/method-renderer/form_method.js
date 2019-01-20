@@ -86,9 +86,10 @@ define(
                     success: function(data) {
                         $('#' + self.targetForm).append(data.response);
                         FullScreenLoader.stopLoader();
+                        Adapter.log(data);
                     },
                     error: function(request, status, error) {
-                        alert(error);
+                        Adapter.log(error);
                     }
                 });
             },

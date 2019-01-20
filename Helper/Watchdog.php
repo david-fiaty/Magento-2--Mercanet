@@ -15,6 +15,7 @@ use Magento\Framework\Message\ManagerInterface;
 use Cmsbox\Mercanet\Gateway\Config\Config;
 use Cmsbox\Mercanet\Helper\Tools;
 use Cmsbox\Mercanet\Gateway\Config\Core;
+use Cmsbox\Mercanet\Gateway\Processor\Connector;
 
 class Watchdog {
 
@@ -62,7 +63,7 @@ class Watchdog {
         $output = strtoupper($action) . "\n" . $output;
 
         // Process file logging
-        if ($this->config->params[Core::moduleId()]['logging'] && $canLog) {
+        if ($this->config->params[Core::moduleId()][Connector::KEY_LOGGING] && $canLog) {
             // Build the log file name
             $logFile = BP . '/var/log/' . Core::moduleId() . '_' . $action . '.log';
 
@@ -84,7 +85,7 @@ class Watchdog {
      */
     public function logError($message, $canDisplay = true) {
         // Log to system log file
-        if ((int) $this->config->params[Core::moduleId()]['logging'] == 1) {
+        if ((int) $this->config->params[Core::moduleId()][Connector::KEY_LOGGING] == 1) {
             $output = Core::moduleId() . ' | ' . $message;
             $this->logger->log('ERROR', $output);
         }

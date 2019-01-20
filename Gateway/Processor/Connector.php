@@ -14,6 +14,7 @@ class Connector {
 
     const KEY_REQUEST = 'request';
     const KEY_RESPONSE = 'response';
+    const KEY_LOGGING = 'logging';
     const KEY_RESPONSE_ERROR = 'error';
     const KEY_RESPONSE_SUCCESS = 'success';
     const KEY_RESPONSE_FRAUD = 'fraud';

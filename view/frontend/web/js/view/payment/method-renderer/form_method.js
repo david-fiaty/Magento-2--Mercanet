@@ -79,7 +79,6 @@ define(
                     success: function(data) {
                         $('#' + self.targetForm).append(data.response);
                         FullScreenLoader.stopLoader();
-                        Adapter.log(data);
                     },
                     error: function(request, status, error) {
                         Adapter.log(error);
@@ -118,15 +117,18 @@ define(
                     success: function(res) {
                         if (res.response === true) {
                             RedirectOnSuccessAction.execute();
+                            Adapter.log(res);
                         }
                         else {
                             FullScreenLoader.stopLoader();
                             Adapter.showMessage('error', res.response);
+                            Adapter.log(res);
                         }
                     },
                     error: function(request, status, error) {
                         FullScreenLoader.stopLoader();
                         Adapter.showMessage(t('The transaction could not be processed. Please check your details or contact the site administrator.'));
+                        Adapter.log(error);
                     }
                 });
             },

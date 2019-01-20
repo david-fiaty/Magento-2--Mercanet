@@ -81,7 +81,7 @@ class Automatic extends Action {
             if ($methodInstance::isValidResponse($this->config, $responseData)) {
                 if ($methodInstance::isSuccessResponse($this->config, $responseData)) {
                     // Place order
-                    $order = $this->orderHandler->placeOrder($responseData);
+                    $order = $this->orderHandler->placeOrder($responseData, $methodId);
                 }
             }
         }

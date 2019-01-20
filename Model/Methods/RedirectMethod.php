@@ -137,7 +137,7 @@ class RedirectMethod extends AbstractMethod {
         );
 
         // Set the 3DS parameter
-        if (!$config->params[$methodId][Core::KEY_VERIFY_3DS]) {
+        if ($config->params[$methodId][Core::KEY_VERIFY_3DS] && $config->base[self::KEY_ENVIRONMENT] != 'simu') {
             $paymentRequest->setFraudDataBypass3DS($config->params[$methodId][Core::KEY_BYPASS_RECEIPT]);
         }
 

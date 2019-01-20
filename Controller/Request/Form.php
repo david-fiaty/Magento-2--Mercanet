@@ -133,12 +133,11 @@ class Form extends Action {
                             $this->config->base[Connector::KEY_CUSTOMER_EMAIL_FIELD] => isset($response[$this->config->base[Connector::KEY_CUSTOMER_EMAIL_FIELD]])
                                 ? $response[$this->config->base[Connector::KEY_CUSTOMER_EMAIL_FIELD]]
                                 : $this->orderHandler->findCustomerEmail($quote),
-                            $this->config->base[Connector::KEY_CAPTURE_MODE_FIELD]   => $this->config->params[$methodId][Connector::KEY_CAPTURE_MODE],
-                            Core::KEY_METHOD_ID                                      => $methodId
+                            $this->config->base[Connector::KEY_CAPTURE_MODE_FIELD]   => $this->config->params[$methodId][Connector::KEY_CAPTURE_MODE]
                         ]);
 
                         // Place the order
-                        $order = $this->orderHandler->placeOrder($params);
+                        $order = $this->orderHandler->placeOrder($params, $methodId);
 
                         // Perform after place order actions
                         $this->orderHandler->afterPlaceOrder($quote, $order);

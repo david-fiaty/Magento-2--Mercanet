@@ -39,7 +39,10 @@ class Connector {
     /**
      * Turns a data response string into an array.
      */
-    public static function unpackData($params) {
+    public static function unpackData($response) {
+        // Get the parameters
+        $params = $response['Data'];
+
         // Prepare the separators
         $separator1 = '|';
         $separator2 = '=';

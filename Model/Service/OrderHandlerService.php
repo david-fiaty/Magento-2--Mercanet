@@ -122,7 +122,7 @@ class OrderHandlerService {
         $this->config                = $config;
     }
 
-    public function placeOrder($data = null) {
+    public function placeOrder($data, $methodId) {
         // Get the fields
         $fields = Connector::unpackData($data);
 
@@ -133,7 +133,7 @@ class OrderHandlerService {
 
             // Update the order
             if ($order) {
-                $order = $this->createOrder($fields);
+                $order = $this->createOrder($fields, $methodId);
                 return $order;
             }
         }
@@ -145,7 +145,7 @@ class OrderHandlerService {
         return null;
     }
 
-    public function createOrder($fields) {
+    public function createOrder($fields, $methodId) {
         try {
             // Find the quote
             $quote = $this->findQuote($fields[$this->config->base[Connector::KEY_ORDER_ID_FIELD]]);
@@ -162,7 +162,7 @@ class OrderHandlerService {
 
                 // Set the payment information
                 $payment = $quote->getPayment();
-                $payment->setMethod($fields[Core::KEY_METHOD_ID]);
+                $payment->setMethod($methodId);
                 $payment->save();
 
                 // Create the order
@@ -171,13 +171,13 @@ class OrderHandlerService {
                 // Update order status
                 if ($fields[$this->config->base[Connector::KEY_CAPTURE_MODE_FIELD]] == Connector::KEY_CAPTURE_IMMEDIATE) {
                     // Create the transaction
-                    $transactionId = $this->transactionHandler->createTransaction($order, $fields, Transaction::TYPE_CAPTURE, $fields[Core::KEY_METHOD_ID]);
+                    $transactionId = $this->transactionHandler->createTransaction($order, $fields, Transaction::TYPE_CAPTURE, $methodId);
                 } else {
                     // Update order status
                     $order->setStatus($this->params[Core::moduleId()][Connector::KEY_ORDER_STATUS_AUTHORIZED]);
 
                     // Create the transaction
-                    $transactionId = $this->transactionHandler->createTransaction($order, $fields, Transaction::TYPE_AUTH, $fields[Core::KEY_METHOD_ID]);
+                    $transactionId = $this->transactionHandler->createTransaction($order, $fields, Transaction::TYPE_AUTH, $methodId);
                 }
 
                 // Save the order

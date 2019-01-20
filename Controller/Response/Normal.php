@@ -97,10 +97,10 @@ class Normal extends Action {
             if ($methodInstance::isValidResponse($this->config, $methodId, $responseData)) {
                 if ($methodInstance::isSuccessResponse($this->config, $methodId, $responseData)) {
                     // Place order
-                    $order = $this->orderHandler->placeOrder($responseData);
+                    $order = $this->orderHandler->placeOrder($responseData, $methodId);
 
                     // Process the order result
-                    if (isset($order) && (int)$order->getId() > 0) {
+                    if ($order && method_exists($order, 'getId') && (int)$order->getId() > 0) {
                         // Get the fields
                         $fields = Connector::unpackData($responseData);
 

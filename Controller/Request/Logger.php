@@ -14,6 +14,7 @@ use Magento\Framework\App\Action\Context;
 use Magento\Framework\App\Action\Action;
 use Magento\Framework\Controller\Result\JsonFactory;
 use Cmsbox\Mercanet\Helper\Watchdog;
+use Cmsbox\Mercanet\Gateway\Processor\Connector;
 
 class Logger extends Action {
     /**

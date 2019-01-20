@@ -10,6 +10,8 @@
 
 namespace Cmsbox\Mercanet\Controller\Request;
 
+use Magento\Framework\App\Action\Context;
+use Magento\Framework\App\Action\Action;
 use Magento\Framework\Controller\Result\JsonFactory;
 use Cmsbox\Mercanet\Helper\Watchdog;
 
@@ -28,6 +30,7 @@ class Normal extends Action {
      * Normal constructor.
      */
     public function __construct(
+        Context $context,
         JsonFactory $jsonFactory,
         Watchdog $watchdog
     ) {

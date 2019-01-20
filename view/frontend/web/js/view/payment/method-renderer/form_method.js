@@ -69,13 +69,6 @@ define(
             /**
              * @returns {string}
              */
-            getRequestData: function() {
-                return this.config.request_data;
-            },
-
-            /**
-             * @returns {string}
-             */
             getPaymentForm: function() {
                 FullScreenLoader.startLoader();
                 var self = this;

@@ -46,7 +46,7 @@ class Logger extends Action {
             $logData = $this->getRequest()->getParam('log_data');
 
             // Log the data
-            $this->watchdog->bark(Connector::KEY_REQUEST, $canDisplay = false, $canLog = true);
+            $this->watchdog->bark(Connector::KEY_REQUEST, $logData, $canDisplay = false, $canLog = true);
         }
 
         return $this->jsonFactory->create()->setData([]);

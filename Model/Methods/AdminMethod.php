@@ -142,4 +142,13 @@ class AdminMethod extends AbstractMethod {
 
         return null;
     }
+
+    /**
+     * Determines if the method is active on frontend.
+     *
+     * @return bool
+     */
+    public static function isFrontend($config, $methodId) {
+        return false;
+    }
 }

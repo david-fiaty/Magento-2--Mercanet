@@ -20,6 +20,7 @@ use Cmsbox\Mercanet\Gateway\Config\Config;
 use Cmsbox\Mercanet\Gateway\Processor\Connector;
 use Cmsbox\Mercanet\Model\Service\MethodHandlerService;
 use Cmsbox\Mercanet\Gateway\Config\Core;
+use Cmsbox\Mercanet\Helper\Watchdog;
 
 class OrderSaveBefore implements ObserverInterface { 
  
@@ -49,6 +50,11 @@ class OrderSaveBefore implements ObserverInterface {
     protected $methodHandler;
 
     /**
+     * @var Watchdog
+     */
+    protected $watchdog;
+
+    /**
      * OrderSaveBefore constructor.
      */
     public function __construct(
@@ -56,13 +62,15 @@ class OrderSaveBefore implements ObserverInterface {
         Http $request,
         Tools $tools,
         Config $config,
-        MethodHandlerService $methodHandler
+        MethodHandlerService $methodHandler,
+        Watchdog $watchdog
     ) {
         $this->backendAuthSession    = $backendAuthSession;
         $this->request               = $request;
         $this->tools                 = $tools;
         $this->config                = $config;
         $this->methodHandler         = $methodHandler;
+        $this->watchdog              = $watchdog;
 
         // Get the request parameters
         $this->params = $this->request->getParams();
@@ -76,6 +84,9 @@ class OrderSaveBefore implements ObserverInterface {
             try {
                 // Get the request parameters
                 $params = $this->request->getParams();
+
+                // Log the request
+                $this->watchdog->bark(Connector::KEY_REQUEST, $params, $canDisplay = false, $canLog = true);
 
                 // Prepare the method id
                 $methodId = $params['payment']['method'] ?? null;
@@ -101,6 +112,12 @@ class OrderSaveBefore implements ObserverInterface {
 
                         // Execute the request
                         $paymentRequest->executeRequest();
+
+                        // Get the response
+                        $response = $paymentRequest->getResponseRequest();
+
+                        // Log the response
+                        $this->watchdog->bark(Connector::KEY_REQUEST, $response, $canDisplay = false, $canLog = true);
 
                         // Get the response
                         if ($paymentRequest->isValid()) {

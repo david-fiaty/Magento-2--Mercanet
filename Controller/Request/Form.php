@@ -99,7 +99,7 @@ class Form extends Action {
                 break;
             }
 
-            return $this->jsonFactory->create()->setData(['response' => $response]);
+            return $this->jsonFactory->create()->setData([Connector::KEY_RESPONSE => $response]);
         }
 
         return $this->jsonFactory->create()->setData([]);

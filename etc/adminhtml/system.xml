@@ -379,18 +379,11 @@
 
                 <group id="country_settings" translate="label" showInDefault="1" showInWebsite="1" sortOrder="60">
                     <label>Country Settings</label>
-                    <field id="accepted_countries_billing" translate="label" sortOrder="0" type="multiselect" showInDefault="1" showInWebsite="1" showInStore="1">
-                        <label>Billing countries</label>
+                    <field id="accepted_countries" translate="label" sortOrder="0" type="multiselect" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <label>Accepted countries</label>
                         <source_model>Magento\Directory\Model\Config\Source\Country</source_model>
-                        <config_path>payment/cmsbox_mercanet/accepted_countries_billing</config_path>
-                        <comment>The payment option will not be displayed if the shopper's billing country is not part of the ones selected here.</comment>
-                    </field>
-
-                    <field id="accepted_countries_shipping" translate="label" sortOrder="10" type="multiselect" showInDefault="1" showInWebsite="1" showInStore="1">
-                        <label>Shipping countries</label>
-                        <source_model>Magento\Directory\Model\Config\Source\Country</source_model>
-                        <config_path>payment/cmsbox_mercanet/accepted_countries_shipping</config_path>
-                        <comment>The payment option will not be displayed if the shopper's shipping country is not part of the ones selected here.</comment>
+                        <config_path>payment/cmsbox_mercanet/accepted_countries</config_path>
+                        <comment>The payment option will not be displayed if the shopper's billing or shipping country is not part of the ones selected here.</comment>
                     </field>
                 </group>
             </group>

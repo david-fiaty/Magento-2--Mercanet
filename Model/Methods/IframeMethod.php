@@ -174,21 +174,18 @@ class IframeMethod extends AbstractMethod {
         );
 
         // Check the billing country status
-        $countryBillingAccepted = in_array(
+        $countryAccepted = in_array(
             $entity->getBillingAddress()->getCountryId(),
-            explode(',', $config->params[Core::moduleId()][Core::KEY_ACCEPTED_COUNTRIES_BILLING])
-        );
-
-        // Check the shipping country status
-        $countryShippingAccepted = in_array(
+            explode(',', $config->params[Core::moduleId()][Core::KEY_ACCEPTED_COUNTRIES])
+        ) && in_array(
             $entity->getShippingAddress()->getCountryId(),
-            explode(',', $config->params[Core::moduleId()][Core::KEY_ACCEPTED_COUNTRIES_SHIPPING])
+            explode(',', $config->params[Core::moduleId()][Core::KEY_ACCEPTED_COUNTRIES])
         );
 
-        return (int) (((int)  $config->params[$methodId][Connector::KEY_ACTIVE] == 1)
-        && $currencyAccepted
-        && $countryBillingAccepted);
-        // todo - check why this option not saving
-        //&& $countryShippingAccepted;
+        return (int) (
+            ((int)  $config->params[$methodId][Connector::KEY_ACTIVE] == 1)
+            && $currencyAccepted
+            && $countryAccepted
+        );
     }
 }

@@ -23,8 +23,7 @@ class Core {
     const KEY_BYPASS_RECEIPT = 'bypass_receipt';
     const KEY_INVOICE_CREATION = 'invoice_creation';
     const KEY_ACCEPTED_CURRENCIES = 'accepted_currencies';
-    const KEY_ACCEPTED_COUNTRIES_BILLING = 'accepted_countries_billing';
-    const KEY_ACCEPTED_COUNTRIES_SHIPPING = 'accepted_countries_shipping';
+    const KEY_ACCEPTED_COUNTRIES = 'accepted_countries';
     const KEY_SUPPORTED_CURRENCIES = 'supported_currencies';
     const KEY_VENDOR = 'vendor';
     const KEY_INTERFACE_VERSION_CHARGE = 'interface_version_charge';

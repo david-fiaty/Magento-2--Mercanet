@@ -12,8 +12,9 @@ define([
     'Magento_Ui/js/model/messageList',
     'Magento_Checkout/js/model/quote',
     'Magento_Checkout/js/checkout-data',
+    'mage/url',
     'mage/cookies'
-], function($, GlobalMessageList, Quote, CheckoutData) {
+], function($, GlobalMessageList, Quote, CheckoutData, Url) {
     'use strict';
 
     return {
@@ -100,6 +101,24 @@ define([
             var isDebugMode = JSON.parse(this.getPaymentConfig(this.getCode())['debug']);
             var output = this.getCode() + ':' + JSON.stringify(data);
             if (isDebugMode) console.log(output);
-        }       
+        },
+
+        /**
+         * Send data to back end for logging
+         */
+        backendLog: function(data) {
+            var self = this;
+            var isLoggingMode = JSON.parse(self.getPaymentConfig(self.getCode())['logging']);
+            if (isLoggingMode) {
+                $.ajax({
+                    type: "POST",
+                    url: Url.build(self.getCode() + '/request/logger'),
+                    data: {log_data: data},
+                    error: function(request, status, error) {
+                        self.log(error);
+                    }
+                });
+            }
+        }    
     };
 });

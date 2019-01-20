@@ -91,6 +91,10 @@ define(
 
                 // Validate before submission
                 if (AdditionalValidators.validate()) {
+                    // Log the request data
+                    Adapter.backendLog(this.config.request_data.params);
+
+                    // Submit
                     this.proceedWithSubmission();
                 }
                 else {

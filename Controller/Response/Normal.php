@@ -136,10 +136,6 @@ class Normal extends Action {
             $this->watchdog->log(__('Invalid payment method.'));
         }
 
-        // Restore the cart
-        // todo - rebuild the cart on failure
-        //$this->orderHandler->restoreCart();
-
         // Redirect to the cart by default
         return $this->_redirect('checkout/cart', ['_secure' => true]);
     }

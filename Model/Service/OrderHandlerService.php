@@ -214,17 +214,6 @@ class OrderHandlerService {
         return $quote;
     }
 
-    /**
-     * Restore a quote
-     */
-    public function restoreCart() {
-        $order = $this->checkoutSession->getLastRealOrder();
-        $quote = $this->findQuote($order->getQuoteId());
-        if ($quote->getId()) {
-            $quote->setIsActive(1)->setReservedOrderId(null)->save();
-        }
-    }
-
     public function afterPlaceOrder($quote, $order) {
         // Prepare session quote info for redirection after payment
         $this->checkoutSession

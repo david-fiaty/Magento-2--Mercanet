@@ -108,23 +108,14 @@ class OrderSaveBefore implements ObserverInterface {
                     // Perform the charge request
                     if ($methodInstance) {
                         // Get the request object
-                        $paymentRequest = $methodInstance::getRequestData($this->config, $methodId, $cardData, $order);
-
-                        // Execute the request
-                        $paymentRequest->executeRequest();
+                        $paymentObject = $methodInstance::getRequestData($this->config, $methodId, $cardData, $order);
 
                         // Get the response
-                        $response = $paymentRequest->getResponseRequest();
-
-                        // Log the response
-                        $this->watchdog->bark(Connector::KEY_REQUEST, $response, $canDisplay = false, $canLog = true);
-
-                        // Get the response
-                        if ($paymentRequest->isValid()) {
+                        if ($methodInstance::isValidResponse($this->config, $paymentObject) && $methodInstance::isSuccessResponse($this->config, $paymentObject)) {
                             // Add the transaction info for order save after
                             $paymentInfo->setAdditionalInformation(
                                 Connector::KEY_TRANSACTION_INFO,
-                                [$this->config->base[Connector::KEY_TRANSACTION_ID_FIELD] => $paymentRequest->getParam($this->config->base[Connector::KEY_TRANSACTION_ID_FIELD])]
+                                [$this->config->base[Connector::KEY_TRANSACTION_ID_FIELD] => $paymentObject->getParam($this->config->base[Connector::KEY_TRANSACTION_ID_FIELD])]
                             );
 
                             // Handle the order status

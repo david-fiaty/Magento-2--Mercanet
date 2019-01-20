@@ -76,7 +76,7 @@
                 <can_use_internal>0</can_use_internal>
                 <payment_action>authorize_capture</payment_action>
                 <title>Form Card Payment (Mercanet)</title>
-                <active>1</active>
+                <active>0</active>
                 <button_label>Place order</button_label>
                 <verify_3ds>0</verify_3ds>
                 <auto_generate_invoice>1</auto_generate_invoice>
@@ -111,7 +111,7 @@
                 <can_use_internal>0</can_use_internal>
                 <payment_action>authorize_capture</payment_action>                
                 <title>Iframe Card Payment (Mercanet)</title>
-                <active>1</active>
+                <active>0</active>
                 <button_label>Place order</button_label>
                 <verify_3ds>0</verify_3ds>
                 <auto_generate_invoice>1</auto_generate_invoice>
@@ -144,7 +144,7 @@
                 <can_use_internal>1</can_use_internal>
                 <payment_action>authorize_capture</payment_action>
                 <title>Admin Card Payment (Mercanet)</title>
-                <active>1</active>
+                <active>0</active>
                 <auto_generate_invoice>1</auto_generate_invoice>
                 <invoice_creation>capture</invoice_creation>
                 <capture_mode>IMMEDIATE</capture_mode>

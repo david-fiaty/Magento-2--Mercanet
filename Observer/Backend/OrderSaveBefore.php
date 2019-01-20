@@ -85,9 +85,6 @@ class OrderSaveBefore implements ObserverInterface {
                 // Get the request parameters
                 $params = $this->request->getParams();
 
-                // Log the request
-                $this->watchdog->bark(Connector::KEY_REQUEST, $params, $canDisplay = false, $canLog = true);
-
                 // Prepare the method id
                 $methodId = $params['payment']['method'] ?? null;
 

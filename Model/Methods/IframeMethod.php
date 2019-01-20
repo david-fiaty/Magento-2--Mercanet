@@ -166,7 +166,7 @@ class IframeMethod extends AbstractMethod {
     }
 
     /**
-     * Determines if the method is active.
+     * Determines if the method is active on frontend.
      *
      * @return bool
      */

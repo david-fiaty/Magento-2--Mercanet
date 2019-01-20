@@ -51,9 +51,6 @@ class Client {
      * Returns a prepared post response.
      */    
     public function getPostResponse($url, $params) {
-        // Log the request
-        $this->watchdog->bark(Connector::KEY_REQUEST, $params);
-
         // Send the request
         $response = $this->post($url, $params);
 

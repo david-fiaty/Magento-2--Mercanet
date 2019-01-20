@@ -129,11 +129,11 @@ class RedirectMethod extends AbstractMethod {
         $paymentRequest->setLanguage($config->getCustomerLanguage());
         $paymentRequest->setNormalReturnUrl(
             $config->storeManager->getStore()->getBaseUrl() 
-            . '/' . $config->params[$methodId][Core::KEY_NORMAL_RETURN_URL]
+            . '/' . Core::moduleId() . '/' . $config->params[$methodId][Core::KEY_NORMAL_RETURN_URL]
         );    
         $paymentRequest->setAutomaticResponseUrl(
             $config->storeManager->getStore()->getBaseUrl() 
-            . '/' . $config->params[$methodId][Core::KEY_AUTOMATIC_RESPONSE_URL]
+            . '/' . Core::moduleId() . '/' . $config->params[$methodId][Core::KEY_AUTOMATIC_RESPONSE_URL]
         );
 
         // Set the 3DS parameter

@@ -298,12 +298,6 @@ class Config {
      * @return string
      */
     public function getMerchantId() {
-
-        $writer = new \Zend\Log\Writer\Stream(BP . '/var/log/getMerchantId.log');
-$logger = new \Zend\Log\Logger();
-$logger->addWriter($writer);
-$logger->info($this->base[self::KEY_ENVIRONMENT]);
-
         switch ($this->base[self::KEY_ENVIRONMENT]) {
             case 'simu': 
             $id = $this->base[self::KEY_SIMU_MERCHANT_ID];

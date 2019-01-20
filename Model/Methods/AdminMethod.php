@@ -117,7 +117,7 @@ class AdminMethod extends AbstractMethod {
 
     public function isActive($storeId = null)
     {
-        return $this->config->params[$this->_code][Connector::KEY_ACTIVE] == 1;
+        return (int) $this->config->params[$this->_code][Connector::KEY_ACTIVE] == 1;
     }
 
     public static function getRequestData($config, $methodId, $cardData = null, $entity = null) {

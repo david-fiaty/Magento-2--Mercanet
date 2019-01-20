@@ -16,6 +16,7 @@ use Magento\Payment\Model\Method\AbstractMethod;
 use Cmsbox\Mercanet\Gateway\Config\Core;
 use Cmsbox\Mercanet\Helper\Tools;
 use Cmsbox\Mercanet\Gateway\Processor\Connector;
+use Cmsbox\Mercanet\Gateway\Config\Config;
 
 class AdminMethod extends AbstractMethod {
 
@@ -45,6 +46,7 @@ class AdminMethod extends AbstractMethod {
     protected $quoteManagement;
     protected $orderSender;
     protected $sessionQuote;
+    protected $config;
 
     public function __construct(
         \Magento\Framework\Model\Context $context,
@@ -55,6 +57,7 @@ class AdminMethod extends AbstractMethod {
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Payment\Model\Method\Logger $logger,
         \Magento\Backend\Model\Auth\Session $backendAuthSession,
+        Config $config,
         \Magento\Checkout\Model\Cart $cart,
         \Magento\Framework\UrlInterface $urlBuilder,
         \Magento\Framework\ObjectManagerInterface $objectManager, 
@@ -69,6 +72,7 @@ class AdminMethod extends AbstractMethod {
         \Magento\Backend\Model\Session\Quote $sessionQuote,
         \Magento\Framework\Model\ResourceModel\AbstractResource $resource = null,
         \Magento\Framework\Data\Collection\AbstractDb $resourceCollection = null,
+
         array $data = []
     ) {
         parent::__construct(
@@ -96,6 +100,7 @@ class AdminMethod extends AbstractMethod {
         $this->quoteManagement    = $quoteManagement;
         $this->orderSender        = $orderSender;
         $this->sessionQuote       = $sessionQuote;
+        $this->config             = $config;
         $this->_code              = Core::methodId(get_class());
     }
 
@@ -112,7 +117,7 @@ class AdminMethod extends AbstractMethod {
 
     public function isActive($storeId = null)
     {
-        return true;
+        return $this->config->params[$this->_code][Connector::KEY_ACTIVE] == 1;
     }
 
     public static function getRequestData($config, $methodId, $cardData = null, $entity = null) {

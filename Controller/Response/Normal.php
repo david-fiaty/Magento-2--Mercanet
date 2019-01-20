@@ -118,22 +118,22 @@ class Normal extends Action {
                             // Redirect to the success page
                             return $this->_redirect('checkout/onepage/success', ['_secure' => true]);
                         } else {
-                            $this->watchdog->log(__('The quote could not be found.'));
+                            $this->watchdog->logError(__('The quote could not be found.'));
                         }
                     } else {
-                        $this->watchdog->log(__('The order could not be created.'));
+                        $this->watchdog->logError(__('The order could not be created.'));
                     }
                 }
                 else {
-                    $this->watchdog->log(__('The transaction could not be processed. Please try again.'));
+                    $this->watchdog->logError(__('The transaction could not be processed. Please try again.'));
                 }
             }
             else {
-                $this->watchdog->log(__('Invalid gateway response.'));
+                $this->watchdog->logError(__('Invalid gateway response.'));
             }
         }
         else {
-            $this->watchdog->log(__('Invalid payment method.'));
+            $this->watchdog->logError(__('Invalid payment method.'));
         }
 
         // Redirect to the cart by default

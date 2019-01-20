@@ -109,6 +109,8 @@ define([
         backendLog: function(data) {
             var self = this;
             var isLoggingMode = JSON.parse(self.getPaymentConfig(self.getCode())['logging']);
+            console.log('isLoggingMode');
+            console.log(isLoggingMode);
             if (isLoggingMode) {
                 $.ajax({
                     type: "POST",

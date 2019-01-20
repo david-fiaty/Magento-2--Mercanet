@@ -189,7 +189,7 @@ class OrderHandlerService {
                 return $order;
             }
         } catch (\Exception $e) {
-            $this->watchdog->log($e);
+            $this->watchdog->logError($e);
             return false;
         }
     }
@@ -247,7 +247,7 @@ class OrderHandlerService {
         try {
             return $this->cart->getQuote();
         } catch (\Exception $e) {
-            $this->watchdog->log($e);
+            $this->watchdog->logError($e);
             return false;
         }
     }

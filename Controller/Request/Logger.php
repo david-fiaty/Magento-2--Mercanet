@@ -45,8 +45,13 @@ class Normal extends Action {
             // Get the request data
             $logData = $this->getRequest()->getParam('log_data');
 
+            $writer = new \Zend\Log\Writer\Stream(BP . '/var/log/request.log');
+            $logger = new \Zend\Log\Logger();
+            $logger->addWriter($writer);
+            $logger->info(print_r($this->getRequest()->getParams(),1));
+
             // Log the data
-            $this->watchdog->log($logData, $canDisplay = false);
+            $this->watchdog->logError($logData, $canDisplay = false);
         }
 
         return $this->jsonFactory->create()->setData([]);

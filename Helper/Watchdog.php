@@ -83,9 +83,9 @@ class Watchdog {
     /**
      * Write to system file.
      */
-    public function log($message, $canDisplay = true) {
+    public function logError($message, $canDisplay = true) {
         // Log to system log file
-        if ($this->config->params[Core::moduleId()]['logging']) {
+        if ((int) $this->config->params[Core::moduleId()]['logging'] == 1) {
             $output = Core::moduleId() . ' | ' . $message;
             $this->logger->log('ERROR', $output);
         }

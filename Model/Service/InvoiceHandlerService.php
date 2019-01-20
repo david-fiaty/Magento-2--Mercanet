@@ -74,7 +74,7 @@ class InvoiceHandlerService {
             // Save the invoice
             $this->invoiceRepository->save($invoice);
         } catch (\Exception $e) {
-            $this->watchdog->log($e);
+            $this->watchdog->logError($e);
         }
     }
 }

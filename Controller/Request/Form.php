@@ -151,7 +151,7 @@ class Form extends Action {
             } 
         }
         catch (\Exception $e) {
-            $this->watchdog->log($e);
+            $this->watchdog->logError($e);
             return __($e->getMessage());
         }
     }

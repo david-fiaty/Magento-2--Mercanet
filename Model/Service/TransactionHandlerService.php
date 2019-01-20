@@ -134,7 +134,7 @@ class TransactionHandlerService {
             return $transaction->getTransactionId();
 
         } catch (Exception $e) {
-            $this->watchdog->log($e);
+            $this->watchdog->logError($e);
             return false;
         }
     }
@@ -160,7 +160,7 @@ class TransactionHandlerService {
 
             return $this->transactionRepository->getList($searchCriteria)->getItems();
         } catch (Exception $e) {
-            $this->watchdog->log($e);
+            $this->watchdog->logError($e);
             return [];
         }
     }

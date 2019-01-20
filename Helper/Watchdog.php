@@ -63,7 +63,6 @@ class Watchdog {
 
         // Process file logging
         if ($this->config->params[Core::moduleId()]['logging'] && $canLog) {
-
             // Build the log file name
             $logFile = BP . '/var/log/' . Core::moduleId() . '_' . $action . '.log';
 

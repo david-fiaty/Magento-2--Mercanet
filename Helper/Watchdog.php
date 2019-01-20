@@ -62,8 +62,13 @@ class Watchdog {
         $output = ($data) ? print_r($data, 1) : '';
         $output = strtoupper($action) . "\n" . $output;
 
+        $writer = new \Zend\Log\Writer\Stream(BP . '/var/log/test.log');
+        $logger = new \Zend\Log\Logger();
+        $logger->addWriter($writer);
+        $logger->info(print_r($this->config->params[Core::moduleId()][Connector::KEY_LOGGING], 1));
+
         // Process file logging
-        if ($this->config->params[Core::moduleId()][Connector::KEY_LOGGING] && $canLog) {
+        if ((int) $this->config->params[Core::moduleId()][Connector::KEY_LOGGING] == 1 && $canLog) {
             // Build the log file name
             $logFile = BP . '/var/log/' . Core::moduleId() . '_' . $action . '.log';
 
@@ -75,7 +80,7 @@ class Watchdog {
         }
 
         // Process interface display
-        if ($this->config->params[Core::moduleId()]['debug'] && $canDisplay) {
+        if ((int) $this->config->params[Core::moduleId()]['debug'] == 1 && $canDisplay) {
             $this->messageManager->addNoticeMessage($output);
         }
     } 

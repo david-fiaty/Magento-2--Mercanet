@@ -20,7 +20,6 @@ use Cmsbox\Mercanet\Gateway\Config\Config;
 use Cmsbox\Mercanet\Gateway\Processor\Connector;
 use Cmsbox\Mercanet\Model\Service\MethodHandlerService;
 use Cmsbox\Mercanet\Gateway\Config\Core;
-use Cmsbox\Mercanet\Helper\Watchdog;
 
 class OrderSaveBefore implements ObserverInterface { 
  
@@ -50,11 +49,6 @@ class OrderSaveBefore implements ObserverInterface {
     protected $methodHandler;
 
     /**
-     * @var Watchdog
-     */
-    protected $watchdog;
-
-    /**
      * OrderSaveBefore constructor.
      */
     public function __construct(
@@ -62,15 +56,13 @@ class OrderSaveBefore implements ObserverInterface {
         Http $request,
         Tools $tools,
         Config $config,
-        MethodHandlerService $methodHandler,
-        Watchdog $watchdog
+        MethodHandlerService $methodHandler
     ) {
         $this->backendAuthSession    = $backendAuthSession;
         $this->request               = $request;
         $this->tools                 = $tools;
         $this->config                = $config;
         $this->methodHandler         = $methodHandler;
-        $this->watchdog              = $watchdog;
 
         // Get the request parameters
         $this->params = $this->request->getParams();
@@ -122,7 +114,6 @@ class OrderSaveBefore implements ObserverInterface {
                             else {
                                 $order->setStatus($this->config->params[Core::moduleId()][Connector::KEY_ORDER_STATUS_AUTHORIZED]);
                             }
-
                         }
                         else {
                             throw new \Magento\Framework\Exception\LocalizedException(__('The transaction could not be processed'));

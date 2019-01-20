@@ -18,15 +18,8 @@
                         <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
                         <config_path>payment/cmsbox_mercanet/logging</config_path>
                     </field>
-
-                    <field id="payment_brands" translate="label comment" sortOrder="20" type="multiselect" showInDefault="1" showInWebsite="1" showInStore="1">
-                        <label>Payment brands</label>
-                        <source_model>Cmsbox\Mercanet\Model\Adminhtml\Source\PaymentBrands</source_model>
-                        <config_path>payment/cmsbox_mercanet/payment_brands</config_path>
-                        <comment>The payment brands available for payment.</comment>
-                   </field>
                    
-                    <field id="sort_order" translate="label" sortOrder="30" type="text" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <field id="sort_order" translate="label" sortOrder="20" type="text" showInDefault="1" showInWebsite="1" showInStore="1">
                         <label>Sort Order</label>
                         <validate>validate-number</validate>
                         <config_path>payment/cmsbox_mercanet/sort_order</config_path>

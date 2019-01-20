@@ -148,15 +148,9 @@ class RedirectMethod extends AbstractMethod {
 
         // Set the shipping address info
         $params = array_merge($params, $config->connector->getShippingAddress($entity));
-
-        // Set the payment brands list
-        $paymentBrands = $config->params[Core::moduleId()][Core::KEY_PAYMENT_BRANDS];
-        if (!empty(explode(',', $paymentBrands))) {
-            // Todo - check payment brand list with test mode
-            //$params['paymentMeanBrandList'] = $paymentBrands;
-        }
         */
 
+        // Validate the request
         $paymentRequest->validate();
 
         return [

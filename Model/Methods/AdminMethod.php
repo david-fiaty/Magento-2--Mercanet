@@ -45,8 +45,6 @@ class AdminMethod extends AbstractMethod {
     protected $quoteManagement;
     protected $orderSender;
     protected $sessionQuote;
-    protected $transactionService;
-    protected $remoteService;
 
     public function __construct(
         \Magento\Framework\Model\Context $context,
@@ -110,6 +108,11 @@ class AdminMethod extends AbstractMethod {
     public function isAvailable(\Magento\Quote\Api\Data\CartInterface $quote = null)
     {
         return parent::isAvailable($quote) && null !== $quote;
+    }
+
+    public function isActive($storeId = null)
+    {
+        return true;
     }
 
     public static function getRequestData($config, $methodId, $cardData = null, $entity = null) {

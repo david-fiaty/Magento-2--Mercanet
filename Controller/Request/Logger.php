@@ -15,7 +15,7 @@ use Magento\Framework\App\Action\Action;
 use Magento\Framework\Controller\Result\JsonFactory;
 use Cmsbox\Mercanet\Helper\Watchdog;
 
-class Normal extends Action {
+class Logger extends Action {
     /**
      * @var JsonFactory
      */

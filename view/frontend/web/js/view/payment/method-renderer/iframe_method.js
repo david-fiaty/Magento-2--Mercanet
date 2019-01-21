@@ -80,6 +80,7 @@ define(
             proceedWithSubmission: function() {
                 var targetIframe = $(this.targetIframe).contents().find('html');
                 targetIframe.find('form').submit();
+                FullScreenLoader.stopLoader();
             },
 
             /**

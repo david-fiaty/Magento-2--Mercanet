@@ -79,8 +79,8 @@ define(
              */
             proceedWithSubmission: function() {
                 var targetIframe = $(this.targetIframe).contents().find('html');
-                $(this.targetIframe).css('display', 'block');
                 targetIframe.find('form').submit();
+                $(this.targetIframe).css('display', 'block');
                 FullScreenLoader.stopLoader();
             },
 

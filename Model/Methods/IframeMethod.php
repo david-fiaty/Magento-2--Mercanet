@@ -120,16 +120,16 @@ class IframeMethod extends AbstractMethod {
     {
         return (int) $this->config->params[$this->_code][Connector::KEY_ACTIVE] == 1;
     }
-    
+
     public static function getRequestData($config, $methodId, $cardData = null, $entity = null) {
         // Get the order entity
         $entity = ($entity) ? $entity : $config->cart->getQuote();
 
         // Get the vendor class
         $fn = "\\" . $config->params[$methodId][Core::KEY_VENDOR];
+        $paymentRequest = new $fn($config->getSecretKey());
 
         // Prepare the request
-        $paymentRequest = new $fn($config->getSecretKey());
         $paymentRequest->setMerchantId($config->getMerchantId());
         $paymentRequest->setKeyVersion($config->params[Core::moduleId()][Core::KEY_VERSION]);
         $paymentRequest->setTransactionReference($config->getTransactionReference());
@@ -150,7 +150,7 @@ class IframeMethod extends AbstractMethod {
         );
 
         // Set the 3DS parameter
-        if (!$config->params[$methodId][Core::KEY_VERIFY_3DS]) {
+        if ($config->params[$methodId][Core::KEY_VERIFY_3DS] && $config->base[self::KEY_ENVIRONMENT] != 'simu') {
             $paymentRequest->setFraudDataBypass3DS($config->params[$methodId][Core::KEY_BYPASS_RECEIPT]);
         }
 

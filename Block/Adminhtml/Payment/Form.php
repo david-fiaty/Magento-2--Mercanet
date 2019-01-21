@@ -23,7 +23,7 @@ class Form extends Cc {
     /**
      * @var String
      */
-    protected $_template = 'Cmsbox_Mercanet::payment_form.phtml';
+    protected $_template;
 
     /**
      * @var FormHandlerService
@@ -54,6 +54,7 @@ class Form extends Cc {
         FormHandlerService $formHandler,
         Config $config
     ) {
+        $this->_template = Core::moduleName() . '::payment_form.phtml';
         parent::__construct($context, $paymentModelConfig);
         $this->formHandler = $formHandler;
         $this->config = $config;

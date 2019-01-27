@@ -15,6 +15,6 @@
     background-size: 13px 13px;
 }
 
-.message-notice {
+.message.notice {
     overflow: auto;
 }

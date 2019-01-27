@@ -29,8 +29,6 @@ use Cmsbox\Mercanet\Helper\Watchdog;
 
 class OrderHandlerService {
 
-    const EMAIL_COOKIE_NAME = 'guestEmail';
-
     /**
      * @var CookieManagerInterface
      */
@@ -231,6 +229,12 @@ class OrderHandlerService {
         return $quote->getCustomerEmail()
         ?? $quote->getBillingAddress()->getEmail()
         ?? $this->cookieManager->getCookie(self::EMAIL_COOKIE_NAME);
+    }
+
+    public function findMethodId() {
+        return ($this->cookieManager->getCookie(Connector::METHOD_COOKIE_NAME))
+        ? $this->cookieManager->getCookie(Connector::METHOD_COOKIE_NAME)
+        : Core::moduleId() . '_' . Connector::KEY_REDIRECT_METHOD;
     }
 
     /**

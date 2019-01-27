@@ -36,7 +36,9 @@ class Connector {
     const KEY_ADDITIONAL_INFORMATION = 'additional_information';
     const KEY_ACTIVE = 'active';
     const KEY_REDIRECT_METHOD = 'redirect_method';
-    
+    const EMAIL_COOKIE_NAME = 'guestEmail';
+    const METHOD_COOKIE_NAME = 'methodId';
+        
     /**
      * Turns a data response string into an array.
      */

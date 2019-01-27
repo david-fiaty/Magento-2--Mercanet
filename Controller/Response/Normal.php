@@ -19,7 +19,6 @@ use Cmsbox\Mercanet\Gateway\Processor\Connector;
 use Cmsbox\Mercanet\Helper\Watchdog;
 use Cmsbox\Mercanet\Gateway\Config\Config;
 use Cmsbox\Mercanet\Model\Service\MethodHandlerService;
-use Cmsbox\Mercanet\Gateway\Config\Core;
 
 class Normal extends Action {
     /**
@@ -89,7 +88,7 @@ class Normal extends Action {
         $this->watchdog->bark(Connector::KEY_RESPONSE, $responseData, $canDisplay = true, $canLog = false);
 
         // Load the method instance
-        $methodId = Core::moduleId() . '_' . Connector::KEY_REDIRECT_METHOD;
+        $methodId = $this->orderHandler->findMethodId();
         $methodInstance = $this->methodHandler->getStaticInstance($methodId);
 
         // Process the response

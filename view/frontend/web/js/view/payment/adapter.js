@@ -62,9 +62,17 @@ define([
          * @returns {void}
          */
         setCookieData: function() {
-            var email = this.getEmailAddress();
-            var cookieName = this.getPaymentConfig()['email_cookie_name'];
-            $.cookie(cookieName, email);
+            // Set the email
+            $.cookie(
+                this.getPaymentConfig()['email_cookie_name'], 
+                this.getEmailAddress()
+            );
+
+            // Set the payment method
+            $.cookie(
+                this.getPaymentConfig()['method_cookie_name'], 
+                this.getMethodId()
+            );
         },
 
         /**

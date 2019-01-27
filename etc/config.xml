@@ -31,6 +31,7 @@
                 <simu_secret_key>002001000000001_KEY1</simu_secret_key>
                 <test_secret_key>S9i8qClCnb2CZU3y3Vn0toIOgz3z_aBi79akR30vM9o</test_secret_key>
                 <email_cookie_name>guestEmail</email_cookie_name>
+                <method_cookie_name>methodId</method_cookie_name>
             </cmsbox_mercanet>
             <cmsbox_mercanet_redirect_method>
                 <method_id>cmsbox_mercanet_redirect_method</method_id>

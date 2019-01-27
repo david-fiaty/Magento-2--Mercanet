@@ -272,7 +272,7 @@ class Config {
      *
      * @return string
      */
-    public function getTransactionReference() {
+    public function createTransactionReference() {
         return (string) time();   
     }
 

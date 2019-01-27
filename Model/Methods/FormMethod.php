@@ -144,7 +144,7 @@ class FormMethod extends AbstractMethod {
         $paymentRequest->setCardNumber($cardData[Core::KEY_CARD_NUMBER]);
         $paymentRequest->setCardExpiryDate($cardData[Core::KEY_CARD_YEAR] . $cardData[Core::KEY_CARD_MONTH]);
         $paymentRequest->setCardCSCValue($cardData[Core::KEY_CARD_CVV]);
-        $paymentRequest->setTransactionReference($config->getTransactionReference());
+        $paymentRequest->setTransactionReference($config->createTransactionReference());
         $paymentRequest->setCaptureDay((string) $config->params[$methodId][Connector::KEY_CAPTURE_DAY]);
         $paymentRequest->setCaptureMode($config->params[$methodId][Connector::KEY_CAPTURE_MODE]);
         $paymentRequest->setOrderId(Tools::getIncrementId($entity));

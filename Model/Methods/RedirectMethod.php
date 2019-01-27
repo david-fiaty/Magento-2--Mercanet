@@ -126,7 +126,7 @@ class RedirectMethod extends AbstractMethod {
         // Prepare the request
         $paymentRequest->setMerchantId($config->getMerchantId());
         $paymentRequest->setKeyVersion($config->params[Core::moduleId()][Core::KEY_VERSION]);
-        $paymentRequest->setTransactionReference($config->getTransactionReference());
+        $paymentRequest->setTransactionReference($config->createTransactionReference());
         $paymentRequest->setAmount($config->formatAmount($entity->getGrandTotal()));
         $paymentRequest->setCurrency(Tools::getCurrencyCode($entity));
         $paymentRequest->setCustomerContactEmail($entity->getCustomerEmail());

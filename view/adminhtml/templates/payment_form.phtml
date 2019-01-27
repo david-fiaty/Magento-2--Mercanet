@@ -13,9 +13,13 @@
  * @var \Magento\Payment\Block\Transparent\Form $block
  */
 
-$code = $block->escapeHtml($block->getMethodCode());
+// Get the admin status
+$isAdmin = $block->getData('is_admin');
+
 ?>
-<fieldset class="admin__fieldset payment-method <?= /* @noEscape */ $code ?>" id="payment_form_<?= /* @noEscape */ $code ?>" style="display: none;">
+<?php if ($isAdmin) : ?>
+    <fieldset class="admin__fieldset payment-method <?= /* @noEscape */ $block->getMethodCode() ?>" id="payment_form_<?= /* @noEscape */ $block->getMethodCode() ?>" style="display: none;">
+<?php endif; ?>
     <div class="credit-card">
         <div class="form-header">
             <h4 class="title"><?= $block->escapeHtml(__('Card Details')); ?></h4>
@@ -73,9 +77,10 @@ $code = $block->escapeHtml($block->getMethodCode());
             <?php //endif; ?>
                     -->
         </div>
-
     </div>
-</fieldset>
+<?php if ($isAdmin) : ?>
+    </fieldset>
+<?php endif; ?>
 
 <script>
     //<![CDATA[

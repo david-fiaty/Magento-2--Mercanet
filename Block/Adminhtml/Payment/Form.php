@@ -61,6 +61,7 @@ class Form extends Cc {
 
         $this->months = $this->formHandler->getMonths();
         $this->years = $this->formHandler->getYears();
+        $this->setData('is_admin', true);
     }
 
     /**

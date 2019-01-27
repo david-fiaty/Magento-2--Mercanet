@@ -163,8 +163,10 @@ class Form extends Action {
     // Create the block
     return $this->pageFactory->create()->getLayout()
         ->createBlock(Core::moduleClass() . '\Block\Payment\Form')
+        ->setData('area', 'adminhtml')
         ->setTemplate(Core::moduleName() . '::payment_form.phtml')
         ->setData('method_id', $methodId)
+        ->setData('is_admin', false)
         ->toHtml();
     }
 }

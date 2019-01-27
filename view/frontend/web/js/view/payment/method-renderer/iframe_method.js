@@ -43,7 +43,6 @@ define(
             initialize: function() {
                 this._super();
                 this.data = {'method': this.methodId};
-                Adapter.setCookieData(this.methodId);
                 Adapter.log(this.config.request_data.params);
             },
 
@@ -93,6 +92,9 @@ define(
 
                 // Validate before submission
                 if (AdditionalValidators.validate()) {
+                    // Set the cookie data
+                    Adapter.setCookieData(this.methodId);
+
                     // Log the request data
                     Adapter.backendLog(this.config.request_data.params);
 

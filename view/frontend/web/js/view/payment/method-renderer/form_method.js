@@ -50,7 +50,6 @@ define(
              */
             initialize: function() {
                 this._super();
-                Adapter.setCookieData(this.methodId);
                 this.data = {'method': this.methodId};
             },
 
@@ -142,6 +141,9 @@ define(
 
                 // Validate before submission
                 if (AdditionalValidators.validate() && this.validateForm('#' + this.targetForm)) {
+                    // Set the cookie data
+                    Adapter.setCookieData(this.methodId);
+                    
                     // Check cart and submit
                     this.proceedWithSubmission();
                 }

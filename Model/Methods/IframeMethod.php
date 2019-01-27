@@ -175,6 +175,40 @@ class IframeMethod extends AbstractMethod {
     }
 
     /**
+     * Checks if a response is valid.
+     *
+     * @return bool
+     */  
+    public static function isValidResponse($config, $methodId, $asset) {
+        // Get the vendor instance
+        $fn = "\\" . $config->params[$methodId][Core::KEY_VENDOR];
+        $paymentResponse = new $fn($config->getSecretKey());
+
+        // Set the response
+        $paymentResponse->setResponse($asset);
+    
+        // Return the validity status
+        return $paymentResponse->isValid(); 
+    }
+
+    /**
+     * Checks if a response is success.
+     *
+     * @return bool
+     */  
+    public static function isSuccessResponse($config, $methodId, $asset) {
+        // Get the vendor instance
+        $fn = "\\" . $config->params[$methodId][Core::KEY_VENDOR];
+        $paymentResponse = new $fn($config->getSecretKey());
+
+        // Set the response
+        $paymentResponse->setResponse($asset);
+
+        // Return the success status
+        return $paymentResponse->isSuccessful();      
+    }
+    
+    /**
      * Determines if the method is active on frontend.
      *
      * @return bool

@@ -71,7 +71,7 @@ define([
             // Set the payment method
             $.cookie(
                 this.getPaymentConfig()['method_cookie_name'], 
-                this.getMethodId()
+                this.getMethodId(this.getCode())
             );
         },
 

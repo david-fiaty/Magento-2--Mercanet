@@ -12,12 +12,11 @@ namespace Cmsbox\Mercanet\Model\Adminhtml\Source;
 
 use Magento\Framework\Option\ArrayInterface;
 use Cmsbox\Mercanet\Gateway\Processor\Connector;
+
 class CaptureMode implements ArrayInterface {
 
-
-
     /**
-     * Possible environment types
+     * Possible capture modes
      *
      * @return array
      */

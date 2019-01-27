@@ -120,6 +120,9 @@ class OrderHandlerService {
         $this->config                = $config;
     }
 
+    /**
+     * Place an order
+     */
     public function placeOrder($data, $methodId) {
         // Get the fields
         $fields = Connector::unpackData($data);
@@ -143,6 +146,9 @@ class OrderHandlerService {
         return null;
     }
 
+    /**
+     * Create an order
+     */
     public function createOrder($fields, $methodId) {
         try {
             // Find the quote
@@ -212,6 +218,9 @@ class OrderHandlerService {
         return $quote;
     }
 
+    /**
+     * Tasks after place order
+     */
     public function afterPlaceOrder($quote, $order) {
         // Prepare session quote info for redirection after payment
         $this->checkoutSession
@@ -225,12 +234,18 @@ class OrderHandlerService {
         ->setLastOrderStatus($order->getStatus());
     } 
 
+    /**
+     * Find a customer email
+     */
     public function findCustomerEmail($quote) {
         return $quote->getCustomerEmail()
         ?? $quote->getBillingAddress()->getEmail()
         ?? $this->cookieManager->getCookie(self::EMAIL_COOKIE_NAME);
     }
 
+    /**
+     * Find a method id
+     */
     public function findMethodId() {
         return ($this->cookieManager->getCookie(Connector::METHOD_COOKIE_NAME))
         ? $this->cookieManager->getCookie(Connector::METHOD_COOKIE_NAME)

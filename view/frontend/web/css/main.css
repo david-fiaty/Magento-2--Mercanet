@@ -14,3 +14,7 @@
     padding-right: 20px;
     background-size: 13px 13px;
 }
+
+.message-notice {
+    overflow: auto;
+}

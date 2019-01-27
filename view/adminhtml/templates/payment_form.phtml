@@ -13,13 +13,15 @@
  * @var \Magento\Payment\Block\Transparent\Form $block
  */
 
-// Get the admin status
+// Get the block data
 $isAdmin = $block->getData('is_admin');
+$methodId = ($block->getMethodCode()) ? $block->getMethodCode() : $block->getData('method_id');
 
 ?>
 <?php if ($isAdmin) : ?>
-    <fieldset class="admin__fieldset payment-method <?= /* @noEscape */ $block->getMethodCode() ?>" id="payment_form_<?= /* @noEscape */ $block->getMethodCode() ?>" style="display: none;">
+    <fieldset class="admin__fieldset payment-method <?= /* @noEscape */ $methodId ?>" id="payment_form_<?= /* @noEscape */ $methodId ?>" style="display: none;">
 <?php endif; ?>
+
     <div class="credit-card">
         <div class="form-header">
             <h4 class="title"><?= $block->escapeHtml(__('Card Details')); ?></h4>
@@ -67,17 +69,21 @@ $isAdmin = $block->getData('is_admin');
                     <input type="text" name="card_data[cvv]" placeholder="<?= $block->escapeHtml(__('CVV')) ?>">
                 </div>
             </div>
-            <!-- Card Verification Field 
-            <?php //if ($block->config->params[$block->getData('method_id')]['cvv_check_customer']): ?>
+            <!-- Card Verification Field -->
+            <?php if ($this->config->params[$methodId]['cvv_check_customer']): ?>
                 <div class="card-verification">
                     <div class="cvv-input">
-                        <input type="text" name="card_data[cvv]" placeholder="<?= $block->escapeHtml(__('CVV')) ?>">
+                        <input type="text" 
+                               name="card_data[cvv]"
+                               placeholder="<?= $block->escapeHtml(__('CVV')) ?>"
+                               data-validate="{'required-entry':true, 'validate-number':true, 'validate-card-cvv':true}"
+                        >
                     </div>
                 </div>
-            <?php //endif; ?>
-                    -->
+            <?php endif; ?>
         </div>
     </div>
+
 <?php if ($isAdmin) : ?>
     </fieldset>
 <?php endif; ?>

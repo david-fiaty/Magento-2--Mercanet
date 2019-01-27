@@ -59,8 +59,11 @@ class Form extends Cc {
         $this->formHandler = $formHandler;
         $this->config = $config;
 
+        // Prepare the field values
         $this->months = $this->formHandler->getMonths();
         $this->years = $this->formHandler->getYears();
+
+        // Set the block data
         $this->setData('is_admin', true);
     }
 

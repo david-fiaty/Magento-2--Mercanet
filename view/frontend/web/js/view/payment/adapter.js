@@ -61,7 +61,7 @@ define([
         /**
          * @returns {void}
          */
-        setEmailAddress: function() {
+        setCookieData: function() {
             var email = this.getEmailAddress();
             var cookieName = this.getPaymentConfig()['email_cookie_name'];
             $.cookie(cookieName, email);

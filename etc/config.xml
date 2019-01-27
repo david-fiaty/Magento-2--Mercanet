@@ -97,6 +97,7 @@
                 <vendor>Cmsbox\Mercanet\Gateway\Vendor\GestionPlusInterface</vendor>
                 <interface_version_fraud>DR_WS_2.20</interface_version_fraud>
                 <load_request_data>0</load_request_data>
+                <form_template>template_1</form_template>
             </cmsbox_mercanet_form_method>
             <cmsbox_mercanet_iframe_method>
                 <method_id>cmsbox_mercanet_iframe_method</method_id>
@@ -163,6 +164,7 @@
                 <interface_version_fraud>DR_WS_2.20</interface_version_fraud>
                 <vendor>Cmsbox\Mercanet\Gateway\Vendor\GestionPlusInterface</vendor>
                 <load_request_data>0</load_request_data>
+                <form_template>template_1</form_template>
            </cmsbox_mercanet_admin_method>
         </payment>
     </default>

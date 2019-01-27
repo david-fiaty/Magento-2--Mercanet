@@ -284,7 +284,6 @@ class Config {
         return (isset($lang[0]) && !empty($lang[0])) ? $lang[0] : self::KEY_DEFAULT_LANGUAGE;
     }
 
-
     /**
      * Formats an amount for a gateway request.
      */   

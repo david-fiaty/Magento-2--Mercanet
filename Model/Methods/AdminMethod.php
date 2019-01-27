@@ -159,6 +159,15 @@ class AdminMethod extends AbstractMethod {
     }
 
     /**
+     * Gets a transaction id.
+     *
+     * @return bool
+     */  
+    public static function getTransactionId($config, $paymentObject) {
+        return $paymentObject->getParam($config->base[Connector::KEY_TRANSACTION_ID_FIELD]);
+    }
+    
+    /**
      * Determines if the method is active on frontend.
      *
      * @return bool

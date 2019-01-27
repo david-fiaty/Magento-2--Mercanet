@@ -104,7 +104,9 @@ class OrderSaveBefore implements ObserverInterface {
                             // Add the transaction info for order save after
                             $paymentInfo->setAdditionalInformation(
                                 Connector::KEY_TRANSACTION_INFO,
-                                [$this->config->base[Connector::KEY_TRANSACTION_ID_FIELD] => $paymentObject->getParam($this->config->base[Connector::KEY_TRANSACTION_ID_FIELD])]
+                                [
+                                    $this->config->base[Connector::KEY_TRANSACTION_ID_FIELD] => $methodInstance::getTransactionId($config, $paymentObject)
+                                ]
                             );
 
                             // Handle the order status

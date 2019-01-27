@@ -23,7 +23,6 @@ use Cmsbox\Mercanet\Helper\Tools;
 use Cmsbox\Mercanet\Helper\Watchdog;
 
 class Form extends Action {
-
     /**
      * @var PageFactory
      */
@@ -164,8 +163,9 @@ class Form extends Action {
     return $this->pageFactory->create()->getLayout()
         ->createBlock(Core::moduleClass() . '\Block\Payment\Form')
         ->setData('area', 'adminhtml')
-        ->setTemplate(Core::moduleName() . '::payment_form.phtml')
+        ->setTemplate(Core::moduleName() . '::payment_form/template_1.phtml')
         ->setData('method_id', $methodId)
+        ->setData('module_name', Core::moduleName())
         ->setData('is_admin', false)
         ->toHtml();
     }

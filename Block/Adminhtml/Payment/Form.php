@@ -14,6 +14,7 @@ use Magento\Framework\View\Element\Template;
 use Magento\Catalog\Block\Product\Context;
 use Magento\Payment\Model\Config as PaymentModelConfig;
 use Magento\Payment\Block\Form\Cc;
+use Magento\Framework\View\Asset\Repository as AssetRepository;
 use Cmsbox\Mercanet\Model\Service\FormHandlerService;
 use Cmsbox\Mercanet\Gateway\Config\Core;
 use Cmsbox\Mercanet\Gateway\Config\Config;
@@ -36,6 +37,11 @@ class Form extends Cc {
     public $config;
 
     /**
+     * @var AssetRepository
+     */
+    public $assetRepository;
+
+    /**
      * @var Array
      */
     public $months;
@@ -52,12 +58,14 @@ class Form extends Cc {
         Context $context,
         PaymentModelConfig $paymentModelConfig,
         FormHandlerService $formHandler,
-        Config $config
+        Config $config,
+        AssetRepository $assetRepository
     ) {
-        $this->_template = Core::moduleName() . '::payment_form.phtml';
+        $this->_template = Core::moduleName() . '::payment_form/template_1.phtml';
         parent::__construct($context, $paymentModelConfig);
         $this->formHandler = $formHandler;
         $this->config = $config;
+        $this->assetRepository = $assetRepository;
 
         // Prepare the field values
         $this->months = $this->formHandler->getMonths();
@@ -65,6 +73,7 @@ class Form extends Cc {
 
         // Set the block data
         $this->setData('is_admin', true);
+        $this->setData('module_name', Core::moduleName());
     }
 
     /**

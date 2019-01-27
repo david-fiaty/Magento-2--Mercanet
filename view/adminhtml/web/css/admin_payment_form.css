@@ -19,11 +19,11 @@
  */
 
 /* Credit Card */
-.cmsbox_mercanet_admin_method {
+fieldset.cmsbox_mercanet_admin_method {
     border: none !important;
 }
 
-.cmsbox_mercanet_admin_method .credit-card {
+.card-form-container {
     margin-top       : 20px;
     margin-bottom    : 20px;
     width            : 360px;
@@ -33,53 +33,53 @@
     box-shadow       : 1px 2px 3px 0px rgba(0,0,0,0.10);
 }
 
-.cmsbox_mercanet_admin_method .form-header {
+.card-form-container .form-header {
     padding       : 20px 30px 20px;
     border-bottom : 1px solid #E1E8EE;
 }
 
-.cmsbox_mercanet_admin_method .form-body {
+.card-form-container .form-body {
     padding : 30px 30px 20px;
     display: flex;
     flex-direction: column;
 }
 
 /* Title */
-.cmsbox_mercanet_admin_method .title {
+.card-form-container .title {
     margin    : 0;
     color     : #5e6977;
     font-size : 18px;
 }
 
 /* Common */
-.cmsbox_mercanet_admin_method .card-number,
-.cmsbox_mercanet_admin_method .cvv-input input,
-.cmsbox_mercanet_admin_method .month select,
-.cmsbox_mercanet_admin_method .paypal-btn,
-.cmsbox_mercanet_admin_method .proceed-btn,
-.cmsbox_mercanet_admin_method .year select {
+.card-form-container .card-number,
+.card-form-container .cvv-input input,
+.card-form-container .month select,
+.card-form-container .paypal-btn,
+.card-form-container .proceed-btn,
+.card-form-container .year select {
     height : 42px;
 }
 
-.cmsbox_mercanet_admin_method .card-number,
-.cmsbox_mercanet_admin_method .month select,
-.cmsbox_mercanet_admin_method .year select {
+.card-form-container .card-number,
+.card-form-container .month select,
+.card-form-container .year select {
     font-size   : 14px;
     font-weight : 100;
     line-height : 14px;
 }
 
-.cmsbox_mercanet_admin_method .card-number,
-.cmsbox_mercanet_admin_method .cvv-details,
-.cmsbox_mercanet_admin_method .cvv-input input,
-.cmsbox_mercanet_admin_method .month select,
-.cmsbox_mercanet_admin_method .year select {
+.card-form-container .card-number,
+.card-form-container .cvv-details,
+.card-form-container .cvv-input input,
+.card-form-container .month select,
+.card-form-container .year select {
     color   : #86939e;
     opacity : .7;
 }
 
 /* Card Number */
-.cmsbox_mercanet_admin_method .card-number {
+.card-form-container .card-number {
     width         : 100%;
     margin-bottom : 20px;
     padding-left  : 20px;
@@ -88,8 +88,8 @@
 }
 
 /* Date Field */
-.cmsbox_mercanet_admin_method .month select,
-.cmsbox_mercanet_admin_method .year select {
+.card-form-container .month select,
+.card-form-container .year select {
     -moz-appearance     : none;
     -webkit-appearance  : none;
     width               : 145px;
@@ -101,16 +101,16 @@
     background-position : 85% 50%;
 }
 
-.cmsbox_mercanet_admin_method .month {
+.card-form-container .month {
     float : left;
 }
 
-.cmsbox_mercanet_admin_method .year select {
+.card-form-container .year select {
     margin-left: 8px;
 }
 
 /* Card Verification Field */
-.cmsbox_mercanet_admin_method .cvv-input input {
+.card-form-container .cvv-input input {
     width         : 145px;
     float         : left;
     padding-left  : 20px;
@@ -119,7 +119,7 @@
     background    : #fff;
 }
 
-.cmsbox_mercanet_admin_method .cvv-details {
+.card-form-container .cvv-details {
     float         : right;
     margin-bottom : 20px;
     font-size     : 12px;
@@ -127,7 +127,7 @@
     line-height   : 16px;
 }
 
-.cmsbox_mercanet_admin_method .cvv-details p {
+.card-form-container .cvv-details p {
     margin-top : 6px;
 }
   

@@ -22,7 +22,7 @@ $methodId = ($block->getMethodCode()) ? $block->getMethodCode() : $block->getDat
     <fieldset class="admin__fieldset payment-method <?= /* @noEscape */ $methodId ?>" id="payment_form_<?= /* @noEscape */ $methodId ?>" style="display: none;">
 <?php endif; ?>
 
-    <div class="credit-card">
+    <div class="card-form-container">
         <div class="form-header">
             <h4 class="title"><?= $block->escapeHtml(__('Card Details')); ?></h4>
         </div>
@@ -64,11 +64,6 @@ $methodId = ($block->getMethodCode()) ? $block->getMethodCode() : $block->getDat
                 </div>
             </div>
             
-            <div class="card-verification">
-                <div class="cvv-input">
-                    <input type="text" name="card_data[cvv]" placeholder="<?= $block->escapeHtml(__('CVV')) ?>">
-                </div>
-            </div>
             <!-- Card Verification Field -->
             <?php if ($this->config->params[$methodId]['cvv_check_customer']): ?>
                 <div class="card-verification">

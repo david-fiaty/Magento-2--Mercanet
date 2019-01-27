@@ -124,6 +124,9 @@ class FormMethod extends AbstractMethod {
         return (int) $this->config->params[$this->_code][Connector::KEY_ACTIVE] == 1;
     }
 
+    /**
+     * Prepare the request data.
+     */  
     public static function getRequestData($config, $methodId, $cardData = null, $entity = null) {
         // Get the order entity
         $entity = ($entity) ? $entity : $config->cart->getQuote();

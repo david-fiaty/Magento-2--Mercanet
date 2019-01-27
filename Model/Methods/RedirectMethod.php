@@ -112,6 +112,9 @@ class RedirectMethod extends AbstractMethod {
         return parent::isAvailable($quote) && null !== $quote;
     }
 
+    /**
+     * Prepare the request data.
+     */  
     public static function getRequestData($config, $methodId, $cardData = null, $entity = null) {
         // Get the order entity
         $entity = ($entity) ? $entity : $config->cart->getQuote();

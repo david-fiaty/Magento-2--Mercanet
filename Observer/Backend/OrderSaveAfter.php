@@ -65,8 +65,10 @@ class OrderSaveAfter implements ObserverInterface {
             // Get the order
             $order = $observer->getEvent()->getOrder();
 
-            // Get the transaction id
+            // Get the payment info
             $paymentInfo = $order->getPayment()->getMethodInstance()->getInfoInstance();
+
+            // Get the transaction id
             $transactionId = $paymentInfo->getData()
             [Connector::KEY_ADDITIONAL_INFORMATION]
             [Connector::KEY_TRANSACTION_INFO]

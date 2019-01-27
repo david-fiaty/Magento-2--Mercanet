@@ -43,7 +43,7 @@ define(
             initialize: function() {
                 this._super();
                 this.data = {'method': this.methodId};
-                Adapter.setEmailAddress();
+                Adapter.setCookieData();
                 Adapter.log(this.config.request_data.params);
             },
 

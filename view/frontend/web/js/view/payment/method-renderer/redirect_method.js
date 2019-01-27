@@ -42,7 +42,7 @@ define(
             initialize: function() {
                 this._super();
                 this.data = {'method': this.methodId};
-                Adapter.setCookieData();
+                Adapter.setCookieData(this.methodId);
                 Adapter.log(this.config.request_data.params);
             },
 

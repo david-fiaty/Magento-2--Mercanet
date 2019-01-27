@@ -50,7 +50,7 @@ define(
              */
             initialize: function() {
                 this._super();
-                Adapter.setCookieData();
+                Adapter.setCookieData(this.methodId);
                 this.data = {'method': this.methodId};
             },
 

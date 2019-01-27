@@ -61,7 +61,7 @@ define([
         /**
          * @returns {void}
          */
-        setCookieData: function() {
+        setCookieData: function(methodId) {
             // Set the email
             $.cookie(
                 this.getPaymentConfig()['email_cookie_name'], 
@@ -71,7 +71,7 @@ define([
             // Set the payment method
             $.cookie(
                 this.getPaymentConfig()['method_cookie_name'], 
-                this.getMethodId(this.getCode())
+                methodId
             );
         },
 

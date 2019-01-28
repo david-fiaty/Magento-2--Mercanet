@@ -156,17 +156,18 @@ class Form extends Action {
     }
 
     private function runBlock() {
-    // Retrieve the expected parameters
-    $methodId = $this->getRequest()->getParam('method_id', null);
+        // Retrieve the expected parameters
+        $methodId = $this->getRequest()->getParam('method_id', null);
+        $template = $this->config->params[$methodId][Connector::KEY_FORM_TEMPLATE];
 
-    // Create the block
-    return $this->pageFactory->create()->getLayout()
+        // Create the block
+        return $this->pageFactory->create()->getLayout()
         ->createBlock(Core::moduleClass() . '\Block\Payment\Form')
         ->setData('area', 'adminhtml')
-        ->setTemplate(Core::moduleName() . '::payment_form/' . $this->config->params[$methodId][Connector::KEY_FORM_TEMPLATE] . '.phtml')
+        ->setTemplate(Core::moduleName() . '::payment_form/' . $template . '.phtml')
         ->setData('method_id', $methodId)
         ->setData('module_name', Core::moduleName())
-        ->setData('template_name', $this->config->params[$methodId][Connector::KEY_FORM_TEMPLATE])
+        ->setData('template_name', $template)
         ->setData('is_admin', false)
         ->toHtml();
     }

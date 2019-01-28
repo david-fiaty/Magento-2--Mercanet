@@ -64,14 +64,16 @@ class Form extends Cc {
     ) {
         parent::__construct($context, $paymentModelConfig);
         
-        // Get the template
-        $template = $this->config->params[Core::moduleId() . '_admin_method'][Connector::KEY_FORM_TEMPLATE];
-
         // Assign the parameters
-        $this->_template = Core::moduleName() . '::payment_form/' . $template . '.phtml';
         $this->formHandler = $formHandler;
         $this->config = $config;
         $this->assetRepository = $assetRepository;
+        
+        // Get the template config
+        $template = $this->config->params[Core::moduleId() . '_admin_method'][Connector::KEY_FORM_TEMPLATE];
+
+        // Set the template
+        $this->_template = Core::moduleName() . '::payment_form/' . $template . '.phtml';
 
         // Prepare the field values
         $this->months = $this->formHandler->getMonths();

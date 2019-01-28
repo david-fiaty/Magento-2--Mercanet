@@ -1,0 +1,110 @@
+<?php
+/**
+ * Cmsbox.fr Magento 2 Payment module (https://www.cmsbox.fr)
+ *
+ * Copyright (c) 2017 Cmsbox.fr (https://www.cmsbox.fr)
+ * Author: David Fiaty | contact@cmsbox.fr
+ *
+ * License GNU/GPL V3 https://www.gnu.org/licenses/gpl-3.0.en.html
+ */
+
+// @codingStandardsIgnoreFile
+/**
+ * @var \Magento\Payment\Block\Transparent\Form $block
+ */
+
+// Get the block data
+$isAdmin = $block->getData('is_admin');
+$moduleName = $block->getData('module_name');
+$methodId = ($block->getMethodCode()) ? $block->getMethodCode() : $block->getData('method_id');
+$templateName = $block->getData('template_name');
+$formCssFile = $this->assetRepository->createAsset($moduleName . '::css/payment_form/' . $templateName . '.css', ['area' => 'adminhtml'])->getUrl();
+?>
+<style>
+    @import url(<?= $formCssFile ?>);
+</style>
+
+<?php if ($isAdmin) : ?>
+    <fieldset class="admin__fieldset payment-method <?= /* @noEscape */ $methodId ?>" id="payment_form_<?= /* @noEscape */ $methodId ?>" style="display: none;">
+<?php endif; ?>
+
+<div id="card-success" class="hidden">
+  <i class="fa fa-check"></i>
+  <p>Payment Successful!</p>
+</div>
+<div id="form-errors" class="hidden">
+  <i class="fa fa-exclamation-triangle"></i>
+  <p id="card-error">Card error</p>
+</div>
+<div id="form-container">
+
+  <div id="card-front">
+    <div id="shadow"></div>
+    <div id="image-container">
+      <span id="amount">paying: <strong>$99</strong></span>
+      <span id="card-image">
+      
+        </span>
+    </div>
+    <!--- end card image container --->
+
+    <label for="card-number">
+        Card Number
+      </label>
+    <input type="text" id="card-number" placeholder="1234 5678 9101 1112" length="16">
+    <div id="cardholder-container">
+      <label for="card-holder">Card Holder
+      </label>
+      <input type="text" id="card-holder" placeholder="e.g. John Doe" />
+    </div>
+    <!--- end card holder container --->
+    <div id="exp-container">
+      <label for="card-exp">
+          Expiration
+        </label>
+      <input id="card-month" type="text" placeholder="MM" length="2">
+      <input id="card-year" type="text" placeholder="YY" length="2">
+    </div>
+        <div id="cvc-container">
+      <label for="card-cvc"> CVC/CVV</label>
+      <input id="card-cvc" placeholder="XXX-X" type="text" min-length="3" max-length="4">
+      <p>Last 3 or 4 digits</p>
+    </div>
+    <!--- end CVC container --->
+    <!--- end exp container --->
+  </div>
+  <!--- end card front --->
+  <div id="card-back">
+    <div id="card-stripe">
+    </div>
+
+  </div>
+  <!--- end card back --->
+  <input type="text" id="card-token" />
+  <button type="button" id="card-btn">Submit</button>
+
+</div>
+
+
+<?php if ($isAdmin) : ?>
+    </fieldset>
+<?php endif; ?>
+
+<script>
+    //<![CDATA[
+    require(
+        [
+            'jquery',
+            'uiComponent',
+            'domReady!',
+            'Magento_Payment/js/model/credit-card-validation/validator',
+            'mage/validation'
+        ], function($, Component) {
+            return Component.extend({
+                validateForm: function (form) {
+                    return $(form).validation() && $(form).validation('isValid');
+                }
+            });
+        });
+    //]]>
+</script>

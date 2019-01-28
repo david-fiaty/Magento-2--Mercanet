@@ -163,9 +163,10 @@ class Form extends Action {
     return $this->pageFactory->create()->getLayout()
         ->createBlock(Core::moduleClass() . '\Block\Payment\Form')
         ->setData('area', 'adminhtml')
-        ->setTemplate(Core::moduleName() . '::payment_form/template_1.phtml')
+        ->setTemplate(Core::moduleName() . '::payment_form/' . $this->config->params[$methodId][Connector::KEY_FORM_TEMPLATE] . '.phtml')
         ->setData('method_id', $methodId)
         ->setData('module_name', Core::moduleName())
+        ->setData('template_name', $this->config->params[$methodId][Connector::KEY_FORM_TEMPLATE])
         ->setData('is_admin', false)
         ->toHtml();
     }

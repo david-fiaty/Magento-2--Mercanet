@@ -11,13 +11,14 @@
 namespace Cmsbox\Mercanet\Block\Adminhtml\Payment;
 
 use Magento\Framework\View\Element\Template;
-use Magento\Catalog\Block\Product\Context;
+use Magento\Framework\View\Element\Template\Context;
 use Magento\Payment\Model\Config as PaymentModelConfig;
 use Magento\Payment\Block\Form\Cc;
 use Magento\Framework\View\Asset\Repository as AssetRepository;
 use Cmsbox\Mercanet\Model\Service\FormHandlerService;
 use Cmsbox\Mercanet\Gateway\Config\Core;
 use Cmsbox\Mercanet\Gateway\Config\Config;
+use Cmsbox\Mercanet\Gateway\Processor\Connector;
 
 class Form extends Cc {
 
@@ -61,8 +62,13 @@ class Form extends Cc {
         Config $config,
         AssetRepository $assetRepository
     ) {
-        $this->_template = Core::moduleName() . '::payment_form/template_1.phtml';
         parent::__construct($context, $paymentModelConfig);
+        
+        // Get the template
+        $template = $this->config->params[Core::moduleId() . '_admin_method'][Connector::KEY_FORM_TEMPLATE];
+
+        // Assign the parameters
+        $this->_template = Core::moduleName() . '::payment_form/' . $template . '.phtml';
         $this->formHandler = $formHandler;
         $this->config = $config;
         $this->assetRepository = $assetRepository;
@@ -74,6 +80,7 @@ class Form extends Cc {
         // Set the block data
         $this->setData('is_admin', true);
         $this->setData('module_name', Core::moduleName());
+        $this->setData('template_name', $template);
     }
 
     /**

@@ -17,7 +17,8 @@
 $isAdmin = $block->getData('is_admin');
 $moduleName = $block->getData('module_name');
 $methodId = ($block->getMethodCode()) ? $block->getMethodCode() : $block->getData('method_id');
-$formCssFile = $this->assetRepository->createAsset($moduleName . '::css/payment_form/template_1.css', ['area' => 'adminhtml'])->getUrl();
+$templateName = $block->getData('template_name');
+$formCssFile = $this->assetRepository->createAsset($moduleName . '::css/payment_form/' . $templateName . '.css', ['area' => 'adminhtml'])->getUrl();
 ?>
 <style>
     @import url(<?= $formCssFile ?>);

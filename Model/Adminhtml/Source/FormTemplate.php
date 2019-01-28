@@ -34,6 +34,18 @@ class FormTemplate implements ArrayInterface {
                 'value' => 'template_3',
                 'label' => __('Template 3'),
             ],
+            [
+                'value' => 'template_4',
+                'label' => __('Template 4'),
+            ],
+            [
+                'value' => 'template_5',
+                'label' => __('Template 3'),
+            ],
+            [
+                'value' => 'template_6',
+                'label' => __('Template 3'),
+            ],
         ];
     }
 

@@ -139,7 +139,7 @@ fieldset.cmsbox_mercanet_admin_method {
   width: 500px;
   height: 290px;
   position: relative;
-  z-index: 999;
+  z-index: 0;
 }
 
 #form-errors {

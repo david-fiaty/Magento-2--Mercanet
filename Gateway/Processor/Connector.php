@@ -17,8 +17,6 @@ class Connector {
     const KEY_LOGGING = 'logging';
     const KEY_RESPONSE_ERROR = 'error';
     const KEY_RESPONSE_SUCCESS = 'success';
-    const KEY_RESPONSE_FRAUD = 'fraud';
-    const KEY_RESPONSE_FLAG = 'flag';
     const KEY_CAPTURE_MODE_FIELD = 'capture_mode_field';
     const KEY_CUSTOMER_EMAIL_FIELD = 'customer_email_field';
     const KEY_ORDER_ID_FIELD = 'order_id_field';

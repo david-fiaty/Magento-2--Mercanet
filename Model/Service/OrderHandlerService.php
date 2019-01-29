@@ -139,10 +139,6 @@ class OrderHandlerService {
             }
         }
 
-        // Fraud check
-        // Todo - Handle fraud info
-        //$order = $this->connector->checkFraud($order);
-
         return null;
     }
 

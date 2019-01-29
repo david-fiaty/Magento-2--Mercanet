@@ -128,36 +128,60 @@ class AdminMethod extends AbstractMethod {
      * Prepare the request data.
      */  
     public static function getRequestData($config, $methodId, $cardData = null, $entity = null) {
-        if ($entity) {
-            // Get the vendor class
-            $fn = "\\" . $config->params[$methodId][Core::KEY_VENDOR];
+        // Get the order entity
+        $entity = ($entity) ? $entity : $config->cart->getQuote();
 
-            // Prepare the request
-            $paymentRequest = new $fn($config->getSecretKey());
-            $paymentRequest->setMerchantId($config->getMerchantId());
-            $paymentRequest->setInterfaceVersion($config->params[$methodId][Core::KEY_INTERFACE_VERSION_CHARGE]);
-            $paymentRequest->setKeyVersion($config->params[Core::moduleId()][Core::KEY_VERSION]);
-            $paymentRequest->setAmount($config->formatAmount($entity->getGrandTotal()));
-            $paymentRequest->setCurrency(Tools::getCurrencyCode($entity));
-            $paymentRequest->setCardNumber($cardData[Core::KEY_CARD_NUMBER]);
-            $paymentRequest->setCardExpiryDate($cardData[Core::KEY_CARD_YEAR] . $cardData[Core::KEY_CARD_MONTH]);
-            $paymentRequest->setCardCSCValue($cardData[Core::KEY_CARD_CVV]);
-            $paymentRequest->setTransactionReference($config->createTransactionReference());
-            $paymentRequest->setCaptureDay((string) $config->params[$methodId][Connector::KEY_CAPTURE_DAY]);
-            $paymentRequest->setCaptureMode($config->params[$methodId][Connector::KEY_CAPTURE_MODE]);
-            $paymentRequest->setOrderId(Tools::getIncrementId($entity));
-            $paymentRequest->setUrl($config->params[$methodId]['api_url_test']); // Todo- add prod detection linked to config
-            $paymentRequest->setPspRequest($config->params[$methodId][Core::KEY_CHARGE_SUFFIX]);
-            $paymentRequest->setOrderChannel("INTERNET");
-            $paymentRequest->setCustomerContactEmail($entity->getCustomerEmail());
+        // Get the vendor instance
+        $fn = "\\" . $config->params[$methodId][Core::KEY_VENDOR];
+        $paymentRequest = new $fn($config->getSecretKey());
 
-            // Return the request object
-            return $paymentRequest;
-        }
+        // Prepare the request
+        $paymentRequest = new $fn($config->getSecretKey());
+        $paymentRequest->setMerchantId($config->getMerchantId());
+        $paymentRequest->setInterfaceVersion($config->params[$methodId][Core::KEY_INTERFACE_VERSION_CHARGE]);
+        $paymentRequest->setKeyVersion($config->params[Core::moduleId()][Core::KEY_VERSION]);
+        $paymentRequest->setAmount($config->formatAmount($entity->getGrandTotal()));
+        $paymentRequest->setCurrency(Tools::getCurrencyCode($entity));
+        $paymentRequest->setCardNumber($cardData[Core::KEY_CARD_NUMBER]);
+        $paymentRequest->setCardExpiryDate($cardData[Core::KEY_CARD_YEAR] . $cardData[Core::KEY_CARD_MONTH]);
+        $paymentRequest->setCardCSCValue($cardData[Core::KEY_CARD_CVV]);
+        $paymentRequest->setTransactionReference($config->createTransactionReference());
+        $paymentRequest->setCaptureDay((string) $config->params[$methodId][Connector::KEY_CAPTURE_DAY]);
+        $paymentRequest->setCaptureMode($config->params[$methodId][Connector::KEY_CAPTURE_MODE]);
+        $paymentRequest->setOrderId(Tools::getIncrementId($entity));
+        $paymentRequest->setUrl($config->params[$methodId]['api_url_test']); // Todo- add prod detection linked to config
+        $paymentRequest->setPspRequest($config->params[$methodId][Core::KEY_CHARGE_SUFFIX]);
+        $paymentRequest->setOrderChannel("INTERNET");
+        $paymentRequest->setCustomerContactEmail($entity->getCustomerEmail());
 
-        return null;
+        // Execute the request
+        $paymentRequest->executeRequest();
+
+        // Get the response
+        $paymentRequest->getResponseRequest();
+
+        // Return the request object
+        return $paymentRequest;
     }
 
+    /**
+     * Checks if a response is valid.
+     *
+     * @return bool
+     */  
+    public static function isValidResponse($config, $methodId, $asset) {
+        return $asset->isValid();
+    }
+
+    /**
+     * Checks if a response is success.
+     *
+     * @return bool
+     */  
+    public static function isSuccessResponse($config, $methodId, $asset) {
+        return $asset->isValid();
+    }
+    
     /**
      * Gets a transaction id.
      *

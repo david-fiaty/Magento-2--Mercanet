@@ -11,7 +11,6 @@
 namespace Cmsbox\Mercanet\Controller\Response;
  
 use Magento\Framework\App\Action\Context;
-use Magento\Framework\App\Action\Action;
 use Magento\Framework\Controller\Result\JsonFactory;
 use Cmsbox\Mercanet\Model\Service\OrderHandlerService;
 use Cmsbox\Mercanet\Gateway\Processor\Connector;
@@ -19,7 +18,7 @@ use Cmsbox\Mercanet\Helper\Watchdog;
 use Cmsbox\Mercanet\Gateway\Config\Config;
 use Cmsbox\Mercanet\Gateway\Config\Core;
 
-class Automatic extends Action {
+class Automatic extends \Magento\Framework\App\Action\Action {
     /**
      * @var OrderHandlerService
      */

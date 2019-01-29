@@ -10,13 +10,12 @@
 
 namespace Cmsbox\Mercanet\Block\Payment;
 
-use Magento\Framework\View\Element\Template;
 use Magento\Catalog\Block\Product\Context;
 use Magento\Framework\View\Asset\Repository as AssetRepository;
 use Cmsbox\Mercanet\Model\Service\FormHandlerService;
 use Cmsbox\Mercanet\Gateway\Config\Config;
 
-class Form extends Template {
+class Form extends \Magento\Framework\View\Element\Template {
 
     /**
      * @var FormHandlerService

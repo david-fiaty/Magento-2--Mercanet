@@ -11,9 +11,8 @@
 namespace Cmsbox\Mercanet\Block;
 
 use Magento\Framework\Phrase;
-use Magento\Payment\Block\ConfigurableInfo;
 
-class Info extends ConfigurableInfo
+class Info extends \Magento\Payment\Block\ConfigurableInfo
 {
     /**
      * Returns label

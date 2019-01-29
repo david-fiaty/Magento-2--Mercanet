@@ -11,7 +11,6 @@
 namespace Cmsbox\Mercanet\Controller\Response;
  
 use Magento\Framework\App\Action\Context;
-use Magento\Framework\App\Action\Action;
 use Magento\Checkout\Model\Session as CheckoutSession;
 use Magento\Framework\Message\ManagerInterface;
 use Cmsbox\Mercanet\Model\Service\OrderHandlerService;
@@ -20,7 +19,7 @@ use Cmsbox\Mercanet\Helper\Watchdog;
 use Cmsbox\Mercanet\Gateway\Config\Config;
 use Cmsbox\Mercanet\Model\Service\MethodHandlerService;
 
-class Normal extends Action {
+class Normal extends \Magento\Framework\App\Action\Action {
     /**
      * @var OrderHandlerService
      */

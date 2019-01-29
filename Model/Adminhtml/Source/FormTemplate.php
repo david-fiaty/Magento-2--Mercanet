@@ -10,11 +10,9 @@
 
 namespace Cmsbox\Mercanet\Model\Adminhtml\Source;
 
-use Magento\Framework\Option\ArrayInterface;
 use Cmsbox\Mercanet\Gateway\Processor\Connector;
 
-class FormTemplate implements ArrayInterface {
-
+class FormTemplate implements \Magento\Framework\Option\ArrayInterface {
     /**
      * Possible form templates
      *

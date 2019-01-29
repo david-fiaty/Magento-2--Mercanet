@@ -11,7 +11,6 @@
 namespace Cmsbox\Mercanet\Controller\Request;
  
 use Magento\Framework\App\Action\Context;
-use Magento\Framework\App\Action\Action;
 use Magento\Framework\Controller\Result\JsonFactory;
 use Magento\Framework\View\Result\PageFactory;
 use Cmsbox\Mercanet\Gateway\Config\Core;
@@ -22,7 +21,7 @@ use Cmsbox\Mercanet\Gateway\Processor\Connector;
 use Cmsbox\Mercanet\Helper\Tools;
 use Cmsbox\Mercanet\Helper\Watchdog;
 
-class Form extends Action {
+class Form extends \Magento\Framework\App\Action\Action {
     /**
      * @var PageFactory
      */

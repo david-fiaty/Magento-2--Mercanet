@@ -12,13 +12,12 @@ namespace Cmsbox\Mercanet\Model\Methods;
 
 use Magento\Framework\DataObject;
 use Magento\Quote\Api\Data\PaymentInterface;
-use Magento\Payment\Model\Method\AbstractMethod;
 use Cmsbox\Mercanet\Gateway\Config\Core;
 use Cmsbox\Mercanet\Helper\Tools;
 use Cmsbox\Mercanet\Gateway\Processor\Connector;
 use Cmsbox\Mercanet\Gateway\Config\Config;
 
-class FormMethod extends AbstractMethod {
+class FormMethod extends \Magento\Payment\Model\Method\AbstractMethod {
 
     protected $_code;
     protected $_isInitializeNeeded = true;

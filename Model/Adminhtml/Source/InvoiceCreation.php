@@ -10,11 +10,9 @@
 
 namespace Cmsbox\Mercanet\Model\Adminhtml\Source;
 
-use Magento\Framework\Option\ArrayInterface;
 use Magento\Sales\Model\Order\Payment\Transaction;
 
-class InvoiceCreation implements ArrayInterface {
-
+class InvoiceCreation implements \Magento\Framework\Option\ArrayInterface {
     /**
      * Possible environment types
      *

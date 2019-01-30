@@ -10,11 +10,6 @@
 
 namespace Cmsbox\Mercanet\Block\Payment;
 
-use Magento\Catalog\Block\Product\Context;
-use Magento\Framework\View\Asset\Repository as AssetRepository;
-use Cmsbox\Mercanet\Model\Service\FormHandlerService;
-use Cmsbox\Mercanet\Gateway\Config\Config;
-
 class Form extends \Magento\Framework\View\Element\Template {
 
     /**
@@ -46,10 +41,10 @@ class Form extends \Magento\Framework\View\Element\Template {
      * Form constructor.
      */
     public function __construct(
-        Context $context,
-        FormHandlerService $formHandler,
-        Config $config,
-        AssetRepository $assetRepository,
+        \Magento\Framework\View\Element\Template\Context $context,
+        \Cmsbox\Mercanet\Model\Service\FormHandlerService $formHandler,
+        \Cmsbox\Mercanet\Gateway\Config\Config $config,
+        \Magento\Framework\View\Asset\Repository $assetRepository,
         array $data = []
     ) {
         parent::__construct($context, $data);

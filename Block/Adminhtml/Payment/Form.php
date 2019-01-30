@@ -21,6 +21,11 @@ class Form extends \Magento\Payment\Block\Form\Cc {
     protected $_template;
 
     /**
+     * @var AssetRepository
+     */
+    public $assetRepository;
+
+    /**
      * @var Config
      */
     protected $paymentModelConfig;
@@ -52,7 +57,8 @@ class Form extends \Magento\Payment\Block\Form\Cc {
         \Magento\Framework\View\Element\Template\Context $context,
         \Magento\Payment\Model\Config $paymentModelConfig,
         \Cmsbox\Mercanet\Model\Service\FormHandlerService $formHandler,
-        \Cmsbox\Mercanet\Gateway\Config\Config $config
+        \Cmsbox\Mercanet\Gateway\Config\Config $config,
+        \Magento\Framework\View\Asset\Repository $assetRepository,
     ) {
         // Parent constructor
         parent::__construct($context, $paymentModelConfig);
@@ -60,6 +66,7 @@ class Form extends \Magento\Payment\Block\Form\Cc {
         // Assign the parameters
         $this->formHandler = $formHandler;
         $this->config = $config;
+        $this->assetRepository = $assetRepository;
         
         // Get the template config
         $template = $this->config->params[Core::moduleId() . '_admin_method'][Connector::KEY_FORM_TEMPLATE];

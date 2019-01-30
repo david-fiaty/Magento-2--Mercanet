@@ -11,7 +11,6 @@
 namespace Cmsbox\Mercanet\Observer\Backend;
 
 use Magento\Backend\Model\Auth\Session;
-use Magento\Framework\Event\ObserverInterface; 
 use Magento\Framework\Event\Observer;
 use Magento\Framework\App\Request\Http;
 use Magento\Sales\Model\Order\Payment\Transaction;
@@ -21,7 +20,7 @@ use Cmsbox\Mercanet\Gateway\Processor\Connector;
 use Cmsbox\Mercanet\Model\Service\MethodHandlerService;
 use Cmsbox\Mercanet\Gateway\Config\Core;
 
-class OrderSaveBefore implements ObserverInterface { 
+class OrderSaveBefore implements \Magento\Framework\Event\ObserverInterface { 
  
     /**
      * @var Session

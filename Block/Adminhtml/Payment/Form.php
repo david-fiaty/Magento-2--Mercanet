@@ -10,13 +10,7 @@
 
 namespace Cmsbox\Mercanet\Block\Adminhtml\Payment;
 
-use Magento\Framework\View\Element\Template;
-use Magento\Framework\View\Element\Template\Context;
-use Magento\Payment\Model\Config as PaymentModelConfig;
-use Magento\Framework\View\Asset\Repository as AssetRepository;
-use Cmsbox\Mercanet\Model\Service\FormHandlerService;
 use Cmsbox\Mercanet\Gateway\Config\Core;
-use Cmsbox\Mercanet\Gateway\Config\Config;
 use Cmsbox\Mercanet\Gateway\Processor\Connector;
 
 class Form extends \Magento\Payment\Block\Form\Cc {
@@ -27,6 +21,11 @@ class Form extends \Magento\Payment\Block\Form\Cc {
     protected $_template;
 
     /**
+     * @var Config
+     */
+    protected $paymentModelConfig;
+
+    /**
      * @var FormHandlerService
      */
     protected $formHandler;
@@ -35,11 +34,6 @@ class Form extends \Magento\Payment\Block\Form\Cc {
      * @var Config
      */
     public $config;
-
-    /**
-     * @var AssetRepository
-     */
-    public $assetRepository;
 
     /**
      * @var Array
@@ -55,18 +49,17 @@ class Form extends \Magento\Payment\Block\Form\Cc {
      * Form constructor.
      */
     public function __construct(
-        Context $context,
-        PaymentModelConfig $paymentModelConfig,
-        FormHandlerService $formHandler,
-        Config $config,
-        AssetRepository $assetRepository
+        \Magento\Framework\View\Element\Template\Context $context,
+        \Magento\Payment\Model\Config $paymentModelConfig,
+        \Cmsbox\Mercanet\Model\Service\FormHandlerService $formHandler,
+        \Cmsbox\Mercanet\Gateway\Config\Config $config
     ) {
+        // Parent constructor
         parent::__construct($context, $paymentModelConfig);
         
         // Assign the parameters
         $this->formHandler = $formHandler;
         $this->config = $config;
-        $this->assetRepository = $assetRepository;
         
         // Get the template config
         $template = $this->config->params[Core::moduleId() . '_admin_method'][Connector::KEY_FORM_TEMPLATE];

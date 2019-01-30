@@ -10,8 +10,6 @@
 
 namespace Cmsbox\Mercanet\Block;
 
-use Magento\Framework\Phrase;
-
 class Info extends \Magento\Payment\Block\ConfigurableInfo
 {
     /**
@@ -30,7 +28,6 @@ class Info extends \Magento\Payment\Block\ConfigurableInfo
      *
      * @param string $field
      * @param string $value
-     * @return string | Phrase
      */
     protected function getValueView($field, $value)
     {

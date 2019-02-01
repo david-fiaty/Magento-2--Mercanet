@@ -58,7 +58,7 @@ class Form extends \Magento\Payment\Block\Form\Cc {
         \Magento\Payment\Model\Config $paymentModelConfig,
         \Cmsbox\Mercanet\Model\Service\FormHandlerService $formHandler,
         \Cmsbox\Mercanet\Gateway\Config\Config $config,
-        \Magento\Framework\View\Asset\Repository $assetRepository,
+        \Magento\Framework\View\Asset\Repository $assetRepository
     ) {
         // Parent constructor
         parent::__construct($context, $paymentModelConfig);

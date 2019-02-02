@@ -98,7 +98,7 @@ class OrderSaveBefore implements \Magento\Framework\Event\ObserverInterface {
                             $paymentInfo->setAdditionalInformation(
                                 Connector::KEY_TRANSACTION_INFO,
                                 [
-                                    $this->config->base[Connector::KEY_TRANSACTION_ID_FIELD] => $methodInstance::getTransactionId($config, $paymentObject)
+                                    $this->config->base[Connector::KEY_TRANSACTION_ID_FIELD] => $methodInstance::getTransactionId($this->config, $paymentObject)
                                 ]
                             );
 

@@ -11,6 +11,7 @@
 namespace Cmsbox\Mercanet\Gateway\Config;
 
 use Magento\Store\Model\ScopeInterface;
+use Magento\Framework\Module\Dir;
 use Cmsbox\Mercanet\Gateway\Processor\Connector;
 use Cmsbox\Mercanet\Gateway\Config\Core;
 

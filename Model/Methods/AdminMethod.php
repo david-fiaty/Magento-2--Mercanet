@@ -169,7 +169,8 @@ class AdminMethod extends \Magento\Payment\Model\Method\AbstractMethod {
      * @return bool
      */  
     public static function isValidResponse($config, $methodId, $asset) {
-        return $asset->isValid();
+        $status = $asset->isValid();
+        return $status;
     }
 
     /**
@@ -178,7 +179,8 @@ class AdminMethod extends \Magento\Payment\Model\Method\AbstractMethod {
      * @return bool
      */  
     public static function isSuccessResponse($config, $methodId, $asset) {
-        return $asset->isValid();
+        $status = $asset->isValid();
+        return $status;
     }
     
     /**

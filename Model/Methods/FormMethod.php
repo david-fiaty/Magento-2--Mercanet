@@ -178,7 +178,8 @@ class FormMethod extends \Magento\Payment\Model\Method\AbstractMethod {
      * @return bool
      */  
     public static function isSuccessResponse($config, $methodId, $asset) {
-        return $asset->isValid();
+        $status = $asset->isValid();
+        return $status;
     }
 
     /**
@@ -187,6 +188,15 @@ class FormMethod extends \Magento\Payment\Model\Method\AbstractMethod {
      * @return bool
      */  
     public static function getTransactionId($config, $paymentObject) {
+        return $paymentObject->getParam($config->base[Connector::KEY_TRANSACTION_ID_FIELD]);
+    }
+
+    /**
+     * Logs request or response data.
+     *
+     * @return bool
+     */  
+    public static function logData($config, $paymentObject) {
         return $paymentObject->getParam($config->base[Connector::KEY_TRANSACTION_ID_FIELD]);
     }
 

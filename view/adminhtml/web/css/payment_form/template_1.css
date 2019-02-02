@@ -133,12 +133,22 @@ fieldset.cmsbox_mercanet_admin_method {
     font-size: 1.1rem !important;
 }
 
-.card-form-container .year .mage-error {
-    position: relative;
-    left: 9px; 
+.card-form-container .year div.mage-error,
+.card-form-container .year label.mage-error {
+    position: relative !important;
+    left: 9px !important; 
 }
 
 
-.card-form-container .cvv-input .mage-error {
-    float: right; 
+.card-form-container .cvv-input div.mage-error,
+.card-form-container .cvv-input label.mage-error {
+    text-indent: 12px !important; 
+}
+
+/* Admin */
+.card-form-container .admin__field-error, 
+.card-form-container label.mage-error {
+    background: transparent !important;
+    border: none !important;
+    color: red !important;
 }

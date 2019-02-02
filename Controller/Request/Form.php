@@ -137,7 +137,7 @@ class Form extends \Magento\Framework\App\Action\Action {
                     }
                 }
 
-                throw new \Magento\Framework\Exception\LocalizedException(__('Invalid method id or card data.'));
+                return __('The transaction data is invalid.');
             } 
         }
         catch (\Exception $e) {

@@ -168,7 +168,8 @@ class FormMethod extends \Magento\Payment\Model\Method\AbstractMethod {
      * @return bool
      */  
     public static function isValidResponse($config, $methodId, $asset) {
-        return $asset->isValid();
+        $status = $asset->isValid();
+        return $status;
     }
 
     /**

@@ -187,6 +187,22 @@ class AdminMethod extends \Magento\Payment\Model\Method\AbstractMethod {
     }
     
     /**
+     * Logs a request data.
+     */  
+    public static function logRequestData($action, $watchdog, $asset) {
+        $logData = $paymentObject;
+        $watchdog->bark($action, $logData, $canDisplay = false, $canLog = true);
+    }
+
+    /**
+     * Logs a response data.
+     */  
+    public static function logResponseData($action, $watchdog, $asset) {
+        $logData = $asset->getResponseRequest();
+        $watchdog->bark($action, $logData, $canDisplay = false, $canLog = true);
+    }
+    
+    /**
      * Determines if the method is active on frontend.
      */
     public static function isFrontend($config, $methodId) {

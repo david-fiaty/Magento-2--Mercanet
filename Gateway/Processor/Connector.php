@@ -42,7 +42,7 @@ class Connector {
      */
     public static function unpackData($response) {
         // Get the parameters
-        $params = $response['Data'];
+        $params = $response;
 
         // Prepare the separators
         $separator1 = '|';

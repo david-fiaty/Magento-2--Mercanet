@@ -22,12 +22,12 @@ fieldset.cmsbox_mercanet_admin_method {
 }
 
 .card-form-container .form-header {
-    padding       : 20px 32px 20px;
+    padding       : 10px 22px 10px;
     border-bottom : 1px solid #E1E8EE;
 }
 
 .card-form-container .form-body {
-    padding : 30px 32px 30px;
+    padding : 20px 22px 20px;
     display: flex;
     flex-direction: column;
 }
@@ -68,7 +68,7 @@ fieldset.cmsbox_mercanet_admin_method {
 
 /* Card Number */
 .card-form-container .card-number {
-    width         : 98%;
+    width         : 100%;
     padding-left  : 20px;
     border        : 2px solid #e1e8ee;
     border-radius : 6px;
@@ -151,4 +151,8 @@ fieldset.cmsbox_mercanet_admin_method {
     background: transparent !important;
     border: none !important;
     color: red !important;
+}
+
+label[id^="card_data"].mage-error {
+    padding-left: 0px;
 }

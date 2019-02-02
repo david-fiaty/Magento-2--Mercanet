@@ -119,7 +119,7 @@ class Form extends \Magento\Framework\App\Action\Action {
                         // Prepare the order data
                         $params = Connector::packData([
                             $this->config->base[Connector::KEY_ORDER_ID_FIELD]       => $this->tools->getIncrementId($quote),
-                            Connector::KEY_TRANSACTION_ID_FIELD                      => $methodInstance::getTransactionId($this->config, $paymentObject),
+                            $this->config->base[Connector::KEY_TRANSACTION_ID_FIELD] => $methodInstance::getTransactionId($this->config, $paymentObject),
                             $this->config->base[Connector::KEY_CUSTOMER_EMAIL_FIELD] => isset($response[$this->config->base[Connector::KEY_CUSTOMER_EMAIL_FIELD]])
                                 ? $response[$this->config->base[Connector::KEY_CUSTOMER_EMAIL_FIELD]]
                                 : $this->orderHandler->findCustomerEmail($quote),

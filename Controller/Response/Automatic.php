@@ -10,12 +10,7 @@
 
 namespace Cmsbox\Mercanet\Controller\Response;
  
-use Magento\Framework\App\Action\Context;
-use Magento\Framework\Controller\Result\JsonFactory;
-use Cmsbox\Mercanet\Model\Service\OrderHandlerService;
 use Cmsbox\Mercanet\Gateway\Processor\Connector;
-use Cmsbox\Mercanet\Helper\Watchdog;
-use Cmsbox\Mercanet\Gateway\Config\Config;
 use Cmsbox\Mercanet\Gateway\Config\Core;
 
 class Automatic extends \Magento\Framework\App\Action\Action {
@@ -48,17 +43,15 @@ class Automatic extends \Magento\Framework\App\Action\Action {
      * Automatic constructor.
      */
     public function __construct(
-        Context $context,
-        OrderHandlerService $orderHandler,
-        Connector $connector,
-        JsonFactory $resultJsonFactory,
-        Watchdog $watchdog,
-        Config $config
+        \Magento\Framework\App\Action\Context $context,
+        \Cmsbox\Mercanet\Model\Service\OrderHandlerService $orderHandler,
+        \Magento\Framework\Controller\Result\JsonFactory $resultJsonFactory,
+        \Cmsbox\Mercanet\Helper\Watchdog $watchdog,
+        \Cmsbox\Mercanet\Gateway\Config\Config $config
     ) {
         parent::__construct($context);
         
         $this->orderHandler        = $orderHandler;
-        $this->connector           = $connector;
         $this->resultJsonFactory   = $resultJsonFactory;
         $this->watchdog            = $watchdog;
         $this->config              = $config;

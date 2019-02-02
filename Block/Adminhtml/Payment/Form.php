@@ -14,7 +14,6 @@ use Cmsbox\Mercanet\Gateway\Config\Core;
 use Cmsbox\Mercanet\Gateway\Processor\Connector;
 
 class Form extends \Magento\Payment\Block\Form\Cc {
-
     /**
      * @var String
      */

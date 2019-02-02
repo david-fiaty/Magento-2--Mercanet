@@ -10,18 +10,12 @@
 
 namespace Cmsbox\Mercanet\Observer\Backend;
 
-use Magento\Backend\Model\Auth\Session;
 use Magento\Framework\Event\Observer;
-use Magento\Framework\App\Request\Http;
 use Magento\Sales\Model\Order\Payment\Transaction;
-use Cmsbox\Mercanet\Helper\Tools;
-use Cmsbox\Mercanet\Gateway\Config\Config;
 use Cmsbox\Mercanet\Gateway\Processor\Connector;
-use Cmsbox\Mercanet\Model\Service\MethodHandlerService;
 use Cmsbox\Mercanet\Gateway\Config\Core;
 
 class OrderSaveBefore implements \Magento\Framework\Event\ObserverInterface { 
- 
     /**
      * @var Session
      */
@@ -51,11 +45,11 @@ class OrderSaveBefore implements \Magento\Framework\Event\ObserverInterface {
      * OrderSaveBefore constructor.
      */
     public function __construct(
-        Session $backendAuthSession,
-        Http $request,
-        Tools $tools,
-        Config $config,
-        MethodHandlerService $methodHandler
+        \Magento\Backend\Model\Auth\Session $backendAuthSession,
+        \Magento\Framework\App\Request\Http $request,
+        \Cmsbox\Mercanet\Helper\Tools $tools,
+        \Cmsbox\Mercanet\Gateway\Config\Config $config,
+        \Cmsbox\Mercanet\Model\Service\MethodHandlerService $methodHandler
     ) {
         $this->backendAuthSession    = $backendAuthSession;
         $this->request               = $request;

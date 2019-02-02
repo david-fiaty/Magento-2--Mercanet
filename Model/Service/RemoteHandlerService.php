@@ -10,16 +10,7 @@
 
 namespace Cmsbox\Mercanet\Model\Service;
 
-use Magento\Sales\Model\Order;
-use Magento\Sales\Api\OrderRepositoryInterface;
-use Magento\Sales\Model\Order\Payment\Transaction;
-use Cmsbox\Mercanet\Gateway\Config\Config;
-use Cmsbox\Mercanet\Helper\Tools;
-use Cmsbox\Mercanet\Gateway\Http\Client;
-use Cmsbox\Mercanet\Gateway\Processor\Connector;
-
 class RemoteHandlerService {
-
     /**
      * @var OrderRepositoryInterface
      */
@@ -49,11 +40,11 @@ class RemoteHandlerService {
      * RemoteHandlerService constructor.
      */
     public function __construct(
-        OrderRepositoryInterface $orderRepository,
-        Config $config,
-        Tools $tools,
-        Client $client,
-        Connector $connector
+        \Magento\Sales\Api\OrderRepositoryInterface $orderRepository,
+        \Cmsbox\Mercanet\Gateway\Config\Config $config,
+        \Cmsbox\Mercanet\Helper\Tools $tools,
+        \Cmsbox\Mercanet\Gateway\Http\Client $client,
+        \Cmsbox\Mercanet\Gateway\Processor\Connector $connector
     ) {
         $this->orderRepository    = $orderRepository;
         $this->config             = $config;

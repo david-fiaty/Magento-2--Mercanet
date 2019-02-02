@@ -10,9 +10,6 @@
 
 namespace Cmsbox\Mercanet\Controller\Request;
 
-use Magento\Framework\App\Action\Context;
-use Magento\Framework\Controller\Result\JsonFactory;
-use Cmsbox\Mercanet\Helper\Watchdog;
 use Cmsbox\Mercanet\Gateway\Processor\Connector;
 
 class Logger extends \Magento\Framework\App\Action\Action {
@@ -30,9 +27,9 @@ class Logger extends \Magento\Framework\App\Action\Action {
      * Normal constructor.
      */
     public function __construct(
-        Context $context,
-        JsonFactory $jsonFactory,
-        Watchdog $watchdog
+        \Magento\Framework\App\Action\Context $context,
+        \Magento\Framework\Controller\Result\JsonFactory $jsonFactory,
+        \Cmsbox\Mercanet\Helper\Watchdog $watchdog
     ) {
         parent::__construct($context);
 

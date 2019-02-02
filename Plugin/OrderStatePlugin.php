@@ -10,17 +10,10 @@
 
 namespace Cmsbox\Mercanet\Plugin;
 
-use Closure;
-use Magento\Sales\Api\Data\OrderPaymentInterface;
-use Magento\Sales\Api\Data\OrderInterface;
-use Magento\Sales\Model\Order\Payment\State\CommandInterface;
 use Magento\Sales\Model\Order;
-use Cmsbox\Mercanet\Helper\Tools;
-use Cmsbox\Mercanet\Gateway\Config\Config;
 use Cmsbox\Mercanet\Gateway\Config\Core;
 
 class OrderStatePlugin {
-
     /**
      * @var Tools
      */
@@ -35,19 +28,19 @@ class OrderStatePlugin {
      * OrderStatePlugin constructor.
      */
     public function __construct(
-        Tools $tools,
-        Config $config
+        \Cmsbox\Mercanet\Helper\Tools $tools,
+        \Cmsbox\Mercanet\Gateway\Config\Config $config
     ) {
-        $this->tools         = $tools;
+        $this->tools  = $tools;
         $this->config = $config;
     }
 
     public function aroundExecute(
-        CommandInterface $subject, 
-        Closure $proceed, 
-        OrderPaymentInterface $payment, 
+        \Magento\Sales\Model\Order\Payment\State\CommandInterface $subject, 
+        \Closure $proceed, 
+        \Magento\Sales\Api\Data\OrderPaymentInterface $payment, 
         $amount, 
-        OrderInterface $order
+        \Magento\Sales\Api\Data\OrderInterface $order
     ) {
         // Prepare the result
         $result = $proceed($payment, $amount, $order);

@@ -10,15 +10,10 @@
 
 namespace Cmsbox\Mercanet\Helper;
 
-use Psr\Log\LoggerInterface;
-use Magento\Framework\Message\ManagerInterface;
-use Cmsbox\Mercanet\Gateway\Config\Config;
-use Cmsbox\Mercanet\Helper\Tools;
 use Cmsbox\Mercanet\Gateway\Config\Core;
 use Cmsbox\Mercanet\Gateway\Processor\Connector;
 
 class Watchdog {
-
     /**
      * @var ManagerInterface
      */
@@ -43,10 +38,10 @@ class Watchdog {
      * Watchdog constructor.
      */
     public function __construct(
-        ManagerInterface $messageManager,
-        Config $config,
-        Tools $tools,
-        LoggerInterface $logger
+        \Magento\Framework\Message\ManagerInterface $messageManager,
+        \Cmsbox\Mercanet\Gateway\Config\Config $config,
+        \Cmsbox\Mercanet\Helper\Tools $tools,
+        \Psr\Log\LoggerInterface $logger
     ) {
         $this->messageManager = $messageManager;
         $this->config         = $config;

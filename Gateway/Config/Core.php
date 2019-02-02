@@ -11,7 +11,6 @@
 namespace Cmsbox\Mercanet\Gateway\Config;
 
 class Core {
-
     const CODE = 'cmsbox_mercanet';
     const CODE_ADMIN = 'cmsbox_mercanet_admin_method';
     const CODE_FORM = 'cmsbox_mercanet_form_method';

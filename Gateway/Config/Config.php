@@ -10,21 +10,11 @@
  
 namespace Cmsbox\Mercanet\Gateway\Config;
 
-use Magento\Framework\Module\Dir;
-use Magento\Framework\Module\Dir\Reader;
-use Magento\Framework\Xml\Parser;
 use Magento\Store\Model\ScopeInterface;
-use Magento\Framework\Locale\Resolver;
-use Magento\Framework\App\Config\ScopeConfigInterface;
-use Magento\Checkout\Model\Session as CheckoutSession;
-use Magento\Checkout\Model\Cart;
-use Magento\Store\Model\StoreManagerInterface;
 use Cmsbox\Mercanet\Gateway\Processor\Connector;
 use Cmsbox\Mercanet\Gateway\Config\Core;
-use Cmsbox\Mercanet\Model\Service\MethodHandlerService;
 
 class Config {
-
     const KEY_ENVIRONMENT = 'environment';
     const KEY_SIMU_MERCHANT_ID = 'simu_merchant_id';
     const KEY_TEST_MERCHANT_ID = 'test_merchant_id';
@@ -93,14 +83,14 @@ class Config {
      * Config constructor.
      */
     public function __construct(
-        Reader $moduleDirReader,
-        Parser $xmlParser,
-        ScopeConfigInterface $scopeConfig,
-        CheckoutSession $checkoutSession,
-        Cart $cart,
-        StoreManagerInterface $storeManager,
-        MethodHandlerService $methodHandler,
-        Resolver $localeResolver
+        \Magento\Framework\Module\Dir\Reader $moduleDirReader,
+        \Magento\Framework\Xml\Parser $xmlParser,
+        \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
+        \Magento\Checkout\Model\Session $checkoutSession,
+        \Magento\Checkout\Model\Cart $cart,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
+        \Cmsbox\Mercanet\Model\Service\MethodHandlerService $methodHandler,
+        \Magento\Framework\Locale\Resolver $localeResolver
     ) {
         $this->moduleDirReader = $moduleDirReader;
         $this->xmlParser       = $xmlParser;

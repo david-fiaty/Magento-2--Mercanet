@@ -11,7 +11,6 @@
 namespace Cmsbox\Mercanet\Gateway\Processor;
 
 class Connector {
-
     const KEY_REQUEST = 'request';
     const KEY_RESPONSE = 'response';
     const KEY_LOGGING = 'logging';

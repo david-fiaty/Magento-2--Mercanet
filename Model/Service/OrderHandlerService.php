@@ -10,25 +10,12 @@
 
 namespace Cmsbox\Mercanet\Model\Service;
 
-use Magento\Checkout\Model\Session as CheckoutSession;
-use Magento\Customer\Model\Session as CustomerSession;
 use Magento\Customer\Api\Data\GroupInterface;
-use Magento\Quote\Model\QuoteManagement;
-use Magento\Sales\Model\Order\Email\Sender\OrderSender;
-use Magento\Sales\Api\OrderRepositoryInterface;
-use Magento\Sales\Api\Data\OrderInterface;
 use Magento\Sales\Model\Order\Payment\Transaction;
-use Magento\Framework\Stdlib\CookieManagerInterface;
-use Magento\Quote\Model\QuoteFactory;
-use Magento\Checkout\Model\Cart;
-use Cmsbox\Mercanet\Model\Service\TransactionHandlerService;
 use Cmsbox\Mercanet\Gateway\Processor\Connector;
 use Cmsbox\Mercanet\Gateway\Config\Core;
-use Cmsbox\Mercanet\Gateway\Config\Config;
-use Cmsbox\Mercanet\Helper\Watchdog;
 
 class OrderHandlerService {
-
     /**
      * @var CookieManagerInterface
      */
@@ -93,18 +80,18 @@ class OrderHandlerService {
      * OrderHandlerService constructor.
      */
     public function __construct(
-        CookieManagerInterface $cookieManager,
-        QuoteFactory $quoteFactory,
-        Cart $cart,
-        TransactionHandlerService $transactionHandler,
-        CheckoutSession $checkoutSession,
-        CustomerSession $customerSession,
-        QuoteManagement $quoteManagement, 
-        OrderSender $orderSender,
-        OrderRepositoryInterface $orderRepository,
-        OrderInterface $orderInterface,
-        Watchdog $watchdog,
-        Config $config
+        \Magento\Framework\Stdlib\CookieManagerInterface $cookieManager,
+        \Magento\Quote\Model\QuoteFactory $quoteFactory,
+        \Magento\Checkout\Model\Cart $cart,
+        \Cmsbox\Mercanet\Model\Service\TransactionHandlerService $transactionHandler,
+        \Magento\Checkout\Model\Session $checkoutSession,
+        \Magento\Customer\Model\Session $customerSession,
+        \Magento\Quote\Model\QuoteManagement $quoteManagement, 
+        \Magento\Sales\Model\Order\Email\Sender\OrderSender $orderSender,
+        \Magento\Sales\Api\OrderRepositoryInterface $orderRepository,
+        \Magento\Sales\Api\Data\OrderInterface $orderInterface,
+        \Cmsbox\Mercanet\Helper\Watchdog $watchdog,
+        \Cmsbox\Mercanet\Gateway\Config\Config $config
     ) {
         $this->cookieManager         = $cookieManager;
         $this->quoteFactory          = $quoteFactory;

@@ -11,7 +11,6 @@
 namespace Cmsbox\Mercanet\Block\Payment;
 
 class Form extends \Magento\Framework\View\Element\Template {
-
     /**
      * @var FormHandlerService
      */

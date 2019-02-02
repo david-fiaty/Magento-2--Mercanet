@@ -55,7 +55,7 @@ class RedirectMethod extends \Magento\Payment\Model\Method\AbstractMethod {
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Payment\Model\Method\Logger $logger,
         \Magento\Backend\Model\Auth\Session $backendAuthSession,
-        Config $config,
+        \Cmsbox\Mercanet\Gateway\Config\Config $config,
         \Magento\Checkout\Model\Cart $cart,
         \Magento\Framework\UrlInterface $urlBuilder,
         \Magento\Framework\ObjectManagerInterface $objectManager, 

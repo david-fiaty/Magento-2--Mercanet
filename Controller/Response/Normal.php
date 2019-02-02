@@ -10,14 +10,7 @@
 
 namespace Cmsbox\Mercanet\Controller\Response;
  
-use Magento\Framework\App\Action\Context;
-use Magento\Checkout\Model\Session as CheckoutSession;
-use Magento\Framework\Message\ManagerInterface;
-use Cmsbox\Mercanet\Model\Service\OrderHandlerService;
 use Cmsbox\Mercanet\Gateway\Processor\Connector;
-use Cmsbox\Mercanet\Helper\Watchdog;
-use Cmsbox\Mercanet\Gateway\Config\Config;
-use Cmsbox\Mercanet\Model\Service\MethodHandlerService;
 
 class Normal extends \Magento\Framework\App\Action\Action {
     /**
@@ -59,20 +52,18 @@ class Normal extends \Magento\Framework\App\Action\Action {
      * Normal constructor.
      */
     public function __construct(
-        Context $context,
-        OrderHandlerService $orderHandler,
-        CheckoutSession $checkoutSession,
-        Connector $connector,
-        ManagerInterface $messageManager,
-        Watchdog $watchdog,
-        Config $config,
-        MethodHandlerService $methodHandler
+        \Magento\Framework\App\Action\Context $context,
+        \Cmsbox\Mercanet\Model\Service\OrderHandlerService $orderHandler,
+        \Magento\Checkout\Model\Session $checkoutSession,
+        \Magento\Framework\Message\ManagerInterface $messageManager,
+        \Cmsbox\Mercanet\Helper\Watchdog $watchdog,
+        \Cmsbox\Mercanet\Gateway\Config\Config $config,
+        \Cmsbox\Mercanet\Model\Service\MethodHandlerService $methodHandler
     ) {
         parent::__construct($context);
 
         $this->orderHandler          = $orderHandler;
         $this->checkoutSession       = $checkoutSession;
-        $this->connector             = $connector;
         $this->messageManager        = $messageManager;
         $this->watchdog              = $watchdog;
         $this->config                = $config;

@@ -10,16 +10,8 @@
 
 namespace Cmsbox\Mercanet\Controller\Request;
  
-use Magento\Framework\App\Action\Context;
-use Magento\Framework\Controller\Result\JsonFactory;
-use Magento\Framework\View\Result\PageFactory;
 use Cmsbox\Mercanet\Gateway\Config\Core;
-use Cmsbox\Mercanet\Model\Service\MethodHandlerService;
-use Cmsbox\Mercanet\Model\Service\OrderHandlerService;
-use Cmsbox\Mercanet\Gateway\Config\Config;
 use Cmsbox\Mercanet\Gateway\Processor\Connector;
-use Cmsbox\Mercanet\Helper\Tools;
-use Cmsbox\Mercanet\Helper\Watchdog;
 
 class Form extends \Magento\Framework\App\Action\Action {
     /**
@@ -61,14 +53,14 @@ class Form extends \Magento\Framework\App\Action\Action {
      * Normal constructor.
      */
     public function __construct(
-        Context $context,
-        PageFactory $pageFactory,
-        JsonFactory $jsonFactory,
-        MethodHandlerService $methodHandler,
-        Config $config,
-        OrderHandlerService $orderHandler,
-        Tools $tools,
-        Watchdog $watchdog
+        \Magento\Framework\App\Action\Context $context,
+        \Magento\Framework\View\Result\PageFactory $pageFactory,
+        \Magento\Framework\Controller\Result\JsonFactory $jsonFactory,
+        \Cmsbox\Mercanet\Model\Service\MethodHandlerService $methodHandler,
+        \Cmsbox\Mercanet\Gateway\Config\Config $config,
+        \Cmsbox\Mercanet\Model\Service\OrderHandlerService $orderHandler,
+        \Cmsbox\Mercanet\Helper\Tools $tools,
+        \Cmsbox\Mercanet\Helper\Watchdog $watchdog
     ) {
         parent::__construct($context);
 

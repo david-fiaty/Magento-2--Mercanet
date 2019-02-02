@@ -11,15 +11,10 @@
 namespace Cmsbox\Mercanet\Helper;
 
 use Magento\Framework\Message\ManagerInterface;
-use Magento\Framework\App\Request\Http;
-use Magento\Framework\App\Config\ScopeConfigInterface;
 use Magento\Store\Model\ScopeInterface;
-use Magento\Framework\File\Csv;
-use Magento\Framework\Module\Dir\Reader;
 use Cmsbox\Mercanet\Gateway\Config\Core;
 
 class Tools {
-
     /**
      * @var Http
      */    
@@ -44,10 +39,10 @@ class Tools {
      * Tools constructor.
      */
     public function __construct(
-        Http $request,
-        ScopeConfigInterface $scopeConfig,
-        Csv $csvParser,
-        Reader $moduleDirReader
+        \Magento\Framework\App\Request\Http $request,
+        \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
+        \Magento\Framework\File\Csv $csvParser,
+        \Magento\Framework\Module\Dir\Reader $moduleDirReader
     ) {
         $this->request         = $request;
         $this->scopeConfig     = $scopeConfig;

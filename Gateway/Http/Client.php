@@ -10,7 +10,6 @@
 
 namespace Cmsbox\Mercanet\Gateway\Http;
 
-use Magento\Framework\HTTP\Client\Curl;
 use Magento\Payment\Gateway\Request\BuilderInterface;
 use Cmsbox\Mercanet\Gateway\Processor\Connector;
 
@@ -24,7 +23,7 @@ class Client {
      * Client constructor.
      */     
     public function __construct(
-        Curl $curl
+        Magento\Framework\HTTP\Client\Curl $curl
     ) {
         $this->curl            = $curl;
 

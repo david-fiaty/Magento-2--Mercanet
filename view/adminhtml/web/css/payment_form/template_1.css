@@ -85,7 +85,7 @@ fieldset.cmsbox_mercanet_admin_method {
 .card-form-container .year select {
     -moz-appearance     : none;
     -webkit-appearance  : none;
-    width               : 145px;
+    width               : 140px;
     padding-left        : 20px;
     border              : 2px solid #e1e8ee;
     border-radius       : 6px;
@@ -109,7 +109,7 @@ fieldset.cmsbox_mercanet_admin_method {
 }
 
 .card-form-container .cvv-input input {
-    width         : 145px;
+    width         : 140px;
     float         : left;
     padding-left  : 20px;
     border        : 2px solid #e1e8ee;
@@ -127,9 +127,13 @@ fieldset.cmsbox_mercanet_admin_method {
 .card-form-container .cvv-details p {
     margin-top : 6px;
 }
-  
 
 .card-form-container .field-error {
     margin-top : 0px !important;
     font-size: 1.1rem !important;
+}
+
+.card-form-container .year .field-error {
+    position: relative;
+    left: 9px; 
 }

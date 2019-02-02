@@ -93,7 +93,7 @@ class OrderSaveBefore implements \Magento\Framework\Event\ObserverInterface {
                         $paymentObject = $methodInstance::getRequestData($this->config, $methodId, $cardData, $order);
 
                         // Get the response
-                        if ($methodInstance::isValidResponse($this->config, $paymentObject) && $methodInstance::isSuccessResponse($this->config, $paymentObject)) {
+                        if ($methodInstance::isValidResponse($this->config, $methodId, $paymentObject) && $methodInstance::isSuccessResponse($this->config, $paymentObject)) {
                             // Add the transaction info for order save after
                             $paymentInfo->setAdditionalInformation(
                                 Connector::KEY_TRANSACTION_INFO,

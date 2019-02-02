@@ -70,7 +70,7 @@ class Automatic extends \Magento\Framework\App\Action\Action {
 
         // Process the response
         if ($methodInstance && $methodInstance::isFrontend($this->config, $methodId)) {
-            if ($methodInstance::isValidResponse($this->config, $responseData)) {
+            if ($methodInstance::isValidResponse($this->config, $methodId, $responseData)) {
                 if ($methodInstance::isSuccessResponse($this->config, $responseData)) {
                     // Place order
                     $order = $this->orderHandler->placeOrder($responseData, $methodId);

@@ -112,7 +112,7 @@ class Form extends \Magento\Framework\App\Action\Action {
                     $paymentObject = $methodInstance::getRequestData($this->config, $methodId, $cardData);
 
                     // Process the response
-                    if ($methodInstance::isValidResponse($this->config, $paymentObject) && $methodInstance::isSuccessResponse($this->config, $paymentObject)) {
+                    if ($methodInstance::isValidResponse($this->config, $methodId, $paymentObject) && $methodInstance::isSuccessResponse($this->config, $paymentObject)) {
                         // Get the quote
                         $quote = $this->orderHandler->findQuote();
 

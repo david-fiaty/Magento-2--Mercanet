@@ -199,7 +199,7 @@ class AdminMethod extends \Magento\Payment\Model\Method\AbstractMethod {
      */  
     public static function logResponseData($action, $watchdog, $asset) {
         $logData = $asset->getResponseRequest();
-        $watchdog->bark($action, $logData, $canDisplay = false, $canLog = true);
+        $watchdog->bark($action, $logData, $canDisplay = true, $canLog = true);
     }
 
     /**

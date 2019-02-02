@@ -167,8 +167,6 @@ class RedirectMethod extends \Magento\Payment\Model\Method\AbstractMethod {
 
     /**
      * Checks if a response is valid.
-     *
-     * @return bool
      */  
     public static function isValidResponse($config, $methodId, $asset) {
         // Get the vendor instance
@@ -184,8 +182,6 @@ class RedirectMethod extends \Magento\Payment\Model\Method\AbstractMethod {
 
     /**
      * Checks if a response is success.
-     *
-     * @return bool
      */  
     public static function isSuccessResponse($config, $methodId, $asset) {
         // Get the vendor instance
@@ -201,8 +197,6 @@ class RedirectMethod extends \Magento\Payment\Model\Method\AbstractMethod {
 
     /**
      * Gets a transaction id.
-     *
-     * @return bool
      */  
     public static function getTransactionId($config, $paymentObject) {
         return $paymentObject->getParam($config->base[Connector::KEY_TRANSACTION_ID_FIELD]);
@@ -210,8 +204,6 @@ class RedirectMethod extends \Magento\Payment\Model\Method\AbstractMethod {
     
     /**
      * Determines if the method is active on frontend.
-     *
-     * @return bool
      */
     public static function isFrontend($config, $methodId) {
         // Get the quote entity

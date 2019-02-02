@@ -111,6 +111,9 @@ class Form extends \Magento\Framework\App\Action\Action {
                     // Process the payment
                     $paymentObject = $methodInstance::getRequestData($this->config, $methodId, $cardData);
 
+                    // Log the response
+                    $methodInstance::logResponseData(Connector::KEY_RESPONSE, $this->watchdog, $paymentObject);
+
                     // Process the response
                     if ($methodInstance::isValidResponse($this->config, $methodId, $paymentObject) && $methodInstance::isSuccessResponse($this->config, $methodId, $paymentObject)) {
                         // Get the quote

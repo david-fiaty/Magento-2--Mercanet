@@ -186,10 +186,19 @@ class FormMethod extends \Magento\Payment\Model\Method\AbstractMethod {
     }
 
     /**
-     * Logs request or response data.
+     * Logs a request data.
      */  
-    public static function logData($config, $paymentObject) {
-        return $paymentObject->getParam($config->base[Connector::KEY_TRANSACTION_ID_FIELD]);
+    public static function logRequestData($action, $watchdog, $asset) {
+        $logData = $paymentObject;
+        $watchdog->bark($action, $logData, $canDisplay = false, $canLog = true);
+    }
+
+    /**
+     * Logs a response data.
+     */  
+    public static function logResponseData($action, $watchdog, $asset) {
+        $logData = $asset->getResponseRequest();
+        $watchdog->bark($action, $logData, $canDisplay = false, $canLog = true);
     }
 
     /**

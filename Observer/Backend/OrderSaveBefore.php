@@ -42,6 +42,11 @@ class OrderSaveBefore implements \Magento\Framework\Event\ObserverInterface {
     protected $methodHandler;
 
     /**
+     * @var Watchdog
+     */
+    protected $watchdog;
+
+    /**
      * OrderSaveBefore constructor.
      */
     public function __construct(
@@ -49,13 +54,15 @@ class OrderSaveBefore implements \Magento\Framework\Event\ObserverInterface {
         \Magento\Framework\App\Request\Http $request,
         \Cmsbox\Mercanet\Helper\Tools $tools,
         \Cmsbox\Mercanet\Gateway\Config\Config $config,
-        \Cmsbox\Mercanet\Model\Service\MethodHandlerService $methodHandler
+        \Cmsbox\Mercanet\Model\Service\MethodHandlerService $methodHandler,
+        \Cmsbox\Mercanet\Helper\Watchdog $watchdog
     ) {
         $this->backendAuthSession    = $backendAuthSession;
         $this->request               = $request;
         $this->tools                 = $tools;
         $this->config                = $config;
         $this->methodHandler         = $methodHandler;
+        $this->watchdog              = $watchdog;
 
         // Get the request parameters
         $this->params = $this->request->getParams();
@@ -91,6 +98,9 @@ class OrderSaveBefore implements \Magento\Framework\Event\ObserverInterface {
                     if ($methodInstance) {
                         // Get the request object
                         $paymentObject = $methodInstance::getRequestData($this->config, $methodId, $cardData, $order);
+
+                        // Log the response
+                        $methodInstance::logResponseData(Connector::KEY_RESPONSE, $this->watchdog, $paymentObject);
 
                         // Get the response
                         if ($methodInstance::isValidResponse($this->config, $methodId, $paymentObject) && $methodInstance::isSuccessResponse($this->config, $methodId, $paymentObject)) {

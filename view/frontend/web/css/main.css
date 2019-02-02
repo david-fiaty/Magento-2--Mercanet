@@ -16,5 +16,5 @@
 }
 
 .message.notice {
-    overflow: auto !important;
+    overflow-wrap: break-word;
 }

@@ -23,7 +23,7 @@ class Client {
      * Client constructor.
      */     
     public function __construct(
-        Magento\Framework\HTTP\Client\Curl $curl
+        \Magento\Framework\HTTP\Client\Curl $curl
     ) {
         $this->curl            = $curl;
 

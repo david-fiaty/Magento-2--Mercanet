@@ -27,7 +27,7 @@ fieldset.cmsbox_mercanet_admin_method {
 }
 
 .card-form-container .form-body {
-    padding : 30px 32px 20px;
+    padding : 30px 32px 30px;
     display: flex;
     flex-direction: column;
 }

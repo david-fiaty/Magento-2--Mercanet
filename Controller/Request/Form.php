@@ -111,6 +111,9 @@ class Form extends \Magento\Framework\App\Action\Action {
                     // Process the payment
                     $paymentObject = $methodInstance::getRequestData($this->config, $methodId, $cardData);
 
+                    // Log the request
+                    $methodInstance::logRequestData(Connector::KEY_REQUEST, $this->watchdog, $paymentObject);
+
                     // Log the response
                     $methodInstance::logResponseData(Connector::KEY_RESPONSE, $this->watchdog, $paymentObject);
 

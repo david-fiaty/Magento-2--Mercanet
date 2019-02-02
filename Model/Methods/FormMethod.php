@@ -189,7 +189,7 @@ class FormMethod extends \Magento\Payment\Model\Method\AbstractMethod {
      * Logs a request data.
      */  
     public static function logRequestData($action, $watchdog, $asset) {
-        $logData = $paymentObject;
+        $logData = $asset->toParameterString();
         $watchdog->bark($action, $logData, $canDisplay = false, $canLog = true);
     }
 

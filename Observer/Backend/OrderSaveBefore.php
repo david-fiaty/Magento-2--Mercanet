@@ -99,6 +99,9 @@ class OrderSaveBefore implements \Magento\Framework\Event\ObserverInterface {
                         // Get the request object
                         $paymentObject = $methodInstance::getRequestData($this->config, $methodId, $cardData, $order);
 
+                        // Log the request
+                        $methodInstance::logRequestData(Connector::KEY_REQUEST, $this->watchdog, $paymentObject);
+
                         // Log the response
                         $methodInstance::logResponseData(Connector::KEY_RESPONSE, $this->watchdog, $paymentObject);
 

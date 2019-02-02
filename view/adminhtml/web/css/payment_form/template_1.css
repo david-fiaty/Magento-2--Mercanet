@@ -133,7 +133,12 @@ fieldset.cmsbox_mercanet_admin_method {
     font-size: 1.1rem !important;
 }
 
-.card-form-container .year .field-error {
+.card-form-container .year .mage-error {
     position: relative;
     left: 9px; 
+}
+
+
+.card-form-container .cvv-input .mage-error {
+    float: right; 
 }

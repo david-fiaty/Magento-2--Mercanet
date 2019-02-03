@@ -35,8 +35,8 @@ $formCssFile = $this->assetRepository->createAsset($moduleName . '::css/payment_
     <p>
         <input type="text" 
                class="checkout-input checkout-name"
-               placeholder="<?= $block->escapeHtml(__('Card holder name')); ?>"
-               name="card_data[name]"
+               placeholder="<?= $block->escapeHtml(__('Card owner name')); ?>"
+               name="card_data[owner]"
                >
         <input type="text"
                class="checkout-input checkout-exp"

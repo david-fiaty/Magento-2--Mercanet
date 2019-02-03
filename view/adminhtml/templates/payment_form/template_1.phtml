@@ -33,13 +33,13 @@ $formCssFile = $this->assetRepository->createAsset($moduleName . '::css/payment_
             <h4 class="title"><?= $block->escapeHtml(__('Card details')); ?></h4>
         </div>
         <div class="form-body">
-            <!-- Card Holder -->
+            <!-- Card Owner -->
             <div class="control">
                 <input type="text"
-                    name="card_data[name]"
-                    class="card-holder"
-                    placeholder="<?= $block->escapeHtml(__('Card holder name')); ?>"
-                    title="<?= $block->escapeHtml(__('Card holder name')) ?>"
+                    name="card_data[owner]"
+                    class="card-owner"
+                    placeholder="<?= $block->escapeHtml(__('Card owner name')); ?>"
+                    title="<?= $block->escapeHtml(__('Card owner name')) ?>"
                     >
             </div>
 

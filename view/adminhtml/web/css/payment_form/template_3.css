@@ -220,8 +220,8 @@ fieldset.cmsbox_mercanet_admin_method {
   font-size: 1.1rem !important;
 }
 
-.card-form-container .card-year div.mage-error,
-.card-form-container .card-year label.mage-error {
+.card-form-container .exp-container div.mage-error,
+.card-form-container .exp-container label.mage-error {
   position: relative !important;
   left: 15px !important; 
 }

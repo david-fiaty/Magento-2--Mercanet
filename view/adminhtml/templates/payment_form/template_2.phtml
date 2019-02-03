@@ -30,18 +30,41 @@ $formCssFile = $this->assetRepository->createAsset($moduleName . '::css/payment_
 
 <div class="card-form-container">
     <div class="checkout-header">
-      <h1 class="checkout-title">
-        Checkout
-      </h1>
+        <h1 class="checkout-title"><?= $block->escapeHtml(__('Card Details')); ?></h1>
     </div>
     <p>
-      <input type="text" class="checkout-input checkout-name" placeholder="Your name">
-      <input type="text" class="checkout-input checkout-exp" placeholder="MM">
-      <input type="text" class="checkout-input checkout-exp" placeholder="YY">
+        <input type="text" 
+               class="checkout-input checkout-name"
+               placeholder="<?= $block->escapeHtml(__('Card holder name')); ?>"
+               name="card_data[name]"
+               >
+        <input type="text"
+               class="checkout-input checkout-exp"
+               placeholder="<?= $block->escapeHtml(__('MM')); ?>"
+               name="card_data[month]"
+               data-validate="{'required-entry':true, 'validate-card-date':true}"
+               >
+        <input type="text"
+               class="checkout-input checkout-exp"
+               placeholder="<?= $block->escapeHtml(__('YY')); ?>"
+               name="card_data[year]"
+               data-validate="{'required-entry':true, 'validate-card-year':true}"
+               >
     </p>
     <p>
-      <input type="text" class="checkout-input checkout-card" placeholder="4111 1111 1111 1111">
-      <input type="text" class="checkout-input checkout-cvc" placeholder="CVC">
+        <input type="text"
+               class="checkout-input checkout-card"
+               placeholder="<?= $block->escapeHtml(__('Card number')); ?>"
+               name="card_data[number]"
+               data-validate="{'required-entry':true, 'validate-cc-number':true}"
+               title="<?= $block->escapeHtml(__('Card Number')) ?>"
+               >
+        <?php if ($this->config->params[$methodId]['cvv_check_customer']): ?>
+        <input type="text"
+               class="checkout-input checkout-cvc"
+               placeholder="<?= $block->escapeHtml(__('CVV')); ?>"
+               >
+        <?php endif; ?>
     </p>
 </div>
 

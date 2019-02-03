@@ -142,11 +142,11 @@ fieldset.cmsbox_mercanet_admin_method {
 }
 
 ::-webkit-input-placeholder {
-  color: #acb6c8;
+  color: #acb6c8 !important;
 }
 
 :-ms-input-placeholder {
-  color: #acb6c8;
+  color: #acb6c8 !important;
 }
 
 ::-moz-focus-inner {

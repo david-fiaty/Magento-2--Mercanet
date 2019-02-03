@@ -72,14 +72,12 @@ $formCssFile = $this->assetRepository->createAsset($moduleName . '::css/payment_
                        type="text"
                        placeholder="<?= $block->escapeHtml(__('MM')); ?>"
                        length="2"
-                       data-validate="{'required-entry':true, 'validate-card-date':true}"
                        >
                 <input class="card-year"
                        name="card_data[year]"
                        type="text"
                        placeholder="<?= $block->escapeHtml(__('YY')); ?>"
                        length="2"
-                       data-validate="{'required-entry':true, 'validate-card-year':true}"
                        >
             </div>
 

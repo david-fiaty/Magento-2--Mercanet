@@ -12,7 +12,6 @@ fieldset.cmsbox_mercanet_admin_method {
     box-sizing: content-box !important;
 }
 
-
 #amount {
   font-size: 12px;
 }
@@ -96,10 +95,6 @@ fieldset.cmsbox_mercanet_admin_method {
   right: 0;
 }
 
-#card-success {
-  color: #00b349;
-}
-
 #card-token {
   display: none;
 }
@@ -134,37 +129,12 @@ fieldset.cmsbox_mercanet_admin_method {
   letter-spacing: .5px;
 }
 
-#form-container {
+.card-form-container {
   margin: auto;
   width: 500px;
   height: 290px;
   position: relative;
   z-index: 0;
-}
-
-#form-errors {
-  color: #eb0000;
-}
-
-#form-errors,
-#card-success {
-  background-color: white;
-  width: 500px;
-  margin: 0 auto 10px;
-  height: 50px;
-  border-radius: 8px;
-  padding: 0 20px;
-  font-weight: 400;
-  box-sizing: border-box;
-  line-height: 46px;
-  letter-spacing: .5px;
-  text-transform: none;
-}
-
-#form-errors p,
-#card-success p {
-  margin: 0 5px;
-  display: inline-block;
 }
 
 #exp-container {

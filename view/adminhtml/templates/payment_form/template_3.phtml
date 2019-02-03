@@ -40,14 +40,17 @@ $formCssFile = $this->assetRepository->createAsset($moduleName . '::css/payment_
             </div>
 
             <!--- Card holder container --->
-            <label for="card-number"><?= $block->escapeHtml(__('Card number')); ?></label>
-            <input type="text"
-                   class="card-number"
-                   name="card_data[number]"
-                   placeholder="<?= $block->escapeHtml(__('1234 5678 9101 1112')); ?>"
-                   title="<?= $block->escapeHtml(__('Card number')) ?>"
-                   data-validate="{'required-entry':true, 'validate-cc-number':true}"
-                   >
+            <div class="card-number-container">
+                <label for="card-number"><?= $block->escapeHtml(__('Card number')); ?></label>
+                <input type="text"
+                    class="card-number"
+                    name="card_data[number]"
+                    placeholder="<?= $block->escapeHtml(__('1234 5678 9101 1112')); ?>"
+                    title="<?= $block->escapeHtml(__('Card number')) ?>"
+                    data-validate="{'required-entry':true, 'validate-cc-number':true}"
+                    >
+            </div>
+
             <div class="cardholder-container">
                 <label for="card-holder"><?= $block->escapeHtml(__('Card owner name')); ?></label>
                 <input type="text"

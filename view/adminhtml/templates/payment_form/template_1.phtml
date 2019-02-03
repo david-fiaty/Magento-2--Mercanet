@@ -80,6 +80,9 @@ $formCssFile = $this->assetRepository->createAsset($moduleName . '::css/payment_
                                data-validate="{'required-entry':true, 'validate-number':true, 'validate-card-cvv':true}"
                         >
                     </div>
+                    <div class="cvv-details">
+                        <p><?= $block->escapeHtml(__('3 or 4 digits usually found on the signature strip')); ?></p>
+                    </div>
                 </div>
             <?php endif; ?>
         </div>

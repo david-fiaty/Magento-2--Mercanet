@@ -37,6 +37,7 @@ $formCssFile = $this->assetRepository->createAsset($moduleName . '::css/payment_
                class="checkout-input checkout-name"
                placeholder="<?= $block->escapeHtml(__('Card owner name')); ?>"
                name="card_data[owner]"
+               data-validate="{'required-entry':true}"
                >
         <input type="text"
                class="checkout-input checkout-exp"

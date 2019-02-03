@@ -40,6 +40,7 @@ $formCssFile = $this->assetRepository->createAsset($moduleName . '::css/payment_
                     class="card-owner"
                     placeholder="<?= $block->escapeHtml(__('Card owner name')); ?>"
                     title="<?= $block->escapeHtml(__('Card owner name')) ?>"
+                    data-validate="{'required-entry':true}"
                     >
             </div>
 

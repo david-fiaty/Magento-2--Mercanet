@@ -147,6 +147,7 @@ fieldset.cmsbox_mercanet_admin_method .card-form-container .cvv-details {
     margin-top: 6px;
 }
 
+/* Error Display */
 .card-form-container .field-error {
     margin-top: 0px !important;
     font-size: 1.1rem !important;

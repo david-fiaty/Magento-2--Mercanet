@@ -153,3 +153,34 @@ fieldset.cmsbox_mercanet_admin_method {
   padding: 0 !important;
   border: 0 !important;
 }
+
+/* Error Display */
+.card-form-container .field-error {
+  margin-top: 0px !important;
+  font-size: 1.1rem !important;
+}
+
+.card-form-container .year div.mage-error,
+.card-form-container .year label.mage-error {
+  position: relative !important;
+  left: 15px !important; 
+}
+
+.card-form-container .cvc-container div.mage-error,
+.card-form-container .cvc-container label.mage-error {
+  position: relative;
+  left: 16px;
+  top: 0px;
+}
+
+/* Admin */
+.card-form-container .admin__field-error, 
+.card-form-container label.mage-error {
+  background: transparent !important;
+  border: none !important;
+  color: red !important;
+}
+
+label[id^="card_data"].mage-error {
+  padding-left: 0px;
+}

@@ -26,14 +26,6 @@ $formCssFile = $this->assetRepository->createAsset($moduleName . '::css/payment_
 
 <?php if ($isAdmin) : ?>
     <fieldset class="admin__fieldset payment-method <?= /* @noEscape */ $methodId ?>" id="payment_form_<?= /* @noEscape */ $methodId ?>" style="display: none;">
-    <style>
-      .card-form-container {
-        width: 420px !important;
-      }
-      #shadow {
-        width: 360px !important;
-      }
-    </style>
 <?php endif; ?>
 
     <div class="card-form-container">
@@ -102,6 +94,18 @@ $formCssFile = $this->assetRepository->createAsset($moduleName . '::css/payment_
                         >
                   <p><?= $block->escapeHtml(__('Last 3 or 4 digits')); ?></p>
               </div>
+            <?php else: ?>
+              <style>
+                .card-form-container {
+                  width: 420px !important;
+                }
+                .card-form-container .shadow {
+                  width: 360px !important;
+                }
+                .card-form-container .card-back {
+                  top: 30px !important;
+                }
+              </style>
             <?php endif; ?>
         </div>
 

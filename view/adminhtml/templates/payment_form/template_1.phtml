@@ -47,9 +47,7 @@ $formCssFile = $this->assetRepository->createAsset($moduleName . '::css/payment_
             <!-- Date Field -->
             <div class="date-field">
                 <div class="month">
-                    <select name="card_data[month]"
-                            data-validate="{'required-entry':true, 'validate-card-date':true}"
-                    >
+                    <select name="card_data[month]" data-validate="{'required-entry':true, 'validate-card-date':true}">
                         <?php foreach ($block->months as $k => $v): ?>
                             <option value="<?= /* @noEscape */ $block->escapeHtml(sprintf("%02d", $k)) ?>">
                                 <?= $block->escapeHtml($v) ?>
@@ -58,9 +56,7 @@ $formCssFile = $this->assetRepository->createAsset($moduleName . '::css/payment_
                     </select>
                 </div>
                 <div class="year">
-                    <select name="card_data[year]"
-                            data-validate="{'required-entry':true, 'validate-card-year':true}"
-                        >
+                    <select name="card_data[year]" data-validate="{'required-entry':true, 'validate-card-year':true}">
                         <?php foreach ($block->years as $k => $v): ?>
                             <option value="<?= /* @noEscape */ $block->escapeHtml($v) ?>">
                                 <?= $block->escapeHtml($v) ?>

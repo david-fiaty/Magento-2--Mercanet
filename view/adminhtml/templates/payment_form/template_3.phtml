@@ -62,7 +62,7 @@ $formCssFile = $this->assetRepository->createAsset($moduleName . '::css/payment_
             <!--- Exp container --->
             <div class="exp-container">
                 <label for="card-exp">
-                    Expiration
+                    <?= $block->escapeHtml(__('Expiration')) ?>
                 </label>
                 <input class="card-month"
                        name="card_data[month]"

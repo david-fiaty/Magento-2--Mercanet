@@ -132,24 +132,24 @@ fieldset.cmsbox_mercanet_admin_method {
   width: 45px;
 }
 
-:-moz-placeholder {
+.card-form-container :-moz-placeholder {
   color: #acb6c8 !important;
 }
 
-::-moz-placeholder {
+.card-form-container ::-moz-placeholder {
   color: #acb6c8 !important;
   opacity: 1;
 }
 
-::-webkit-input-placeholder {
+.card-form-container ::-webkit-input-placeholder {
   color: #acb6c8 !important;
 }
 
-:-ms-input-placeholder {
+.card-form-container :-ms-input-placeholder {
   color: #acb6c8 !important;
 }
 
-::-moz-focus-inner {
+.card-form-container ::-moz-focus-inner {
   padding: 0 !important;
   border: 0 !important;
 }

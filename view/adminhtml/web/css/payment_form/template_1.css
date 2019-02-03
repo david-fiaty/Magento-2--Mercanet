@@ -41,6 +41,7 @@ fieldset.cmsbox_mercanet_admin_method {
 }
 
 /* Common */
+.card-form-container .card-holder,
 .card-form-container .card-number,
 .card-form-container .cvv-input input,
 .card-form-container .month select,
@@ -50,6 +51,7 @@ fieldset.cmsbox_mercanet_admin_method {
     height : 42px;
 }
 
+.card-form-container .card-holder,
 .card-form-container .card-number,
 .card-form-container .month select,
 .card-form-container .year select {
@@ -58,6 +60,7 @@ fieldset.cmsbox_mercanet_admin_method {
     line-height : 14px;
 }
 
+.card-form-container .card-holder,
 .card-form-container .card-number,
 .card-form-container .cvv-details,
 .card-form-container .cvv-input input,
@@ -68,11 +71,15 @@ fieldset.cmsbox_mercanet_admin_method {
 }
 
 /* Card Number */
+.card-form-container .card-holder,
 .card-form-container .card-number {
     width         : 100%;
     padding-left  : 20px;
     border        : 2px solid #e1e8ee;
     border-radius : 6px;
+}
+
+.card-form-container .card-number {
     margin-top    : 20px;
 }
 

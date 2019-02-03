@@ -108,6 +108,7 @@ fieldset.cmsbox_mercanet_admin_method {
   text-transform: uppercase;
   opacity: 0.6;
   letter-spacing: .5px;
+  margin-top: 0.5rem !important;
 }
 
 .card-form-container .exp-container {

@@ -139,10 +139,12 @@ fieldset.cmsbox_mercanet_admin_method {
     left: 9px !important; 
 }
 
-
 .card-form-container .cvv-input div.mage-error,
 .card-form-container .cvv-input label.mage-error {
-    text-indent: 12px !important; 
+    position: relative;
+    left: 0px;
+    top: 7px;
+    max-width: 162px;
 }
 
 /* Admin */

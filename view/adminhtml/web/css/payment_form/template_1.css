@@ -45,7 +45,6 @@ fieldset.cmsbox_mercanet_admin_method {
 .card-form-container .card-number,
 .card-form-container .cvv-input input,
 .card-form-container .month select,
-.card-form-container .paypal-btn,
 .card-form-container .proceed-btn,
 .card-form-container .year select {
     height : 42px;

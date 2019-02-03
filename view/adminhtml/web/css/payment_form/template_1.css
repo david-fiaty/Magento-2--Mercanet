@@ -13,31 +13,31 @@ fieldset.cmsbox_mercanet_admin_method {
 }
 
 .card-form-container {
-    margin-top       : 0px;
-    margin-bottom    : 20px;
-    width            : 360px;
-    border           : 1px solid #ddd;
-    border-radius    : 6px;
-    background-color : #fff;
-    box-shadow       : 1px 2px 3px 0px rgba(0,0,0,0.10);
+    margin-top: 0px;
+    margin-bottom: 20px;
+    width: 360px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    background-color: #fff;
+    box-shadow: 1px 2px 3px 0px rgba(0,0,0,0.10);
 }
 
 .card-form-container .form-header {
-    padding       : 10px 22px 10px;
-    border-bottom : 1px solid #E1E8EE;
+    padding: 10px 22px 10px;
+    border-bottom: 1px solid #E1E8EE;
 }
 
 .card-form-container .form-body {
-    padding : 20px 22px 20px;
+    padding: 20px 22px 20px;
     display: flex;
     flex-direction: column;
 }
 
 /* Title */
 .card-form-container .title {
-    margin    : 0;
-    color     : #5e6977;
-    font-size : 18px;
+    margin: 0;
+    color: #5e6977;
+    font-size: 18px;
 }
 
 /* Common */
@@ -47,16 +47,16 @@ fieldset.cmsbox_mercanet_admin_method {
 .card-form-container .month select,
 .card-form-container .proceed-btn,
 .card-form-container .year select {
-    height : 42px;
+    height: 42px;
 }
 
 .card-form-container .card-owner,
 .card-form-container .card-number,
 .card-form-container .month select,
 .card-form-container .year select {
-    font-size   : 14px;
-    font-weight : 100;
-    line-height : 14px;
+    font-size: 14px;
+    font-weight: 100;
+    line-height: 14px;
 }
 
 .card-form-container .card-owner,
@@ -65,44 +65,44 @@ fieldset.cmsbox_mercanet_admin_method {
 .card-form-container .cvv-input input,
 .card-form-container .month select,
 .card-form-container .year select {
-    color   : #86939e;
-    opacity : .7;
+    color: #86939e;
+    opacity: .7;
 }
 
 /* Card Number */
 .card-form-container .card-owner,
 .card-form-container .card-number {
-    width         : 100%;
-    padding-left  : 20px;
-    border        : 2px solid #e1e8ee;
-    border-radius : 6px;
+    width: 100%;
+    padding-left: 20px;
+    border: 2px solid #e1e8ee;
+    border-radius: 6px;
 }
 
 .card-form-container .card-number {
-    margin-top    : 20px;
+    margin-top: 20px;
 }
 
 /* Date Field */
 .card-form-container .month,
 .card-form-container .year {
-    margin-top : 20px;
+    margin-top: 20px;
     overflow-wrap: break-word;
 }
 
 .card-form-container .month select,
 .card-form-container .year select {
-    -moz-appearance     : none;
-    -webkit-appearance  : none;
-    width               : 149px;
-    padding-left        : 20px;
-    border              : 2px solid #e1e8ee;
-    border-radius       : 6px;
-    background          : url('../../images/caret.png') no-repeat;
-    background-position : 85% 50%;
+    -moz-appearance: none;
+    -webkit-appearance: none;
+    width: 149px;
+    padding-left: 20px;
+    border: 2px solid #e1e8ee;
+    border-radius: 6px;
+    background: url('../../images/caret.png') no-repeat;
+    background-position: 85% 50%;
 }
 
 .card-form-container .month {
-    float : left;
+    float: left;
     width: 45%;
     margin-right: 10px;
 }
@@ -117,38 +117,38 @@ fieldset.cmsbox_mercanet_admin_method .card-form-container .month {
 
 /* Card Verification Field */
 .card-form-container .cvv-input {
-    margin-top    : 20px;
+    margin-top: 20px;
 }
 
 .card-form-container .cvv-input input {
-    width         : 149px;
-    float         : left;
-    padding-left  : 20px;
-    border        : 2px solid #e1e8ee;
-    border-radius : 6px;
-    background    : #fff;
+    width: 149px;
+    float: left;
+    padding-left: 20px;
+    border: 2px solid #e1e8ee;
+    border-radius: 6px;
+    background: #fff;
 }
 
 .card-form-container .cvv-details {
-    font-size     : 12px;
-    font-weight   : 300;
-    line-height   : 16px;
-    overflow-wrap : break-word;
-    max-width     : 149px;
-    float         : left;
-    margin-left   : 18px;
+    font-size: 12px;
+    font-weight: 300;
+    line-height: 16px;
+    overflow-wrap: break-word;
+    max-width: 149px;
+    float: left;
+    margin-left: 18px;
 }
 
 fieldset.cmsbox_mercanet_admin_method .card-form-container .cvv-details {
-    margin-left   : 15px !important;
+    margin-left: 15px !important;
 }
 
 .card-form-container .cvv-details p {
-    margin-top : 6px;
+    margin-top: 6px;
 }
 
 .card-form-container .field-error {
-    margin-top : 0px !important;
+    margin-top: 0px !important;
     font-size: 1.1rem !important;
 }
 

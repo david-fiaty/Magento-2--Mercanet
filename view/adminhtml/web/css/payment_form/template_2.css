@@ -12,7 +12,7 @@ fieldset.cmsbox_mercanet_admin_method {
   box-sizing: content-box !important;
 }
 
-.checkout {
+.card-form-container {
   width: 270px;
   margin: 50px auto;
   padding: 15px;
@@ -24,29 +24,29 @@ fieldset.cmsbox_mercanet_admin_method {
   box-shadow: 0 1px 5px rgba(0, 0, 0, 0.15);
 }
 
-.checkout > p {
+.card-form-container > p {
   zoom: 1;
 }
 
-.checkout > p:before, .checkout > p:after {
+.card-form-container > p:before, .card-form-container > p:after {
   content: '';
   display: table;
 }
 
-.checkout > p:after {
+.card-form-container > p:after {
   clear: both;
 }
 
-.checkout > p + p {
+.card-form-container > p + p {
   margin-top: 15px;
 }
 
-.checkout-header {
+.card-form-container .checkout-header {
   position: relative;
   margin: -15px -15px 15px;
 }
 
-.checkout-title {
+.card-form-container .checkout-title {
   padding: 0 15px;
   line-height: 38px;
   font-size: 13px;
@@ -64,7 +64,7 @@ fieldset.cmsbox_mercanet_admin_method {
   box-shadow: inset 0 1px white;
 }
 
-.checkout-title:before {
+.card-form-container .checkout-title:before {
   content: '';
   position: absolute;
   bottom: 0;
@@ -75,7 +75,7 @@ fieldset.cmsbox_mercanet_admin_method {
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.08);
 }
 
-input {
+.card-form-container input {
   margin: 0;
   line-height: normal;
   font-family: inherit;
@@ -85,7 +85,7 @@ input {
   box-sizing: border-box;
 }
 
-.checkout-input {
+.card-form-container .checkout-input {
   float: left;
   padding: 0 7px;
   height: 32px;
@@ -102,27 +102,27 @@ input {
   box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1), 0 1px rgba(255, 255, 255, 0.5);
 }
 
-.checkout-input:focus {
+.card-form-container .checkout-input:focus {
   border-color: #46aefe;
   outline: none;
   -webkit-box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1), 0 0 5px #46aefe;
   box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1), 0 0 5px #46aefe;
 }
 
-.lt-ie9 .checkout-input {
+.card-form-container .lt-ie9 .checkout-input {
   line-height: 30px;
 }
 
-.checkout-name {
+.card-form-container .checkout-name {
   width: 150px;
 }
 
-.checkout-card {
+.card-form-container .checkout-card {
   width: 210px;
 }
 
-.checkout-exp,
-.checkout-cvc {
+.card-form-container .checkout-exp,
+.card-form-container .checkout-cvc {
   margin-left: 15px;
   width: 45px;
 }

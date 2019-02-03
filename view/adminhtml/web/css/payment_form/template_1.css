@@ -9,6 +9,7 @@
 
 fieldset.cmsbox_mercanet_admin_method {
     border: none !important;
+    margin-top: 20px;
 }
 
 .card-form-container {
@@ -99,6 +100,10 @@ fieldset.cmsbox_mercanet_admin_method {
     margin-right: 10px;
 }
 
+fieldset.cmsbox_mercanet_admin_method .card-form-container .month {
+    margin-right: 8px !important;
+}
+
 .card-form-container .year select {
     margin-left: 14px;
 }
@@ -125,6 +130,10 @@ fieldset.cmsbox_mercanet_admin_method {
     max-width     : 149px;
     float         : left;
     margin-left   : 18px;
+}
+
+fieldset.cmsbox_mercanet_admin_method .card-form-container .cvv-details {
+    margin-left   : 15px !important;
 }
 
 .card-form-container .cvv-details p {

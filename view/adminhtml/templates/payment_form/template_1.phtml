@@ -30,7 +30,7 @@ $formCssFile = $this->assetRepository->createAsset($moduleName . '::css/payment_
 
     <div class="card-form-container">
         <div class="form-header">
-            <h4 class="title"><?= $block->escapeHtml(__('Card Details')); ?></h4>
+            <h4 class="title"><?= $block->escapeHtml(__('Card details')); ?></h4>
         </div>
         <div class="form-body">
             <!-- Card Holder -->
@@ -38,8 +38,8 @@ $formCssFile = $this->assetRepository->createAsset($moduleName . '::css/payment_
                 <input type="text"
                     name="card_data[name]"
                     class="card-number"
-                    placeholder="<?= $block->escapeHtml(__('Card Holder Name')); ?>"
-                    title="<?= $block->escapeHtml(__('Card Holder Name')) ?>"
+                    placeholder="<?= $block->escapeHtml(__('Card holder name')); ?>"
+                    title="<?= $block->escapeHtml(__('Card holder name')) ?>"
                     >
             </div>
 
@@ -48,8 +48,8 @@ $formCssFile = $this->assetRepository->createAsset($moduleName . '::css/payment_
                 <input type="number"
                     name="card_data[number]"
                     class="card-number"
-                    placeholder="<?= $block->escapeHtml(__('Card Number')); ?>"
-                    title="<?= $block->escapeHtml(__('Card Number')) ?>"
+                    placeholder="<?= $block->escapeHtml(__('Card number')); ?>"
+                    title="<?= $block->escapeHtml(__('Card number')) ?>"
                     data-validate="{'required-entry':true, 'validate-cc-number':true}"
                     >
             </div>

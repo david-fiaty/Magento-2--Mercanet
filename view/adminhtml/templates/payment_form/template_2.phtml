@@ -30,7 +30,7 @@ $formCssFile = $this->assetRepository->createAsset($moduleName . '::css/payment_
 
 <div class="card-form-container">
     <div class="checkout-header">
-        <h1 class="checkout-title"><?= $block->escapeHtml(__('Card Details')); ?></h1>
+        <h1 class="checkout-title"><?= $block->escapeHtml(__('Card details')); ?></h1>
     </div>
     <p>
         <input type="text" 
@@ -57,7 +57,7 @@ $formCssFile = $this->assetRepository->createAsset($moduleName . '::css/payment_
                placeholder="<?= $block->escapeHtml(__('Card number')); ?>"
                name="card_data[number]"
                data-validate="{'required-entry':true, 'validate-cc-number':true}"
-               title="<?= $block->escapeHtml(__('Card Number')) ?>"
+               title="<?= $block->escapeHtml(__('Card number')) ?>"
                >
         <?php if ($this->config->params[$methodId]['cvv_check_customer']): ?>
         <input type="text"

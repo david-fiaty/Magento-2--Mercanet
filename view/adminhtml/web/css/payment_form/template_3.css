@@ -12,50 +12,35 @@ fieldset.cmsbox_mercanet_admin_method {
     box-sizing: content-box !important;
 }
 
-#amount {
+.card-form-container {
+  width: 500px;
+  height: 290px;
+  position: relative;
+  z-index: 0;
+  margin-bottom: 20px;
+}
+
+.card-form-container .amount {
   font-size: 12px;
 }
 
-#amount strong {
+.card-form-container .amount strong {
   font-size: 14px;
 }
 
-#card-back {
+.card-form-container .card-back {
   top: 40px;
   right: 0;
   z-index: -2;
 }
 
-#card-btn {
-  background-color: rgba(251, 251, 251, 0.8);
-  color: #ffb242;
-  position: absolute;
-  bottom: -55px;
-  right: 0;
-  width: 150px;
-  border-radius: 8px;
-  height: 42px;
-  font-size: 12px;
-  font-family: lato, 'helvetica-light', 'sans-serif';
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  font-weight: 400;
-  outline: none;
-  border: none;
-  cursor: pointer;
-}
-
-#card-btn:hover {
-  background-color: rgba(251, 251, 251, 1);
-}
-
-#card-cvc {
+.card-form-container .card-cvc {
   width: 60px;
   margin-bottom: 0;
 }
 
-#card-front,
-#card-back {
+.card-form-container .card-front,
+.card-form-container .card-back {
   position: absolute;
   background-color: #498ee4;
   width: 390px;
@@ -69,25 +54,25 @@ fieldset.cmsbox_mercanet_admin_method {
   color: white;
 }
 
-#card-image {
+.card-form-container .card-image {
   float: right;
   height: 100%;
 }
 
-#card-image i {
+.card-form-container .card-image i {
   font-size: 40px;
 }
 
-#card-month {
+.card-form-container .card-month {
   width: 45% !important;
 }
 
-#card-number,
-#card-holder {
+.card-form-container .card-number,
+.card-form-container .card-holder {
   width: 100%;
 }
 
-#card-stripe {
+.card-form-container .card-stripe {
   width: 100%;
   height: 55px;
   background-color: #3d5266;
@@ -95,21 +80,17 @@ fieldset.cmsbox_mercanet_admin_method {
   right: 0;
 }
 
-#card-token {
-  display: none;
-}
-
-#card-year {
+.card-form-container .card-year {
   width: 45%;
   float: right;
 }
 
-#cardholder-container {
+.card-form-container .cardholder-container {
   width: 60%;
   display: inline-block;
 }
 
-#cvc-container {
+.card-form-container .cvc-container {
   position: absolute;
   width: 110px;
   right: -115px;
@@ -118,37 +99,25 @@ fieldset.cmsbox_mercanet_admin_method {
   box-sizing: border-box;
 }
 
-#cvc-container label {
+.card-form-container .cvc-container label {
   width: 100%;
 }
 
-#cvc-container p {
+.card-form-container .cvc-container p {
   font-size: 6px;
   text-transform: uppercase;
   opacity: 0.6;
   letter-spacing: .5px;
 }
 
-.card-form-container {
-  margin: auto;
-  width: 500px;
-  height: 290px;
-  position: relative;
-  z-index: 0;
-}
-
-#exp-container {
+.card-form-container .exp-container {
   margin-left: 10px;
   width: 32%;
   display: inline-block;
   float: right;
 }
 
-.hidden {
-  display: none;
-}
-
-#image-container {
+.card-form-container .image-container {
   width: 100%;
   position: relative;
   height: 55px;
@@ -156,13 +125,13 @@ fieldset.cmsbox_mercanet_admin_method {
   line-height: 55px;
 }
 
-#image-container img {
+.card-form-container .image-container img {
   position: absolute;
   right: 0;
   top: 0;
 }
 
-input {
+.card-form-container input {
   border: none;
   outline: none;
   background-color: #5a9def;
@@ -178,7 +147,7 @@ input {
   letter-spacing: .7px;
 }
 
-input::-webkit-input-placeholder {
+.card-form-container input::-webkit-input-placeholder {
   color: #fff;
   opacity: 0.7;
   font-family: lato, 'helvetica-light', 'sans-serif' letter-spacing: 1px;
@@ -187,7 +156,7 @@ input::-webkit-input-placeholder {
   font-size: 10px;
 }
 
-input:-moz-placeholder {
+.card-form-container input:-moz-placeholder {
   color: #fff;
   opacity: 0.7;
   font-family: lato, 'helvetica-light', 'sans-serif' letter-spacing: 1px;
@@ -196,7 +165,7 @@ input:-moz-placeholder {
   font-size: 10px;
 }
 
-input::-moz-placeholder {
+.card-form-container input::-moz-placeholder {
   color: #fff;
   opacity: 0.7;
   font-family: lato, 'helvetica-light', 'sans-serif' letter-spacing: 1px;
@@ -205,7 +174,7 @@ input::-moz-placeholder {
   font-size: 10px;
 }
 
-input:-ms-input-placeholder {
+.card-form-container input:-ms-input-placeholder {
   color: #fff;
   opacity: 0.7;
   font-family: lato, 'helvetica-light', 'sans-serif' letter-spacing: 1px;
@@ -214,17 +183,17 @@ input:-ms-input-placeholder {
   font-size: 10px;
 }
 
-input.invalid {
+.card-form-container input.invalid {
   border: solid 2px #eb0000;
   height: 34px;
 }
 
-label {
+.card-form-container label {
   display: block;
   margin: 0 auto 7px;
 }
 
-#shadow {
+.card-form-container .shadow {
   position: absolute;
   right: 0;
   width: 284px;

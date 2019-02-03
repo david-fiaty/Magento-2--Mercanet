@@ -26,48 +26,88 @@ $formCssFile = $this->assetRepository->createAsset($moduleName . '::css/payment_
 
 <?php if ($isAdmin) : ?>
     <fieldset class="admin__fieldset payment-method <?= /* @noEscape */ $methodId ?>" id="payment_form_<?= /* @noEscape */ $methodId ?>" style="display: none;">
+    <style>
+      .card-form-container {
+        width: 420px !important;
+      }
+      #shadow {
+        width: 360px !important;
+      }
+    </style>
 <?php endif; ?>
 
     <div class="card-form-container">
         <!--- Card front --->
-        <div id="card-front">
-            <div id="shadow"></div>
+        <div class="card-front">
+            <div class="shadow"></div>
 
             <!--- Card image container --->
-            <div id="image-container">
-                <span id="amount">paying: <strong>$99</strong></span>
-                <span id="card-image"></span>
+            <div class="image-container">
+                <span class="amount"><strong><?= $block->escapeHtml(__('Card details')); ?></strong></span>
+                <span class="card-image"></span>
             </div>
 
             <!--- Card holder container --->
-            <label for="card-number">Card Number</label>
-            <input type="text" id="card-number" placeholder="1234 5678 9101 1112" length="16">
-            <div id="cardholder-container">
-                <label for="card-holder">Card Holder
-                </label>
-                <input type="text" id="card-holder" placeholder="e.g. John Doe" />
+            <label for="card-number"><?= $block->escapeHtml(__('Card number')); ?></label>
+            <input type="text"
+                   class="card-number"
+                   name="card_data[number]"
+                   placeholder="<?= $block->escapeHtml(__('1234 5678 9101 1112')); ?>"
+                   title="<?= $block->escapeHtml(__('Card number')) ?>"
+                   data-validate="{'required-entry':true, 'validate-cc-number':true}"
+                   >
+            <div class="cardholder-container">
+                <label for="card-holder"><?= $block->escapeHtml(__('Card owner name')); ?></label>
+                <input type="text"
+                       class="card-holder"
+                       name="card_data[owner]"
+                       title="<?= $block->escapeHtml(__('Card owner name')) ?>"
+                       placeholder="<?= $block->escapeHtml(__('Name as visible on the card')); ?>"
+                       data-validate="{'required-entry':true}"
+                       >
             </div>
 
             <!--- Exp container --->
-            <div id="exp-container">
+            <div class="exp-container">
                 <label for="card-exp">
                     Expiration
                 </label>
-                <input id="card-month" type="text" placeholder="MM" length="2">
-                <input id="card-year" type="text" placeholder="YY" length="2">
+                <input class="card-month"
+                       name="card_data[month]"
+                       type="text"
+                       placeholder="<?= $block->escapeHtml(__('MM')); ?>"
+                       length="2"
+                       data-validate="{'required-entry':true, 'validate-card-date':true}"
+                       >
+                <input class="card-year"
+                       name="card_data[year]"
+                       type="text"
+                       placeholder="<?= $block->escapeHtml(__('YY')); ?>"
+                       length="2"
+                       data-validate="{'required-entry':true, 'validate-card-year':true}"
+                       >
             </div>
 
             <!--- CVV container --->
-            <div id="cvc-container">
-                <label for="card-cvc"> CVC/CVV</label>
-                <input id="card-cvc" placeholder="XXX-X" type="text" min-length="3" max-length="4">
-                <p>Last 3 or 4 digits</p>
-            </div>
+            <?php if ($this->config->params[$methodId]['cvv_check_customer']): ?>
+              <div class="cvc-container">
+                  <label for="card-cvc"><?= $block->escapeHtml(__('CVV')); ?></label>
+                  <input class="card-cvc"
+                        name="card_data[cvv]"
+                        placeholder="<?= $block->escapeHtml(__('XXX-X')); ?>"
+                        type="text"
+                        min-length="3"
+                        max-length="4"
+                        data-validate="{'required-entry':true, 'validate-number':true, 'validate-card-cvv':true}"
+                        >
+                  <p><?= $block->escapeHtml(__('Last 3 or 4 digits')); ?></p>
+              </div>
+            <?php endif; ?>
         </div>
 
         <!--- Card back --->
-        <div id="card-back">
-            <div id="card-stripe">
+        <div class="card-back">
+            <div class="card-stripe">
             </div>
         </div>
     </div>

@@ -243,6 +243,8 @@ div.mage-error[generated] {
   position: relative;
   left: 0px;
   top: 0px;
+  overflow-wrap: break-word;
+  max-width: 83px;
 }
 
 /* Admin */

@@ -96,60 +96,56 @@ class Form extends \Magento\Framework\App\Action\Action {
     }
 
     private function runCharge() {
-        try {
-            // Retrieve the expected parameters
-            $methodId = $this->getRequest()->getParam('method_id', null);
-            $cardData = $this->getRequest()->getParam('card_data', []);
+        // Retrieve the expected parameters
+        $methodId = $this->getRequest()->getParam('method_id', null);
+        $cardData = $this->getRequest()->getParam('card_data', []);
 
-            // Load the method instance if parameters are valid
-            if ($methodId && !empty($methodId) && is_array($cardData) && !empty($cardData)) {
-                // Load the method instance
-                $methodInstance = $this->methodHandler->getStaticInstance($methodId);
+        // Load the method instance if parameters are valid
+        if ($methodId && !empty($methodId) && is_array($cardData) && !empty($cardData)) {
+            // Load the method instance
+            $methodInstance = $this->methodHandler->getStaticInstance($methodId);
 
-                // Perform the charge request
-                if ($methodInstance && $methodInstance::isFrontend($this->config, $methodId)) {
-                    // Process the payment
-                    $paymentObject = $methodInstance::getRequestData($this->config, $methodId, $cardData);
+            // Perform the charge request
+            if ($methodInstance && $methodInstance::isFrontend($this->config, $methodId)) {
+                // Process the payment
+                $paymentObject = $methodInstance::getRequestData($this->config, $methodId, $cardData);
 
-                    // Log the request
-                    $methodInstance::logRequestData(Connector::KEY_REQUEST, $this->watchdog, $paymentObject);
+                // Log the request
+                $methodInstance::logRequestData(Connector::KEY_REQUEST, $this->watchdog, $paymentObject);
 
-                    // Log the response
-                    $methodInstance::logResponseData(Connector::KEY_RESPONSE, $this->watchdog, $paymentObject);
+                // Log the response
+                $methodInstance::logResponseData(Connector::KEY_RESPONSE, $this->watchdog, $paymentObject);
 
-                    // Process the response
-                    if ($methodInstance::isValidResponse($this->config, $methodId, $paymentObject) && $methodInstance::isSuccessResponse($this->config, $methodId, $paymentObject)) {
-                        // Get the quote
-                        $quote = $this->orderHandler->findQuote();
+                // Process the response
+                if ($methodInstance::isValidResponse($this->config, $methodId, $paymentObject) && $methodInstance::isSuccessResponse($this->config, $methodId, $paymentObject)) {
+                    // Get the quote
+                    $quote = $this->orderHandler->findQuote();
 
-                        // Prepare the order data
-                        $params = Connector::packData([
-                            $this->config->base[Connector::KEY_ORDER_ID_FIELD]       => $this->tools->getIncrementId($quote),
-                            $this->config->base[Connector::KEY_TRANSACTION_ID_FIELD] => $methodInstance::getTransactionId($this->config, $paymentObject),
-                            $this->config->base[Connector::KEY_CUSTOMER_EMAIL_FIELD] => isset($response[$this->config->base[Connector::KEY_CUSTOMER_EMAIL_FIELD]])
-                                ? $response[$this->config->base[Connector::KEY_CUSTOMER_EMAIL_FIELD]]
-                                : $this->orderHandler->findCustomerEmail($quote),
-                            $this->config->base[Connector::KEY_CAPTURE_MODE_FIELD]   => $this->config->params[$methodId][Connector::KEY_CAPTURE_MODE]
-                        ]);
+                    // Prepare the order data
+                    $params = Connector::packData([
+                        $this->config->base[Connector::KEY_ORDER_ID_FIELD]       => $this->tools->getIncrementId($quote),
+                        $this->config->base[Connector::KEY_TRANSACTION_ID_FIELD] => $methodInstance::getTransactionId($this->config, $paymentObject),
+                        $this->config->base[Connector::KEY_CUSTOMER_EMAIL_FIELD] => isset($response[$this->config->base[Connector::KEY_CUSTOMER_EMAIL_FIELD]])
+                            ? $response[$this->config->base[Connector::KEY_CUSTOMER_EMAIL_FIELD]]
+                            : $this->orderHandler->findCustomerEmail($quote),
+                        $this->config->base[Connector::KEY_CAPTURE_MODE_FIELD]   => $this->config->params[$methodId][Connector::KEY_CAPTURE_MODE]
+                    ]);
 
-                        // Place the order
-                        $order = $this->orderHandler->placeOrder($params, $methodId);
+                    // Place the order
+                    $order = $this->orderHandler->placeOrder($params, $methodId);
 
-                        // Perform after place order actions
-                        $this->orderHandler->afterPlaceOrder($quote, $order);
+                    // Perform after place order actions
+                    $this->orderHandler->afterPlaceOrder($quote, $order);
 
-                        // Return the result
-                        return true;
-                    }
+                    // Return the result
+                    return true;
                 }
+            }
 
-                return __('The transaction data is invalid.');
-            } 
-        }
-        catch (\Exception $e) {
-            $this->watchdog->logError($e);
-            return __($e->getMessage());
-        }
+            return $this->handleError(__('The transaction data is invalid.'));
+        } 
+        
+        return $this->handleError(__('Invalid request or payment method.'));
     }
 
     private function runBlock() {
@@ -167,5 +163,10 @@ class Form extends \Magento\Framework\App\Action\Action {
         ->setData('template_name', $template)
         ->setData('is_admin', false)
         ->toHtml();
+    }
+
+    private function handleError($errorMessage) {
+        $this->watchdog->logError($errorMessage);
+        return $errorMessage;
     }
 }

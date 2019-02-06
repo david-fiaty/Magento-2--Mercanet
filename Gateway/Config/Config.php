@@ -110,48 +110,53 @@ class Config {
      * Loads the module configuration parameters.
      */
     public function loadConfig() {
-        // Prepare the output container
-        $output = [];
+        try {
+            // Prepare the output container
+            $output = [];
 
-        // Get the config file
-        $filePath = $this->moduleDirReader->getModuleDir(Dir::MODULE_ETC_DIR, Core::moduleName()) . '/config.xml';
-        $fileData = $this->xmlParser->load($filePath)->xmlToArray()['config']['_value']['default'];
+            // Get the config file
+            $filePath = $this->moduleDirReader->getModuleDir(Dir::MODULE_ETC_DIR, Core::moduleName()) . '/config.xml';
+            $fileData = $this->xmlParser->load($filePath)->xmlToArray()['config']['_value']['default'];
 
-        // Set the base parameters array
-        $this->base = $this->buildBase($fileData);
+            // Set the base parameters array
+            $this->base = $this->buildBase($fileData);
 
-        // Get the config array
-        $configArray = $fileData['payment'] ?? [];
+            // Get the config array
+            $configArray = $fileData['payment'] ?? [];
 
-        // Get the configured values
-        if (!empty($configArray)) {
-            foreach ($configArray as $methodId => $params) {
-                $lines = [];
-                foreach ($params as $key => $val) {
-                    // Check a database value
-                    $dbValue = $this->scopeConfig->getValue(
-                        'payment/' . $methodId . '/' . $key, 
-                        ScopeInterface::SCOPE_STORE
-                    );
+            // Get the configured values
+            if (!empty($configArray)) {
+                foreach ($configArray as $methodId => $params) {
+                    $lines = [];
+                    foreach ($params as $key => $val) {
+                        // Check a database value
+                        $dbValue = $this->scopeConfig->getValue(
+                            'payment/' . $methodId . '/' . $key, 
+                            ScopeInterface::SCOPE_STORE
+                        );
 
-                    // Convert the value to string for empty testing
-                    $testValue = stripslashes(trim(var_export($dbValue, true), "'"));
+                        // Convert the value to string for empty testing
+                        $testValue = stripslashes(trim(var_export($dbValue, true), "'"));
 
-                    // Assign the value or override with db value
-                    if (!empty($testValue)) {
-                        $lines[$key] = $testValue;
+                        // Assign the value or override with db value
+                        if (!empty($testValue)) {
+                            $lines[$key] = $testValue;
+                        }
+                        else {
+                            $lines[$key] = $val;
+                        }
                     }
-                    else {
-                        $lines[$key] = $val;
-                    }
+
+                    $output[$methodId] = $lines;  
                 }
-
-                $output[$methodId] = $lines;  
             }
-        }
 
-        // Set the payment methods config array
-        $this->params = $output;
+            // Set the payment methods config array
+            $this->params = $output;
+
+        } catch (\Exception $e) {
+            throw new \Magento\Framework\Exception\LocalizedException(__('The module configuration data could not be loaded'));
+        }
     }
 
     /**
@@ -160,33 +165,38 @@ class Config {
      * @return bool
      */
     public function buildBase($fileData) {
-        $output = [];
-        $exclude = explode(',', $fileData['base']['exclude']);
+        try {
+            $output = [];
+            $exclude = explode(',', $fileData['base']['exclude']);
 
-        foreach ($fileData['payment'][Core::moduleId()] as $key => $val) {
-            if (!in_array($key, $exclude)) {
-                // Check a database value
-                $dbValue = $this->scopeConfig->getValue(
-                    'payment/' . Core::moduleId() . '/' . $key, 
-                    ScopeInterface::SCOPE_STORE
-                );
+            foreach ($fileData['payment'][Core::moduleId()] as $key => $val) {
+                if (!in_array($key, $exclude)) {
+                    // Check a database value
+                    $dbValue = $this->scopeConfig->getValue(
+                        'payment/' . Core::moduleId() . '/' . $key, 
+                        ScopeInterface::SCOPE_STORE
+                    );
 
-                // Convert the value to string for empty testing
-                $testValue = stripslashes(trim(var_export($dbValue, true), "'"));
+                    // Convert the value to string for empty testing
+                    $testValue = stripslashes(trim(var_export($dbValue, true), "'"));
 
-                // Assign the value or override with db value
-                if (!empty($testValue)) {
-                    $output[$key] = $testValue;
-                }
-                else {
-                    $output[$key] = $val;
+                    // Assign the value or override with db value
+                    if (!empty($testValue)) {
+                        $output[$key] = $testValue;
+                    }
+                    else {
+                        $output[$key] = $val;
+                    }
                 }
             }
-        }
-        
-        unset($fileData['base']['exclude']);
+            
+            unset($fileData['base']['exclude']);
 
-        return array_merge($fileData['base'], $output);
+            return array_merge($fileData['base'], $output);
+
+        } catch (\Exception $e) {
+            throw new \Magento\Framework\Exception\LocalizedException(__('The base configuration data could not be loaded'));
+        }
     }
 
     /**

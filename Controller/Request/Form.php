@@ -92,7 +92,9 @@ class Form extends \Magento\Framework\App\Action\Action {
             return $this->jsonFactory->create()->setData([Connector::KEY_RESPONSE => $response]);
         }
 
-        return $this->jsonFactory->create()->setData([]);
+        return $this->jsonFactory->create()->setData([
+            $this->handleError(__('Invalid AJAX request in form controller.'))
+        ]);
     }
 
     private function runCharge() {

@@ -46,6 +46,8 @@ class Logger extends \Magento\Framework\App\Action\Action {
             $this->watchdog->bark(Connector::KEY_REQUEST, $logData, $canDisplay = false, $canLog = true);
         }
 
-        return $this->jsonFactory->create()->setData([]);
+        return $this->jsonFactory->create()->setData([
+            $this->handleError(__('Invalid AJAX request in logger controller.'))
+        ]);
     }
 }

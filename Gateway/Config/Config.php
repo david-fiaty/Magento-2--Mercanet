@@ -195,7 +195,7 @@ class Config {
             return array_merge($fileData['base'], $output);
 
         } catch (\Exception $e) {
-            throw new \Magento\Framework\Exception\LocalizedException(__('The base configuration data could not be loaded'));
+            throw new \Magento\Framework\Exception\LocalizedException(__('The base configuration data could not be loaded.'));
         }
     }
 
@@ -205,14 +205,18 @@ class Config {
      * @return string
      */
     public function getSupportedCurrencies() {
-        $output = [];
-        $arr = explode(';', $this->base[Core::KEY_SUPPORTED_CURRENCIES]);
-        foreach ($arr as $val) {
-            $parts = explode(',', $val);
-            $output[$parts[0]] = $parts[1];
-        }
+        try {
+            $output = [];
+            $arr = explode(';', $this->base[Core::KEY_SUPPORTED_CURRENCIES]);
+            foreach ($arr as $val) {
+                $parts = explode(',', $val);
+                $output[$parts[0]] = $parts[1];
+            }
 
-        return $output;
+            return $output;
+        } catch (\Exception $e) {
+            throw new \Magento\Framework\Exception\LocalizedException(__('There was an error loading the currencies.'));
+        }
     }
 
     /**
@@ -232,34 +236,38 @@ class Config {
      * @return string
      */
     public function getFrontendConfig() {
-        // Prepare the output
-        $output = [];
+        try {
+            // Prepare the output
+            $output = [];
 
-        // Get request data for each method
-        foreach ($this->params as $key => $val) {
-            $arr = explode('_', $key);
-            if ($this->methodIsValid($arr, $key, $val)) {
-                $methodInstance = $this->methodHandler->getStaticInstance($key);
-                if ($methodInstance && $methodInstance::isFrontend($this, $key)) {
-                    $output[$key] = $val;
-                    $output[$key][Connector::KEY_ACTIVE] = $methodInstance::isFrontend($this, $key);
-                    if (isset($val['load_request_data']) && (int) $val['load_request_data'] == 1) {
-                        $output[$key]['api_url'] = $this->getApiUrl('charge', $key);
-                        $output[$key]['request_data'] = $methodInstance::getRequestData($this, $key);
-                    }
-                } 
-            }
-        } 
+            // Get request data for each method
+            foreach ($this->params as $key => $val) {
+                $arr = explode('_', $key);
+                if ($this->methodIsValid($arr, $key, $val)) {
+                    $methodInstance = $this->methodHandler->getStaticInstance($key);
+                    if ($methodInstance && $methodInstance::isFrontend($this, $key)) {
+                        $output[$key] = $val;
+                        $output[$key][Connector::KEY_ACTIVE] = $methodInstance::isFrontend($this, $key);
+                        if (isset($val['load_request_data']) && (int) $val['load_request_data'] == 1) {
+                            $output[$key]['api_url'] = $this->getApiUrl('charge', $key);
+                            $output[$key]['request_data'] = $methodInstance::getRequestData($this, $key);
+                        }
+                    } 
+                }
+            } 
 
-        // Return the formatted config array
-        return [
-            'payment' => [
-                Core::moduleId() => array_merge(
-                    $output, 
-                    $this->base
-                )
-            ]
-        ];
+            // Return the formatted config array
+            return [
+                'payment' => [
+                    Core::moduleId() => array_merge(
+                        $output, 
+                        $this->base
+                    )
+                ]
+            ];
+        } catch (\Exception $e) {
+            throw new \Magento\Framework\Exception\LocalizedException(__('The frontend configuration could not be loaded.'));
+        }
     }
 
     public function methodIsValid($arr, $key, $val) {

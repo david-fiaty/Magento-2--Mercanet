@@ -50,4 +50,9 @@ class Logger extends \Magento\Framework\App\Action\Action {
             $this->handleError(__('Invalid AJAX request in logger controller.'))
         ]);
     }
+
+    private function handleError($errorMessage) {
+        $this->watchdog->logError($errorMessage);
+        return $errorMessage;
+    }
 }

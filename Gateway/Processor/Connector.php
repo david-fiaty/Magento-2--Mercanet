@@ -80,16 +80,6 @@ class Connector {
     }
   
     /**
-     * Returns the authorized order status.
-     *
-     * @return string
-     */
-  /*
-    public function getOrderStatusAuthorized() {
-        return (string) $this->getValue(self::KEY_ORDER_STATUS_AUTHORIZED);
-    }
-*/
-    /**
      * Returns the billing address.
      */
     /*

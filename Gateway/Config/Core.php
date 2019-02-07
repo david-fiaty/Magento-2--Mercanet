@@ -35,6 +35,7 @@ class Core {
     const KEY_URL_REFUND = 'url_refund';
     const KEY_CHARGE_SUFFIX = 'charge_suffix';
     const KEY_AUTO_GENERATE_INVOICE = 'auto_generate_invoice';
+    
     /**
      * Build a payment method ID.
      */

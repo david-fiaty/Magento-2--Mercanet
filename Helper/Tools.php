@@ -54,45 +54,30 @@ class Tools {
      * Retrieves an Alpha 3 country code from Alpha 2 code.
      */
     public function getCountryCodeA2A3($val) {
-        // Get the csv file path
-        $path = $this->moduleDirReader->getModuleDir('', Core::moduleName()) . '/Model/Files/countries.csv';
+        try {
+            // Get the csv file path
+            $path = $this->moduleDirReader->getModuleDir('', Core::moduleName()) . '/Model/Files/countries.csv';
+            
+            if (is_file($path)) {
+                // Read the countries
+                $countries = $this->csvParser->getData($path);
+
+                // Find the wanted result
+                $res = array_filter($countries, function ($arr) use ($val) {
+                    return $arr[1] == $val;
+                });
+
+                // Reset the array ke
+                $res = array_merge(array(), $res);
+                if (isset($res[0]) && !empty($res)) {
+                    return $res[0][2];
+                }
+            }
         
-        if (is_file($path)) {
-            // Read the countries
-            $countries = $this->csvParser->getData($path);
-
-            // Find the wanted result
-            $res = array_filter($countries, function ($arr) use ($val) {
-                return $arr[1] == $val;
-            });
-
-            // Reset the array ke
-            $res = array_merge(array(), $res);
-            if (isset($res[0]) && !empty($res)) {
-                return $res[0][2];
-            }
+            return null;
+        } catch (\Exception $e) {
+            throw new \Magento\Framework\Exception\LocalizedException(__('An error occurred when processing the country codes.'));
         }
-
-        return null;
-    }
-
-    /**
-     * Sort multi dimensional array.
-     *
-     * @return string
-     */
-    public static function multiSort(array $tab) { 
-        if (is_array($tab))
-        ksort($tab);
-        foreach ($tab as $key => $val)
-        {  
-            if (is_array($val))
-            {  
-                $tab[$key] = $this->multiSort($val);
-            }
-        }
-
-        return $tab;
     }
 
     /**
@@ -112,15 +97,20 @@ class Tools {
      * @return string
      */
     public static function getCurrencyCode($entity) {
-        // Get a reflection instance
-        $reflection = new \ReflectionClass($entity);
+        try {
+            // Get a reflection instance
+            $reflection = new \ReflectionClass($entity);
 
-        // Get the class name
-        $className = $reflection->getShortName() == 'Interceptor'
-        ? $reflection->getParentClass()->getShortName() : $reflection->getShortName();
+            // Get the class name
+            $className = $reflection->getShortName() == 'Interceptor'
+            ? $reflection->getParentClass()->getShortName() : $reflection->getShortName();
 
-        // Return the currency code
-        $fn = 'get' . $className . 'CurrencyCode';
-        return $entity->$fn();
+            // Return the currency code
+            $fn = 'get' . $className . 'CurrencyCode';
+            return $entity->$fn();
+
+        } catch (\Exception $e) {
+            throw new \Magento\Framework\Exception\LocalizedException(__('An error occurred when processing the currency codes.'));
+        }
     }
 }

@@ -132,11 +132,11 @@ class AdminMethod extends \Magento\Payment\Model\Method\AbstractMethod {
 
         // Get the vendor instance
         $fn = "\\" . $config->params[$methodId][Core::KEY_VENDOR];
-        $paymentRequest = new $fn($config->getSecretKey());
+        $paymentRequest = new $fn(Connector::getSecretKey($config));
 
         // Prepare the request
-        $paymentRequest = new $fn($config->getSecretKey());
-        $paymentRequest->setMerchantId($config->getMerchantId());
+        $paymentRequest = new $fn(Connector::getSecretKey($config));
+        $paymentRequest->setMerchantId(Connector::getMerchantId($config));
         $paymentRequest->setInterfaceVersion($config->params[$methodId][Core::KEY_INTERFACE_VERSION_CHARGE]);
         $paymentRequest->setKeyVersion($config->params[Core::moduleId()][Core::KEY_VERSION]);
         $paymentRequest->setAmount($config->formatAmount($entity->getGrandTotal()));

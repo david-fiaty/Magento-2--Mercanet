@@ -129,10 +129,10 @@ class IframeMethod extends \Magento\Payment\Model\Method\AbstractMethod {
 
         // Get the vendor class
         $fn = "\\" . $config->params[$methodId][Core::KEY_VENDOR];
-        $paymentRequest = new $fn($config->getSecretKey());
+        $paymentRequest = new $fn(Connector::getSecretKey($config));
 
         // Prepare the request
-        $paymentRequest->setMerchantId($config->getMerchantId());
+        $paymentRequest->setMerchantId(Connector::getMerchantId($config));
         $paymentRequest->setKeyVersion($config->params[Core::moduleId()][Core::KEY_VERSION]);
         $paymentRequest->setTransactionReference($config->createTransactionReference());
         $paymentRequest->setAmount($config->formatAmount($entity->getGrandTotal()));
@@ -179,7 +179,7 @@ class IframeMethod extends \Magento\Payment\Model\Method\AbstractMethod {
     public static function isValidResponse($config, $methodId, $asset) {
         // Get the vendor instance
         $fn = "\\" . $config->params[$methodId][Core::KEY_VENDOR];
-        $paymentResponse = new $fn($config->getSecretKey());
+        $paymentResponse = new $fn(Connector::getSecretKey($config));
 
         // Set the response
         $paymentResponse->setResponse($asset);
@@ -194,7 +194,7 @@ class IframeMethod extends \Magento\Payment\Model\Method\AbstractMethod {
     public static function isSuccessResponse($config, $methodId, $asset) {
         // Get the vendor instance
         $fn = "\\" . $config->params[$methodId][Core::KEY_VENDOR];
-        $paymentResponse = new $fn($config->getSecretKey());
+        $paymentResponse = new $fn(Connector::getSecretKey($config));
 
         // Set the response
         $paymentResponse->setResponse($asset);

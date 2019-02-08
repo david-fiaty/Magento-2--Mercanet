@@ -57,8 +57,11 @@ class RemoteHandlerService {
      * Capture a transaction remotely.
      */
     public function captureRemoteTransaction($transaction, $amount, $payment = false) {
+        // Get the method id
+        $methodId = $transaction->getOrder()->getPayment()->getMethodInstance()->getCode();
+
         // Prepare the request URL
-        $url = $this->config->getApiUrl() . 'charges/' . $transaction->getTxnId() . '/capture';
+        $url = Connector::getApiUrl('charge', $this->config, $methodId) . 'charges/' . $transaction->getTxnId() . '/capture';
 
         // Get the order
         $order = $this->orderRepository->get($transaction->getOrderId());
@@ -95,8 +98,11 @@ class RemoteHandlerService {
      * Void a transaction remotely.
      */
     public function voidRemoteTransaction($transaction, $amount, $payment = false) {
+        // Get the method id
+        $methodId = $transaction->getOrder()->getPayment()->getMethodInstance()->getCode();
+
         // Prepare the request URL
-        $url = $this->config->getApiUrl() . 'charges/' . $transaction->getTxnId() . '/void';
+        $url = Connector::getApiUrl('void', $this->config, $methodId) . 'charges/' . $transaction->getTxnId() . '/void';
 
         // Get the order
         $order = $this->orderRepository->get($transaction->getOrderId());
@@ -133,8 +139,11 @@ class RemoteHandlerService {
      * Refund a transaction remotely.
      */
     public function refundRemoteTransaction($transaction, $amount, $payment = false) {
+        // Get the method id
+        $methodId = $transaction->getOrder()->getPayment()->getMethodInstance()->getCode();
+
         // Prepare the request URL
-        $url = $this->config->getApiUrl() . 'charges/' . $transaction->getTxnId() . '/refund';
+        $url = Connector::getApiUrl('refund', $this->config, $methodId) . 'charges/' . $transaction->getTxnId() . '/refund';
 
         // Get the order
         $order = $this->orderRepository->get($transaction->getOrderId());

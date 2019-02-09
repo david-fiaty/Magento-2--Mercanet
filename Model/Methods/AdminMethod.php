@@ -153,6 +153,12 @@ class AdminMethod extends \Magento\Payment\Model\Method\AbstractMethod {
         $paymentRequest->setOrderChannel("INTERNET");
         $paymentRequest->setCustomerContactEmail($entity->getCustomerEmail());
 
+        // Set the billing address info
+        $params = array_merge($config->params, Connector::getBillingAddress($entity, $config));
+
+        // Set the shipping address info
+        $params = array_merge($config->params, Connector::getShippingAddress($entity, $config));
+
         // Execute the request
         $paymentRequest->executeRequest();
 

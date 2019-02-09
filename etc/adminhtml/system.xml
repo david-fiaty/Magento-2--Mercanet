@@ -83,10 +83,10 @@
                             <config_path>payment/cmsbox_mercanet_form_method/title</config_path>
                         </field>
 
-                        <field id="form_method_template" translate="label" type="select" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
-                            <label>Form template</label>
-                            <source_model>Cmsbox\Mercanet\Model\Adminhtml\Source\FormTemplate</source_model>
-                            <config_path>payment/cmsbox_mercanet_form_method/form_template</config_path>
+                        <field id="form_method_sort_order" translate="label" sortOrder="20" type="text" showInDefault="1" showInWebsite="1" showInStore="1">
+                            <label>Sort Order</label>
+                            <validate>validate-number</validate>
+                            <config_path>payment/cmsbox_mercanet_form_method/sort_order</config_path>
                         </field>
 
                         <field id="form_method_button_label" translate="label" type="text" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
@@ -151,10 +151,10 @@
                             </comment>
                         </field>
 
-                        <field id="form_method_sort_order" translate="label" sortOrder="110" type="text" showInDefault="1" showInWebsite="1" showInStore="1">
-                            <label>Sort Order</label>
-                            <validate>validate-number</validate>
-                            <config_path>payment/cmsbox_mercanet_form_method/sort_order</config_path>
+                        <field id="form_method_template" translate="label" type="select" sortOrder="110" showInDefault="1" showInWebsite="1" showInStore="1">
+                            <label>Form template</label>
+                            <source_model>Cmsbox\Mercanet\Model\Adminhtml\Source\FormTemplate</source_model>
+                            <config_path>payment/cmsbox_mercanet_form_method/form_template</config_path>
                         </field>
                     </group>
 
@@ -217,36 +217,30 @@
                         <label>Admin Method</label>
                         <attribute type="activity_path">payment/cmsbox_mercanet_admin_method/active</attribute>
 
-                        <field id="admin_method_active" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <field id="admin_method_active" translate="label" type="select" sortOrder="0" showInDefault="1" showInWebsite="1" showInStore="1">
                             <label>Enabled</label>
                             <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
                             <config_path>payment/cmsbox_mercanet_admin_method/active</config_path>
                         </field>
 
-                        <field id="admin_method_title" translate="label" type="text" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <field id="admin_method_title" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
                             <label>Title</label>
                             <config_path>payment/cmsbox_mercanet_admin_method/title</config_path>
                         </field>
 
-                        <field id="admin_method_template" translate="label" type="select" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
-                            <label>Form template</label>
-                            <source_model>Cmsbox\Mercanet\Model\Adminhtml\Source\FormTemplate</source_model>
-                            <config_path>payment/cmsbox_mercanet_admin_method/form_template</config_path>
-                        </field>
-
-                        <field id="admin_method_sort_order" translate="label" sortOrder="40" type="text" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <field id="admin_method_sort_order" translate="label" sortOrder="20" type="text" showInDefault="1" showInWebsite="1" showInStore="1">
                             <label>Sort Order</label>
                             <validate>validate-number</validate>
                             <config_path>payment/cmsbox_mercanet_admin_method/sort_order</config_path>
                         </field>
 
-                        <field id="admin_method_capture_mode" translate="label" sortOrder="50" type="select" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <field id="admin_method_capture_mode" translate="label" sortOrder="30" type="select" showInDefault="1" showInWebsite="1" showInStore="1">
                             <label>Capture mode</label>
                             <source_model>Cmsbox\Mercanet\Model\Adminhtml\Source\CaptureMode</source_model>
                             <config_path>payment/cmsbox_mercanet_admin_method/capture_mode</config_path>
                         </field>
 
-                        <field id="admin_method_capture_day" translate="label comment" sortOrder="60" type="text" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <field id="admin_method_capture_day" translate="label comment" sortOrder="40" type="text" showInDefault="1" showInWebsite="1" showInStore="1">
                             <label>Capture Day</label>
                             <config_path>payment/cmsbox_mercanet_admin_method/capture_day</config_path>
                             <validate>validate-required validate-digits validate-zero-or-greater</validate>
@@ -258,13 +252,13 @@
                             </comment>
                         </field>
 
-                        <field id="admin_method_auto_generate_invoice" translate="label comment" sortOrder="70" type="select" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <field id="admin_method_auto_generate_invoice" translate="label comment" sortOrder="50" type="select" showInDefault="1" showInWebsite="1" showInStore="1">
                             <label>Automatically generate invoice</label>
                             <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
                             <config_path>payment/cmsbox_mercanet_admin_method/auto_generate_invoice</config_path>
                         </field>
 
-                        <field id="admin_method_invoice_creation" translate="label comment" sortOrder="80" type="select" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <field id="admin_method_invoice_creation" translate="label comment" sortOrder="60" type="select" showInDefault="1" showInWebsite="1" showInStore="1">
                             <label>Invoice creation</label>
                             <source_model>Cmsbox\Mercanet\Model\Adminhtml\Source\InvoiceCreation</source_model>
                             <config_path>payment/cmsbox_mercanet_admin_method/invoice_creation</config_path>
@@ -273,7 +267,7 @@
                             </depends>                        
                         </field>
 
-                        <field id="admin_method_cvv_check_customer" translate="label comment" sortOrder="90" type="select" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <field id="admin_method_cvv_check_customer" translate="label comment" sortOrder="70" type="select" showInDefault="1" showInWebsite="1" showInStore="1">
                             <label>Customer CVV Check</label>
                             <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
                             <config_path>payment/cmsbox_mercanet_admin_method/cvv_check_customer</config_path>     
@@ -282,13 +276,19 @@
                             </comment>
                         </field>
 
-                        <field id="admin_method_cvv_check_admin" translate="label comment" sortOrder="100" type="select" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <field id="admin_method_cvv_check_admin" translate="label comment" sortOrder="80" type="select" showInDefault="1" showInWebsite="1" showInStore="1">
                             <label>Admin CVV Check</label>
                             <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
                             <config_path>payment/cmsbox_mercanet_admin_method/cvv_check_admin</config_path>     
                             <comment>
                                 Should the CVV (Card Verifivation Value) be requested for admin card payments).
                             </comment>
+                        </field>
+
+                        <field id="admin_method_template" translate="label" type="select" sortOrder="90" showInDefault="1" showInWebsite="1" showInStore="1">
+                            <label>Form template</label>
+                            <source_model>Cmsbox\Mercanet\Model\Adminhtml\Source\FormTemplate</source_model>
+                            <config_path>payment/cmsbox_mercanet_admin_method/form_template</config_path>
                         </field>
                     </group>
                 </group>

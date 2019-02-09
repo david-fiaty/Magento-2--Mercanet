@@ -10,6 +10,7 @@
  
 namespace Cmsbox\Mercanet\Gateway\Processor;
 
+use Cmsbox\Mercanet\Helper\Tools;
 class Connector {
     const KEY_ENVIRONMENT = 'environment';
     const KEY_SIMU_MERCHANT_ID = 'simu_merchant_id';
@@ -147,7 +148,6 @@ class Connector {
     /**
      * Returns the billing address.
      */
-    /*
     public static function getBillingAddress($entity) {
         // Retrieve the address object
         $address = $entity->getBillingAddress();
@@ -156,17 +156,16 @@ class Connector {
         return [
             'billingAddress.street'  => implode(', ', $address->getStreet()),
             'billingAddress.city'    => $address->getCity(),
-            'billingAddress.country' => $this->tools->getCountryCodeA2A3($address->getCountryId()),
+            'billingAddress.country' => Tools::getCountryCodeA2A3($address->getCountryId()),
             'billingAddress.zipCode' => $address->getPostcode(),
             'billingContact.email'   => $entity->getCustomerEmail(),
             'billingAddress.state'   => !empty($address->getRegionCode()) ? $address->getRegionCode() : '',
         ];
     }
-*/
+
     /**
      * Returns the shipping address.
      */
-    /*
     public static function getShippingAddress($entity) {
         // Retrieve the address object
         $address = $entity->getBillingAddress();
@@ -175,11 +174,10 @@ class Connector {
         return [
             'customerAddress.street'  => implode(', ', $address->getStreet()),        
             'customerAddress.city'    => $address->getCity(),
-            'customerAddress.country' => $this->tools->getCountryCodeA2A3($address->getCountryId()),
+            'customerAddress.country' => Tools::getCountryCodeA2A3($address->getCountryId()),
             'customerAddress.zipCode' => $address->getPostcode(),
             'customerAddress.state'   => !empty($address->getRegionCode()) ? $address->getRegionCode() : '',
             'customerContact.email'   => $entity->getCustomerEmail()
         ];
     }
-*/
 }

@@ -53,7 +53,7 @@ class Tools {
     /**
      * Retrieves an Alpha 3 country code from Alpha 2 code.
      */
-    public function getCountryCodeA2A3($val) {
+    public static function getCountryCodeA2A3($val) {
         try {
             // Get the csv file path
             $path = $this->moduleDirReader->getModuleDir('', Core::moduleName()) . '/Model/Files/countries.csv';

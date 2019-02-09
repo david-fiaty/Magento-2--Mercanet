@@ -147,14 +147,11 @@ class RedirectMethod extends \Magento\Payment\Model\Method\AbstractMethod {
             $paymentRequest->setFraudDataBypass3DS($config->params[$methodId][Core::KEY_BYPASS_RECEIPT]);
         }
 
-        // Todo  - add extra data
         // Set the billing address info
-        /*
-        $params = array_merge($params, $config->connector->getBillingAddress($entity));
+        $params = array_merge($params, Connector::getBillingAddress($entity));
 
         // Set the shipping address info
-        $params = array_merge($params, $config->connector->getShippingAddress($entity));
-        */
+        $params = array_merge($params, Connector::getShippingAddress($entity));
 
         // Validate the request
         $paymentRequest->validate();

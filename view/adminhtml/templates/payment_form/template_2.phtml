@@ -61,12 +61,12 @@ $formCssFile = $this->assetRepository->createAsset($moduleName . '::css/payment_
                title="<?= $block->escapeHtml(__('Card number')) ?>"
                >
         <?php if ($this->config->params[$methodId]['cvv_check_customer']): ?>
-            <div class="cvc-container">
+            <span class="cvc-container">
                 <input type="text"
                     class="checkout-input checkout-cvc"
                     placeholder="<?= $block->escapeHtml(__('CVV')); ?>"
                     >
-            </div>
+            </span>
         <?php endif; ?>
     </p>
 </div>

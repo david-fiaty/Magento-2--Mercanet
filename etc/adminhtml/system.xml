@@ -157,10 +157,214 @@
                             <config_path>payment/cmsbox_mercanet_form_method/form_template</config_path>
                         </field>
 
-                        <field id="my_color_option" translate="label" type="text" sortOrder="120" showInDefault="1" showInWebsite="1" showInStore="1">
-                            <label>Background Color</label>
-                            <frontend_model>Cmsbox\Mercanet\Block\Adminhtml\Widgets\ColorPicker</frontend_model>
+                        <field id="template_1_form_title" translate="label" type="text" sortOrder="120" showInDefault="1" showInWebsite="1" showInStore="1">
+                            <label>Form title</label>
+                            <config_path>payment/cmsbox_mercanet_form_method/template_1_form_title</config_path>
+                            <depends>
+                                <field id="form_method_template">template_1</field>
+                            </depends>
                         </field>
+
+                        <field id="template_1_background_color" translate="label" type="text" sortOrder="130" showInDefault="1" showInWebsite="1" showInStore="1">
+                            <label>Background Color</label>
+                            <config_path>payment/cmsbox_mercanet_form_method/template_1_background_color</config_path>
+                            <frontend_model>Cmsbox\Mercanet\Block\Adminhtml\Widgets\ColorPicker</frontend_model>
+                            <depends>
+                                <field id="form_method_template">template_1</field>
+                            </depends>
+                        </field>
+
+                        <field id="template_1_shadow_color" translate="label" type="text" sortOrder="140" showInDefault="1" showInWebsite="1" showInStore="1">
+                            <label>Shadow Color</label>
+                            <config_path>payment/cmsbox_mercanet_form_method/template_1_shadow_color</config_path>
+                            <frontend_model>Cmsbox\Mercanet\Block\Adminhtml\Widgets\ColorPicker</frontend_model>
+                            <depends>
+                                <field id="form_method_template">template_1</field>
+                            </depends>
+                        </field>
+
+                        <field id="template_1_label_color" translate="label" type="text" sortOrder="150" showInDefault="1" showInWebsite="1" showInStore="1">
+                            <label>Label Color</label>
+                            <config_path>payment/cmsbox_mercanet_form_method/template_1_label_color</config_path>
+                            <frontend_model>Cmsbox\Mercanet\Block\Adminhtml\Widgets\ColorPicker</frontend_model>
+                            <depends>
+                                <field id="form_method_template">template_1</field>
+                            </depends>
+                        </field>
+
+                        <field id="template_1_error_color" translate="label" type="text" sortOrder="160" showInDefault="1" showInWebsite="1" showInStore="1">
+                            <label>Placeholder Color</label>
+                            <config_path>payment/cmsbox_mercanet_form_method/template_1_error_color</config_path>
+                            <frontend_model>Cmsbox\Mercanet\Block\Adminhtml\Widgets\ColorPicker</frontend_model>
+                            <depends>
+                                <field id="form_method_template">template_1</field>
+                            </depends>
+                        </field>
+
+                        <field id="template_1_border_color" translate="label" type="text" sortOrder="170" showInDefault="1" showInWebsite="1" showInStore="1">
+                            <label>Border Color</label>
+                            <config_path>payment/cmsbox_mercanet_form_method/template_1_border_color</config_path>
+                            <frontend_model>Cmsbox\Mercanet\Block\Adminhtml\Widgets\ColorPicker</frontend_model>
+                            <depends>
+                                <field id="form_method_template">template_1</field>
+                            </depends>
+                        </field>
+
+                        <field id="template_1_border_width" translate="label" type="text" sortOrder="180" showInDefault="1" showInWebsite="1" showInStore="1">
+                            <label>Border Width</label>
+                            <config_path>payment/cmsbox_mercanet_form_method/template_1_border_width</config_path>
+                            <depends>
+                                <field id="form_method_template">template_1</field>
+                            </depends>
+                        </field>
+
+                        <field id="template_1_corner_radius" translate="label" type="text" sortOrder="190" showInDefault="1" showInWebsite="1" showInStore="1">
+                            <label>Corner Radius</label>
+                            <config_path>payment/cmsbox_mercanet_form_method/template_1_corner_radius</config_path>
+                            <depends>
+                                <field id="form_method_template">template_1</field>
+                            </depends>
+                        </field>
+
+                        <field id="template_2_form_title" translate="label" type="text" sortOrder="120" showInDefault="1" showInWebsite="1" showInStore="1">
+                            <label>Form title</label>
+                            <config_path>payment/cmsbox_mercanet_form_method/template_2_form_title</config_path>
+                            <depends>
+                                <field id="form_method_template">template_2</field>
+                            </depends>
+                        </field>
+
+                        <field id="template_2_background_color" translate="label" type="text" sortOrder="130" showInDefault="1" showInWebsite="1" showInStore="1">
+                            <label>Background Color</label>
+                            <config_path>payment/cmsbox_mercanet_form_method/template_2_background_color</config_path>
+                            <frontend_model>Cmsbox\Mercanet\Block\Adminhtml\Widgets\ColorPicker</frontend_model>
+                            <depends>
+                                <field id="form_method_template">template_2</field>
+                            </depends>
+                        </field>
+
+                        <field id="template_2_shadow_color" translate="label" type="text" sortOrder="140" showInDefault="1" showInWebsite="1" showInStore="1">
+                            <label>Shadow Color</label>
+                            <config_path>payment/cmsbox_mercanet_form_method/template_2_shadow_color</config_path>
+                            <frontend_model>Cmsbox\Mercanet\Block\Adminhtml\Widgets\ColorPicker</frontend_model>
+                            <depends>
+                                <field id="form_method_template">template_2</field>
+                            </depends>
+                        </field>
+
+                        <field id="template_2_label_color" translate="label" type="text" sortOrder="150" showInDefault="1" showInWebsite="1" showInStore="1">
+                            <label>Label Color</label>
+                            <config_path>payment/cmsbox_mercanet_form_method/template_2_label_color</config_path>
+                            <frontend_model>Cmsbox\Mercanet\Block\Adminhtml\Widgets\ColorPicker</frontend_model>
+                            <depends>
+                                <field id="form_method_template">template_2</field>
+                            </depends>
+                        </field>
+
+                        <field id="template_2_error_color" translate="label" type="text" sortOrder="160" showInDefault="1" showInWebsite="1" showInStore="1">
+                            <label>Placeholder Color</label>
+                            <config_path>payment/cmsbox_mercanet_form_method/template_2_error_color</config_path>
+                            <frontend_model>Cmsbox\Mercanet\Block\Adminhtml\Widgets\ColorPicker</frontend_model>
+                            <depends>
+                                <field id="form_method_template">template_2</field>
+                            </depends>
+                        </field>
+
+                        <field id="template_2_border_color" translate="label" type="text" sortOrder="170" showInDefault="1" showInWebsite="1" showInStore="1">
+                            <label>Border Color</label>
+                            <config_path>payment/cmsbox_mercanet_form_method/template_2_border_color</config_path>
+                            <frontend_model>Cmsbox\Mercanet\Block\Adminhtml\Widgets\ColorPicker</frontend_model>
+                            <depends>
+                                <field id="form_method_template">template_2</field>
+                            </depends>
+                        </field>
+
+                        <field id="template_2_border_width" translate="label" type="text" sortOrder="180" showInDefault="1" showInWebsite="1" showInStore="1">
+                            <label>Border Width</label>
+                            <config_path>payment/cmsbox_mercanet_form_method/template_2_border_width</config_path>
+                            <depends>
+                                <field id="form_method_template">template_2</field>
+                            </depends>
+                        </field>
+
+                        <field id="template_2_corner_radius" translate="label" type="text" sortOrder="190" showInDefault="1" showInWebsite="1" showInStore="1">
+                            <label>Corner Radius</label>
+                            <config_path>payment/cmsbox_mercanet_form_method/template_2_corner_radius</config_path>
+                            <depends>
+                                <field id="form_method_template">template_2</field>
+                            </depends>
+                        </field>
+
+
+                        <field id="template_3_form_title" translate="label" type="text" sortOrder="120" showInDefault="1" showInWebsite="1" showInStore="1">
+                            <label>Form title</label>
+                            <config_path>payment/cmsbox_mercanet_form_method/template_3_form_title</config_path>
+                            <depends>
+                                <field id="form_method_template">template_3</field>
+                            </depends>
+                        </field>
+
+                        <field id="template_3_background_color" translate="label" type="text" sortOrder="130" showInDefault="1" showInWebsite="1" showInStore="1">
+                            <label>Background Color</label>
+                            <config_path>payment/cmsbox_mercanet_form_method/template_3_background_color</config_path>
+                            <frontend_model>Cmsbox\Mercanet\Block\Adminhtml\Widgets\ColorPicker</frontend_model>
+                            <depends>
+                                <field id="form_method_template">template_3</field>
+                            </depends>
+                        </field>
+
+                        <field id="template_3_shadow_color" translate="label" type="text" sortOrder="140" showInDefault="1" showInWebsite="1" showInStore="1">
+                            <label>Shadow Color</label>
+                            <config_path>payment/cmsbox_mercanet_form_method/template_3_shadow_color</config_path>
+                            <frontend_model>Cmsbox\Mercanet\Block\Adminhtml\Widgets\ColorPicker</frontend_model>
+                            <depends>
+                                <field id="form_method_template">template_3</field>
+                            </depends>
+                        </field>
+
+                        <field id="template_3_label_color" translate="label" type="text" sortOrder="150" showInDefault="1" showInWebsite="1" showInStore="1">
+                            <label>Label Color</label>
+                            <config_path>payment/cmsbox_mercanet_form_method/template_3_label_color</config_path>
+                            <frontend_model>Cmsbox\Mercanet\Block\Adminhtml\Widgets\ColorPicker</frontend_model>
+                            <depends>
+                                <field id="form_method_template">template_3</field>
+                            </depends>
+                        </field>
+
+                        <field id="template_3_error_color" translate="label" type="text" sortOrder="160" showInDefault="1" showInWebsite="1" showInStore="1">
+                            <label>Placeholder Color</label>
+                            <config_path>payment/cmsbox_mercanet_form_method/template_3_error_color</config_path>
+                            <frontend_model>Cmsbox\Mercanet\Block\Adminhtml\Widgets\ColorPicker</frontend_model>
+                            <depends>
+                                <field id="form_method_template">template_3</field>
+                            </depends>
+                        </field>
+
+                        <field id="template_3_border_color" translate="label" type="text" sortOrder="170" showInDefault="1" showInWebsite="1" showInStore="1">
+                            <label>Border Color</label>
+                            <config_path>payment/cmsbox_mercanet_form_method/template_3_border_color</config_path>
+                            <frontend_model>Cmsbox\Mercanet\Block\Adminhtml\Widgets\ColorPicker</frontend_model>
+                            <depends>
+                                <field id="form_method_template">template_3</field>
+                            </depends>
+                        </field>
+
+                        <field id="template_3_border_width" translate="label" type="text" sortOrder="180" showInDefault="1" showInWebsite="1" showInStore="1">
+                            <label>Border Width</label>
+                            <config_path>payment/cmsbox_mercanet_form_method/template_3_border_width</config_path>
+                            <depends>
+                                <field id="form_method_template">template_3</field>
+                            </depends>
+                        </field>
+
+                        <field id="template_3_corner_radius" translate="label" type="text" sortOrder="190" showInDefault="1" showInWebsite="1" showInStore="1">
+                            <label>Corner Radius</label>
+                            <config_path>payment/cmsbox_mercanet_form_method/template_3_corner_radius</config_path>
+                            <depends>
+                                <field id="form_method_template">template_3</field>
+                            </depends>
+                        </field>
+
                     </group>
 
                     <group id="cmsbox_mercanet_iframe_method" translate="label" showInDefault="1" showInWebsite="1" sortOrder="20">
@@ -295,6 +499,215 @@
                             <source_model>Cmsbox\Mercanet\Model\Adminhtml\Source\FormTemplate</source_model>
                             <config_path>payment/cmsbox_mercanet_admin_method/form_template</config_path>
                         </field>
+
+                        <field id="template_1_form_title" translate="label" type="text" sortOrder="120" showInDefault="1" showInWebsite="1" showInStore="1">
+                            <label>Form title</label>
+                            <config_path>payment/cmsbox_mercanet_admin_method/template_1_form_title</config_path>
+                            <depends>
+                                <field id="admin_method_template">template_1</field>
+                            </depends>
+                        </field>
+
+                        <field id="template_1_background_color" translate="label" type="text" sortOrder="130" showInDefault="1" showInWebsite="1" showInStore="1">
+                            <label>Background Color</label>
+                            <config_path>payment/cmsbox_mercanet_admin_method/template_1_background_color</config_path>
+                            <frontend_model>Cmsbox\Mercanet\Block\Adminhtml\Widgets\ColorPicker</frontend_model>
+                            <depends>
+                                <field id="admin_method_template">template_1</field>
+                            </depends>
+                        </field>
+
+                        <field id="template_1_shadow_color" translate="label" type="text" sortOrder="140" showInDefault="1" showInWebsite="1" showInStore="1">
+                            <label>Shadow Color</label>
+                            <config_path>payment/cmsbox_mercanet_admin_method/template_1_shadow_color</config_path>
+                            <frontend_model>Cmsbox\Mercanet\Block\Adminhtml\Widgets\ColorPicker</frontend_model>
+                            <depends>
+                                <field id="admin_method_template">template_1</field>
+                            </depends>
+                        </field>
+
+                        <field id="template_1_label_color" translate="label" type="text" sortOrder="150" showInDefault="1" showInWebsite="1" showInStore="1">
+                            <label>Label Color</label>
+                            <config_path>payment/cmsbox_mercanet_admin_method/template_1_label_color</config_path>
+                            <frontend_model>Cmsbox\Mercanet\Block\Adminhtml\Widgets\ColorPicker</frontend_model>
+                            <depends>
+                                <field id="admin_method_template">template_1</field>
+                            </depends>
+                        </field>
+
+                        <field id="template_1_error_color" translate="label" type="text" sortOrder="160" showInDefault="1" showInWebsite="1" showInStore="1">
+                            <label>Placeholder Color</label>
+                            <config_path>payment/cmsbox_mercanet_admin_method/template_1_error_color</config_path>
+                            <frontend_model>Cmsbox\Mercanet\Block\Adminhtml\Widgets\ColorPicker</frontend_model>
+                            <depends>
+                                <field id="admin_method_template">template_1</field>
+                            </depends>
+                        </field>
+
+                        <field id="template_1_border_color" translate="label" type="text" sortOrder="170" showInDefault="1" showInWebsite="1" showInStore="1">
+                            <label>Border Color</label>
+                            <config_path>payment/cmsbox_mercanet_admin_method/template_1_border_color</config_path>
+                            <frontend_model>Cmsbox\Mercanet\Block\Adminhtml\Widgets\ColorPicker</frontend_model>
+                            <depends>
+                                <field id="admin_method_template">template_1</field>
+                            </depends>
+                        </field>
+
+                        <field id="template_1_border_width" translate="label" type="text" sortOrder="180" showInDefault="1" showInWebsite="1" showInStore="1">
+                            <label>Border Width</label>
+                            <config_path>payment/cmsbox_mercanet_admin_method/template_1_border_width</config_path>
+                            <depends>
+                                <field id="admin_method_template">template_1</field>
+                            </depends>
+                        </field>
+
+                        <field id="template_1_corner_radius" translate="label" type="text" sortOrder="190" showInDefault="1" showInWebsite="1" showInStore="1">
+                            <label>Corner Radius</label>
+                            <config_path>payment/cmsbox_mercanet_admin_method/template_1_corner_radius</config_path>
+                            <depends>
+                                <field id="admin_method_template">template_1</field>
+                            </depends>
+                        </field>
+
+                        <field id="template_2_form_title" translate="label" type="text" sortOrder="120" showInDefault="1" showInWebsite="1" showInStore="1">
+                            <label>Form title</label>
+                            <config_path>payment/cmsbox_mercanet_admin_method/template_2_form_title</config_path>
+                            <depends>
+                                <field id="admin_method_template">template_2</field>
+                            </depends>
+                        </field>
+
+                        <field id="template_2_background_color" translate="label" type="text" sortOrder="130" showInDefault="1" showInWebsite="1" showInStore="1">
+                            <label>Background Color</label>
+                            <config_path>payment/cmsbox_mercanet_admin_method/template_2_background_color</config_path>
+                            <frontend_model>Cmsbox\Mercanet\Block\Adminhtml\Widgets\ColorPicker</frontend_model>
+                            <depends>
+                                <field id="admin_method_template">template_2</field>
+                            </depends>
+                        </field>
+
+                        <field id="template_2_shadow_color" translate="label" type="text" sortOrder="140" showInDefault="1" showInWebsite="1" showInStore="1">
+                            <label>Shadow Color</label>
+                            <config_path>payment/cmsbox_mercanet_admin_method/template_2_shadow_color</config_path>
+                            <frontend_model>Cmsbox\Mercanet\Block\Adminhtml\Widgets\ColorPicker</frontend_model>
+                            <depends>
+                                <field id="admin_method_template">template_2</field>
+                            </depends>
+                        </field>
+
+                        <field id="template_2_label_color" translate="label" type="text" sortOrder="150" showInDefault="1" showInWebsite="1" showInStore="1">
+                            <label>Label Color</label>
+                            <config_path>payment/cmsbox_mercanet_admin_method/template_2_label_color</config_path>
+                            <frontend_model>Cmsbox\Mercanet\Block\Adminhtml\Widgets\ColorPicker</frontend_model>
+                            <depends>
+                                <field id="admin_method_template">template_2</field>
+                            </depends>
+                        </field>
+
+                        <field id="template_2_error_color" translate="label" type="text" sortOrder="160" showInDefault="1" showInWebsite="1" showInStore="1">
+                            <label>Placeholder Color</label>
+                            <config_path>payment/cmsbox_mercanet_admin_method/template_2_error_color</config_path>
+                            <frontend_model>Cmsbox\Mercanet\Block\Adminhtml\Widgets\ColorPicker</frontend_model>
+                            <depends>
+                                <field id="admin_method_template">template_2</field>
+                            </depends>
+                        </field>
+
+                        <field id="template_2_border_color" translate="label" type="text" sortOrder="170" showInDefault="1" showInWebsite="1" showInStore="1">
+                            <label>Border Color</label>
+                            <config_path>payment/cmsbox_mercanet_admin_method/template_2_border_color</config_path>
+                            <frontend_model>Cmsbox\Mercanet\Block\Adminhtml\Widgets\ColorPicker</frontend_model>
+                            <depends>
+                                <field id="admin_method_template">template_2</field>
+                            </depends>
+                        </field>
+
+                        <field id="template_2_border_width" translate="label" type="text" sortOrder="180" showInDefault="1" showInWebsite="1" showInStore="1">
+                            <label>Border Width</label>
+                            <config_path>payment/cmsbox_mercanet_admin_method/template_2_border_width</config_path>
+                            <depends>
+                                <field id="admin_method_template">template_2</field>
+                            </depends>
+                        </field>
+
+                        <field id="template_2_corner_radius" translate="label" type="text" sortOrder="190" showInDefault="1" showInWebsite="1" showInStore="1">
+                            <label>Corner Radius</label>
+                            <config_path>payment/cmsbox_mercanet_admin_method/template_2_corner_radius</config_path>
+                            <depends>
+                                <field id="admin_method_template">template_2</field>
+                            </depends>
+                        </field>
+
+
+                        <field id="template_3_form_title" translate="label" type="text" sortOrder="120" showInDefault="1" showInWebsite="1" showInStore="1">
+                            <label>Form title</label>
+                            <config_path>payment/cmsbox_mercanet_admin_method/template_3_form_title</config_path>
+                            <depends>
+                                <field id="admin_method_template">template_3</field>
+                            </depends>
+                        </field>
+
+                        <field id="template_3_background_color" translate="label" type="text" sortOrder="130" showInDefault="1" showInWebsite="1" showInStore="1">
+                            <label>Background Color</label>
+                            <config_path>payment/cmsbox_mercanet_admin_method/template_3_background_color</config_path>
+                            <frontend_model>Cmsbox\Mercanet\Block\Adminhtml\Widgets\ColorPicker</frontend_model>
+                            <depends>
+                                <field id="admin_method_template">template_3</field>
+                            </depends>
+                        </field>
+
+                        <field id="template_3_shadow_color" translate="label" type="text" sortOrder="140" showInDefault="1" showInWebsite="1" showInStore="1">
+                            <label>Shadow Color</label>
+                            <config_path>payment/cmsbox_mercanet_admin_method/template_3_shadow_color</config_path>
+                            <frontend_model>Cmsbox\Mercanet\Block\Adminhtml\Widgets\ColorPicker</frontend_model>
+                            <depends>
+                                <field id="admin_method_template">template_3</field>
+                            </depends>
+                        </field>
+
+                        <field id="template_3_label_color" translate="label" type="text" sortOrder="150" showInDefault="1" showInWebsite="1" showInStore="1">
+                            <label>Label Color</label>
+                            <config_path>payment/cmsbox_mercanet_admin_method/template_3_label_color</config_path>
+                            <frontend_model>Cmsbox\Mercanet\Block\Adminhtml\Widgets\ColorPicker</frontend_model>
+                            <depends>
+                                <field id="admin_method_template">template_3</field>
+                            </depends>
+                        </field>
+
+                        <field id="template_3_error_color" translate="label" type="text" sortOrder="160" showInDefault="1" showInWebsite="1" showInStore="1">
+                            <label>Placeholder Color</label>
+                            <config_path>payment/cmsbox_mercanet_admin_method/template_3_error_color</config_path>
+                            <frontend_model>Cmsbox\Mercanet\Block\Adminhtml\Widgets\ColorPicker</frontend_model>
+                            <depends>
+                                <field id="admin_method_template">template_3</field>
+                            </depends>
+                        </field>
+
+                        <field id="template_3_border_color" translate="label" type="text" sortOrder="170" showInDefault="1" showInWebsite="1" showInStore="1">
+                            <label>Border Color</label>
+                            <config_path>payment/cmsbox_mercanet_admin_method/template_3_border_color</config_path>
+                            <frontend_model>Cmsbox\Mercanet\Block\Adminhtml\Widgets\ColorPicker</frontend_model>
+                            <depends>
+                                <field id="admin_method_template">template_3</field>
+                            </depends>
+                        </field>
+
+                        <field id="template_3_border_width" translate="label" type="text" sortOrder="180" showInDefault="1" showInWebsite="1" showInStore="1">
+                            <label>Border Width</label>
+                            <config_path>payment/cmsbox_mercanet_admin_method/template_3_border_width</config_path>
+                            <depends>
+                                <field id="admin_method_template">template_3</field>
+                            </depends>
+                        </field>
+
+                        <field id="template_3_corner_radius" translate="label" type="text" sortOrder="190" showInDefault="1" showInWebsite="1" showInStore="1">
+                            <label>Corner Radius</label>
+                            <config_path>payment/cmsbox_mercanet_admin_method/template_3_corner_radius</config_path>
+                            <depends>
+                                <field id="admin_method_template">template_3</field>
+                            </depends>
+                        </field>
+
                     </group>
                 </group>
 

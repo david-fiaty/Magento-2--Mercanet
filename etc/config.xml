@@ -98,6 +98,34 @@
                 <interface_version_fraud>DR_WS_2.20</interface_version_fraud>
                 <load_request_data>0</load_request_data>
                 <form_template>template_1</form_template>
+
+                <template_1_form_title>Card details</template_1_form_title>
+                <template_1_background_color>#FFFFFF</template_1_background_color>
+                <template_1_shadow_color>#F1F1F1</template_1_shadow_color>
+                <template_1_label_color>#86939e</template_1_label_color>
+                <template_1_error_color>#FF0000</template_1_error_color>
+                <template_1_border_color>#DDDDDD</template_1_border_color>
+                <template_1_border_width>1px</template_1_border_width>
+                <template_1_corner_radius>6px</template_1_corner_radius>
+
+                <template_2_form_title>Card details</template_2_form_title>
+                <template_2_background_color>#F3F6FA</template_2_background_color>
+                <template_2_shadow_color>#F1F1F1</template_2_shadow_color>
+                <template_2_label_color>#7F889E</template_2_label_color>
+                <template_2_error_color>#FF0000</template_2_error_color>
+                <template_2_border_color>#C2CADB</template_2_border_color>
+                <template_2_border_width>1px</template_2_border_width>
+                <template_2_corner_radius>7px</template_2_corner_radius>
+
+                <template_3_form_title>Card details</template_3_form_title>
+                <template_3_background_color>#498EE4</template_3_background_color>
+                <template_3_shadow_color>#F1F1F1</template_3_shadow_color>
+                <template_3_label_color>#FFFFFF</template_3_label_color>
+                <template_3_error_color>#FFFF00</template_3_error_color>
+                <template_3_border_color></template_3_border_color>
+                <template_3_border_width>0px</template_3_border_width>
+                <template_3_corner_radius>6px</template_3_corner_radius>
+
             </cmsbox_mercanet_form_method>
             <cmsbox_mercanet_iframe_method>
                 <method_id>cmsbox_mercanet_iframe_method</method_id>
@@ -165,6 +193,34 @@
                 <vendor>Cmsbox\Mercanet\Gateway\Vendor\GestionPlusInterface</vendor>
                 <load_request_data>0</load_request_data>
                 <form_template>template_1</form_template>
+
+                <template_1_form_title>Card details</template_1_form_title>
+                <template_1_background_color>#FFFFFF</template_1_background_color>
+                <template_1_shadow_color>#F1F1F1</template_1_shadow_color>
+                <template_1_label_color>#86939e</template_1_label_color>
+                <template_1_error_color>#FF0000</template_1_error_color>
+                <template_1_border_color>#DDDDDD</template_1_border_color>
+                <template_1_border_width>1px</template_1_border_width>
+                <template_1_corner_radius>6px</template_1_corner_radius>
+
+                <template_2_form_title>Card details</template_2_form_title>
+                <template_2_background_color>#F3F6FA</template_2_background_color>
+                <template_2_shadow_color>#F1F1F1</template_2_shadow_color>
+                <template_2_label_color>#7F889E</template_2_label_color>
+                <template_2_error_color>#FF0000</template_2_error_color>
+                <template_2_border_color>#C2CADB</template_2_border_color>
+                <template_2_border_width>1px</template_2_border_width>
+                <template_2_corner_radius>7px</template_2_corner_radius>
+
+                <template_3_form_title>Card details</template_3_form_title>
+                <template_3_background_color>#498EE4</template_3_background_color>
+                <template_3_shadow_color>#F1F1F1</template_3_shadow_color>
+                <template_3_label_color>#FFFFFF</template_3_label_color>
+                <template_3_error_color>#FFFF00</template_3_error_color>
+                <template_3_border_color></template_3_border_color>
+                <template_3_border_width>0px</template_3_border_width>
+                <template_3_corner_radius>6px</template_3_corner_radius>
+                
            </cmsbox_mercanet_admin_method>
         </payment>
     </default>

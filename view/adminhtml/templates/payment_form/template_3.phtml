@@ -71,13 +71,13 @@ $formCssFile = $this->assetRepository->createAsset($moduleName . '::css/payment_
                        name="card_data[month]"
                        type="text"
                        placeholder="<?= $block->escapeHtml(__('MM')); ?>"
-                       length="2"
+                       maxlength="2"
                        >
                 <input class="card-year"
                        name="card_data[year]"
                        type="text"
-                       placeholder="<?= $block->escapeHtml(__('YY')); ?>"
-                       length="2"
+                       placeholder="<?= $block->escapeHtml(__('YYYY')); ?>"
+                       maxlength="4"
                        >
             </div>
 

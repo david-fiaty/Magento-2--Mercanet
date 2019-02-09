@@ -43,12 +43,14 @@ $formCssFile = $this->assetRepository->createAsset($moduleName . '::css/payment_
                class="checkout-input checkout-exp month"
                placeholder="<?= $block->escapeHtml(__('MM')); ?>"
                name="card_data[month]"
+               maxlength="2"
                data-validate="{'required-entry':true, 'validate-card-date':true}"
                >
         <input type="text"
                class="checkout-input checkout-exp year"
-               placeholder="<?= $block->escapeHtml(__('YY')); ?>"
+               placeholder="<?= $block->escapeHtml(__('YYYY')); ?>"
                name="card_data[year]"
+               maxlength="4"
                data-validate="{'required-entry':true, 'validate-card-year':true}"
                >
     </p>
@@ -63,7 +65,9 @@ $formCssFile = $this->assetRepository->createAsset($moduleName . '::css/payment_
         <?php if ($this->config->params[$methodId]['cvv_check_customer']): ?>
             <span class="cvc-container">
                 <input type="text"
+                    name="card_data[cvv]"
                     class="checkout-input checkout-cvc"
+                    maxlength="4"
                     placeholder="<?= $block->escapeHtml(__('CVV')); ?>"
                     >
             </span>

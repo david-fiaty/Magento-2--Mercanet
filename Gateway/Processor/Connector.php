@@ -147,7 +147,7 @@ class Connector {
     /**
      * Returns the billing address.
      */
-    public static function getBillingAddress($entity) {
+    public static function getBillingAddress($entity, $config) {
         // Retrieve the address object
         $address = $entity->getBillingAddress();
 
@@ -155,7 +155,7 @@ class Connector {
         return [
             'billingAddress.street'  => implode(', ', $address->getStreet()),
             'billingAddress.city'    => $address->getCity(),
-            'billingAddress.country' => \Cmsbox\Mercanet\Helper\Tools::getCountryCodeA2A3($address->getCountryId()),
+            'billingAddress.country' => $config->getCountryCodeA2A3($address->getCountryId()),
             'billingAddress.zipCode' => $address->getPostcode(),
             'billingContact.email'   => $entity->getCustomerEmail(),
             'billingAddress.state'   => !empty($address->getRegionCode()) ? $address->getRegionCode() : '',
@@ -165,7 +165,7 @@ class Connector {
     /**
      * Returns the shipping address.
      */
-    public static function getShippingAddress($entity) {
+    public static function getShippingAddress($entity, $config) {
         // Retrieve the address object
         $address = $entity->getBillingAddress();
 
@@ -173,7 +173,7 @@ class Connector {
         return [
             'customerAddress.street'  => implode(', ', $address->getStreet()),        
             'customerAddress.city'    => $address->getCity(),
-            'customerAddress.country' => \Cmsbox\Mercanet\Helper\Tools::getCountryCodeA2A3($address->getCountryId()),
+            'customerAddress.country' => $config->getCountryCodeA2A3($address->getCountryId()),
             'customerAddress.zipCode' => $address->getPostcode(),
             'customerAddress.state'   => !empty($address->getRegionCode()) ? $address->getRegionCode() : '',
             'customerContact.email'   => $entity->getCustomerEmail()

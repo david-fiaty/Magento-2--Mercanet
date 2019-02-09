@@ -30,6 +30,11 @@ class Config {
     protected $xmlParser;
 
     /**
+     * @var Csv
+     */
+    protected $csvParser;
+
+    /**
      * @var ScopeConfigInterface
      */    
     protected $scopeConfig;
@@ -80,6 +85,7 @@ class Config {
     public function __construct(
         \Magento\Framework\Module\Dir\Reader $moduleDirReader,
         \Magento\Framework\Xml\Parser $xmlParser,
+        \Magento\Framework\File\Csv $csvParser,
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Checkout\Model\Session $checkoutSession,
         \Magento\Checkout\Model\Cart $cart,
@@ -89,6 +95,7 @@ class Config {
     ) {
         $this->moduleDirReader = $moduleDirReader;
         $this->xmlParser       = $xmlParser;
+        $this->csvParser       = $csvParser;
         $this->scopeConfig     = $scopeConfig;
         $this->checkoutSession = $checkoutSession;
         $this->cart            = $cart;
@@ -281,5 +288,35 @@ class Config {
      */   
     public function formatAmount($amount) {
         return (int) (number_format($amount, 2))*100;
+    }
+
+    /**
+     * Retrieves an Alpha 3 country code from Alpha 2 code.
+     */
+    public function getCountryCodeA2A3($val) {
+        try {
+            // Get the csv file path
+            $path = $this->moduleDirReader->getModuleDir('', Core::moduleName()) . '/Model/Files/countries.csv';
+            
+            if (is_file($path)) {
+                // Read the countries
+                $countries = $this->csvParser->getData($path);
+
+                // Find the wanted result
+                $res = array_filter($countries, function ($arr) use ($val) {
+                    return $arr[1] == $val;
+                });
+
+                // Reset the array ke
+                $res = array_merge(array(), $res);
+                if (isset($res[0]) && !empty($res)) {
+                    return $res[0][2];
+                }
+            }
+        
+            return null;
+        } catch (\Exception $e) {
+            throw new \Magento\Framework\Exception\LocalizedException(__('An error occurred when processing the country codes.'));
+        }
     }
 }

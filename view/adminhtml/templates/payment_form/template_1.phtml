@@ -22,6 +22,55 @@ $formCssFile = $this->assetRepository->createAsset($moduleName . '::css/payment_
 ?>
 <style>
     @import url(<?= $formCssFile ?>);
+
+    .card-form-container {
+        background-color: <?= $this->config->params[$methodId][$templateName . '_background_color']; ?>;
+        border-width: <?= $this->config->params[$methodId][$templateName . '_border_width']; ?>;
+        border-color: <?= $this->config->params[$methodId][$templateName . '_border_color']; ?>;
+        border-radius: <?= $this->config->params[$methodId][$templateName . '_corner_radius']; ?>;
+        box-shadow: 1px 2px 3px 0px <?= $this->config->params[$methodId][$templateName . '_shadow_color']; ?>;
+    }
+
+    .card-form-container .cvv-input input,
+    .card-form-container .card-owner,
+    .card-form-container .card-number,
+    .card-form-container .month select,
+    .card-form-container .year select {
+        border-width: <?= $this->config->params[$methodId][$templateName . '_border_width']; ?>;
+    }
+
+    .card-form-container .form-header {
+        border-bottom-width: <?= $this->config->params[$methodId][$templateName . '_border_width']; ?>;
+        border-bottom-color: <?= $this->config->params[$methodId][$templateName . '_border_color']; ?>;
+    }
+
+    .card-form-container .title {
+        color: <?= $this->config->params[$methodId][$templateName . '_label_color']; ?>;
+    }
+
+    .card-form-container .card-owner,
+    .card-form-container .card-number,
+    .card-form-container .cvv-details,
+    .card-form-container .cvv-input input,
+    .card-form-container .month select,
+    .card-form-container .year select {
+        color: <?= $this->config->params[$methodId][$templateName . '_label_color']; ?>;
+    }
+
+    .card-form-container .card-owner,
+    .card-form-container .card-number,
+    .card-form-container .month select,
+    .card-form-container .year select,
+    .card-form-container .cvv-input input  {
+        border-color: <?= $this->config->params[$methodId][$templateName . '_border_color']; ?>;
+        border-radius: <?= $this->config->params[$methodId][$templateName . '_corner_radius']; ?>;
+    }
+
+    .card-form-container .admin__field-error, 
+    .card-form-container label.mage-error {
+        color: <?= $this->config->params[$methodId][$templateName . '_error_color']; ?> !important;
+    }
+
 </style>
 
 <?php if ($isAdmin) : ?>
@@ -30,7 +79,7 @@ $formCssFile = $this->assetRepository->createAsset($moduleName . '::css/payment_
 
     <div class="card-form-container">
         <div class="form-header">
-            <h4 class="title"><?= $block->escapeHtml(__('Card details')); ?></h4>
+            <h4 class="title"><?= $block->escapeHtml(__($this->config->params[$methodId][$templateName . '_form_title'])); ?></h4>
         </div>
         <div class="form-body">
             <!-- Card Owner -->

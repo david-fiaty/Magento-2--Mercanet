@@ -16,15 +16,12 @@ fieldset.cmsbox_mercanet_admin_method {
     margin-top: 0px;
     margin-bottom: 20px;
     width: 360px;
-    border: 1px solid #ddd;
-    border-radius: 6px;
-    background-color: #fff;
-    box-shadow: 1px 2px 3px 0px rgba(0,0,0,0.10);
+    border-style: solid;
 }
 
 .card-form-container .form-header {
     padding: 10px 22px 10px;
-    border-bottom: 1px solid #E1E8EE;
+    border-bottom-style: solid;
 }
 
 .card-form-container .form-body {
@@ -36,8 +33,7 @@ fieldset.cmsbox_mercanet_admin_method {
 /* Title */
 .card-form-container .title {
     margin: 0;
-    color: #5e6977;
-    font-size: 18px;
+    font-size: 14px;
 }
 
 /* Common */
@@ -65,7 +61,6 @@ fieldset.cmsbox_mercanet_admin_method {
 .card-form-container .cvv-input input,
 .card-form-container .month select,
 .card-form-container .year select {
-    color: #86939e;
     opacity: .7;
 }
 
@@ -74,8 +69,7 @@ fieldset.cmsbox_mercanet_admin_method {
 .card-form-container .card-number {
     width: 100%;
     padding-left: 20px;
-    border: 2px solid #e1e8ee;
-    border-radius: 6px;
+    border-style: solid;
 }
 
 .card-form-container .card-number {
@@ -95,8 +89,7 @@ fieldset.cmsbox_mercanet_admin_method {
     -webkit-appearance: none;
     width: 149px;
     padding-left: 20px;
-    border: 2px solid #e1e8ee;
-    border-radius: 6px;
+    border-style: solid;
     background: url('../../images/caret.png') no-repeat;
     background-position: 85% 50%;
 }
@@ -124,8 +117,7 @@ fieldset.cmsbox_mercanet_admin_method .card-form-container .month {
     width: 149px;
     float: left;
     padding-left: 20px;
-    border: 2px solid #e1e8ee;
-    border-radius: 6px;
+    border-style: solid;
     background: #fff;
 }
 
@@ -171,7 +163,6 @@ fieldset.cmsbox_mercanet_admin_method .card-form-container .cvv-details {
 .card-form-container label.mage-error {
     background: transparent !important;
     border: none !important;
-    color: red !important;
 }
 
 label[id^="card_data"].mage-error {

@@ -190,11 +190,6 @@ fieldset.cmsbox_mercanet_admin_method {
   font-size: 10px;
 }
 
-.card-form-container input.invalid {
-  border: solid 2px #eb0000;
-  height: 34px;
-}
-
 .card-form-container label {
   display: block;
   margin: 0 auto 7px;
@@ -218,10 +213,12 @@ fieldset.cmsbox_mercanet_admin_method {
 .card-form-container .field-error {
   margin-top: 0px !important;
   font-size: 1.1rem !important;
+  color: yellow !important;
 }
 
 .card-form-container .mage-error {
-  font-size: 11px !important;
+  font-size: 10px !important;
+  color: yellow !important;
 }
 
 div.mage-error[generated] {
@@ -252,7 +249,7 @@ div.mage-error[generated] {
 .card-form-container label.mage-error {
   background: transparent !important;
   border: none !important;
-  color: red !important;
+  color: yellow !important;
 }
 
 label[id^="card_data"].mage-error {

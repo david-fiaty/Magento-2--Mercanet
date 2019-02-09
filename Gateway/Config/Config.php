@@ -149,7 +149,7 @@ class Config {
             $this->params = $output;
 
         } catch (\Exception $e) {
-            throw new \Magento\Framework\Exception\LocalizedException(__('The module configuration data could not be loaded.'));
+            throw new \Magento\Framework\Exception\LocalizedException(__($e->getMessage()));
         }
     }
 
@@ -189,7 +189,7 @@ class Config {
             return array_merge($fileData['base'], $output);
 
         } catch (\Exception $e) {
-            throw new \Magento\Framework\Exception\LocalizedException(__('The base configuration data could not be loaded.'));
+            throw new \Magento\Framework\Exception\LocalizedException(__($e->getMessage()));
         }
     }
 
@@ -209,7 +209,7 @@ class Config {
 
             return $output;
         } catch (\Exception $e) {
-            throw new \Magento\Framework\Exception\LocalizedException(__('There was an error loading the currencies.'));
+            throw new \Magento\Framework\Exception\LocalizedException(__($e->getMessage()));
         }
     }
 
@@ -249,7 +249,7 @@ class Config {
                 ]
             ];
         } catch (\Exception $e) {
-            throw new \Magento\Framework\Exception\LocalizedException(__('The frontend configuration could not be loaded.'));
+            throw new \Magento\Framework\Exception\LocalizedException(__($e->getMessage()));
         }
     }
 

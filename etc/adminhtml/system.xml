@@ -156,6 +156,11 @@
                             <source_model>Cmsbox\Mercanet\Model\Adminhtml\Source\FormTemplate</source_model>
                             <config_path>payment/cmsbox_mercanet_form_method/form_template</config_path>
                         </field>
+
+                        <field id="my_color_option" translate="label" type="text" sortOrder="120" showInDefault="1" showInWebsite="1" showInStore="1">
+                            <label>Background Color</label>
+                            <frontend_model>Cmsbox\Mercanet\Block\Adminhtml\Widgets\ColorPicker</frontend_model>
+                        </field>
                     </group>
 
                     <group id="cmsbox_mercanet_iframe_method" translate="label" showInDefault="1" showInWebsite="1" sortOrder="20">

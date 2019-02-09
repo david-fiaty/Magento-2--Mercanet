@@ -10,7 +10,6 @@
  
 namespace Cmsbox\Mercanet\Gateway\Processor;
 
-use Cmsbox\Mercanet\Helper\Tools;
 class Connector {
     const KEY_ENVIRONMENT = 'environment';
     const KEY_SIMU_MERCHANT_ID = 'simu_merchant_id';
@@ -93,7 +92,7 @@ class Connector {
      * @return string
      */
     public static function getApiUrl($action, $config, $methodId) {
-        $mode = $config->params[Core::moduleId()][self::KEY_ENVIRONMENT];
+        $mode = $config->params[\Cmsbox\Mercanet\Gateway\Config\Core::moduleId()][self::KEY_ENVIRONMENT];
         $path = 'api_url' . '_' . $mode . '_' . $action;
         return $config->params[$methodId][$path];
     }
@@ -130,15 +129,15 @@ class Connector {
         // Return the secret key
         switch ($config->base[self::KEY_ENVIRONMENT]) {
             case 'simu': 
-            $key = $config->params[Core::moduleId()][self::KEY_SIMU_SECRET_KEY];
+            $key = $config->params[\Cmsbox\Mercanet\Gateway\Config\Core::moduleId()][self::KEY_SIMU_SECRET_KEY];
             break;
 
             case 'test': 
-            $key = $config->params[Core::moduleId()][self::KEY_TEST_SECRET_KEY];
+            $key = $config->params[\Cmsbox\Mercanet\Gateway\Config\Core::moduleId()][self::KEY_TEST_SECRET_KEY];
             break;
 
             case 'prod': 
-            $key = $config->params[Core::moduleId()][self::KEY_PROD_SECRET_KEY];
+            $key = $config->params[\Cmsbox\Mercanet\Gateway\Config\Core::moduleId()][self::KEY_PROD_SECRET_KEY];
             break;
         }
 
@@ -156,7 +155,7 @@ class Connector {
         return [
             'billingAddress.street'  => implode(', ', $address->getStreet()),
             'billingAddress.city'    => $address->getCity(),
-            'billingAddress.country' => Tools::getCountryCodeA2A3($address->getCountryId()),
+            'billingAddress.country' => \Cmsbox\Mercanet\Helper\Tools::getCountryCodeA2A3($address->getCountryId()),
             'billingAddress.zipCode' => $address->getPostcode(),
             'billingContact.email'   => $entity->getCustomerEmail(),
             'billingAddress.state'   => !empty($address->getRegionCode()) ? $address->getRegionCode() : '',
@@ -174,7 +173,7 @@ class Connector {
         return [
             'customerAddress.street'  => implode(', ', $address->getStreet()),        
             'customerAddress.city'    => $address->getCity(),
-            'customerAddress.country' => Tools::getCountryCodeA2A3($address->getCountryId()),
+            'customerAddress.country' => \Cmsbox\Mercanet\Helper\Tools::getCountryCodeA2A3($address->getCountryId()),
             'customerAddress.zipCode' => $address->getPostcode(),
             'customerAddress.state'   => !empty($address->getRegionCode()) ? $address->getRegionCode() : '',
             'customerContact.email'   => $entity->getCustomerEmail()

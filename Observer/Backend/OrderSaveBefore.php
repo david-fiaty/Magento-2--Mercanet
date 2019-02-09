@@ -130,6 +130,7 @@ class OrderSaveBefore implements \Magento\Framework\Event\ObserverInterface {
                 }
             }
             catch (\Exception $e) {
+                $this->watchdog->logError($e);
                 throw new \Magento\Framework\Exception\LocalizedException(__($e->getMessage()));
             }
         }

@@ -316,7 +316,7 @@ class Config {
         
             return null;
         } catch (\Exception $e) {
-            throw new \Magento\Framework\Exception\LocalizedException(__('An error occurred when processing the country codes.'));
+            throw new \Magento\Framework\Exception\LocalizedException(__($e->getMessage()));
         }
     }
 }

@@ -37,18 +37,25 @@ class OrderSaveAfter implements \Magento\Framework\Event\ObserverInterface {
     protected $transactionHandler;
 
     /**
+     * @var Watchdog
+     */
+    protected $watchdog;
+
+    /**
      * OrderSaveBefore constructor.
      */
     public function __construct(
         \Magento\Backend\Model\Auth\Session $backendAuthSession,
         \Cmsbox\Mercanet\Gateway\Http\Client $client,
         \Cmsbox\Mercanet\Gateway\Config\Config $config,
-        \Cmsbox\Mercanet\Model\Service\TransactionHandlerService $transactionHandler
+        \Cmsbox\Mercanet\Model\Service\TransactionHandlerService $transactionHandler,
+        \Cmsbox\Mercanet\Helper\Watchdog $watchdog
     ) { 
         $this->backendAuthSession = $backendAuthSession;
         $this->client             = $client;
         $this->config             = $config;
         $this->transactionHandler = $transactionHandler;
+        $this->watchdog           = $watchdog;
     }
  
     /**
@@ -56,36 +63,41 @@ class OrderSaveAfter implements \Magento\Framework\Event\ObserverInterface {
      */
     public function execute(Observer $observer) { 
         if ($this->backendAuthSession->isLoggedIn()) {
-            // Get the order
-            $order = $observer->getEvent()->getOrder();
+            try {
+                // Get the order
+                $order = $observer->getEvent()->getOrder();
 
-            // Get the payment info
-            $paymentInfo = $order->getPayment()->getMethodInstance()->getInfoInstance();
+                // Get the payment info
+                $paymentInfo = $order->getPayment()->getMethodInstance()->getInfoInstance();
 
-            // Get the transaction id
-            $transactionId = $paymentInfo->getData()
-            [Connector::KEY_ADDITIONAL_INFORMATION]
-            [Connector::KEY_TRANSACTION_INFO]
-            [$this->config->base[Connector::KEY_TRANSACTION_ID_FIELD]];
+                // Get the transaction id
+                $transactionId = $paymentInfo->getData()
+                [Connector::KEY_ADDITIONAL_INFORMATION]
+                [Connector::KEY_TRANSACTION_INFO]
+                [$this->config->base[Connector::KEY_TRANSACTION_ID_FIELD]];
 
-            // Get the method id
-            $methodId = $order->getPayment()->getMethodInstance()->getCode();
+                // Get the method id
+                $methodId = $order->getPayment()->getMethodInstance()->getCode();
 
-            // Prepare the order data
-            $fields = [
-                $this->config->base[Connector::KEY_ORDER_ID_FIELD]       => $order->getIncrementId(),
-                $this->config->base[Connector::KEY_TRANSACTION_ID_FIELD] => $transactionId,
-                $this->config->base[Connector::KEY_CUSTOMER_EMAIL_FIELD] => $order->getCustomerEmail(),
-                $this->config->base[Connector::KEY_CAPTURE_MODE_FIELD]   => $this->config->params[$methodId][Connector::KEY_CAPTURE_MODE],
-                Core::KEY_METHOD_ID                                      => $methodId
-            ];
+                // Prepare the order data
+                $fields = [
+                    $this->config->base[Connector::KEY_ORDER_ID_FIELD]       => $order->getIncrementId(),
+                    $this->config->base[Connector::KEY_TRANSACTION_ID_FIELD] => $transactionId,
+                    $this->config->base[Connector::KEY_CUSTOMER_EMAIL_FIELD] => $order->getCustomerEmail(),
+                    $this->config->base[Connector::KEY_CAPTURE_MODE_FIELD]   => $this->config->params[$methodId][Connector::KEY_CAPTURE_MODE],
+                    Core::KEY_METHOD_ID                                      => $methodId
+                ];
 
-            // Handle the transactions
-            if ($this->config->params[$methodId][Connector::KEY_CAPTURE_MODE] == Connector::KEY_CAPTURE_IMMEDIATE) {
-                $captureTransactionId = $this->transactionHandler->createTransaction($order, $fields, Transaction::TYPE_CAPTURE, $methodId);
+                // Handle the transactions
+                if ($this->config->params[$methodId][Connector::KEY_CAPTURE_MODE] == Connector::KEY_CAPTURE_IMMEDIATE) {
+                    $captureTransactionId = $this->transactionHandler->createTransaction($order, $fields, Transaction::TYPE_CAPTURE, $methodId);
+                } else {
+                    $authorizationTransactionId = $this->transactionHandler->createTransaction($order, $fields, Transaction::TYPE_AUTH, $methodId);
+                }
             }
-            else {
-                $authorizationTransactionId = $this->transactionHandler->createTransaction($order, $fields, Transaction::TYPE_AUTH, $methodId);
+            catch (\Exception $e) {
+                $this->watchdog->logError($e);
+                throw new \Magento\Framework\Exception\LocalizedException(__($e->getMessage()));
             }
         }
 

@@ -42,7 +42,7 @@ class Tools {
             return $entity->$fn();
 
         } catch (\Exception $e) {
-            throw new \Magento\Framework\Exception\LocalizedException(__('An error occurred when processing the currency codes.'));
+            throw new \Magento\Framework\Exception\LocalizedException(__($e->getMessage()));
         }
     }
 }

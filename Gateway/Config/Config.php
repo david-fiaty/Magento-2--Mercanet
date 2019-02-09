@@ -149,7 +149,7 @@ class Config {
             $this->params = $output;
 
         } catch (\Exception $e) {
-            throw new \Magento\Framework\Exception\LocalizedException(__('The module configuration data could not be loaded'));
+            throw new \Magento\Framework\Exception\LocalizedException(__('The module configuration data could not be loaded.'));
         }
     }
 

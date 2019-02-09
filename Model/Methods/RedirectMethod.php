@@ -148,10 +148,10 @@ class RedirectMethod extends \Magento\Payment\Model\Method\AbstractMethod {
         }
 
         // Set the billing address info
-        $params = array_merge($params, Connector::getBillingAddress($entity));
+        $params = array_merge($config->params, Connector::getBillingAddress($entity));
 
         // Set the shipping address info
-        $params = array_merge($params, Connector::getShippingAddress($entity));
+        $params = array_merge($config->params, Connector::getShippingAddress($entity));
 
         // Validate the request
         $paymentRequest->validate();

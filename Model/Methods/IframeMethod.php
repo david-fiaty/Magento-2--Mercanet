@@ -156,15 +156,13 @@ class IframeMethod extends \Magento\Payment\Model\Method\AbstractMethod {
             $paymentRequest->setFraudDataBypass3DS($config->params[$methodId][Core::KEY_BYPASS_RECEIPT]);
         }
 
-        // Todo  - add extra data
         // Set the billing address info
-        /*
-        $params = array_merge($params, $config->connector->getBillingAddress($entity));
+        $params = array_merge($config->params, Connector::getBillingAddress($entity, $config));
 
         // Set the shipping address info
-        $params = array_merge($params, $config->connector->getShippingAddress($entity));
-        */
+        $params = array_merge($config->params, Connector::getShippingAddress($entity, $config));
 
+        // Validate the request
         $paymentRequest->validate();
 
         return [

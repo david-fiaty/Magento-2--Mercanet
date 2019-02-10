@@ -69,18 +69,29 @@ define(
              * @returns {string}
              */
             createIframe: function() {
+                // Load the iframe
                 var targetIframe = $(this.targetIframe).contents().find('html');
                 $('#' + this.targetForm).detach().appendTo(targetIframe);
             },
 
             /**
-             * @returns {string}
+             * @returns {void}
              */
             proceedWithSubmission: function() {
                 var targetIframe = $(this.targetIframe).contents().find('html');
                 targetIframe.find('form').submit();
                 $(this.targetIframe).css('display', 'block');
                 FullScreenLoader.stopLoader();
+            },
+
+            /**
+             * @returns {void}
+             */
+            hideControls: function() {
+                // Hide billing, agreement and place order info
+                $('.checkout-billing-address').css('display', 'none');
+                $('.actions-toolbar').css('display', 'none');
+                $('.checkout-agreements-block').css('display', 'none');
             },
 
             /**
@@ -92,6 +103,9 @@ define(
 
                 // Validate before submission
                 if (AdditionalValidators.validate()) {
+                    // Hide the controls
+                    this.hideControls();
+
                     // Set the cookie data
                     Adapter.setCookieData(this.methodId);
 

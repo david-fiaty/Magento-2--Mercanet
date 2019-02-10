@@ -86,12 +86,12 @@ class Normal extends \Magento\Framework\App\Action\Action {
             if ($methodInstance::isValidResponse($this->config, $methodId, $responseData)) {
                 if ($methodInstance::isSuccessResponse($this->config, $methodId, $responseData)) {
                     // Place order
-                    $order = $this->orderHandler->placeOrder($responseData, $methodId);
+                    $order = $this->orderHandler->placeOrder(Connector::packData($responseData), $methodId);
 
                     // Process the order result
                     if ($order && method_exists($order, 'getId') && (int)$order->getId() > 0) {
                         // Get the fields
-                        $fields = Connector::unpackData($responseData);
+                        $fields = Connector::unpackData(Connector::packData($responseData));
 
                         // Find the quote
                         $quote = $this->orderHandler->findQuote($fields[$this->config->base[Connector::KEY_ORDER_ID_FIELD]]);

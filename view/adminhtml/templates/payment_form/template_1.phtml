@@ -78,7 +78,9 @@ $formCssFile = $this->assetRepository->createAsset($moduleName . '::css/payment_
 
     <div class="card-form-container">
         <div class="form-header">
-            <h4 class="title"><?= $block->escapeHtml(__($this->config->params[$methodId][$templateName . '_form_title'])); ?></h4>
+            <h4 class="title">
+                <?= $block->escapeHtml(__($this->config->params[$methodId][$templateName . '_form_title'])); ?>
+            </h4>
         </div>
         <div class="form-body">
             <!-- Card Owner -->

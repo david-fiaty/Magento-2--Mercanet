@@ -83,11 +83,9 @@ $formCssFile = $this->assetRepository->createAsset($moduleName . '::css/payment_
         color: <?= $this->config->params[$methodId][$templateName . '_label_color']; ?> !important;
     }
 
-    .card-form-container .admin__field-error, 
-    .card-form-container label.mage-error {
-        color: <?= $this->config->params[$methodId][$templateName . '_error_color']; ?> !important;
+    .card-form-container input.mage-error {
+        border-color: <?= $this->config->params[$methodId][$templateName . '_error_color']; ?> !important;
     }
-
     .card-form-container .checkout-input:focus {
         border-color: <?= $this->config->params[$methodId][$templateName . '_border_color']; ?>;
         -webkit-box-shadow: inset 0 1px 2px <?= $this->config->params[$methodId][$templateName . '_shadow_color']; ?>, 0 0 5px <?= $this->config->params[$methodId][$templateName . '_shadow_color']; ?>;
@@ -142,6 +140,7 @@ $formCssFile = $this->assetRepository->createAsset($moduleName . '::css/payment_
                     class="checkout-input checkout-cvc"
                     maxlength="4"
                     placeholder="<?= $block->escapeHtml(__('CVV')); ?>"
+                    data-validate="{'required-entry':true, 'validate-number':true, 'validate-card-cvv':true}"
                     >
             </span>
         <?php endif; ?>

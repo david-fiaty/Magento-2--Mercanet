@@ -133,6 +133,7 @@ fieldset.cmsbox_mercanet_admin_method {
   position: relative;
   left: 16px;
   top: 0px;
+  display: none !important;
 }
 
 /* Admin */
@@ -141,8 +142,11 @@ fieldset.cmsbox_mercanet_admin_method {
   background: transparent !important;
   border: none !important;
   color: red !important;
+  display: none !important;
 }
 
-label[id^="card_data"].mage-error {
+.card-form-container label[id^="card_data"].mage-error,
+.card-form-container div[id^="card_data"].mage-error {
   padding-left: 0px;
+  display: none !important;
 }

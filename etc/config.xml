@@ -110,7 +110,7 @@
 
                 <template_2_form_title>Card details</template_2_form_title>
                 <template_2_background_color>#F3F6FA</template_2_background_color>
-                <template_2_shadow_color>#F1F1F1</template_2_shadow_color>
+                <template_2_shadow_color>#666666</template_2_shadow_color>
                 <template_2_label_color>#7F889E</template_2_label_color>
                 <template_2_error_color>#FF0000</template_2_error_color>
                 <template_2_border_color>#C2CADB</template_2_border_color>
@@ -220,7 +220,7 @@
                 <template_3_border_color></template_3_border_color>
                 <template_3_border_width>0px</template_3_border_width>
                 <template_3_corner_radius>6px</template_3_corner_radius>
-                
+
            </cmsbox_mercanet_admin_method>
         </payment>
     </default>

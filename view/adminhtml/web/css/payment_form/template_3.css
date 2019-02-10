@@ -8,9 +8,9 @@
  */
  
 fieldset.cmsbox_mercanet_admin_method {
-    border: none !important;
-    box-sizing: content-box !important;
-    margin-top: 20px;
+  border: none !important;
+  box-sizing: content-box !important;
+  margin-top: 20px;
 }
 
 .card-form-container {
@@ -121,15 +121,7 @@ fieldset.cmsbox_mercanet_admin_method {
   line-height: 55px;
 }
 
-.card-form-container .image-container img {
-  position: absolute;
-  right: 0;
-  top: 0;
-}
-
 .card-form-container input {
-  border: none;
-  outline: none;
   height: 30px;
   line-height: 30px;
   padding: 0 10px;
@@ -138,6 +130,8 @@ fieldset.cmsbox_mercanet_admin_method {
   border-radius: 4px;
   font-family: lato, 'helvetica-light', 'sans-serif';
   letter-spacing: .7px;
+  background-color: #f1f1f1;
+  opacity: 0.3;
 }
 
 .card-form-container input::-webkit-input-placeholder {

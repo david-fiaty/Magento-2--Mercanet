@@ -121,7 +121,7 @@
                 <template_3_background_color>#498EE4</template_3_background_color>
                 <template_3_shadow_color>#F1F1F1</template_3_shadow_color>
                 <template_3_label_color>#FFFFFF</template_3_label_color>
-                <template_3_error_color>#FFFF00</template_3_error_color>
+                <template_3_error_color>#000000</template_3_error_color>
                 <template_3_border_color></template_3_border_color>
                 <template_3_border_width>0px</template_3_border_width>
                 <template_3_corner_radius>6px</template_3_corner_radius>

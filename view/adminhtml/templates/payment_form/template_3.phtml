@@ -22,6 +22,37 @@ $formCssFile = $this->assetRepository->createAsset($moduleName . '::css/payment_
 ?>
 <style>
     @import url(<?= $formCssFile ?>);
+
+    .card-form-container .card-front,
+    .card-form-container .card-back {
+        background-color: <?= $this->config->params[$methodId][$templateName . '_background_color']; ?>;
+        border-radius: <?= $this->config->params[$methodId][$templateName . '_corner_radius']; ?>;
+        color: <?= $this->config->params[$methodId][$templateName . '_label_color']; ?>;
+    }
+
+    .card-form-container input {
+        background-color: <?= $this->config->params[$methodId][$templateName . '_background_color']; ?>;
+        color: <?= $this->config->params[$methodId][$templateName . '_label_color']; ?>;
+        border-radius: <?= $this->config->params[$methodId][$templateName . '_corner_radius']; ?>;
+    }
+
+    .card-form-container input::-webkit-input-placeholder,
+    .card-form-container input:-moz-placeholder,
+    .card-form-container input:-ms-input-placeholder {
+        color: <?= $this->config->params[$methodId][$templateName . '_label_color']; ?>;
+    }
+
+    .card-form-container .shadow {
+        background-color: <?= $this->config->params[$methodId][$templateName . '_shadow_color']; ?>;
+        border-radius: <?= $this->config->params[$methodId][$templateName . '_corner_radius']; ?>;
+    }
+
+    .card-form-container .field-error,
+    .card-form-container .mage-error,
+    .card-form-container .admin__field-error, 
+    .card-form-container label.mage-error {
+        color: <?= $this->config->params[$methodId][$templateName . '_error_color']; ?> !important;
+    }
 </style>
 
 <?php if ($isAdmin) : ?>
@@ -35,8 +66,11 @@ $formCssFile = $this->assetRepository->createAsset($moduleName . '::css/payment_
 
             <!--- Card image container --->
             <div class="image-container">
-                <span class="amount"><strong><?= $block->escapeHtml(__('Card details')); ?></strong></span>
-                <span class="card-image"></span>
+                <span class="amount">
+                    <strong>
+                        <?= $block->escapeHtml(__($this->config->params[$methodId][$templateName . '_form_title'])); ?>
+                    </strong>
+                </span>
             </div>
 
             <!--- Card holder container --->

@@ -10,10 +10,6 @@
 
 namespace Cmsbox\Mercanet\Model\Service;
 
-use Magento\Payment\Model\Config as PaymentConfig;
-use Cmsbox\Mercanet\Gateway\Config\Config;
-use Cmsbox\Mercanet\Helper\Watchdog;
-
 class FormHandlerService {
 
     /**
@@ -35,9 +31,9 @@ class FormHandlerService {
      * FormHandlerService constructor.
     */
     public function __construct(
-        Config $config,
-        Watchdog $watchdog,
-        PaymentConfig $paymentConfig
+        \Cmsbox\Mercanet\Gateway\Config\Config $config,
+        \Cmsbox\Mercanet\Helper\Watchdog $watchdog,
+        \Magento\Payment\Model\Config $paymentConfig
     ) {
         $this->config             = $config;
         $this->watchdog           = $watchdog;

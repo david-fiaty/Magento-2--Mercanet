@@ -10,16 +10,7 @@
 
 namespace Cmsbox\Mercanet\Model\Service;
 
-use Magento\Sales\Model\Order;
-use Magento\Sales\Api\OrderRepositoryInterface;
-use Magento\Sales\Model\Order\Payment\Transaction;
-use Cmsbox\Mercanet\Gateway\Config\Config;
-use Cmsbox\Mercanet\Helper\Tools;
-use Cmsbox\Mercanet\Gateway\Http\Client;
-use Cmsbox\Mercanet\Gateway\Processor\Connector;
-
 class RemoteHandlerService {
-
     /**
      * @var OrderRepositoryInterface
      */
@@ -43,136 +34,161 @@ class RemoteHandlerService {
     /**
      * @var Connector
      */
-    protected $processor;
+    protected $connector;
+
+    /**
+     * @var Watchdog
+     */
+    protected $watchdog;
 
     /**
      * RemoteHandlerService constructor.
      */
     public function __construct(
-        OrderRepositoryInterface $orderRepository,
-        Config $config,
-        Tools $tools,
-        Client $client,
-        Connector $processor
+        \Magento\Sales\Api\OrderRepositoryInterface $orderRepository,
+        \Cmsbox\Mercanet\Gateway\Config\Config $config,
+        \Cmsbox\Mercanet\Helper\Tools $tools,
+        \Cmsbox\Mercanet\Gateway\Http\Client $client,
+        \Cmsbox\Mercanet\Gateway\Processor\Connector $connector,
+        \Cmsbox\Mercanet\Helper\Watchdog $watchdog
     ) {
         $this->orderRepository    = $orderRepository;
         $this->config             = $config;
         $this->tools              = $tools;
         $this->client             = $client;
-        $this->processor          = $processor;
+        $this->connector          = $connector;
+        $this->watchdog           = $watchdog;
     }
 
     /**
      * Capture a transaction remotely.
      */
     public function captureRemoteTransaction($transaction, $amount, $payment = false) {
-        // Prepare the request URL
-        $url = $this->config->getApiUrl() . 'charges/' . $transaction->getTxnId() . '/capture';
+        try {
+            // Get the method id
+            $methodId = $transaction->getOrder()->getPayment()->getMethodInstance()->getCode();
 
-        // Get the order
-        $order = $this->orderRepository->get($transaction->getOrderId());
+            // Prepare the request URL
+            $url = Connector::getApiUrl('charge', $this->config, $methodId) . 'charges/' . $transaction->getTxnId() . '/capture';
 
-        // Get the track id
-        $trackId = $order->getIncrementId();
+            // Get the order
+            $order = $this->orderRepository->get($transaction->getOrderId());
 
-        // Prepare the request parameters
-        $params = [
+            // Get the track id
+            $trackId = $order->getIncrementId();
+
+            // Prepare the request parameters
+            $params = [
             'value' => $this->tools->formatAmount($amount),
             'trackId' => $trackId
-        ]; 
+        ];
 
-        // Send the request
-        $response = $this->client->getPostResponse($url, $params);
+            // Send the request
+            $response = $this->client->getPostResponse($url, $params);
 
-        // Process the response
-        if ($this->tools->isChargeSuccess($response)) {
-            // Update the void transaction
-            if ($payment) {
-                $payment->setTransactionId($response['id']);
-                $payment->setParentTransactionId($transaction->getTxnId());
-                $payment->setIsTransactionClosed(1);
-                $payment->save();
+            // Process the response
+            if ($this->tools->isChargeSuccess($response)) {
+                // Update the void transaction
+                if ($payment) {
+                    $payment->setTransactionId($response['id']);
+                    $payment->setParentTransactionId($transaction->getTxnId());
+                    $payment->setIsTransactionClosed(1);
+                    $payment->save();
+                }
+
+                return true;
             }
-
-            return true;
-        }
-       
-        return false;
+        } catch (\Exception $e) {
+            $this->watchdog->logError($e);
+            throw new \Magento\Framework\Exception\LocalizedException(__('The remote transaction could not be captured.'));
+        } 
     }
 
     /**
      * Void a transaction remotely.
      */
     public function voidRemoteTransaction($transaction, $amount, $payment = false) {
-        // Prepare the request URL
-        $url = $this->config->getApiUrl() . 'charges/' . $transaction->getTxnId() . '/void';
+        try {
+            // Get the method id
+            $methodId = $transaction->getOrder()->getPayment()->getMethodInstance()->getCode();
 
-        // Get the order
-        $order = $this->orderRepository->get($transaction->getOrderId());
+            // Prepare the request URL
+            $url = Connector::getApiUrl('void', $this->config, $methodId) . 'charges/' . $transaction->getTxnId() . '/void';
 
-        // Get the track id
-        $trackId = $order->getIncrementId();
+            // Get the order
+            $order = $this->orderRepository->get($transaction->getOrderId());
 
-        // Prepare the request parameters
-        $params = [
-            'value' => $this->tools->formatAmount($amount),
-            'trackId' => $trackId
-        ]; 
+            // Get the track id
+            $trackId = $order->getIncrementId();
 
-        // Send the request
-        $response = $this->client->getPostResponse($url, $params);
+            // Prepare the request parameters
+            $params = [
+                'value' => $this->tools->formatAmount($amount),
+                'trackId' => $trackId
+            ];
 
-        // Process the response
-        if ($this->tools->isChargeSuccess($response)) {
-            // Update the void transaction
-            if ($payment) {
-                $payment->setTransactionId($response['id']);
-                $payment->setParentTransactionId($transaction->getTxnId());
-                $payment->setIsTransactionClosed(1);
-                $payment->save();
+            // Send the request
+            $response = $this->client->getPostResponse($url, $params);
+
+            // Process the response
+            if ($this->tools->isChargeSuccess($response)) {
+                // Update the void transaction
+                if ($payment) {
+                    $payment->setTransactionId($response['id']);
+                    $payment->setParentTransactionId($transaction->getTxnId());
+                    $payment->setIsTransactionClosed(1);
+                    $payment->save();
+                }
+
+                return true;
             }
-
-            return true;
-        }
-       
-        return false;
+        } catch (\Exception $e) {
+            $this->watchdog->logError($e);
+            throw new \Magento\Framework\Exception\LocalizedException(__('The remote transaction could not be voided.'));
+        } 
     }
 
     /**
      * Refund a transaction remotely.
      */
     public function refundRemoteTransaction($transaction, $amount, $payment = false) {
-        // Prepare the request URL
-        $url = $this->config->getApiUrl() . 'charges/' . $transaction->getTxnId() . '/refund';
+        try {
+            // Get the method id
+            $methodId = $transaction->getOrder()->getPayment()->getMethodInstance()->getCode();
 
-        // Get the order
-        $order = $this->orderRepository->get($transaction->getOrderId());
+            // Prepare the request URL
+            $url = Connector::getApiUrl('refund', $this->config, $methodId) . 'charges/' . $transaction->getTxnId() . '/refund';
 
-        // Get the track id
-        $trackId = $order->getIncrementId();
+            // Get the order
+            $order = $this->orderRepository->get($transaction->getOrderId());
 
-        // Prepare the request parameters
-        $params = [
-            'value' => $this->tools->formatAmount($amount),
-            'trackId' => $trackId
-        ]; 
+            // Get the track id
+            $trackId = $order->getIncrementId();
 
-        // Send the request
-        $response = $this->client->getPostResponse($url, $params);
+            // Prepare the request parameters
+            $params = [
+                'value' => $this->tools->formatAmount($amount),
+                'trackId' => $trackId
+            ]; 
 
-        // Process the response
-        if ($this->tools->isChargeSuccess($response)) {
-            // Update the refund transaction
-            if ($payment) {
-               $payment->setTransactionId($response['id']);
-               $payment->setParentTransactionId($transaction->getTxnId());
-               $payment->setIsTransactionClosed(1);
-               $payment->save();
+            // Send the request
+            $response = $this->client->getPostResponse($url, $params);
+
+            // Process the response
+            if ($this->tools->isChargeSuccess($response)) {
+                // Update the refund transaction
+                if ($payment) {
+                $payment->setTransactionId($response['id']);
+                $payment->setParentTransactionId($transaction->getTxnId());
+                $payment->setIsTransactionClosed(1);
+                $payment->save();
+                }
+
+                return true;
             }
-
-            return true;
-        }
-       
-        return false;
+        } catch (\Exception $e) {
+            $this->watchdog->logError($e);
+            throw new \Magento\Framework\Exception\LocalizedException(__('The remote transaction could not be refunded.'));
+        } 
     }
 }

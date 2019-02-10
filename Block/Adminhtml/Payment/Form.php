@@ -10,20 +10,24 @@
 
 namespace Cmsbox\Mercanet\Block\Adminhtml\Payment;
 
-use Magento\Framework\View\Element\Template;
-use Magento\Catalog\Block\Product\Context;
-use Magento\Payment\Model\Config as PaymentModelConfig;
-use Magento\Payment\Block\Form\Cc;
-use Cmsbox\Mercanet\Model\Service\FormHandlerService;
 use Cmsbox\Mercanet\Gateway\Config\Core;
-use Cmsbox\Mercanet\Gateway\Config\Config;
+use Cmsbox\Mercanet\Gateway\Processor\Connector;
 
-class Form extends Cc {
-
+class Form extends \Magento\Payment\Block\Form\Cc {
     /**
      * @var String
      */
-    protected $_template = 'Cmsbox_Mercanet::payment_form.phtml';
+    protected $_template;
+
+    /**
+     * @var AssetRepository
+     */
+    public $assetRepository;
+
+    /**
+     * @var Config
+     */
+    protected $paymentModelConfig;
 
     /**
      * @var FormHandlerService
@@ -49,17 +53,34 @@ class Form extends Cc {
      * Form constructor.
      */
     public function __construct(
-        Context $context,
-        PaymentModelConfig $paymentModelConfig,
-        FormHandlerService $formHandler,
-        Config $config
+        \Magento\Framework\View\Element\Template\Context $context,
+        \Magento\Payment\Model\Config $paymentModelConfig,
+        \Cmsbox\Mercanet\Model\Service\FormHandlerService $formHandler,
+        \Cmsbox\Mercanet\Gateway\Config\Config $config,
+        \Magento\Framework\View\Asset\Repository $assetRepository
     ) {
+        // Parent constructor
         parent::__construct($context, $paymentModelConfig);
+        
+        // Assign the parameters
         $this->formHandler = $formHandler;
         $this->config = $config;
+        $this->assetRepository = $assetRepository;
+        
+        // Get the template config
+        $template = $this->config->params[Core::moduleId() . '_admin_method'][Connector::KEY_FORM_TEMPLATE];
 
+        // Set the template
+        $this->_template = Core::moduleName() . '::payment_form/' . $template . '.phtml';
+
+        // Prepare the field values
         $this->months = $this->formHandler->getMonths();
         $this->years = $this->formHandler->getYears();
+
+        // Set the block data
+        $this->setData('is_admin', true);
+        $this->setData('module_name', Core::moduleName());
+        $this->setData('template_name', $template);
     }
 
     /**

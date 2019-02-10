@@ -12,8 +12,9 @@ define([
     'Magento_Ui/js/model/messageList',
     'Magento_Checkout/js/model/quote',
     'Magento_Checkout/js/checkout-data',
+    'mage/url',
     'mage/cookies'
-], function($, GlobalMessageList, Quote, CheckoutData) {
+], function($, GlobalMessageList, Quote, CheckoutData, Url) {
     'use strict';
 
     return {
@@ -60,10 +61,18 @@ define([
         /**
          * @returns {void}
          */
-        setEmailAddress: function() {
-            var email = this.getEmailAddress();
-            var cookieName = this.getPaymentConfig()['email_cookie_name'];
-            $.cookie(cookieName, email);
+        setCookieData: function(methodId) {
+            // Set the email
+            $.cookie(
+                this.getPaymentConfig()['email_cookie_name'], 
+                this.getEmailAddress()
+            );
+
+            // Set the payment method
+            $.cookie(
+                this.getPaymentConfig()['method_cookie_name'], 
+                methodId
+            );
         },
 
         /**
@@ -100,6 +109,24 @@ define([
             var isDebugMode = JSON.parse(this.getPaymentConfig(this.getCode())['debug']);
             var output = this.getCode() + ':' + JSON.stringify(data);
             if (isDebugMode) console.log(output);
-        }       
+        },
+
+        /**
+         * Send data to back end for logging
+         */
+        backendLog: function(data) {
+            var self = this;
+            var isLoggingMode = JSON.parse(self.getPaymentConfig(self.getCode())['logging']);
+            if (isLoggingMode) {
+                $.ajax({
+                    type: "POST",
+                    url: Url.build(self.getCode() + '/request/logger'),
+                    data: {log_data: data},
+                    error: function(request, status, error) {
+                        self.log(error);
+                    }
+                });
+            }
+        }    
     };
 });

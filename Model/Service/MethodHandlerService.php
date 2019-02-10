@@ -10,12 +10,9 @@
 
 namespace Cmsbox\Mercanet\Model\Service;
 
-use Magento\Framework\Module\Dir\Reader;
-use Magento\Framework\Module\Dir;
 use Cmsbox\Mercanet\Gateway\Config\Core;
 
 class MethodHandlerService {
-
     /**
      * @var Reader
      */
@@ -25,7 +22,7 @@ class MethodHandlerService {
      * MethodHandlerService constructor.
      */
     public function __construct(
-        Reader $moduleDirReader
+        \Magento\Framework\Module\Dir\Reader $moduleDirReader
     ) {
         $this->moduleDirReader = $moduleDirReader;
     }

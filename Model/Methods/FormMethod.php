@@ -12,12 +12,12 @@ namespace Cmsbox\Mercanet\Model\Methods;
 
 use Magento\Framework\DataObject;
 use Magento\Quote\Api\Data\PaymentInterface;
-use Magento\Payment\Model\Method\AbstractMethod;
 use Cmsbox\Mercanet\Gateway\Config\Core;
 use Cmsbox\Mercanet\Helper\Tools;
 use Cmsbox\Mercanet\Gateway\Processor\Connector;
+use Cmsbox\Mercanet\Gateway\Config\Config;
 
-class FormMethod extends AbstractMethod {
+class FormMethod extends \Magento\Payment\Model\Method\AbstractMethod {
 
     protected $_code;
     protected $_isInitializeNeeded = true;
@@ -46,6 +46,7 @@ class FormMethod extends AbstractMethod {
     protected $sessionQuote;
     protected $transactionService;
     protected $remoteService;
+    protected $config;
 
     public function __construct(
         \Magento\Framework\Model\Context $context,
@@ -56,6 +57,7 @@ class FormMethod extends AbstractMethod {
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Payment\Model\Method\Logger $logger,
         \Magento\Backend\Model\Auth\Session $backendAuthSession,
+        \Cmsbox\Mercanet\Gateway\Config\Config $config,
         \Magento\Checkout\Model\Cart $cart,
         \Magento\Framework\UrlInterface $urlBuilder,
         \Magento\Framework\ObjectManagerInterface $objectManager, 
@@ -97,6 +99,7 @@ class FormMethod extends AbstractMethod {
         $this->quoteManagement    = $quoteManagement;
         $this->orderSender        = $orderSender;
         $this->sessionQuote       = $sessionQuote;
+        $this->config             = $config;
         $this->_code              = Core::methodId(get_class());
     }
 
@@ -112,34 +115,35 @@ class FormMethod extends AbstractMethod {
     }
 
     /**
-     * Check whether method is enabled in config
-     *
-     * @param \Magento\Quote\Model\Quote|null $quote
+     * Check whether method is active
      * @return bool
      */
-    public function isAvailableInConfig($quote = null)
+    public function isActive($storeId = null)
     {
-        return parent::isAvailable($quote);
+        return (int) $this->config->params[$this->_code][Connector::KEY_ACTIVE] == 1;
     }
 
-    public static function getRequestData($config, $methodId, $cardData = null, $entity = null) {
+    /**
+     * Prepare the request data.
+     */  
+    public static function getRequestData($config, $storeManager, $methodId, $cardData = null, $entity = null) {
         // Get the order entity
         $entity = ($entity) ? $entity : $config->cart->getQuote();
 
-        // Get the vendor class
+        // Get the vendor instance
         $fn = "\\" . $config->params[$methodId][Core::KEY_VENDOR];
+        $paymentRequest = new $fn(Connector::getSecretKey($config));
 
         // Prepare the request
-        $paymentRequest = new $fn($config->getSecretKey());
-        $paymentRequest->setMerchantId($config->getMerchantId());
+        $paymentRequest->setMerchantId(Connector::getMerchantId($config));
         $paymentRequest->setInterfaceVersion($config->params[$methodId][Core::KEY_INTERFACE_VERSION_CHARGE]);
         $paymentRequest->setKeyVersion($config->params[Core::moduleId()][Core::KEY_VERSION]);
         $paymentRequest->setAmount($config->formatAmount($entity->getGrandTotal()));
-        $paymentRequest->setCurrency(Tools::getCurrencyCode($entity));
+        $paymentRequest->setCurrency(Tools::getCurrencyCode($entity, $storeManager));
         $paymentRequest->setCardNumber($cardData[Core::KEY_CARD_NUMBER]);
         $paymentRequest->setCardExpiryDate($cardData[Core::KEY_CARD_YEAR] . $cardData[Core::KEY_CARD_MONTH]);
         $paymentRequest->setCardCSCValue($cardData[Core::KEY_CARD_CVV]);
-        $paymentRequest->setTransactionReference($config->getTransactionReference());
+        $paymentRequest->setTransactionReference($config->createTransactionReference());
         $paymentRequest->setCaptureDay((string) $config->params[$methodId][Connector::KEY_CAPTURE_DAY]);
         $paymentRequest->setCaptureMode($config->params[$methodId][Connector::KEY_CAPTURE_MODE]);
         $paymentRequest->setOrderId(Tools::getIncrementId($entity));
@@ -148,14 +152,63 @@ class FormMethod extends AbstractMethod {
         $paymentRequest->setOrderChannel("INTERNET");
         $paymentRequest->setCustomerContactEmail($entity->getCustomerEmail());
 
+        // Set the billing address info
+        $params = array_merge($config->params, Connector::getBillingAddress($entity, $config));
+
+        // Set the shipping address info
+        $params = array_merge($config->params, Connector::getShippingAddress($entity, $config));
+
+        // Execute the request
+        $paymentRequest->executeRequest();
+
+        // Get the response
+        $paymentRequest->getResponseRequest();
+
         // Return the request object
         return $paymentRequest;
     }
 
     /**
-     * Determines if the method is active.
-     *
-     * @return bool
+     * Checks if a response is valid.
+     */  
+    public static function isValidResponse($config, $methodId, $asset) {
+        $status = $asset->isValid();
+        return $status;
+    }
+
+    /**
+     * Checks if a response is success.
+     */  
+    public static function isSuccessResponse($config, $methodId, $asset) {
+        $status = $asset->isValid();
+        return $status;
+    }
+
+    /**
+     * Gets a transaction id.
+     */  
+    public static function getTransactionId($config, $paymentObject) {
+        return $paymentObject->getParam($config->base[Connector::KEY_TRANSACTION_ID_FIELD]);
+    }
+
+    /**
+     * Logs a request data.
+     */  
+    public static function logRequestData($action, $watchdog, $asset) {
+        $logData = $asset->toParameterString();
+        $watchdog->bark($action, $logData, $canDisplay = false, $canLog = true);
+    }
+
+    /**
+     * Logs a response data.
+     */  
+    public static function logResponseData($action, $watchdog, $asset) {
+        $logData = $asset->getResponseRequest();
+        $watchdog->bark($action, $logData, $canDisplay = true, $canLog = true);
+    }
+
+    /**
+     * Determines if the method is active on frontend.
      */
     public static function isFrontend($config, $methodId) {
         // Get the quote entity
@@ -168,21 +221,18 @@ class FormMethod extends AbstractMethod {
         );
 
         // Check the billing country status
-        $countryBillingAccepted = in_array(
+        $countryAccepted = in_array(
             $entity->getBillingAddress()->getCountryId(),
-            explode(',', $config->params[Core::moduleId()][Core::KEY_ACCEPTED_COUNTRIES_BILLING])
-        );
-
-        // Check the shipping country status
-        $countryShippingAccepted = in_array(
+            explode(',', $config->params[Core::moduleId()][Core::KEY_ACCEPTED_COUNTRIES])
+        ) && in_array(
             $entity->getShippingAddress()->getCountryId(),
-            explode(',', $config->params[Core::moduleId()][Core::KEY_ACCEPTED_COUNTRIES_SHIPPING])
+            explode(',', $config->params[Core::moduleId()][Core::KEY_ACCEPTED_COUNTRIES])
         );
 
-        return (int) (((int)  $config->params[$methodId]['active'] == 1)
-        && $currencyAccepted
-        && $countryBillingAccepted);
-        // todo - check why this option not saving
-        //&& $countryShippingAccepted;
+        return (int) (
+            ((int)  $config->params[$methodId][Connector::KEY_ACTIVE] == 1)
+            && $currencyAccepted
+            && $countryAccepted
+        );
     }
 }

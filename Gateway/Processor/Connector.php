@@ -11,15 +11,20 @@
 namespace Cmsbox\Mercanet\Gateway\Processor;
 
 class Connector {
-
+    const KEY_ENVIRONMENT = 'environment';
+    const KEY_SIMU_MERCHANT_ID = 'simu_merchant_id';
+    const KEY_TEST_MERCHANT_ID = 'test_merchant_id';
+    const KEY_PROD_MERCHANT_ID = 'prod_merchant_id';
+    const KEY_SIMU_SECRET_KEY = 'simu_secret_key';
+    const KEY_TEST_SECRET_KEY = 'test_secret_key';
+    const KEY_PROD_SECRET_KEY = 'prod_secret_key';
     const KEY_REQUEST = 'request';
     const KEY_RESPONSE = 'response';
+    const KEY_LOGGING = 'logging';
     const KEY_RESPONSE_ERROR = 'error';
     const KEY_RESPONSE_SUCCESS = 'success';
-    const KEY_RESPONSE_FRAUD = 'fraud';
-    const KEY_RESPONSE_FLAG = 'flag';
     const KEY_CAPTURE_MODE_FIELD = 'capture_mode_field';
-    const KEY_CUSTOMER_EMAil_FIELD = 'customer_email_field';
+    const KEY_CUSTOMER_EMAIL_FIELD = 'customer_email_field';
     const KEY_ORDER_ID_FIELD = 'order_id_field';
     const KEY_TRANSACTION_ID_FIELD = 'transaction_id_field';
     const KEY_CAPTURE_MODE = 'capture_mode';
@@ -31,11 +36,21 @@ class Connector {
     const KEY_ORDER_STATUS_CAPTURED = 'order_status_captured';
     const KEY_ORDER_STATUS_REFUNDED = 'order_status_refunded';
     const KEY_ORDER_STATUS_FLAGGED = 'order_status_flagged';
-
+    const KEY_TRANSACTION_INFO = 'transaction_info';
+    const KEY_ADDITIONAL_INFORMATION = 'additional_information';
+    const KEY_ACTIVE = 'active';
+    const KEY_REDIRECT_METHOD = 'redirect_method';
+    const KEY_FORM_TEMPLATE = 'form_template';
+    const EMAIL_COOKIE_NAME = 'guestEmail';
+    const METHOD_COOKIE_NAME = 'methodId';
+        
     /**
      * Turns a data response string into an array.
      */
-    public static function unpackData($params) {
+    public static function unpackData($response) {
+        // Get the parameters
+        $params = $response;
+
         // Prepare the separators
         $separator1 = '|';
         $separator2 = '=';
@@ -59,7 +74,7 @@ class Connector {
         return $arr;
     }
 
-     /**
+    /**
      * Turns a data request array into a string.
      */   
     public static function packData($arr) {
@@ -70,22 +85,69 @@ class Connector {
 
         return implode('|', $output);
     }
-  
+
     /**
-     * Returns the authorized order status.
+     * Builds the API URL.
      *
      * @return string
      */
-  /*
-    public function getOrderStatusAuthorized() {
-        return (string) $this->getValue(self::KEY_ORDER_STATUS_AUTHORIZED);
+    public static function getApiUrl($action, $config, $methodId) {
+        $mode = $config->params[\Cmsbox\Mercanet\Gateway\Config\Core::moduleId()][self::KEY_ENVIRONMENT];
+        $path = 'api_url' . '_' . $mode . '_' . $action;
+        return $config->params[$methodId][$path];
     }
-*/
+  
+    /**
+     * Returns the merchant ID.
+     *
+     * @return string
+     */
+    public static function getMerchantId($config) {
+        switch ($config->base[self::KEY_ENVIRONMENT]) {
+            case 'simu': 
+            $id = $config->base[self::KEY_SIMU_MERCHANT_ID];
+            break;
+
+            case 'test': 
+            $id = $config->base[self::KEY_TEST_MERCHANT_ID];
+            break;
+
+            case 'prod': 
+            $id = $config->base[self::KEY_PROD_MERCHANT_ID];;
+            break;
+        }
+
+        return (string) $id;
+    }
+
+    /**
+     * Returns the active secret key.
+     *
+     * @return string
+     */
+    public static function getSecretKey($config) {
+        // Return the secret key
+        switch ($config->base[self::KEY_ENVIRONMENT]) {
+            case 'simu': 
+            $key = $config->params[\Cmsbox\Mercanet\Gateway\Config\Core::moduleId()][self::KEY_SIMU_SECRET_KEY];
+            break;
+
+            case 'test': 
+            $key = $config->params[\Cmsbox\Mercanet\Gateway\Config\Core::moduleId()][self::KEY_TEST_SECRET_KEY];
+            break;
+
+            case 'prod': 
+            $key = $config->params[\Cmsbox\Mercanet\Gateway\Config\Core::moduleId()][self::KEY_PROD_SECRET_KEY];
+            break;
+        }
+
+        return $key;
+    }
+
     /**
      * Returns the billing address.
      */
-    /*
-    public static function getBillingAddress($entity) {
+    public static function getBillingAddress($entity, $config) {
         // Retrieve the address object
         $address = $entity->getBillingAddress();
 
@@ -93,18 +155,17 @@ class Connector {
         return [
             'billingAddress.street'  => implode(', ', $address->getStreet()),
             'billingAddress.city'    => $address->getCity(),
-            'billingAddress.country' => $this->tools->getCountryCodeA2A3($address->getCountryId()),
+            'billingAddress.country' => $config->getCountryCodeA2A3($address->getCountryId()),
             'billingAddress.zipCode' => $address->getPostcode(),
             'billingContact.email'   => $entity->getCustomerEmail(),
             'billingAddress.state'   => !empty($address->getRegionCode()) ? $address->getRegionCode() : '',
         ];
     }
-*/
+
     /**
      * Returns the shipping address.
      */
-    /*
-    public static function getShippingAddress($entity) {
+    public static function getShippingAddress($entity, $config) {
         // Retrieve the address object
         $address = $entity->getBillingAddress();
 
@@ -112,72 +173,10 @@ class Connector {
         return [
             'customerAddress.street'  => implode(', ', $address->getStreet()),        
             'customerAddress.city'    => $address->getCity(),
-            'customerAddress.country' => $this->tools->getCountryCodeA2A3($address->getCountryId()),
+            'customerAddress.country' => $config->getCountryCodeA2A3($address->getCountryId()),
             'customerAddress.zipCode' => $address->getPostcode(),
             'customerAddress.state'   => !empty($address->getRegionCode()) ? $address->getRegionCode() : '',
             'customerContact.email'   => $entity->getCustomerEmail()
-        ];
-    }
-*/
-    /**
-     * Returns the available payment brands.
-     *
-     * @return string
-     */
-	public static function getPaymentBrandsList() {
-        return [
-            ['value' => '1EUROCOM', 'label' => __('1euro.com')],
-            ['value' => '3XCBCOFINOGA', 'label' => __('Cofinoga 3xCB')],
-            ['value' => 'ACCEPTGIRO', 'label' => __('AcceptGiro')],
-            ['value' => 'ACCORD', 'label' => __('Carte Accord')],
-            ['value' => 'ACCORD_KDO', 'label' => __('Carte Accord Cadeau (Banque Accord)')],
-            ['value' => 'ACCORD_3X', 'label' => __('Carte Accord Paiement 3 fois')],
-            ['value' => 'ACCORD_4X', 'label' => __('Carte Accord Paiement 4 fois')],
-            ['value' => 'AMEX', 'label' => __('Carte American Express')],
-            ['value' => 'AURORE', 'label' => __('Carte Aurore')],
-            ['value' => 'BCACUP', 'label' => __('Carte Bancaire de Banque Casino (CUP)')],
-            ['value' => 'BCMC', 'label' => __('Bancontact')],
-            ['value' => 'CADHOC', 'label' => __('Cadhoc')],
-            ['value' => 'CADOCARTE', 'label' => __('Cado Card')],
-            ['value' => 'CB', 'label' => __('Carte Bancaire')],
-            ['value' => 'CBCONLINE', 'label' => __('PayButton CBC Online')],
-            ['value' => 'CETELEM_3X', 'label' => __('Cetelem 3xCB')],
-            ['value' => 'CETELEM_4X', 'label' => __('Cetelem 4xCB')],
-            ['value' => 'COFIDIS_3X', 'label' => __('Cofidis 3xCB')],
-            ['value' => 'COFIDIS_4X', 'label' => __('Cofidis 4xCB')],
-            ['value' => 'CVA', 'label' => __('Carte Visa Aurore')],
-            ['value' => 'ECV', 'label' => __('e-Chèque-Vacances')],
-            ['value' => 'ELV', 'label' => __('Elektronisches LastschriftVerfahren')],
-            ['value' => 'Franfinance3xcb', 'label' => __('Franfinance 3xCB')],
-            ['value' => 'Franfinance4xcb', 'label' => __('Franfinance 4xCB')],
-            ['value' => 'GIROPAY', 'label' => __('Giropay')],
-            ['value' => 'IDEAL', 'label' => __('iDeal')],
-            ['value' => 'ILLICADO', 'label' => __('Illicado')],
-            ['value' => 'INCASSO', 'label' => __('Incasso')],
-            ['value' => 'INGHOMEPAY', 'label' => __('PayButton ING Home’Pay')],
-            ['value' => 'KBCONLINE', 'label' => __('PayButton KBC Online')],
-            ['value' => 'LEPOTCOMMUN', 'label' => __('Le Pot Commun')],
-            ['value' => 'MAESTRO', 'label' => __('Carte Maestro (Mastercard)')],
-            ['value' => 'MASTERCARD', 'label' => __('Carte Mastercard')],
-            ['value' => 'MASTERPASS ([1]', 'label' => __('Portefeuille virtuel MasterPass')],
-            ['value' => 'NETBANKING', 'label' => __('Netbanking')],
-            ['value' => 'NXCB', 'label' => __('Carte Cetelem NxCB')],
-            ['value' => 'NXCB_PREL', 'label' => __('Carte Cetelem NxCB - Partie Prélèvement')],
-            ['value' => 'PASSCADEAU', 'label' => __('Pass Cadeau')],
-            ['value' => 'PAYLIB (1)', 'label' => __('Portefeuille virtuel Paylib')],
-            ['value' => 'PAYPAL', 'label' => __('Paypal')],
-            ['value' => 'PAYTRAIL', 'label' => __('Paytrail')],
-            ['value' => 'PLURIEL', 'label' => __('Franfinance')],
-            ['value' => 'POSTFINANCE', 'label' => __('Carte PostFinance')],
-            ['value' => 'PRESTO', 'label' => __('Presto Plus')],
-            ['value' => 'SEPA_DIRECT_DEBIT', 'label' => __('SDD (SEPA Direct Debit)')],
-            ['value' => 'SOFINCO', 'label' => __('Carte Sofinco')],
-            ['value' => 'SOFORTUBERWEISUNG', 'label' => __('Sofort berweisung (Sofort Banking)')],
-            ['value' => 'SPIRITOFCADEAU', 'label' => __('Spirit Of Cadeau')],
-            ['value' => 'VISA', 'label' => __('Carte Visa')],
-            ['value' => 'VISACHECKOUT', 'label' => __('Portefeuille virtuel Visa Checkout')],
-            ['value' => 'VISA_ELECTRON', 'label' => __('Carte Visa Electron')],
-            ['value' => 'VPAY', 'label' => __('Carte VPAY (Visa)')]
         ];
     }
 }

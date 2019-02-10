@@ -41,8 +41,8 @@ define(
              */
             initialize: function() {
                 this._super();
-                Adapter.setEmailAddress();
                 this.data = {'method': this.methodId};
+                Adapter.log(this.config.request_data.params);
             },
 
             initObservable: function() {
@@ -84,6 +84,13 @@ define(
 
                 // Validate before submission
                 if (AdditionalValidators.validate()) {
+                    // Set the cookie data
+                    Adapter.setCookieData(this.methodId);
+                    
+                    // Log the request data
+                    Adapter.backendLog(this.config.request_data.params);
+
+                    // Submit
                     this.proceedWithSubmission();
                 }
                 else {

@@ -10,10 +10,9 @@
 
 namespace Cmsbox\Mercanet\Model\Adminhtml\Source;
 
-use Magento\Framework\Option\ArrayInterface;
 use Magento\Sales\Model\ResourceModel\Order\Status\Collection;
 
-class OrderStatus implements ArrayInterface {
+class OrderStatus implements \Magento\Framework\Option\ArrayInterface {
 
     /**
      * @var Collection 

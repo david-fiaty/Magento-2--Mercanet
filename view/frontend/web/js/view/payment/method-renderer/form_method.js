@@ -50,7 +50,6 @@ define(
              */
             initialize: function() {
                 this._super();
-                Adapter.setEmailAddress();
                 this.data = {'method': this.methodId};
             },
 
@@ -69,13 +68,6 @@ define(
             /**
              * @returns {string}
              */
-            getRequestData: function() {
-                return this.config.request_data;
-            },
-
-            /**
-             * @returns {string}
-             */
             getPaymentForm: function() {
                 FullScreenLoader.startLoader();
                 var self = this;
@@ -88,7 +80,7 @@ define(
                         FullScreenLoader.stopLoader();
                     },
                     error: function(request, status, error) {
-                        alert(error);
+                        Adapter.log(error);
                     }
                 });
             },
@@ -124,15 +116,18 @@ define(
                     success: function(res) {
                         if (res.response === true) {
                             RedirectOnSuccessAction.execute();
+                            Adapter.log(res);
                         }
                         else {
                             FullScreenLoader.stopLoader();
                             Adapter.showMessage('error', res.response);
+                            Adapter.log(res);
                         }
                     },
                     error: function(request, status, error) {
                         FullScreenLoader.stopLoader();
                         Adapter.showMessage(t('The transaction could not be processed. Please check your details or contact the site administrator.'));
+                        Adapter.log(error);
                     }
                 });
             },
@@ -146,6 +141,9 @@ define(
 
                 // Validate before submission
                 if (AdditionalValidators.validate() && this.validateForm('#' + this.targetForm)) {
+                    // Set the cookie data
+                    Adapter.setCookieData(this.methodId);
+                    
                     // Check cart and submit
                     this.proceedWithSubmission();
                 }

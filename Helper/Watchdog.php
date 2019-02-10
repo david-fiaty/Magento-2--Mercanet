@@ -10,14 +10,10 @@
 
 namespace Cmsbox\Mercanet\Helper;
 
-use Psr\Log\LoggerInterface;
-use Magento\Framework\Message\ManagerInterface;
-use Cmsbox\Mercanet\Gateway\Config\Config;
-use Cmsbox\Mercanet\Helper\Tools;
 use Cmsbox\Mercanet\Gateway\Config\Core;
+use Cmsbox\Mercanet\Gateway\Processor\Connector;
 
 class Watchdog {
-
     /**
      * @var ManagerInterface
      */
@@ -42,10 +38,10 @@ class Watchdog {
      * Watchdog constructor.
      */
     public function __construct(
-        ManagerInterface $messageManager,
-        Config $config,
-        Tools $tools,
-        LoggerInterface $logger
+        \Magento\Framework\Message\ManagerInterface $messageManager,
+        \Cmsbox\Mercanet\Gateway\Config\Config $config,
+        \Cmsbox\Mercanet\Helper\Tools $tools,
+        \Psr\Log\LoggerInterface $logger
     ) {
         $this->messageManager = $messageManager;
         $this->config         = $config;
@@ -62,8 +58,7 @@ class Watchdog {
         $output = strtoupper($action) . "\n" . $output;
 
         // Process file logging
-        if ($this->config->params[Core::moduleId()]['logging'] && $canLog) {
-
+        if ((int) $this->config->params[Core::moduleId()][Connector::KEY_LOGGING] == 1 && $canLog) {
             // Build the log file name
             $logFile = BP . '/var/log/' . Core::moduleId() . '_' . $action . '.log';
 
@@ -75,7 +70,7 @@ class Watchdog {
         }
 
         // Process interface display
-        if ($this->config->params[Core::moduleId()]['debug'] && $canDisplay) {
+        if ((int) $this->config->params[Core::moduleId()]['debug'] == 1 && $canDisplay) {
             $this->messageManager->addNoticeMessage($output);
         }
     } 
@@ -83,9 +78,9 @@ class Watchdog {
     /**
      * Write to system file.
      */
-    public function log($message, $canDisplay = true) {
+    public function logError($message, $canDisplay = true) {
         // Log to system log file
-        if ($this->config->params[Core::moduleId()]['logging']) {
+        if ((int) $this->config->params[Core::moduleId()][Connector::KEY_LOGGING] == 1) {
             $output = Core::moduleId() . ' | ' . $message;
             $this->logger->log('ERROR', $output);
         }

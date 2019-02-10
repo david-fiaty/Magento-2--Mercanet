@@ -10,24 +10,28 @@
 
 namespace Cmsbox\Mercanet\Model\Adminhtml\Source;
 
-use Magento\Sales\Model\Order\Payment\Transaction;
+use Cmsbox\Mercanet\Gateway\Processor\Connector;
 
-class InvoiceCreation implements \Magento\Framework\Option\ArrayInterface {
+class FormTemplate implements \Magento\Framework\Option\ArrayInterface {
     /**
-     * Possible environment types
+     * Possible form templates
      *
      * @return array
      */
     public function toOptionArray() {
         return [
             [
-                'value' => Transaction::TYPE_CAPTURE,
-                'label' => __('Capture')
+                'value' => 'template_1',
+                'label' => __('Template 1'),
             ],
             [
-                'value' => Transaction::TYPE_AUTH,
-                'label' => 'Authorisation'
-            ],    
+                'value' => 'template_2',
+                'label' => __('Template 2'),
+            ],
+            [
+                'value' => 'template_3',
+                'label' => __('Template 3'),
+            ],
         ];
     }
 

@@ -10,22 +10,9 @@
 
 namespace Cmsbox\Mercanet\Controller\Response;
  
-use Magento\Framework\App\Action\Context;
-use Magento\Framework\App\Action\Action;
-use Magento\Checkout\Model\Session as CheckoutSession;
-use Magento\Framework\Message\ManagerInterface;
-use Cmsbox\Mercanet\Helper\Tools;
-use Cmsbox\Mercanet\Model\Service\OrderHandlerService;
 use Cmsbox\Mercanet\Gateway\Processor\Connector;
-use Cmsbox\Mercanet\Helper\Watchdog;
-use Cmsbox\Mercanet\Gateway\Config\Config;
 
-class Normal extends Action {
-    /**
-     * @var Tools
-     */
-    protected $tools;
-
+class Normal extends \Magento\Framework\App\Action\Action {
     /**
      * @var OrderHandlerService
      */
@@ -39,7 +26,7 @@ class Normal extends Action {
     /**
      * @var Connector
      */
-    protected $processor;
+    protected $connector;
 
     /**
      * @var ManagerInterface
@@ -57,79 +44,86 @@ class Normal extends Action {
     protected $config;
 
     /**
+     * @var MethodHandlerService
+     */
+    public $methodHandler;
+
+    /**
      * Normal constructor.
      */
     public function __construct(
-        Context $context,
-        Tools $tools,
-        OrderHandlerService $orderHandler,
-        CheckoutSession $checkoutSession,
-        Connector $processor,
-        ManagerInterface $messageManager,
-        Watchdog $watchdog,
-        Config $config
+        \Magento\Framework\App\Action\Context $context,
+        \Cmsbox\Mercanet\Model\Service\OrderHandlerService $orderHandler,
+        \Magento\Checkout\Model\Session $checkoutSession,
+        \Magento\Framework\Message\ManagerInterface $messageManager,
+        \Cmsbox\Mercanet\Helper\Watchdog $watchdog,
+        \Cmsbox\Mercanet\Gateway\Config\Config $config,
+        \Cmsbox\Mercanet\Model\Service\MethodHandlerService $methodHandler
     ) {
         parent::__construct($context);
 
-        $this->tools                 = $tools;
         $this->orderHandler          = $orderHandler;
         $this->checkoutSession       = $checkoutSession;
-        $this->processor             = $processor;
         $this->messageManager        = $messageManager;
         $this->watchdog              = $watchdog;
         $this->config                = $config;
+        $this->methodHandler         = $methodHandler;
     }
  
     public function execute() {
         // Get the request data
-        $responseData = $this->tools->getInputData();
+        $responseData = $this->getRequest()->getPostValue();
 
         // Log the response
         $this->watchdog->bark(Connector::KEY_RESPONSE, $responseData, $canDisplay = true, $canLog = false);
 
-        // Check validity
-        // Todo - check isvalid function
-        if ($this->processor->isValid($responseData, $this->config)) {
-            if ($this->processor->isSuccess($responseData)) {
-                // Place order
-                $order = $this->orderHandler->placeOrder($responseData);
+        // Load the method instance
+        $methodId = $this->orderHandler->findMethodId();
+        $methodInstance = $this->methodHandler->getStaticInstance($methodId);
 
-                // Process the order result
-                if (isset($order) && (int)$order->getId() > 0) {
-                    // Get the fields
-                    $fields = Connector::unpackData($responseData);
+        // Process the response
+        if ($methodInstance && $methodInstance::isFrontend($this->config, $methodId)) {
+            if ($methodInstance::isValidResponse($this->config, $methodId, $responseData)) {
+                if ($methodInstance::isSuccessResponse($this->config, $methodId, $responseData)) {
+                    // Place order
+                    $order = $this->orderHandler->placeOrder(Connector::packData($responseData), $methodId);
 
-                    // Find the quote
-                    $quote = $this->orderHandler->findQuote($fields[$this->config->base[Connector::KEY_ORDER_ID_FIELD]]);
+                    // Process the order result
+                    if ($order && method_exists($order, 'getId') && (int)$order->getId() > 0) {
+                        // Get the fields
+                        $fields = Connector::unpackData(Connector::packData($responseData));
 
-                    // Set the success redirection parameters
-                    if (isset($quote) && (int)$quote->getId() > 0) {
-                        // Perform after place order actions
-                        $this->orderHandler->afterPlaceOrder($quote, $order);
+                        // Find the quote
+                        $quote = $this->orderHandler->findQuote($fields[$this->config->base[Connector::KEY_ORDER_ID_FIELD]]);
 
-                        // Display a success message
-                        $this->messageManager->addSuccessMessage(__('The order was placed successfully.'));
+                        // Set the success redirection parameters
+                        if (isset($quote) && (int)$quote->getId() > 0) {
+                            // Perform after place order actions
+                            $this->orderHandler->afterPlaceOrder($quote, $order);
 
-                        // Redirect to the success page
-                        return $this->_redirect('checkout/onepage/success', ['_secure' => true]);
+                            // Display a success message
+                            $this->messageManager->addSuccessMessage(__('The order was placed successfully.'));
+
+                            // Redirect to the success page
+                            return $this->_redirect('checkout/onepage/success', ['_secure' => true]);
+                        } else {
+                            $this->watchdog->logError(__('The quote could not be found.'));
+                        }
                     } else {
-                        $this->watchdog->log(__('The quote could not be found.'));
+                        $this->watchdog->logError(__('The order could not be created.'));
                     }
-                } else {
-                    $this->watchdog->log(__('The order could not be created.'));
+                }
+                else {
+                    $this->watchdog->logError(__('The transaction could not be processed. Please try again.'));
                 }
             }
             else {
-                $this->watchdog->log(__('The transaction could not be processed. Please try again.'));
+                $this->watchdog->logError(__('Invalid gateway response.'));
             }
         }
         else {
-            $this->watchdog->log(__('Invalid gateway response.'));
+            $this->watchdog->logError(__('Invalid payment method.'));
         }
-
-        // Restore the cart
-        // todo - rebuild the cart on failure
-        //$this->orderHandler->restoreCart();
 
         // Redirect to the cart by default
         return $this->_redirect('checkout/cart', ['_secure' => true]);

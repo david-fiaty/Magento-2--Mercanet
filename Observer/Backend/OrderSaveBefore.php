@@ -10,17 +10,12 @@
 
 namespace Cmsbox\Mercanet\Observer\Backend;
 
-use Magento\Backend\Model\Auth\Session;
-use Magento\Framework\Event\ObserverInterface; 
 use Magento\Framework\Event\Observer;
-use Magento\Framework\App\Request\Http;
-use Cmsbox\Mercanet\Helper\Tools;
-use Cmsbox\Mercanet\Gateway\Config\Config;
+use Magento\Sales\Model\Order\Payment\Transaction;
 use Cmsbox\Mercanet\Gateway\Processor\Connector;
-use Cmsbox\Mercanet\Model\Service\MethodHandlerService;
+use Cmsbox\Mercanet\Gateway\Config\Core;
 
-class OrderSaveBefore implements ObserverInterface { 
- 
+class OrderSaveBefore implements \Magento\Framework\Event\ObserverInterface { 
     /**
      * @var Session
      */
@@ -47,20 +42,34 @@ class OrderSaveBefore implements ObserverInterface {
     protected $methodHandler;
 
     /**
+     * @var Watchdog
+     */
+    protected $watchdog;
+
+    /**
+     * @var StoreManagerInterface
+     */
+    public $storeManager;
+
+    /**
      * OrderSaveBefore constructor.
      */
     public function __construct(
-        Session $backendAuthSession,
-        Http $request,
-        Tools $tools,
-        Config $config,
-        MethodHandlerService $methodHandler
+        \Magento\Backend\Model\Auth\Session $backendAuthSession,
+        \Magento\Framework\App\Request\Http $request,
+        \Cmsbox\Mercanet\Helper\Tools $tools,
+        \Cmsbox\Mercanet\Gateway\Config\Config $config,
+        \Cmsbox\Mercanet\Model\Service\MethodHandlerService $methodHandler,
+        \Cmsbox\Mercanet\Helper\Watchdog $watchdog,
+        \Magento\Store\Model\StoreManagerInterface $storeManager
     ) {
         $this->backendAuthSession    = $backendAuthSession;
         $this->request               = $request;
         $this->tools                 = $tools;
         $this->config                = $config;
         $this->methodHandler         = $methodHandler;
+        $this->watchdog              = $watchdog;
+        $this->storeManager          = $storeManager;
 
         // Get the request parameters
         $this->params = $this->request->getParams();
@@ -69,7 +78,7 @@ class OrderSaveBefore implements ObserverInterface {
     /**
      * Observer execute function.
      */
-    public function execute(Observer $observer) { 
+    public function execute(Observer $observer) {
         if ($this->backendAuthSession->isLoggedIn()) {
             try {
                 // Get the request parameters
@@ -84,6 +93,9 @@ class OrderSaveBefore implements ObserverInterface {
                 // Get the order
                 $order = $observer->getEvent()->getOrder();
 
+                // Get the payment info instance
+                $paymentInfo = $order->getPayment()->getMethodInstance()->getInfoInstance();
+
                 // Load the method instance if parameters are valid
                 if ($methodId && is_array($cardData) && !empty($cardData)) {
                     // Load the method instance
@@ -92,24 +104,44 @@ class OrderSaveBefore implements ObserverInterface {
                     // Perform the charge request
                     if ($methodInstance) {
                         // Get the request object
-                        $paymentRequest = $methodInstance::getRequestData($this->config, $methodId, $cardData, $order);
+                        $paymentObject = $methodInstance::getRequestData($this->config, $this->storeManager,  $methodId, $cardData, $order);
 
-                        // Execute the request
-                        $paymentRequest->executeRequest();
+                        // Log the request
+                        $methodInstance::logRequestData(Connector::KEY_REQUEST, $this->watchdog, $paymentObject);
+
+                        // Log the response
+                        $methodInstance::logResponseData(Connector::KEY_RESPONSE, $this->watchdog, $paymentObject);
 
                         // Get the response
-                        if (!$paymentRequest->isValid()) {
+                        if ($methodInstance::isValidResponse($this->config, $methodId, $paymentObject) && $methodInstance::isSuccessResponse($this->config, $methodId, $paymentObject)) {
+                            // Add the transaction info for order save after
+                            $paymentInfo->setAdditionalInformation(
+                                Connector::KEY_TRANSACTION_INFO,
+                                [
+                                    $this->config->base[Connector::KEY_TRANSACTION_ID_FIELD] => $methodInstance::getTransactionId($this->config, $paymentObject)
+                                ]
+                            );
+
+                            // Handle the order status
+                            if ($this->config->params[$methodId][Connector::KEY_CAPTURE_MODE] == Connector::KEY_CAPTURE_IMMEDIATE) {
+                                $order->setStatus($this->config->params[Core::moduleId()][Connector::KEY_ORDER_STATUS_CAPTURED]);
+                            }
+                            else {
+                                $order->setStatus($this->config->params[Core::moduleId()][Connector::KEY_ORDER_STATUS_AUTHORIZED]);
+                            }
+                        }
+                        else {
                             throw new \Magento\Framework\Exception\LocalizedException(__('The transaction could not be processed'));
                         }
                     }
                 }
             }
             catch (\Exception $e) {
-                throw new \Magento\Framework\Exception\LocalizedException($e->getMessage());
+                $this->watchdog->logError($e);
+                throw new \Magento\Framework\Exception\LocalizedException(__($e->getMessage()));
             }
         }
 
         return $this;
     }
-
 }

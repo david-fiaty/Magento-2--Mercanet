@@ -10,9 +10,7 @@
 
 namespace Cmsbox\Mercanet\Model\Adminhtml\Source;
 
-use Magento\Framework\Option\ArrayInterface;
-
-class PaymentAction implements ArrayInterface {
+class PaymentAction implements \Magento\Framework\Option\ArrayInterface {
 
     const ACTION_AUTHORIZE = 'authorize';
     const ACTION_AUTHORIZE_CAPTURE = 'authorize_capture';

@@ -10,32 +10,22 @@
 
 namespace Cmsbox\Mercanet\Gateway\Http;
 
-use Magento\Framework\HTTP\Client\Curl;
 use Magento\Payment\Gateway\Request\BuilderInterface;
-use Cmsbox\Mercanet\Helper\Watchdog;
 use Cmsbox\Mercanet\Gateway\Processor\Connector;
 
 class Client {
-
     /**
      * @var Curl
      */
     protected $curl;
 
     /**
-     * @var Watchdog
-     */
-    protected $watchdog;
-
-    /**
      * Client constructor.
      */     
     public function __construct(
-        Curl $curl,
-        Watchdog $watchdog
+        \Magento\Framework\HTTP\Client\Curl $curl
     ) {
         $this->curl            = $curl;
-        $this->watchdog        = $watchdog;
 
         // Launch functions
         $this->addHeaders();
@@ -60,17 +50,11 @@ class Client {
      * Returns a prepared post response.
      */    
     public function getPostResponse($url, $params) {
-        // Log the request
-        $this->watchdog->bark(Connector::KEY_REQUEST, $params);
-
         // Send the request
         $response = $this->post($url, $params);
 
         // Format the response
         $response = $this->formatResponse($response);
-
-        // Log the response
-        $this->watchdog->bark(Connector::KEY_RESPONSE, $response);
 
         return $response;
     }
@@ -84,9 +68,6 @@ class Client {
 
         // Format the response
         $response = $this->formatResponse($response);
-
-        // Logging
-        $this->watchdog->bark(Connector::KEY_RESPONSE, $response);
 
         return $response;
     }

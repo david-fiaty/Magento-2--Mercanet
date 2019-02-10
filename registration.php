@@ -8,12 +8,10 @@
  * License GNU/GPL V3 https://www.gnu.org/licenses/gpl-3.0.en.html
  */
 
-use Magento\Framework\Component\ComponentRegistrar;
+use Cmsbox\Mercanet\Gateway\Config\Core;
 
-const MODULE_NAME = 'Cmsbox_Mercanet';
-
-ComponentRegistrar::register(
-    ComponentRegistrar::MODULE,
-    MODULE_NAME, 
+\Magento\Framework\Component\ComponentRegistrar::register(
+    \Magento\Framework\Component\ComponentRegistrar::MODULE,
+    Core::moduleName(), 
     __DIR__
 );

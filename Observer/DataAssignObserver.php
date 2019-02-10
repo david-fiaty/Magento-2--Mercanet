@@ -11,9 +11,8 @@
 namespace Cmsbox\Mercanet\Observer;
 
 use Magento\Framework\Event\Observer;
-use Magento\Payment\Observer\AbstractDataAssignObserver;
 
-class DataAssignObserver extends AbstractDataAssignObserver
+class DataAssignObserver extends \Magento\Payment\Observer\AbstractDataAssignObserver
 {
     /**
      * @param Observer $observer

@@ -10,9 +10,7 @@
 
 namespace Cmsbox\Mercanet\Model\Adminhtml\Source;
 
-use Magento\Framework\Option\ArrayInterface;
-
-class Environment implements ArrayInterface {
+class Environment implements \Magento\Framework\Option\ArrayInterface {
 
     const ENVIRONMENT_PROD = 'prod';
     const ENVIRONMENT_TEST = 'test';

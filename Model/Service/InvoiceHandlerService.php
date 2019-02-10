@@ -10,16 +10,11 @@
 
 namespace Cmsbox\Mercanet\Model\Service;
 
-use Magento\Sales\Model\Service\InvoiceService;
 use Magento\Sales\Model\Order\Invoice;
-use Magento\Sales\Api\InvoiceRepositoryInterface;
 use Magento\Sales\Model\Order\Payment\Transaction;
-use Cmsbox\Mercanet\Gateway\Config\Config;
-use Cmsbox\Mercanet\Helper\Watchdog;
 use Cmsbox\Mercanet\Gateway\Config\Core;
 
 class InvoiceHandlerService {
-
     /**
      * @var Config
      */
@@ -44,10 +39,10 @@ class InvoiceHandlerService {
      * InvoiceHandlerService constructor.
     */
     public function __construct(
-        Config $config,
-        InvoiceService $invoiceService,
-        InvoiceRepositoryInterface $invoiceRepository,
-        Watchdog $watchdog      
+        \Cmsbox\Mercanet\Gateway\Config\Config $config,
+        \Magento\Sales\Model\Service\InvoiceService $invoiceService,
+        \Magento\Sales\Api\InvoiceRepositoryInterface $invoiceRepository,
+        \Cmsbox\Mercanet\Helper\Watchdog $watchdog      
     ) {
         $this->config             = $config;
         $this->invoiceService     = $invoiceService;
@@ -74,7 +69,7 @@ class InvoiceHandlerService {
             // Save the invoice
             $this->invoiceRepository->save($invoice);
         } catch (\Exception $e) {
-            $this->watchdog->log($e);
+            $this->watchdog->logError($e);
         }
     }
 }

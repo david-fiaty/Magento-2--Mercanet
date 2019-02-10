@@ -11,20 +11,10 @@
 namespace Cmsbox\Mercanet\Model\Service;
 
 use Magento\Sales\Model\Order\Payment\Transaction;
-use Magento\Sales\Model\Order\Payment\Transaction\BuilderInterface;
-use Magento\Framework\Message\ManagerInterface;
-use Magento\Framework\Api\FilterBuilder;
-use Magento\Framework\Api\SearchCriteriaBuilder;
-use Magento\Sales\Model\Order\Payment\Transaction\Repository as TransactionRepository;
-use Cmsbox\Mercanet\Model\Ui\ConfigProvider;
-use Cmsbox\Mercanet\Model\Service\InvoiceHandlerService;
-use Cmsbox\Mercanet\Gateway\Config\Config;
-use Cmsbox\Mercanet\Helper\Watchdog;
 use Cmsbox\Mercanet\Gateway\Config\Core;
 use Cmsbox\Mercanet\Gateway\Processor\Connector;
 
 class TransactionHandlerService {
-
     /**
      * @var BuilderInterface
      */
@@ -69,14 +59,14 @@ class TransactionHandlerService {
      * TransactionHandlerService constructor.
      */
     public function __construct(
-        BuilderInterface $transactionBuilder,
-        ManagerInterface $messageManager,
-        InvoiceHandlerService $invoiceHandler,
-        Config $config,
-        Watchdog $watchdog,
-        SearchCriteriaBuilder $searchCriteriaBuilder,
-        FilterBuilder $filterBuilder,
-        TransactionRepository $transactionRepository
+        \Magento\Sales\Model\Order\Payment\Transaction\BuilderInterface $transactionBuilder,
+        \Magento\Framework\Message\ManagerInterface $messageManager,
+        \Cmsbox\Mercanet\Model\Service\InvoiceHandlerService $invoiceHandler,
+        \Cmsbox\Mercanet\Gateway\Config\Config $config,
+        \Cmsbox\Mercanet\Helper\Watchdog $watchdog,
+        \Magento\Framework\Api\SearchCriteriaBuilder $searchCriteriaBuilder,
+        \Magento\Framework\Api\FilterBuilder $filterBuilder,
+        \Magento\Sales\Model\Order\Payment\Transaction\Repository $transactionRepository
     ) {
         $this->transactionBuilder    = $transactionBuilder;
         $this->messageManager        = $messageManager;
@@ -134,7 +124,7 @@ class TransactionHandlerService {
             return $transaction->getTransactionId();
 
         } catch (Exception $e) {
-            $this->watchdog->log($e);
+            $this->watchdog->logError($e);
             return false;
         }
     }
@@ -160,7 +150,7 @@ class TransactionHandlerService {
 
             return $this->transactionRepository->getList($searchCriteria)->getItems();
         } catch (Exception $e) {
-            $this->watchdog->log($e);
+            $this->watchdog->logError($e);
             return [];
         }
     }

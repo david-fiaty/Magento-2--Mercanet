@@ -10,20 +10,10 @@
 
 namespace Cmsbox\Mercanet\Controller\Request;
  
-use Magento\Framework\App\Action\Context;
-use Magento\Framework\App\Action\Action;
-use Magento\Framework\Controller\Result\JsonFactory;
-use Magento\Framework\View\Result\PageFactory;
 use Cmsbox\Mercanet\Gateway\Config\Core;
-use Cmsbox\Mercanet\Model\Service\MethodHandlerService;
-use Cmsbox\Mercanet\Model\Service\OrderHandlerService;
-use Cmsbox\Mercanet\Gateway\Config\Config;
 use Cmsbox\Mercanet\Gateway\Processor\Connector;
-use Cmsbox\Mercanet\Helper\Tools;
-use Cmsbox\Mercanet\Helper\Watchdog;
 
-class Form extends Action {
-
+class Form extends \Magento\Framework\App\Action\Action {
     /**
      * @var PageFactory
      */
@@ -60,17 +50,23 @@ class Form extends Action {
     protected $watchdog;
 
     /**
+     * @var StoreManagerInterface
+     */
+    protected $storeManager;
+
+    /**
      * Normal constructor.
      */
     public function __construct(
-        Context $context,
-        PageFactory $pageFactory,
-        JsonFactory $jsonFactory,
-        MethodHandlerService $methodHandler,
-        Config $config,
-        OrderHandlerService $orderHandler,
-        Tools $tools,
-        Watchdog $watchdog
+        \Magento\Framework\App\Action\Context $context,
+        \Magento\Framework\View\Result\PageFactory $pageFactory,
+        \Magento\Framework\Controller\Result\JsonFactory $jsonFactory,
+        \Cmsbox\Mercanet\Model\Service\MethodHandlerService $methodHandler,
+        \Cmsbox\Mercanet\Gateway\Config\Config $config,
+        \Cmsbox\Mercanet\Model\Service\OrderHandlerService $orderHandler,
+        \Cmsbox\Mercanet\Helper\Tools $tools,
+        \Cmsbox\Mercanet\Helper\Watchdog $watchdog,
+        \Magento\Store\Model\StoreManagerInterface $storeManager
     ) {
         parent::__construct($context);
 
@@ -81,6 +77,7 @@ class Form extends Action {
         $this->orderHandler  = $orderHandler;
         $this->tools         = $tools;
         $this->watchdog      = $watchdog;
+        $this->storeManager  = $storeManager;
     }
  
     public function execute() {
@@ -99,79 +96,86 @@ class Form extends Action {
                 break;
             }
 
-            return $this->jsonFactory->create()->setData(['response' => $response]);
+            return $this->jsonFactory->create()->setData([Connector::KEY_RESPONSE => $response]);
         }
 
-        return $this->jsonFactory->create()->setData([]);
+        return $this->jsonFactory->create()->setData([
+            $this->handleError(__('Invalid AJAX request in form controller.'))
+        ]);
     }
 
     private function runCharge() {
-        try {
-            // Retrieve the expected parameters
-            $methodId = $this->getRequest()->getParam('method_id', null);
-            $cardData = $this->getRequest()->getParam('card_data', []);
+        // Retrieve the expected parameters
+        $methodId = $this->getRequest()->getParam('method_id', null);
+        $cardData = $this->getRequest()->getParam('card_data', []);
 
-            // Load the method instance if parameters are valid
-            if ($methodId && !empty($methodId) && is_array($cardData) && !empty($cardData)) {
-                // Load the method instance
-                $methodInstance = $this->methodHandler->getStaticInstance($methodId);
+        // Load the method instance if parameters are valid
+        if ($methodId && !empty($methodId) && is_array($cardData) && !empty($cardData)) {
+            // Load the method instance
+            $methodInstance = $this->methodHandler->getStaticInstance($methodId);
 
-                // Perform the charge request
-                if ($methodInstance && $methodInstance::isFrontend($this->config, $methodId)) {
-                    // Get the request object
-                    $paymentRequest = $methodInstance::getRequestData($this->config, $methodId, $cardData);
+            // Perform the charge request
+            if ($methodInstance && $methodInstance::isFrontend($this->config, $methodId)) {
+                // Process the payment
+                $paymentObject = $methodInstance::getRequestData($this->config, $this->storeManager, $methodId, $cardData);
 
-                    // Execute the request
-                    $paymentRequest->executeRequest();
+                // Log the request
+                $methodInstance::logRequestData(Connector::KEY_REQUEST, $this->watchdog, $paymentObject);
 
-                    // Get the response
-                    $paymentRequest->getResponseRequest();
+                // Log the response
+                $methodInstance::logResponseData(Connector::KEY_RESPONSE, $this->watchdog, $paymentObject);
 
-                    // Process the response
-                    if ($paymentRequest->isValid()) {
-                        // Get the quote
-                        $quote = $this->orderHandler->findQuote();
+                // Process the response
+                if ($methodInstance::isValidResponse($this->config, $methodId, $paymentObject) && $methodInstance::isSuccessResponse($this->config, $methodId, $paymentObject)) {
+                    // Get the quote
+                    $quote = $this->orderHandler->findQuote();
 
-                        // Prepare the order data
-                        $params = Connector::packData([
-                            $this->config->base[Connector::KEY_ORDER_ID_FIELD]       => $this->tools->getIncrementId($quote),
-                            Connector::KEY_TRANSACTION_ID_FIELD                      => $paymentRequest->getParam($this->config->base[Connector::KEY_TRANSACTION_ID_FIELD]),
-                            $this->config->base[Connector::KEY_CUSTOMER_EMAil_FIELD] => isset($response[$this->config->base[Connector::KEY_CUSTOMER_EMAil_FIELD]])
-                                ? $response[$this->config->base[Connector::KEY_CUSTOMER_EMAil_FIELD]]
-                                : $this->orderHandler->findCustomerEmail($quote),
-                            $this->config->base[Connector::KEY_CAPTURE_MODE_FIELD]           => $this->config->params[$methodId][Connector::KEY_CAPTURE_MODE],
-                            Core::KEY_METHOD_ID                                      => $methodId
-                        ]);
+                    // Prepare the order data
+                    $params = Connector::packData([
+                        $this->config->base[Connector::KEY_ORDER_ID_FIELD]       => $this->tools->getIncrementId($quote),
+                        $this->config->base[Connector::KEY_TRANSACTION_ID_FIELD] => $methodInstance::getTransactionId($this->config, $paymentObject),
+                        $this->config->base[Connector::KEY_CUSTOMER_EMAIL_FIELD] => isset($response[$this->config->base[Connector::KEY_CUSTOMER_EMAIL_FIELD]])
+                            ? $response[$this->config->base[Connector::KEY_CUSTOMER_EMAIL_FIELD]]
+                            : $this->orderHandler->findCustomerEmail($quote),
+                        $this->config->base[Connector::KEY_CAPTURE_MODE_FIELD]   => $this->config->params[$methodId][Connector::KEY_CAPTURE_MODE]
+                    ]);
 
-                        // Place the order
-                        $order = $this->orderHandler->placeOrder($params);
+                    // Place the order
+                    $order = $this->orderHandler->placeOrder($params, $methodId);
 
-                        // Perform after place order actions
-                        $this->orderHandler->afterPlaceOrder($quote, $order);
+                    // Perform after place order actions
+                    $this->orderHandler->afterPlaceOrder($quote, $order);
 
-                        // Return the result
-                        return true;
-                    }
+                    // Return the result
+                    return true;
                 }
+            }
 
-                throw new \Magento\Framework\Exception\LocalizedException(__('Invalid method id or card data.'));
-            } 
-        }
-        catch (\Exception $e) {
-            $this->watchdog->log($e);
-            return __($e->getMessage());
-        }
+            return $this->handleError(__('The transaction data is invalid.'));
+        } 
+        
+        return $this->handleError(__('Invalid request or payment method.'));
     }
 
     private function runBlock() {
-    // Retrieve the expected parameters
-    $methodId = $this->getRequest()->getParam('method_id', null);
+        // Retrieve the expected parameters
+        $methodId = $this->getRequest()->getParam('method_id', null);
+        $template = $this->config->params[$methodId][Connector::KEY_FORM_TEMPLATE];
 
-    // Create the block
-    return $this->pageFactory->create()->getLayout()
+        // Create the block
+        return $this->pageFactory->create()->getLayout()
         ->createBlock(Core::moduleClass() . '\Block\Payment\Form')
-        ->setTemplate(Core::moduleName() . '::payment_form.phtml')
+        ->setData('area', 'adminhtml')
+        ->setTemplate(Core::moduleName() . '::payment_form/' . $template . '.phtml')
         ->setData('method_id', $methodId)
+        ->setData('module_name', Core::moduleName())
+        ->setData('template_name', $template)
+        ->setData('is_admin', false)
         ->toHtml();
+    }
+
+    private function handleError($errorMessage) {
+        $this->watchdog->logError($errorMessage);
+        return $errorMessage;
     }
 }

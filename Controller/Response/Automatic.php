@@ -10,22 +10,10 @@
 
 namespace Cmsbox\Mercanet\Controller\Response;
  
-use Magento\Framework\App\Action\Context;
-use Magento\Framework\App\Action\Action;
-use Magento\Framework\Controller\Result\JsonFactory;
-use Cmsbox\Mercanet\Helper\Tools;
-use Cmsbox\Mercanet\Model\Service\OrderHandlerService;
 use Cmsbox\Mercanet\Gateway\Processor\Connector;
-use Cmsbox\Mercanet\Helper\Watchdog;
-use Cmsbox\Mercanet\Gateway\Config\Config;
+use Cmsbox\Mercanet\Gateway\Config\Core;
 
-class Automatic extends Action
-{
-    /**
-     * @var Tools
-     */    
-    protected $tools;
-
+class Automatic extends \Magento\Framework\App\Action\Action {
     /**
      * @var OrderHandlerService
      */
@@ -34,7 +22,7 @@ class Automatic extends Action
     /**
      * @var Connector
      */
-    protected $processor;
+    protected $connector;
 
     /**
      * @var JsonFactory
@@ -55,19 +43,15 @@ class Automatic extends Action
      * Automatic constructor.
      */
     public function __construct(
-        Context $context,
-        Tools $tools,
-        OrderHandlerService $orderHandler,
-        Connector $processor,
-        JsonFactory $resultJsonFactory,
-        Watchdog $watchdog,
-        Config $config
+        \Magento\Framework\App\Action\Context $context,
+        \Cmsbox\Mercanet\Model\Service\OrderHandlerService $orderHandler,
+        \Magento\Framework\Controller\Result\JsonFactory $resultJsonFactory,
+        \Cmsbox\Mercanet\Helper\Watchdog $watchdog,
+        \Cmsbox\Mercanet\Gateway\Config\Config $config
     ) {
         parent::__construct($context);
         
-        $this->tools               = $tools;
         $this->orderHandler        = $orderHandler;
-        $this->processor           = $processor;
         $this->resultJsonFactory   = $resultJsonFactory;
         $this->watchdog            = $watchdog;
         $this->config              = $config;
@@ -75,19 +59,33 @@ class Automatic extends Action
  
     public function execute() {
         // Get the request data
-        $responseData = $this->tools->getInputData();
+        $responseData = $this->getRequest()->getPostValue();
 
         // Log the response
         $this->watchdog->bark(Connector::KEY_RESPONSE, $responseData, $canDisplay = false);
 
-        // Check validity
-        // Todo - check isvalid function
-        if ($this->processor->isValid($responseData, $this->config) && $this->processor->isSuccess($responseData)) {    
-            // Place order
-            $order = $this->orderHandler->placeOrder($responseData);
+        // Load the method instance
+        $methodId = Core::moduleId() . '_' . Connector::KEY_REDIRECT_METHOD;
+        $methodInstance = $this->methodHandler->getStaticInstance($methodId);
+
+        // Process the response
+        if ($methodInstance && $methodInstance::isFrontend($this->config, $methodId)) {
+            if ($methodInstance::isValidResponse($this->config, $methodId, $responseData)) {
+                if ($methodInstance::isSuccessResponse($this->config, $methodId, $responseData)) {
+                    // Place order
+                    $order = $this->orderHandler->placeOrder($responseData, $methodId);
+                }
+            }
         }
 
         // Stop the execution
-        return $this->resultJsonFactory->create()->setData([]);
+        return $this->resultJsonFactory->create()->setData([
+            $this->handleError(__('Invalid request in automatic controller.'))
+        ]);
+    }
+
+    private function handleError($errorMessage) {
+        $this->watchdog->logError($errorMessage);
+        return $errorMessage;
     }
 }

@@ -10,28 +10,13 @@
  
 namespace Cmsbox\Mercanet\Gateway\Config;
 
-use Magento\Framework\Module\Dir;
-use Magento\Framework\Module\Dir\Reader;
-use Magento\Framework\Xml\Parser;
 use Magento\Store\Model\ScopeInterface;
-use Magento\Framework\Locale\Resolver;
-use Magento\Framework\App\Config\ScopeConfigInterface;
-use Magento\Checkout\Model\Session as CheckoutSession;
-use Magento\Checkout\Model\Cart;
-use Magento\Store\Model\StoreManagerInterface;
+use Magento\Framework\Module\Dir;
 use Cmsbox\Mercanet\Gateway\Processor\Connector;
 use Cmsbox\Mercanet\Gateway\Config\Core;
-use Cmsbox\Mercanet\Model\Service\MethodHandlerService;
 
 class Config {
-
-    const KEY_ENVIRONMENT = 'environment';
-    const KEY_SIMU_MERCHANT_ID = 'simu_merchant_id';
-    const KEY_TEST_MERCHANT_ID = 'test_merchant_id';
-    const KEY_PROD_MERCHANT_ID = 'prod_merchant_id';
-    const KEY_SIMU_SECRET_KEY = 'simu_secret_key';
-    const KEY_TEST_SECRET_KEY = 'test_secret_key';
-    const KEY_PROD_SECRET_KEY = 'prod_secret_key';
+    
     const KEY_DEFAULT_LANGUAGE = 'en';
 
     /**
@@ -43,6 +28,11 @@ class Config {
      * @var Parser
      */
     protected $xmlParser;
+
+    /**
+     * @var Csv
+     */
+    protected $csvParser;
 
     /**
      * @var ScopeConfigInterface
@@ -63,11 +53,6 @@ class Config {
      * @var Core
      */
     protected $core;
-
-    /**
-     * @var Connector
-     */
-    public $processor;
 
     /**
      * @var StoreManagerInterface
@@ -98,22 +83,22 @@ class Config {
      * Config constructor.
      */
     public function __construct(
-        Reader $moduleDirReader,
-        Parser $xmlParser,
-        ScopeConfigInterface $scopeConfig,
-        CheckoutSession $checkoutSession,
-        Cart $cart,
-        Connector $processor,
-        StoreManagerInterface $storeManager,
-        MethodHandlerService $methodHandler,
-        Resolver $localeResolver
+        \Magento\Framework\Module\Dir\Reader $moduleDirReader,
+        \Magento\Framework\Xml\Parser $xmlParser,
+        \Magento\Framework\File\Csv $csvParser,
+        \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
+        \Magento\Checkout\Model\Session $checkoutSession,
+        \Magento\Checkout\Model\Cart $cart,
+        \Magento\Store\Model\StoreManagerInterface $storeManager,
+        \Cmsbox\Mercanet\Model\Service\MethodHandlerService $methodHandler,
+        \Magento\Framework\Locale\Resolver $localeResolver
     ) {
         $this->moduleDirReader = $moduleDirReader;
         $this->xmlParser       = $xmlParser;
+        $this->csvParser       = $csvParser;
         $this->scopeConfig     = $scopeConfig;
         $this->checkoutSession = $checkoutSession;
         $this->cart            = $cart;
-        $this->processor       = $processor;
         $this->storeManager    = $storeManager;
         $this->methodHandler   = $methodHandler;
         $this->localeResolver  = $localeResolver;
@@ -126,111 +111,53 @@ class Config {
      * Loads the module configuration parameters.
      */
     public function loadConfig() {
-        // Prepare the output container
-        $output = [];
+        try {
+            // Prepare the output container
+            $output = [];
 
-        // Get the config file
-        $filePath = $this->moduleDirReader->getModuleDir(Dir::MODULE_ETC_DIR, Core::moduleName()) . '/config.xml';
-        $fileData = $this->xmlParser->load($filePath)->xmlToArray()['config']['_value']['default'];
+            // Get the config file
+            $filePath = $this->moduleDirReader->getModuleDir(Dir::MODULE_ETC_DIR, Core::moduleName()) . '/config.xml';
+            $fileData = $this->xmlParser->load($filePath)->xmlToArray()['config']['_value']['default'];
 
-        // Set the base parameters array
-        $this->base = $this->buildBase($fileData);
+            // Set the base parameters array
+            $this->base = $this->buildBase($fileData);
 
-        // Get the config array
-        $configArray = $fileData['payment'] ?? [];
+            // Get the config array
+            $configArray = $fileData['payment'] ?? [];
 
-        // Get the configured values
-        if (!empty($configArray)) {
-            foreach ($configArray as $methodId => $params) {
-                $lines = [];
-                foreach ($params as $key => $val) {
-                    // Check a database value
-                    $dbValue = $this->scopeConfig->getValue(
-                        'payment/' . $methodId . '/' . $key, 
-                        ScopeInterface::SCOPE_STORE
-                    );
+            // Get the configured values
+            if (!empty($configArray)) {
+                foreach ($configArray as $methodId => $params) {
+                    $lines = [];
+                    foreach ($params as $key => $val) {
+                        // Check a database value
+                        $dbValue = $this->scopeConfig->getValue(
+                            'payment/' . $methodId . '/' . $key, 
+                            ScopeInterface::SCOPE_STORE
+                        );
 
-                    // Convert the value to string for empty testin
-                    $testValue = var_export($dbValue, true);
+                        // Convert the value to string for empty testing
+                        $testValue = stripslashes(trim(var_export($dbValue, true), "'"));
 
-                    // Assign the value or override with db value
-                    if (!empty($testValue)) {
-                        $lines[$key] = $dbValue;
+                        // Assign the value or override with db value
+                        if (!empty($testValue)) {
+                            $lines[$key] = $testValue;
+                        }
+                        else {
+                            $lines[$key] = $val;
+                        }
                     }
-                    else {
-                        $lines[$key] = $val;
-                    }
+
+                    $output[$methodId] = $lines;  
                 }
-
-                $output[$methodId] = $lines;  
             }
+
+            // Set the payment methods config array
+            $this->params = $output;
+
+        } catch (\Exception $e) {
+            throw new \Magento\Framework\Exception\LocalizedException(__($e->getMessage()));
         }
-
-        // Set the payment methods config array
-        $this->params = $output;
-    }
-
-    /**
-     * Get supported currencies.
-     *
-     * @return string
-     */
-    public function getSupportedCurrencies() {
-        $output = [];
-        $arr = explode(';', $this->base[Core::KEY_SUPPORTED_CURRENCIES]);
-        foreach ($arr as $val) {
-            $parts = explode(',', $val);
-            $output[$parts[0]] = $parts[1];
-        }
-
-        return $output;
-    }
-
-    /**
-     * Builds the API URL.
-     *
-     * @return string
-     */
-    public function getApiUrl($action, $methodId) {
-        $mode = $this->params[Core::moduleId()][self::KEY_ENVIRONMENT];
-        $path = 'api_url' . '_' . $mode . '_' . $action;
-        return $this->params[$methodId][$path];
-    }
-
-    /**
-     * Provides the frontend config parameters.
-     *
-     * @return string
-     */
-    public function getFrontendConfig() {
-        // Prepare the output
-        $output = [];
-
-        // Get request data for each method
-        foreach ($this->params as $key => $val) {
-            $arr = explode('_', $key);
-            if ($this->methodIsValid($arr, $key, $val)) {
-                $methodInstance = $this->methodHandler->getStaticInstance($key);
-                if ($methodInstance && $methodInstance::isFrontend($this, $key)) {
-                    $output[$key] = $val;
-                    $output[$key]['active'] = $methodInstance::isFrontend($this, $key);
-                    if (isset($val['load_request_data']) && (int) $val['load_request_data'] == 1) {
-                        $output[$key]['api_url'] = $this->getApiUrl('charge', $key);
-                        $output[$key]['request_data'] = $methodInstance::getRequestData($this, $key);
-                    }
-                } 
-            }
-        } 
-
-        // Return the formatted config array
-        return [
-            'payment' => [
-                Core::moduleId() => array_merge(
-                    $output, 
-                    $this->base
-                )
-            ]
-        ];
     }
 
     /**
@@ -239,17 +166,98 @@ class Config {
      * @return bool
      */
     public function buildBase($fileData) {
-        $output = [];
-        $exclude = explode(',', $fileData['base']['exclude']);
-        foreach ($fileData['payment'][Core::moduleId()] as $key => $val) {
-            if (!in_array($key, $exclude)) {
-                $output[$key] = $val;
-            }
-        }
-        
-        unset($fileData['base']['exclude']);
+        try {
+            $output = [];
+            $exclude = explode(',', $fileData['base']['exclude']);
 
-        return array_merge($fileData['base'], $output);
+            foreach ($fileData['payment'][Core::moduleId()] as $key => $val) {
+                if (!in_array($key, $exclude)) {
+                    // Check a database value
+                    $dbValue = $this->scopeConfig->getValue(
+                        'payment/' . Core::moduleId() . '/' . $key, 
+                        ScopeInterface::SCOPE_STORE
+                    );
+
+                    // Convert the value to string for empty testing
+                    $testValue = stripslashes(trim(var_export($dbValue, true), "'"));
+
+                    // Assign the value or override with db value
+                    if (!empty($testValue)) {
+                        $output[$key] = $testValue;
+                    }
+                    else {
+                        $output[$key] = $val;
+                    }
+                }
+            }
+            
+            unset($fileData['base']['exclude']);
+
+            return array_merge($fileData['base'], $output);
+
+        } catch (\Exception $e) {
+            throw new \Magento\Framework\Exception\LocalizedException(__($e->getMessage()));
+        }
+    }
+
+    /**
+     * Get supported currencies.
+     *
+     * @return string
+     */
+    public function getSupportedCurrencies() {
+        try {
+            $output = [];
+            $arr = explode(';', $this->base[Core::KEY_SUPPORTED_CURRENCIES]);
+            foreach ($arr as $val) {
+                $parts = explode(',', $val);
+                $output[$parts[0]] = $parts[1];
+            }
+
+            return $output;
+        } catch (\Exception $e) {
+            throw new \Magento\Framework\Exception\LocalizedException(__($e->getMessage()));
+        }
+    }
+
+    /**
+     * Provides the frontend config parameters.
+     *
+     * @return string
+     */
+    public function getFrontendConfig() {
+        try {
+            // Prepare the output
+            $output = [];
+
+            // Get request data for each method
+            foreach ($this->params as $methodId => $val) {
+                $arr = explode('_', $methodId);
+                if ($this->methodIsValid($arr, $methodId, $val)) {
+                    $methodInstance = $this->methodHandler->getStaticInstance($methodId);
+                    if ($methodInstance && $methodInstance::isFrontend($this, $methodId)) {
+                        $output[$methodId] = $val;
+                        $output[$methodId][Connector::KEY_ACTIVE] = $methodInstance::isFrontend($this, $methodId);
+                        if (isset($val['load_request_data']) && (int) $val['load_request_data'] == 1) {
+                            $output[$methodId]['api_url'] = Connector::getApiUrl('charge', $this, $methodId);
+                            $output[$methodId]['request_data'] = $methodInstance::getRequestData($this, $this->storeManager, $methodId);
+                        }
+                    } 
+                }
+            }
+
+            // Return the formatted config array
+            return [
+                'payment' => [
+                    Core::moduleId() => array_merge(
+                        $output, 
+                        $this->base
+                    )
+                ]
+            ];
+        } catch (\Exception $e) {
+            throw new \Magento\Framework\Exception\LocalizedException(__($e->getMessage()));
+        }
     }
 
     public function methodIsValid($arr, $key, $val) {
@@ -263,7 +271,7 @@ class Config {
      *
      * @return string
      */
-    public function getTransactionReference() {
+    public function createTransactionReference() {
         return (string) time();   
     }
 
@@ -275,7 +283,6 @@ class Config {
         return (isset($lang[0]) && !empty($lang[0])) ? $lang[0] : self::KEY_DEFAULT_LANGUAGE;
     }
 
-
     /**
      * Formats an amount for a gateway request.
      */   
@@ -284,49 +291,32 @@ class Config {
     }
 
     /**
-     * Returns the merchant ID.
-     *
-     * @return string
+     * Retrieves an Alpha 3 country code from Alpha 2 code.
      */
-    public function getMerchantId() {
-        switch ($this->base[self::KEY_ENVIRONMENT]) {
-            case 'simu': 
-            $id = $this->base[self::KEY_SIMU_MERCHANT_ID];
-            break;
+    public function getCountryCodeA2A3($val) {
+        try {
+            // Get the csv file path
+            $path = $this->moduleDirReader->getModuleDir('', Core::moduleName()) . '/Model/Files/countries.csv';
+            
+            if (is_file($path)) {
+                // Read the countries
+                $countries = $this->csvParser->getData($path);
 
-            case 'test': 
-            $id = $this->base[self::KEY_TEST_MERCHANT_ID];
-            break;
+                // Find the wanted result
+                $res = array_filter($countries, function ($arr) use ($val) {
+                    return $arr[1] == $val;
+                });
 
-            case 'prod': 
-            $id = $this->base[self::KEY_PROD_MERCHANT_ID];;
-            break;
+                // Reset the array ke
+                $res = array_merge(array(), $res);
+                if (isset($res[0]) && !empty($res)) {
+                    return $res[0][2];
+                }
+            }
+        
+            return null;
+        } catch (\Exception $e) {
+            throw new \Magento\Framework\Exception\LocalizedException(__($e->getMessage()));
         }
-
-        return (string) $id;
-    }
-
-    /**
-     * Returns the active secret key.
-     *
-     * @return string
-     */
-    public function getSecretKey() {
-        // Return the secret key
-        switch ($this->base[self::KEY_ENVIRONMENT]) {
-            case 'simu': 
-            $key = $this->params[Core::moduleId()][self::KEY_SIMU_SECRET_KEY];
-            break;
-
-            case 'test': 
-            $key = $this->params[Core::moduleId()][self::KEY_TEST_SECRET_KEY];
-            break;
-
-            case 'prod': 
-            $key = $this->params[Core::moduleId()][self::KEY_PROD_SECRET_KEY];
-            break;
-        }
-
-        return $key;
     }
 }

@@ -10,13 +10,7 @@
 
 namespace Cmsbox\Mercanet\Block\Payment;
 
-use Magento\Framework\View\Element\Template;
-use Magento\Catalog\Block\Product\Context;
-use Cmsbox\Mercanet\Model\Service\FormHandlerService;
-use Cmsbox\Mercanet\Gateway\Config\Config;
-
-class Form extends Template {
-
+class Form extends \Magento\Framework\View\Element\Template {
     /**
      * @var FormHandlerService
      */
@@ -26,6 +20,11 @@ class Form extends Template {
      * @var Config
      */
     public $config;
+
+    /**
+     * @var AssetRepository
+     */
+    public $assetRepository;
 
     /**
      * @var Array
@@ -41,15 +40,18 @@ class Form extends Template {
      * Form constructor.
      */
     public function __construct(
-        Context $context,
-        FormHandlerService $formHandler,
-        Config $config,
+        \Magento\Framework\View\Element\Template\Context $context,
+        \Cmsbox\Mercanet\Model\Service\FormHandlerService $formHandler,
+        \Cmsbox\Mercanet\Gateway\Config\Config $config,
+        \Magento\Framework\View\Asset\Repository $assetRepository,
         array $data = []
     ) {
         parent::__construct($context, $data);
         $this->formHandler = $formHandler;
         $this->config = $config;
+        $this->assetRepository = $assetRepository;
 
+        // Prepare the field values
         $this->months = $this->formHandler->getMonths();
         $this->years = $this->formHandler->getYears();
     }

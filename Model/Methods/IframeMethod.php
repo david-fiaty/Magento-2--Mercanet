@@ -12,12 +12,12 @@ namespace Cmsbox\Mercanet\Model\Methods;
 
 use Magento\Framework\DataObject;
 use Magento\Quote\Api\Data\PaymentInterface;
-use Magento\Payment\Model\Method\AbstractMethod;
 use Cmsbox\Mercanet\Gateway\Config\Core;
 use Cmsbox\Mercanet\Helper\Tools;
 use Cmsbox\Mercanet\Gateway\Processor\Connector;
+use Cmsbox\Mercanet\Gateway\Config\Config;
 
-class IframeMethod extends AbstractMethod {
+class IframeMethod extends \Magento\Payment\Model\Method\AbstractMethod {
 
     protected $_code;
     protected $_isInitializeNeeded = true;
@@ -44,8 +44,7 @@ class IframeMethod extends AbstractMethod {
     protected $quoteManagement;
     protected $orderSender;
     protected $sessionQuote;
-    protected $transactionService;
-    protected $remoteService;
+    protected $config;
 
     public function __construct(
         \Magento\Framework\Model\Context $context,
@@ -56,6 +55,7 @@ class IframeMethod extends AbstractMethod {
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Payment\Model\Method\Logger $logger,
         \Magento\Backend\Model\Auth\Session $backendAuthSession,
+        \Cmsbox\Mercanet\Gateway\Config\Config $config,
         \Magento\Checkout\Model\Cart $cart,
         \Magento\Framework\UrlInterface $urlBuilder,
         \Magento\Framework\ObjectManagerInterface $objectManager, 
@@ -97,6 +97,7 @@ class IframeMethod extends AbstractMethod {
         $this->quoteManagement    = $quoteManagement;
         $this->orderSender        = $orderSender;
         $this->sessionQuote       = $sessionQuote;
+        $this->config             = $config;
         $this->_code              = Core::methodId(get_class());
     }
 
@@ -111,29 +112,31 @@ class IframeMethod extends AbstractMethod {
     }
 
     /**
-     * Check whether method is enabled in config
-     *
-     * @param \Magento\Quote\Model\Quote|null $quote
+     * Check whether method is active
      * @return bool
      */
-    public function isAvailableInConfig($quote = null) {
-        return parent::isAvailable($quote);
+    public function isActive($storeId = null)
+    {
+        return (int) $this->config->params[$this->_code][Connector::KEY_ACTIVE] == 1;
     }
 
-    public static function getRequestData($config, $methodId, $cardData = null, $entity = null) {
+    /**
+     * Prepare the request data.
+     */  
+    public static function getRequestData($config, $storeManager, $methodId, $cardData = null, $entity = null) {
         // Get the order entity
         $entity = ($entity) ? $entity : $config->cart->getQuote();
 
         // Get the vendor class
         $fn = "\\" . $config->params[$methodId][Core::KEY_VENDOR];
+        $paymentRequest = new $fn(Connector::getSecretKey($config));
 
         // Prepare the request
-        $paymentRequest = new $fn($config->getSecretKey());
-        $paymentRequest->setMerchantId($config->getMerchantId());
+        $paymentRequest->setMerchantId(Connector::getMerchantId($config));
         $paymentRequest->setKeyVersion($config->params[Core::moduleId()][Core::KEY_VERSION]);
-        $paymentRequest->setTransactionReference($config->getTransactionReference());
+        $paymentRequest->setTransactionReference($config->createTransactionReference());
         $paymentRequest->setAmount($config->formatAmount($entity->getGrandTotal()));
-        $paymentRequest->setCurrency(Tools::getCurrencyCode($entity));
+        $paymentRequest->setCurrency(Tools::getCurrencyCode($entity, $storeManager));
         $paymentRequest->setCustomerContactEmail($entity->getCustomerEmail());
         $paymentRequest->setOrderId(Tools::getIncrementId($entity));
         $paymentRequest->setCaptureMode($config->params[$methodId][Connector::KEY_CAPTURE_MODE]);
@@ -141,34 +144,25 @@ class IframeMethod extends AbstractMethod {
         $paymentRequest->setLanguage($config->getCustomerLanguage());
         $paymentRequest->setNormalReturnUrl(
             $config->storeManager->getStore()->getBaseUrl() 
-            . '/' . $config->params[$methodId][Core::KEY_NORMAL_RETURN_URL]
+            . Core::moduleId() . '/' . $config->params[$methodId][Core::KEY_NORMAL_RETURN_URL]
         );    
         $paymentRequest->setAutomaticResponseUrl(
             $config->storeManager->getStore()->getBaseUrl() 
-            . '/' . $config->params[$methodId][Core::KEY_AUTOMATIC_RESPONSE_URL]
+            . Core::moduleId() . '/' . $config->params[$methodId][Core::KEY_AUTOMATIC_RESPONSE_URL]
         );
 
         // Set the 3DS parameter
-        if (!$config->params[$methodId][Core::KEY_VERIFY_3DS]) {
+        if ($config->params[$methodId][Core::KEY_VERIFY_3DS] && $config->base[self::KEY_ENVIRONMENT] != 'simu') {
             $paymentRequest->setFraudDataBypass3DS($config->params[$methodId][Core::KEY_BYPASS_RECEIPT]);
         }
 
-        // Todo  - add extra data
         // Set the billing address info
-        /*
-        $params = array_merge($params, $config->processor->getBillingAddress($entity));
+        $params = array_merge($config->params, Connector::getBillingAddress($entity, $config));
 
         // Set the shipping address info
-        $params = array_merge($params, $config->processor->getShippingAddress($entity));
+        $params = array_merge($config->params, Connector::getShippingAddress($entity, $config));
 
-        // Set the payment brands list
-        $paymentBrands = $config->params[Core::moduleId()][Core::KEY_PAYMENT_BRANDS];
-        if (!empty(explode(',', $paymentBrands))) {
-            // Todo - check payment brand list with test mode
-            //$params['paymentMeanBrandList'] = $paymentBrands;
-        }
-        */
-
+        // Validate the request
         $paymentRequest->validate();
 
         return [
@@ -178,9 +172,44 @@ class IframeMethod extends AbstractMethod {
     }
 
     /**
-     * Determines if the method is active.
-     *
-     * @return bool
+     * Checks if a response is valid.
+     */  
+    public static function isValidResponse($config, $methodId, $asset) {
+        // Get the vendor instance
+        $fn = "\\" . $config->params[$methodId][Core::KEY_VENDOR];
+        $paymentResponse = new $fn(Connector::getSecretKey($config));
+
+        // Set the response
+        $paymentResponse->setResponse($asset);
+    
+        // Return the validity status
+        return $paymentResponse->isValid(); 
+    }
+
+    /**
+     * Checks if a response is success.
+     */  
+    public static function isSuccessResponse($config, $methodId, $asset) {
+        // Get the vendor instance
+        $fn = "\\" . $config->params[$methodId][Core::KEY_VENDOR];
+        $paymentResponse = new $fn(Connector::getSecretKey($config));
+
+        // Set the response
+        $paymentResponse->setResponse($asset);
+
+        // Return the success status
+        return $paymentResponse->isSuccessful();      
+    }
+    
+    /**
+     * Gets a transaction id.
+     */  
+    public static function getTransactionId($config, $paymentObject) {
+        return $paymentObject->getParam($config->base[Connector::KEY_TRANSACTION_ID_FIELD]);
+    }
+    
+    /**
+     * Determines if the method is active on frontend.
      */
     public static function isFrontend($config, $methodId) {
         // Get the quote entity
@@ -193,21 +222,18 @@ class IframeMethod extends AbstractMethod {
         );
 
         // Check the billing country status
-        $countryBillingAccepted = in_array(
+        $countryAccepted = in_array(
             $entity->getBillingAddress()->getCountryId(),
-            explode(',', $config->params[Core::moduleId()][Core::KEY_ACCEPTED_COUNTRIES_BILLING])
-        );
-
-        // Check the shipping country status
-        $countryShippingAccepted = in_array(
+            explode(',', $config->params[Core::moduleId()][Core::KEY_ACCEPTED_COUNTRIES])
+        ) && in_array(
             $entity->getShippingAddress()->getCountryId(),
-            explode(',', $config->params[Core::moduleId()][Core::KEY_ACCEPTED_COUNTRIES_SHIPPING])
+            explode(',', $config->params[Core::moduleId()][Core::KEY_ACCEPTED_COUNTRIES])
         );
 
-        return (int) (((int)  $config->params[$methodId]['active'] == 1)
-        && $currencyAccepted
-        && $countryBillingAccepted);
-        // todo - check why this option not saving
-        //&& $countryShippingAccepted;
+        return (int) (
+            ((int)  $config->params[$methodId][Connector::KEY_ACTIVE] == 1)
+            && $currencyAccepted
+            && $countryAccepted
+        );
     }
 }

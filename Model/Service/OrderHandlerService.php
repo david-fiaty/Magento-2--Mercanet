@@ -10,27 +10,12 @@
 
 namespace Cmsbox\Mercanet\Model\Service;
 
-use Magento\Checkout\Model\Session as CheckoutSession;
-use Magento\Customer\Model\Session as CustomerSession;
 use Magento\Customer\Api\Data\GroupInterface;
-use Magento\Quote\Model\QuoteManagement;
-use Magento\Sales\Model\Order\Email\Sender\OrderSender;
-use Magento\Sales\Api\OrderRepositoryInterface;
-use Magento\Sales\Api\Data\OrderInterface;
 use Magento\Sales\Model\Order\Payment\Transaction;
-use Magento\Framework\Stdlib\CookieManagerInterface;
-use Magento\Quote\Model\QuoteFactory;
-use Magento\Checkout\Model\Cart;
-use Cmsbox\Mercanet\Model\Service\TransactionHandlerService;
 use Cmsbox\Mercanet\Gateway\Processor\Connector;
 use Cmsbox\Mercanet\Gateway\Config\Core;
-use Cmsbox\Mercanet\Gateway\Config\Config;
-use Cmsbox\Mercanet\Helper\Watchdog;
 
 class OrderHandlerService {
-
-    const EMAIL_COOKIE_NAME = 'guestEmail';
-
     /**
      * @var CookieManagerInterface
      */
@@ -95,18 +80,18 @@ class OrderHandlerService {
      * OrderHandlerService constructor.
      */
     public function __construct(
-        CookieManagerInterface $cookieManager,
-        QuoteFactory $quoteFactory,
-        Cart $cart,
-        TransactionHandlerService $transactionHandler,
-        CheckoutSession $checkoutSession,
-        CustomerSession $customerSession,
-        QuoteManagement $quoteManagement, 
-        OrderSender $orderSender,
-        OrderRepositoryInterface $orderRepository,
-        OrderInterface $orderInterface,
-        Watchdog $watchdog,
-        Config $config
+        \Magento\Framework\Stdlib\CookieManagerInterface $cookieManager,
+        \Magento\Quote\Model\QuoteFactory $quoteFactory,
+        \Magento\Checkout\Model\Cart $cart,
+        \Cmsbox\Mercanet\Model\Service\TransactionHandlerService $transactionHandler,
+        \Magento\Checkout\Model\Session $checkoutSession,
+        \Magento\Customer\Model\Session $customerSession,
+        \Magento\Quote\Model\QuoteManagement $quoteManagement, 
+        \Magento\Sales\Model\Order\Email\Sender\OrderSender $orderSender,
+        \Magento\Sales\Api\OrderRepositoryInterface $orderRepository,
+        \Magento\Sales\Api\Data\OrderInterface $orderInterface,
+        \Cmsbox\Mercanet\Helper\Watchdog $watchdog,
+        \Cmsbox\Mercanet\Gateway\Config\Config $config
     ) {
         $this->cookieManager         = $cookieManager;
         $this->quoteFactory          = $quoteFactory;
@@ -122,7 +107,10 @@ class OrderHandlerService {
         $this->config                = $config;
     }
 
-    public function placeOrder($data = null) {
+    /**
+     * Place an order
+     */
+    public function placeOrder($data, $methodId) {
         // Get the fields
         $fields = Connector::unpackData($data);
 
@@ -133,19 +121,18 @@ class OrderHandlerService {
 
             // Update the order
             if ($order) {
-                $order = $this->createOrder($fields);
+                $order = $this->createOrder($fields, $methodId);
                 return $order;
             }
         }
 
-        // Fraud check
-        // Todo - Handle fraud info
-        //$order = $this->processor->checkFraud($order);
-
         return null;
     }
 
-    public function createOrder($fields) {
+    /**
+     * Create an order
+     */
+    public function createOrder($fields, $methodId) {
         try {
             // Find the quote
             $quote = $this->findQuote($fields[$this->config->base[Connector::KEY_ORDER_ID_FIELD]]);
@@ -157,12 +144,12 @@ class OrderHandlerService {
 
                 // Check for guest user quote
                 if ($this->customerSession->isLoggedIn() === false) {
-                    $quote = $this->prepareGuestQuote($quote, $fields[$this->config->base[Connector::KEY_CUSTOMER_EMAil_FIELD]]);
+                    $quote = $this->prepareGuestQuote($quote, $fields[$this->config->base[Connector::KEY_CUSTOMER_EMAIL_FIELD]]);
                 }
 
                 // Set the payment information
                 $payment = $quote->getPayment();
-                $payment->setMethod($fields[Core::KEY_METHOD_ID]);
+                $payment->setMethod($methodId);
                 $payment->save();
 
                 // Create the order
@@ -171,13 +158,13 @@ class OrderHandlerService {
                 // Update order status
                 if ($fields[$this->config->base[Connector::KEY_CAPTURE_MODE_FIELD]] == Connector::KEY_CAPTURE_IMMEDIATE) {
                     // Create the transaction
-                    $transactionId = $this->transactionHandler->createTransaction($order, $fields, Transaction::TYPE_CAPTURE, $fields[Core::KEY_METHOD_ID]);
+                    $transactionId = $this->transactionHandler->createTransaction($order, $fields, Transaction::TYPE_CAPTURE, $methodId);
                 } else {
                     // Update order status
-                    $order->setStatus($this->params[Core::moduleId()][Connector::KEY_ORDER_STATUS_AUTHORIZED]);
+                    $order->setStatus($this->config->params[Core::moduleId()][Connector::KEY_ORDER_STATUS_AUTHORIZED]);
 
                     // Create the transaction
-                    $transactionId = $this->transactionHandler->createTransaction($order, $fields, Transaction::TYPE_AUTH, $fields[Core::KEY_METHOD_ID]);
+                    $transactionId = $this->transactionHandler->createTransaction($order, $fields, Transaction::TYPE_AUTH, $methodId);
                 }
 
                 // Save the order
@@ -189,7 +176,7 @@ class OrderHandlerService {
                 return $order;
             }
         } catch (\Exception $e) {
-            $this->watchdog->log($e);
+            $this->watchdog->logError($e);
             return false;
         }
     }
@@ -215,16 +202,8 @@ class OrderHandlerService {
     }
 
     /**
-     * Restore a quote
+     * Tasks after place order
      */
-    public function restoreCart() {
-        $order = $this->checkoutSession->getLastRealOrder();
-        $quote = $this->findQuote($order->getQuoteId());
-        if ($quote->getId()) {
-            $quote->setIsActive(1)->setReservedOrderId(null)->save();
-        }
-    }
-
     public function afterPlaceOrder($quote, $order) {
         // Prepare session quote info for redirection after payment
         $this->checkoutSession
@@ -238,10 +217,22 @@ class OrderHandlerService {
         ->setLastOrderStatus($order->getStatus());
     } 
 
+    /**
+     * Find a customer email
+     */
     public function findCustomerEmail($quote) {
         return $quote->getCustomerEmail()
         ?? $quote->getBillingAddress()->getEmail()
         ?? $this->cookieManager->getCookie(self::EMAIL_COOKIE_NAME);
+    }
+
+    /**
+     * Find a method id
+     */
+    public function findMethodId() {
+        return ($this->cookieManager->getCookie(Connector::METHOD_COOKIE_NAME))
+        ? $this->cookieManager->getCookie(Connector::METHOD_COOKIE_NAME)
+        : Core::moduleId() . '_' . Connector::KEY_REDIRECT_METHOD;
     }
 
     /**
@@ -258,7 +249,7 @@ class OrderHandlerService {
         try {
             return $this->cart->getQuote();
         } catch (\Exception $e) {
-            $this->watchdog->log($e);
+            $this->watchdog->logError($e);
             return false;
         }
     }

@@ -13,7 +13,8 @@ namespace Cmsbox\Mercanet\Helper;
 use Cmsbox\Mercanet\Gateway\Config\Core;
 use Cmsbox\Mercanet\Gateway\Processor\Connector;
 
-class Watchdog {
+class Watchdog
+{
     /**
      * @var ManagerInterface
      */
@@ -52,7 +53,8 @@ class Watchdog {
     /**
      * Display messages and write to custom log file.
      */
-    public function bark($action, $data, $canDisplay = true, $canLog = true) {
+    public function bark($action, $data, $canDisplay = true, $canLog = true)
+    {
         // Prepare the output
         $output = ($data) ? print_r($data, 1) : '';
         $output = strtoupper($action) . "\n" . $output;
@@ -78,7 +80,8 @@ class Watchdog {
     /**
      * Write to system file.
      */
-    public function logError($message, $canDisplay = true) {
+    public function logError($message, $canDisplay = true)
+    {
         // Log to system log file
         if ((int) $this->config->params[Core::moduleId()][Connector::KEY_LOGGING] == 1) {
             $output = Core::moduleId() . ' | ' . $message;

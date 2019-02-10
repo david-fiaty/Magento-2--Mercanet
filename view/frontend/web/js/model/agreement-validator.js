@@ -12,7 +12,7 @@ define(
         'jquery',
         'mage/validation'
     ],
-    function($) {
+    function ($) {
         'use strict';
         var checkoutConfig = window.checkoutConfig,
             agreementsConfig = checkoutConfig ? checkoutConfig.checkoutAgreements : {};
@@ -25,7 +25,7 @@ define(
              *
              * @returns {boolean}
              */
-            validate: function() {
+            validate: function () {
 
                 if (!agreementsConfig.isEnabled) {
                     return true;
@@ -35,18 +35,20 @@ define(
                     return true;
                 }
 
-                return $('#co-payment-form').validate({
-                    errorClass: 'mage-error',
-                    errorElement: 'div',
-                    meta: 'validate',
-                    errorPlacement: function(error, element) {
-                        var errorPlacement = element;
-                        if (element.is(':checkbox') || element.is(':radio')) {
-                            errorPlacement = element.siblings('label').last();
+                return $('#co-payment-form').validate(
+                    {
+                        errorClass: 'mage-error',
+                        errorElement: 'div',
+                        meta: 'validate',
+                        errorPlacement: function (error, element) {
+                            var errorPlacement = element;
+                            if (element.is(':checkbox') || element.is(':radio')) {
+                                errorPlacement = element.siblings('label').last();
+                            }
+                            errorPlacement.after(error);
                         }
-                        errorPlacement.after(error);
                     }
-                }).element(agreementsInputPath);
+                ).element(agreementsInputPath);
             }
         }
     }

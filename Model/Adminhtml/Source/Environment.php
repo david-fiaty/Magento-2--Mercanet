@@ -10,7 +10,8 @@
 
 namespace Cmsbox\Mercanet\Model\Adminhtml\Source;
 
-class Environment implements \Magento\Framework\Option\ArrayInterface {
+class Environment implements \Magento\Framework\Option\ArrayInterface
+{
 
     const ENVIRONMENT_PROD = 'prod';
     const ENVIRONMENT_TEST = 'test';
@@ -21,7 +22,8 @@ class Environment implements \Magento\Framework\Option\ArrayInterface {
      *
      * @return array
      */
-    public function toOptionArray() {
+    public function toOptionArray()
+    {
         return [
             [
                 'value' => self::ENVIRONMENT_SIMU,

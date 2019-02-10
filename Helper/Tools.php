@@ -10,14 +10,16 @@
 
 namespace Cmsbox\Mercanet\Helper;
 
-class Tools {
+class Tools
+{
 
     /**
      * Returns the increment id of an order or a quote.
      *
      * @return string
      */
-    public static function getIncrementId($entity) {
+    public static function getIncrementId($entity)
+    {
         return method_exists($entity, 'getIncrementId')
         ? $entity->getIncrementId()
         : $entity->reserveOrderId()->save()->getReservedOrderId();
@@ -28,7 +30,8 @@ class Tools {
      *
      * @return string
      */
-    public static function getCurrencyCode($entity, $storeManager) {
+    public static function getCurrencyCode($entity, $storeManager)
+    {
         try {
             if (method_exists($entity, 'getQuoteCurrencyCode')) {
                 return $entity->getQuoteCurrencyCode();

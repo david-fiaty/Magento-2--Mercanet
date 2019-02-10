@@ -10,7 +10,8 @@
 
 namespace Cmsbox\Mercanet\Model\Service;
 
-class FormHandlerService {
+class FormHandlerService
+{
 
     /**
      * @var Config
@@ -29,7 +30,7 @@ class FormHandlerService {
 
     /**
      * FormHandlerService constructor.
-    */
+     */
     public function __construct(
         \Cmsbox\Mercanet\Gateway\Config\Config $config,
         \Cmsbox\Mercanet\Helper\Watchdog $watchdog,
@@ -45,7 +46,8 @@ class FormHandlerService {
      *
      * @return array
      */
-    public function getMonths() {
+    public function getMonths()
+    {
         return array_merge(
             [__('Month')],
             $this->paymentConfig->getMonths()
@@ -57,7 +59,8 @@ class FormHandlerService {
      *
      * @return array
      */
-    public function getYears() {
+    public function getYears()
+    {
         return array_merge(
             [__('Year')],
             $this->paymentConfig->getYears()

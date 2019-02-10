@@ -19,84 +19,86 @@ define(
         'Magento_Checkout/js/model/payment/additional-validators',
         'mage/translate'
     ],
-    function($, Component, Adapter, FullScreenLoader, AdditionalValidators, t) {
+    function ($, Component, Adapter, FullScreenLoader, AdditionalValidators, t) {
         'use strict';
 
         window.checkoutConfig.reloadOnBillingAddress = true;
         var code = 'redirect_method';
 
-        return Component.extend({
-            defaults: {
-                template: Adapter.getName() + '/payment/' + code + '.phtml',
-                moduleId: Adapter.getCode(),
-                methodId: Adapter.getMethodId(code),
-                config: Adapter.getPaymentConfig()[Adapter.getMethodId(code)],
-                targetButton:  Adapter.getMethodId(code) + '_button',
-                targetForm:  Adapter.getMethodId(code) + '_form',
-                redirectAfterPlaceOrder: false
-            },
+        return Component.extend(
+            {
+                defaults: {
+                    template: Adapter.getName() + '/payment/' + code + '.phtml',
+                    moduleId: Adapter.getCode(),
+                    methodId: Adapter.getMethodId(code),
+                    config: Adapter.getPaymentConfig()[Adapter.getMethodId(code)],
+                    targetButton:  Adapter.getMethodId(code) + '_button',
+                    targetForm:  Adapter.getMethodId(code) + '_form',
+                    redirectAfterPlaceOrder: false
+                },
 
-            /**
-             * @returns {exports}
-             */
-            initialize: function() {
-                this._super();
-                this.data = {'method': this.methodId};
-                Adapter.log(this.config.request_data.params);
-            },
+                /**
+                 * @returns {exports}
+                 */
+                initialize: function () {
+                    this._super();
+                    this.data = {'method': this.methodId};
+                    Adapter.log(this.config.request_data.params);
+                },
 
-            initObservable: function() {
-                this._super().observe([]);
-                return this;
-            },
+                initObservable: function () {
+                    this._super().observe([]);
+                    return this;
+                },
 
-            /**
-             * @returns {string}
-             */
-            getCode: function() {
-                return this.methodId;
-            },
+                /**
+                 * @returns {string}
+                 */
+                getCode: function () {
+                    return this.methodId;
+                },
 
-            /**
-             * @returns {bool}
-             */
-            isActive: function() {
-                return this.config.active;
-            },
+                /**
+                 * @returns {bool}
+                 */
+                isActive: function () {
+                    return this.config.active;
+                },
 
-            /**
-             * @returns {string}
-             */
-            proceedWithSubmission: function() {
-                // Disable jQuery validate checks
-                $('#' + this.targetForm).validate().cancelSubmit = true;
+                /**
+                 * @returns {string}
+                 */
+                proceedWithSubmission: function () {
+                    // Disable jQuery validate checks
+                    $('#' + this.targetForm).validate().cancelSubmit = true;
 
-                // Submit the form
-                $('#' + this.targetForm).submit();
-            },
+                    // Submit the form
+                    $('#' + this.targetForm).submit();
+                },
 
-            /**
-             * @returns {string}
-             */
-            beforePlaceOrder: function() {
-                // Start the loader
-                FullScreenLoader.startLoader();
+                /**
+                 * @returns {string}
+                 */
+                beforePlaceOrder: function () {
+                    // Start the loader
+                    FullScreenLoader.startLoader();
 
-                // Validate before submission
-                if (AdditionalValidators.validate()) {
-                    // Set the cookie data
-                    Adapter.setCookieData(this.methodId);
+                    // Validate before submission
+                    if (AdditionalValidators.validate()) {
+                        // Set the cookie data
+                        Adapter.setCookieData(this.methodId);
                     
-                    // Log the request data
-                    Adapter.backendLog(this.config.request_data.params);
+                        // Log the request data
+                        Adapter.backendLog(this.config.request_data.params);
 
-                    // Submit
-                    this.proceedWithSubmission();
-                }
-                else {
-                    FullScreenLoader.stopLoader();
+                        // Submit
+                        this.proceedWithSubmission();
+                    }
+                    else {
+                        FullScreenLoader.stopLoader();
+                    }
                 }
             }
-        });
+        );
     }
 );

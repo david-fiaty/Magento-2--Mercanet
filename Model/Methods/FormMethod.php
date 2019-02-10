@@ -17,7 +17,8 @@ use Cmsbox\Mercanet\Helper\Tools;
 use Cmsbox\Mercanet\Gateway\Processor\Connector;
 use Cmsbox\Mercanet\Gateway\Config\Config;
 
-class FormMethod extends \Magento\Payment\Model\Method\AbstractMethod {
+class FormMethod extends \Magento\Payment\Model\Method\AbstractMethod
+{
 
     protected $_code;
     protected $_isInitializeNeeded = true;
@@ -106,7 +107,7 @@ class FormMethod extends \Magento\Payment\Model\Method\AbstractMethod {
     /**
      * Check whether method is available
      *
-     * @param \Magento\Quote\Api\Data\CartInterface|\Magento\Quote\Model\Quote|null $quote
+     * @param  \Magento\Quote\Api\Data\CartInterface|\Magento\Quote\Model\Quote|null $quote
      * @return bool
      */
     public function isAvailable(\Magento\Quote\Api\Data\CartInterface $quote = null)
@@ -116,6 +117,7 @@ class FormMethod extends \Magento\Payment\Model\Method\AbstractMethod {
 
     /**
      * Check whether method is active
+     *
      * @return bool
      */
     public function isActive($storeId = null)
@@ -126,7 +128,8 @@ class FormMethod extends \Magento\Payment\Model\Method\AbstractMethod {
     /**
      * Prepare the request data.
      */  
-    public static function getRequestData($config, $storeManager, $methodId, $cardData = null, $entity = null) {
+    public static function getRequestData($config, $storeManager, $methodId, $cardData = null, $entity = null)
+    {
         // Get the order entity
         $entity = ($entity) ? $entity : $config->cart->getQuote();
 
@@ -171,7 +174,8 @@ class FormMethod extends \Magento\Payment\Model\Method\AbstractMethod {
     /**
      * Checks if a response is valid.
      */  
-    public static function isValidResponse($config, $methodId, $asset) {
+    public static function isValidResponse($config, $methodId, $asset)
+    {
         $status = $asset->isValid();
         return $status;
     }
@@ -179,7 +183,8 @@ class FormMethod extends \Magento\Payment\Model\Method\AbstractMethod {
     /**
      * Checks if a response is success.
      */  
-    public static function isSuccessResponse($config, $methodId, $asset) {
+    public static function isSuccessResponse($config, $methodId, $asset)
+    {
         $status = $asset->isValid();
         return $status;
     }
@@ -187,14 +192,16 @@ class FormMethod extends \Magento\Payment\Model\Method\AbstractMethod {
     /**
      * Gets a transaction id.
      */  
-    public static function getTransactionId($config, $paymentObject) {
+    public static function getTransactionId($config, $paymentObject)
+    {
         return $paymentObject->getParam($config->base[Connector::KEY_TRANSACTION_ID_FIELD]);
     }
 
     /**
      * Logs a request data.
      */  
-    public static function logRequestData($action, $watchdog, $asset) {
+    public static function logRequestData($action, $watchdog, $asset)
+    {
         $logData = $asset->toParameterString();
         $watchdog->bark($action, $logData, $canDisplay = false, $canLog = true);
     }
@@ -202,7 +209,8 @@ class FormMethod extends \Magento\Payment\Model\Method\AbstractMethod {
     /**
      * Logs a response data.
      */  
-    public static function logResponseData($action, $watchdog, $asset) {
+    public static function logResponseData($action, $watchdog, $asset)
+    {
         $logData = $asset->getResponseRequest();
         $watchdog->bark($action, $logData, $canDisplay = true, $canLog = true);
     }
@@ -210,7 +218,8 @@ class FormMethod extends \Magento\Payment\Model\Method\AbstractMethod {
     /**
      * Determines if the method is active on frontend.
      */
-    public static function isFrontend($config, $methodId) {
+    public static function isFrontend($config, $methodId)
+    {
         // Get the quote entity
         $entity = $config->cart->getQuote();
 

@@ -15,7 +15,8 @@ use Magento\Framework\Module\Dir;
 use Cmsbox\Mercanet\Gateway\Processor\Connector;
 use Cmsbox\Mercanet\Gateway\Config\Core;
 
-class Config {
+class Config
+{
     
     const KEY_DEFAULT_LANGUAGE = 'en';
 
@@ -110,7 +111,8 @@ class Config {
     /**
      * Loads the module configuration parameters.
      */
-    public function loadConfig() {
+    public function loadConfig()
+    {
         try {
             // Prepare the output container
             $output = [];
@@ -165,7 +167,8 @@ class Config {
      *
      * @return bool
      */
-    public function buildBase($fileData) {
+    public function buildBase($fileData)
+    {
         try {
             $output = [];
             $exclude = explode(',', $fileData['base']['exclude']);
@@ -205,7 +208,8 @@ class Config {
      *
      * @return string
      */
-    public function getSupportedCurrencies() {
+    public function getSupportedCurrencies()
+    {
         try {
             $output = [];
             $arr = explode(';', $this->base[Core::KEY_SUPPORTED_CURRENCIES]);
@@ -225,7 +229,8 @@ class Config {
      *
      * @return string
      */
-    public function getFrontendConfig() {
+    public function getFrontendConfig()
+    {
         try {
             // Prepare the output
             $output = [];
@@ -260,7 +265,8 @@ class Config {
         }
     }
 
-    public function methodIsValid($arr, $key, $val) {
+    public function methodIsValid($arr, $key, $val)
+    {
         return isset($arr[2]) && isset($arr[3]) 
         && isset($val['can_use_internal']) && (int) $val['can_use_internal'] != 1
         && !in_array($key, $arr);
@@ -271,29 +277,33 @@ class Config {
      *
      * @return string
      */
-    public function createTransactionReference() {
+    public function createTransactionReference()
+    {
         return (string) time();   
     }
 
     /**
      * Retrieves the customer language.
      */
-    public function getCustomerLanguage() {
-        $lang = explode('_', $this->localeResolver->getLocale()) ;
+    public function getCustomerLanguage()
+    {
+        $lang = explode('_', $this->localeResolver->getLocale());
         return (isset($lang[0]) && !empty($lang[0])) ? $lang[0] : self::KEY_DEFAULT_LANGUAGE;
     }
 
     /**
      * Formats an amount for a gateway request.
      */   
-    public function formatAmount($amount) {
+    public function formatAmount($amount)
+    {
         return (int) (number_format($amount, 2))*100;
     }
 
     /**
      * Retrieves an Alpha 3 country code from Alpha 2 code.
      */
-    public function getCountryCodeA2A3($val) {
+    public function getCountryCodeA2A3($val)
+    {
         try {
             // Get the csv file path
             $path = $this->moduleDirReader->getModuleDir('', Core::moduleName()) . '/Model/Files/countries.csv';
@@ -303,9 +313,11 @@ class Config {
                 $countries = $this->csvParser->getData($path);
 
                 // Find the wanted result
-                $res = array_filter($countries, function ($arr) use ($val) {
-                    return $arr[1] == $val;
-                });
+                $res = array_filter(
+                    $countries, function ($arr) use ($val) {
+                        return $arr[1] == $val;
+                    }
+                );
 
                 // Reset the array ke
                 $res = array_merge(array(), $res);

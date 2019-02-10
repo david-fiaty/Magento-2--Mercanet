@@ -12,13 +12,15 @@ namespace Cmsbox\Mercanet\Model\Adminhtml\Source;
 
 use Magento\Sales\Model\Order\Payment\Transaction;
 
-class InvoiceCreation implements \Magento\Framework\Option\ArrayInterface {
+class InvoiceCreation implements \Magento\Framework\Option\ArrayInterface
+{
     /**
      * Possible environment types
      *
      * @return array
      */
-    public function toOptionArray() {
+    public function toOptionArray()
+    {
         return [
             [
                 'value' => Transaction::TYPE_CAPTURE,

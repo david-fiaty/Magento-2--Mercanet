@@ -15,7 +15,9 @@ use Magento\Sales\Model\Order\Payment\Transaction;
 use Cmsbox\Mercanet\Gateway\Processor\Connector;
 use Cmsbox\Mercanet\Gateway\Config\Core;
 
-class OrderSaveBefore implements \Magento\Framework\Event\ObserverInterface { 
+class OrderSaveBefore implements \Magento\Framework\Event\ObserverInterface
+{
+ 
     /**
      * @var Session
      */
@@ -78,7 +80,8 @@ class OrderSaveBefore implements \Magento\Framework\Event\ObserverInterface {
     /**
      * Observer execute function.
      */
-    public function execute(Observer $observer) {
+    public function execute(Observer $observer)
+    {
         if ($this->backendAuthSession->isLoggedIn()) {
             try {
                 // Get the request parameters

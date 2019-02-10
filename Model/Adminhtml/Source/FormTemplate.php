@@ -12,13 +12,15 @@ namespace Cmsbox\Mercanet\Model\Adminhtml\Source;
 
 use Cmsbox\Mercanet\Gateway\Processor\Connector;
 
-class FormTemplate implements \Magento\Framework\Option\ArrayInterface {
+class FormTemplate implements \Magento\Framework\Option\ArrayInterface
+{
     /**
      * Possible form templates
      *
      * @return array
      */
-    public function toOptionArray() {
+    public function toOptionArray()
+    {
         return [
             [
                 'value' => 'template_1',

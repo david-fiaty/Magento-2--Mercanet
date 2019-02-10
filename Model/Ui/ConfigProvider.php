@@ -10,7 +10,8 @@
 
 namespace Cmsbox\Mercanet\Model\Ui;
 
-class ConfigProvider implements \Magento\Checkout\Model\ConfigProviderInterface {
+class ConfigProvider implements \Magento\Checkout\Model\ConfigProviderInterface
+{
 
     /**
      * @var Config
@@ -21,17 +22,18 @@ class ConfigProvider implements \Magento\Checkout\Model\ConfigProviderInterface 
      * ConfigProvider constructor.
      */
     public function __construct(
-         \Cmsbox\Mercanet\Gateway\Config\Config $config
+        \Cmsbox\Mercanet\Gateway\Config\Config $config
     ) {
         $this->config = $config;
-   }
+    }
 
     /**
      * Send the configuration to the frontend
      *
      * @return array
      */
-    public function getConfig() {
+    public function getConfig()
+    {
         return $this->config->getFrontendConfig();
     }
 }

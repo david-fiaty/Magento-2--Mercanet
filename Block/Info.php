@@ -15,7 +15,7 @@ class Info extends \Magento\Payment\Block\ConfigurableInfo
     /**
      * Returns label
      *
-     * @param string $field
+     * @param  string $field
      * @return Phrase
      */
     protected function getLabel($field)

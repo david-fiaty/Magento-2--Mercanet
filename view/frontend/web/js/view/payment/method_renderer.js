@@ -13,7 +13,7 @@ define(
         'Cmsbox_Mercanet/js/view/payment/adapter',
         'Magento_Checkout/js/model/payment/renderer-list'
     ],
-    function(
+    function (
         Component,
         Adapter,
         RendererList
@@ -30,10 +30,12 @@ define(
                 var parts = methodId.split('_');
 
                 // Add it to the renderer list
-                RendererList.push({
-                    type: methodId,
-                    component: config.module_name + '/js/view/payment/method-renderer/' + parts[2] + '_' + parts[3]
-                });
+                RendererList.push(
+                    {
+                        type: methodId,
+                        component: config.module_name + '/js/view/payment/method-renderer/' + parts[2] + '_' + parts[3]
+                    }
+                );
                 
             }
         }

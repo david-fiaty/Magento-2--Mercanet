@@ -10,7 +10,8 @@
 
 namespace Cmsbox\Mercanet\Model\Adminhtml\Source;
 
-class PaymentAction implements \Magento\Framework\Option\ArrayInterface {
+class PaymentAction implements \Magento\Framework\Option\ArrayInterface
+{
 
     const ACTION_AUTHORIZE = 'authorize';
     const ACTION_AUTHORIZE_CAPTURE = 'authorize_capture';
@@ -20,7 +21,8 @@ class PaymentAction implements \Magento\Framework\Option\ArrayInterface {
      *
      * @return array
      */
-    public function toOptionArray() {
+    public function toOptionArray()
+    {
         return [
             [
                 'value' => self::ACTION_AUTHORIZE,

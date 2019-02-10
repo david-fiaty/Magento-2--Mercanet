@@ -10,7 +10,8 @@
  
 namespace Cmsbox\Mercanet\Gateway\Processor;
 
-class Connector {
+class Connector
+{
     const KEY_ENVIRONMENT = 'environment';
     const KEY_SIMU_MERCHANT_ID = 'simu_merchant_id';
     const KEY_TEST_MERCHANT_ID = 'test_merchant_id';
@@ -47,7 +48,8 @@ class Connector {
     /**
      * Turns a data response string into an array.
      */
-    public static function unpackData($response) {
+    public static function unpackData($response)
+    {
         // Get the parameters
         $params = $response;
 
@@ -77,7 +79,8 @@ class Connector {
     /**
      * Turns a data request array into a string.
      */   
-    public static function packData($arr) {
+    public static function packData($arr)
+    {
         $output = [];
         foreach ($arr as $key => $val) {
             $output[] = $key . '=' . $val;
@@ -91,7 +94,8 @@ class Connector {
      *
      * @return string
      */
-    public static function getApiUrl($action, $config, $methodId) {
+    public static function getApiUrl($action, $config, $methodId)
+    {
         $mode = $config->params[\Cmsbox\Mercanet\Gateway\Config\Core::moduleId()][self::KEY_ENVIRONMENT];
         $path = 'api_url' . '_' . $mode . '_' . $action;
         return $config->params[$methodId][$path];
@@ -102,17 +106,18 @@ class Connector {
      *
      * @return string
      */
-    public static function getMerchantId($config) {
+    public static function getMerchantId($config)
+    {
         switch ($config->base[self::KEY_ENVIRONMENT]) {
-            case 'simu': 
+        case 'simu': 
             $id = $config->base[self::KEY_SIMU_MERCHANT_ID];
             break;
 
-            case 'test': 
+        case 'test': 
             $id = $config->base[self::KEY_TEST_MERCHANT_ID];
             break;
 
-            case 'prod': 
+        case 'prod': 
             $id = $config->base[self::KEY_PROD_MERCHANT_ID];;
             break;
         }
@@ -125,18 +130,19 @@ class Connector {
      *
      * @return string
      */
-    public static function getSecretKey($config) {
+    public static function getSecretKey($config)
+    {
         // Return the secret key
         switch ($config->base[self::KEY_ENVIRONMENT]) {
-            case 'simu': 
+        case 'simu': 
             $key = $config->params[\Cmsbox\Mercanet\Gateway\Config\Core::moduleId()][self::KEY_SIMU_SECRET_KEY];
             break;
 
-            case 'test': 
+        case 'test': 
             $key = $config->params[\Cmsbox\Mercanet\Gateway\Config\Core::moduleId()][self::KEY_TEST_SECRET_KEY];
             break;
 
-            case 'prod': 
+        case 'prod': 
             $key = $config->params[\Cmsbox\Mercanet\Gateway\Config\Core::moduleId()][self::KEY_PROD_SECRET_KEY];
             break;
         }
@@ -147,7 +153,8 @@ class Connector {
     /**
      * Returns the billing address.
      */
-    public static function getBillingAddress($entity, $config) {
+    public static function getBillingAddress($entity, $config)
+    {
         // Retrieve the address object
         $address = $entity->getBillingAddress();
 
@@ -165,7 +172,8 @@ class Connector {
     /**
      * Returns the shipping address.
      */
-    public static function getShippingAddress($entity, $config) {
+    public static function getShippingAddress($entity, $config)
+    {
         // Retrieve the address object
         $address = $entity->getBillingAddress();
 

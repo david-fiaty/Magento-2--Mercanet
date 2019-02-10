@@ -13,7 +13,8 @@ namespace Cmsbox\Mercanet\Gateway\Http;
 use Magento\Payment\Gateway\Request\BuilderInterface;
 use Cmsbox\Mercanet\Gateway\Processor\Connector;
 
-class Client {
+class Client
+{
     /**
      * @var Curl
      */
@@ -34,7 +35,8 @@ class Client {
     /**
      * Adds the request headers.
      */ 
-    private function addHeaders() {
+    private function addHeaders()
+    {
         $this->curl->addHeader('Content-Type', 'application/json');
         $this->curl->addHeader('Accept', 'application/json');
     }
@@ -42,14 +44,16 @@ class Client {
     /**
      * Encode the response to JSON format.
      */ 
-    private function formatResponse($response) {
+    private function formatResponse($response)
+    {
         return isset($response) ? (array) json_decode($response) : null;
     }
 
     /**
      * Returns a prepared post response.
      */    
-    public function getPostResponse($url, $params) {
+    public function getPostResponse($url, $params)
+    {
         // Send the request
         $response = $this->post($url, $params);
 
@@ -62,7 +66,8 @@ class Client {
     /**
      * Returns a prepared get response.
      */    
-    public function getGetResponse($url) {
+    public function getGetResponse($url)
+    {
         // Send the request
         $response = $this->get($url);
 
@@ -72,7 +77,8 @@ class Client {
         return $response;
     }
 
-    public function post($url, $params) {
+    public function post($url, $params)
+    {
         // Send the CURL POST request
         $this->curl->post($url, json_encode($params));
 
@@ -80,7 +86,8 @@ class Client {
         return $this->curl->getBody();
     }
  
-    public function get($url) {
+    public function get($url)
+    {
         // Send the CURL GET request
         $this->curl->get($url);
 
@@ -88,7 +95,8 @@ class Client {
         return $this->curl->getBody();     
     }
 
-    public function setOption($name, $value) {
+    public function setOption($name, $value)
+    {
         $this->curl->setOption($name, $value);
     }
 }

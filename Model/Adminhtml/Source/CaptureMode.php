@@ -12,13 +12,15 @@ namespace Cmsbox\Mercanet\Model\Adminhtml\Source;
 
 use Cmsbox\Mercanet\Gateway\Processor\Connector;
 
-class CaptureMode implements \Magento\Framework\Option\ArrayInterface {
+class CaptureMode implements \Magento\Framework\Option\ArrayInterface
+{
     /**
      * Possible capture modes
      *
      * @return array
      */
-    public function toOptionArray() {
+    public function toOptionArray()
+    {
         return [
             [
                 'value' => Connector::KEY_CAPTURE_IMMEDIATE,

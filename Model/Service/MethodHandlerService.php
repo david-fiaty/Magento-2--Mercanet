@@ -12,7 +12,8 @@ namespace Cmsbox\Mercanet\Model\Service;
 
 use Cmsbox\Mercanet\Gateway\Config\Core;
 
-class MethodHandlerService {
+class MethodHandlerService
+{
     /**
      * @var Reader
      */
@@ -27,7 +28,8 @@ class MethodHandlerService {
         $this->moduleDirReader = $moduleDirReader;
     }
 
-    private function getFiles($path) {
+    private function getFiles($path)
+    {
         $result = [];
         $flags = \FilesystemIterator::SKIP_DOTS | \FilesystemIterator::UNIX_PATHS;
         $iterator = new \FilesystemIterator($path, $flags);
@@ -46,7 +48,8 @@ class MethodHandlerService {
     /**
      * Build a payment method instance.
      */
-    public static function getStaticInstance($methodId) {
+    public static function getStaticInstance($methodId)
+    {
         $classPath = "\\" . str_replace('_', "\\", Core::moduleName())
         . "\\Model\\Methods\\" . Core::methodName($methodId);
         if (class_exists($classPath)) {
@@ -56,7 +59,8 @@ class MethodHandlerService {
         return false;
     }
 
-    private function getPath() {
+    private function getPath()
+    {
         return $this->moduleDirReader->getModuleDir('', Core::moduleName()) . '/Model/Methods';
     }
 }

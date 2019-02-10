@@ -13,7 +13,8 @@ namespace Cmsbox\Mercanet\Block\Adminhtml\Payment;
 use Cmsbox\Mercanet\Gateway\Config\Core;
 use Cmsbox\Mercanet\Gateway\Processor\Connector;
 
-class Form extends \Magento\Payment\Block\Form\Cc {
+class Form extends \Magento\Payment\Block\Form\Cc
+{
     /**
      * @var String
      */
@@ -88,7 +89,8 @@ class Form extends \Magento\Payment\Block\Form\Cc {
      *
      * @return string
      */
-    protected function _toHtml() {
+    protected function _toHtml()
+    {
         $this->_eventManager->dispatch('payment_form_block_to_html_before', ['block' => $this]);
         return parent::_toHtml();
     }

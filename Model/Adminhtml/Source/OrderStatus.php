@@ -12,7 +12,8 @@ namespace Cmsbox\Mercanet\Model\Adminhtml\Source;
 
 use Magento\Sales\Model\ResourceModel\Order\Status\Collection;
 
-class OrderStatus implements \Magento\Framework\Option\ArrayInterface {
+class OrderStatus implements \Magento\Framework\Option\ArrayInterface
+{
 
     /**
      * @var Collection 
@@ -21,9 +22,11 @@ class OrderStatus implements \Magento\Framework\Option\ArrayInterface {
 
     /**
      * OrderStatus constructor.
+     *
      * @param Collection $statusCollection
      */
-    public function __construct(Collection $orderStatusCollection){
+    public function __construct(Collection $orderStatusCollection)
+    {
         $this->orderStatusCollection = $orderStatusCollection;
     }
 
@@ -32,7 +35,8 @@ class OrderStatus implements \Magento\Framework\Option\ArrayInterface {
      *
      * @return array
      */
-    public function toOptionArray() {
+    public function toOptionArray()
+    {
         return $this->getStatusOptions();
     }
 

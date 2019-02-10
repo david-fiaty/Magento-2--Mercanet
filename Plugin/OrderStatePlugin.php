@@ -13,7 +13,8 @@ namespace Cmsbox\Mercanet\Plugin;
 use Magento\Sales\Model\Order;
 use Cmsbox\Mercanet\Gateway\Config\Core;
 
-class OrderStatePlugin {
+class OrderStatePlugin
+{
     /**
      * @var Tools
      */

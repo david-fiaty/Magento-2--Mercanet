@@ -13,7 +13,7 @@ define(
         'Magento_Checkout/js/model/payment/additional-validators',
         'Cmsbox_Mercanet/js/model/agreement-validator',
     ],
-    function(Component, additionalValidators, agreementValidator) {
+    function (Component, additionalValidators, agreementValidator) {
         'use strict';
         additionalValidators.registerValidator(agreementValidator);
         return Component.extend({});

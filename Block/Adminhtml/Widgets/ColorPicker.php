@@ -12,7 +12,8 @@ namespace Cmsbox\Mercanet\Block\Adminhtml\Widgets;
 
 use Cmsbox\Mercanet\Gateway\Config\Core;
 
-class ColorPicker extends \Magento\Config\Block\System\Config\Form\Field {
+class ColorPicker extends \Magento\Config\Block\System\Config\Form\Field
+{
 
     /**
      * @var Registry
@@ -28,7 +29,8 @@ class ColorPicker extends \Magento\Config\Block\System\Config\Form\Field {
         parent::__construct($context, $data);
     }
 
-    protected function _getElementHtml(\Magento\Framework\Data\Form\Element\AbstractElement $element) {
+    protected function _getElementHtml(\Magento\Framework\Data\Form\Element\AbstractElement $element)
+    {
         $html = $element->getElementHtml();
         $cpPath = $this->getViewFileUrl(Core::moduleName() . '::js');
 

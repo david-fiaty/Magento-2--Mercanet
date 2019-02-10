@@ -12,7 +12,8 @@ namespace Cmsbox\Mercanet\Controller\Response;
  
 use Cmsbox\Mercanet\Gateway\Processor\Connector;
 
-class Normal extends \Magento\Framework\App\Action\Action {
+class Normal extends \Magento\Framework\App\Action\Action
+{
     /**
      * @var OrderHandlerService
      */
@@ -70,7 +71,8 @@ class Normal extends \Magento\Framework\App\Action\Action {
         $this->methodHandler         = $methodHandler;
     }
  
-    public function execute() {
+    public function execute()
+    {
         // Get the request data
         $responseData = $this->getRequest()->getPostValue();
 

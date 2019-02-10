@@ -15,7 +15,7 @@ use Magento\Framework\Event\Observer;
 class DataAssignObserver extends \Magento\Payment\Observer\AbstractDataAssignObserver
 {
     /**
-     * @param Observer $observer
+     * @param  Observer $observer
      * @return void
      */
     public function execute(Observer $observer)

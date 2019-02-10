@@ -10,7 +10,8 @@
 
 namespace Cmsbox\Mercanet\Model\Service;
 
-class RemoteHandlerService {
+class RemoteHandlerService
+{
     /**
      * @var OrderRepositoryInterface
      */
@@ -63,7 +64,8 @@ class RemoteHandlerService {
     /**
      * Capture a transaction remotely.
      */
-    public function captureRemoteTransaction($transaction, $amount, $payment = false) {
+    public function captureRemoteTransaction($transaction, $amount, $payment = false)
+    {
         try {
             // Get the method id
             $methodId = $transaction->getOrder()->getPayment()->getMethodInstance()->getCode();
@@ -81,7 +83,7 @@ class RemoteHandlerService {
             $params = [
             'value' => $this->tools->formatAmount($amount),
             'trackId' => $trackId
-        ];
+            ];
 
             // Send the request
             $response = $this->client->getPostResponse($url, $params);
@@ -107,7 +109,8 @@ class RemoteHandlerService {
     /**
      * Void a transaction remotely.
      */
-    public function voidRemoteTransaction($transaction, $amount, $payment = false) {
+    public function voidRemoteTransaction($transaction, $amount, $payment = false)
+    {
         try {
             // Get the method id
             $methodId = $transaction->getOrder()->getPayment()->getMethodInstance()->getCode();
@@ -151,7 +154,8 @@ class RemoteHandlerService {
     /**
      * Refund a transaction remotely.
      */
-    public function refundRemoteTransaction($transaction, $amount, $payment = false) {
+    public function refundRemoteTransaction($transaction, $amount, $payment = false)
+    {
         try {
             // Get the method id
             $methodId = $transaction->getOrder()->getPayment()->getMethodInstance()->getCode();
@@ -178,10 +182,10 @@ class RemoteHandlerService {
             if ($this->tools->isChargeSuccess($response)) {
                 // Update the refund transaction
                 if ($payment) {
-                $payment->setTransactionId($response['id']);
-                $payment->setParentTransactionId($transaction->getTxnId());
-                $payment->setIsTransactionClosed(1);
-                $payment->save();
+                    $payment->setTransactionId($response['id']);
+                    $payment->setParentTransactionId($transaction->getTxnId());
+                    $payment->setIsTransactionClosed(1);
+                    $payment->save();
                 }
 
                 return true;

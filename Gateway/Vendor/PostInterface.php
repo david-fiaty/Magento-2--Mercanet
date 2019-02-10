@@ -5,7 +5,7 @@ class PostInterface
 {
     const TEST = "https://payment-webinit-mercanet.test.sips-atos.com/paymentInit";
     const PRODUCTION = "https://payment-webinit.mercanet.bnpparibas.net/paymentInit";
-	
+    
     const INTERFACE_VERSION = "HP_2.20";
     const INSTALMENT = "INSTALMENT";
     
@@ -39,7 +39,9 @@ class PostInterface
         'KBCONLINE' => 'CREDIT_TRANSFER'
     );
 
-    /** @var ShaComposer */
+    /**
+     * @var ShaComposer 
+     */
     private $secretKey;
 
     private $pspURL = self::TEST;
@@ -61,8 +63,8 @@ class PostInterface
         'customerContact.gender', 'customerContact.lastname', 'customerContact.mobile',
         'customerContact.phone', 'customerContact.title', 'expirationDate', 'automaticResponseUrl',
         'templateName','paymentMeanBrandList', 'instalmentData.number', 'instalmentData.datesList',
-	    'instalmentData.transactionReferencesList', 'instalmentData.amountsList', 'paymentPattern',
-	    'captureDay', 'captureMode', 'fraudData.bypass3DS', 'orderId'
+        'instalmentData.transactionReferencesList', 'instalmentData.amountsList', 'paymentPattern',
+        'captureDay', 'captureMode', 'fraudData.bypass3DS', 'orderId'
     );
 
     private $requiredFields = array(
@@ -73,8 +75,8 @@ class PostInterface
     public $allowedlanguages = array(
         'nl', 'fr', 'de', 'it', 'es', 'cy', 'en'
     );
-	
-	private static $currencies = array(
+    
+    private static $currencies = array(
         'EUR' => '978', 'USD' => '840', 'CHF' => '756', 'GBP' => '826',
         'CAD' => '124', 'JPY' => '392', 'MXP' => '484', 'TRY' => '949',
         'AUD' => '036', 'NZD' => '554', 'NOK' => '578', 'BRC' => '986',
@@ -85,15 +87,17 @@ class PostInterface
 
     public static function convertCurrencyToCurrencyCode($currency)
     {
-        if(!in_array($currency, array_keys(self::$currencies)))
+        if(!in_array($currency, array_keys(self::$currencies))) {
             throw new InvalidArgumentException("Unknown currencyCode $currency.");
+        }
         return self::$currencies[$currency];
     }
 
     public static function convertCurrencyCodeToCurrency($code)
     {
-        if(!in_array($code, array_values(self::$currencies)))
+        if(!in_array($code, array_values(self::$currencies))) {
             throw new InvalidArgumentException("Unknown Code $code.");
+        }
         return array_search($code, self::$currencies);
     }
 
@@ -106,8 +110,8 @@ class PostInterface
     {
         $this->secretKey = $secret;
     }
-	
-	public function shaCompose(array $parameters)
+    
+    public function shaCompose(array $parameters)
     {
         // compose SHA string
         $shaString = '';
@@ -118,15 +122,19 @@ class PostInterface
 
         return hash('sha256', $shaString);
     }
-	
-    /** @return string */
+    
+    /**
+     * @return string 
+     */
     public function getShaSign()
     {
         $this->validate();
         return $this->shaCompose($this->toArray());
     }
 
-    /** @return string */
+    /**
+     * @return string 
+     */
     public function getUrl()
     {
         return $this->pspURL;
@@ -168,35 +176,35 @@ class PostInterface
     }
 
     /**
-	 * Set amount in cents, eg EUR 12.34 is written as 1234
-	 */
-	public function setAmount($amount)
-	{
-		if(!is_int($amount)) {
-			throw new InvalidArgumentException("Integer expected. Amount is always in cents");
-		}
-		if($amount <= 0) {
-			throw new InvalidArgumentException("Amount must be a positive number");
-		}
-		$this->parameters['amount'] = $amount;
+     * Set amount in cents, eg EUR 12.34 is written as 1234
+     */
+    public function setAmount($amount)
+    {
+        if(!is_int($amount)) {
+            throw new InvalidArgumentException("Integer expected. Amount is always in cents");
+        }
+        if($amount <= 0) {
+            throw new InvalidArgumentException("Amount must be a positive number");
+        }
+        $this->parameters['amount'] = $amount;
 
-	}
+    }
 
     public function setCurrency($currency)
-	{
-		if(!array_key_exists(strtoupper($currency), self::getCurrencies())) {
-			throw new InvalidArgumentException("Unknown currency");
-		}
-		$this->parameters['currencyCode'] = self::convertCurrencyToCurrencyCode($currency);
-	}
+    {
+        if(!array_key_exists(strtoupper($currency), self::getCurrencies())) {
+            throw new InvalidArgumentException("Unknown currency");
+        }
+        $this->parameters['currencyCode'] = self::convertCurrencyToCurrencyCode($currency);
+    }
 
-	public function setLanguage($language)
-	{
-		if(!in_array($language, $this->allowedlanguages)) {
-			throw new InvalidArgumentException("Invalid language locale");
-		}
-		$this->parameters['customerLanguage'] = $language;
-	}
+    public function setLanguage($language)
+    {
+        if(!in_array($language, $this->allowedlanguages)) {
+            throw new InvalidArgumentException("Invalid language locale");
+        }
+        $this->parameters['customerLanguage'] = $language;
+    }
 
     public function setPaymentBrand($brand)
     {
@@ -207,7 +215,7 @@ class PostInterface
         $this->parameters['paymentMeanBrandList'] = strtoupper($brand);
     }
 
-	public function setCustomerContactEmail($email)
+    public function setCustomerContactEmail($email)
     {
         if(strlen($email) > 50) {
             throw new InvalidArgumentException("Email is too long");
@@ -217,7 +225,7 @@ class PostInterface
         }
         $this->parameters['customerContact.email'] = $email;
     }
-	
+    
     public function setBillingContactEmail($email)
     {
         if(strlen($email) > 50) {
@@ -300,7 +308,7 @@ class PostInterface
     
     public function setFraudDataBypass3DS($value)
     {
-	if(strlen($value) > 128) {
+        if(strlen($value) > 128) {
             throw new InvalidArgumentException("fraudData.bypass3DS is too long");
         }
         $this->parameters['fraudData.bypass3DS'] = $value;
@@ -325,7 +333,7 @@ class PostInterface
         if (strlen($number) > 2) {
             throw new InvalidArgumentException("instalmentData.number is too long");
         }
-	if ( ($number < 2) || ($number > 50) ) {
+        if (($number < 2) || ($number > 50) ) {
             throw new InvalidArgumentException("instalmentData.number invalid value : value must be set between 2 and 50");
         }
         $this->parameters['instalmentData.number'] = $number;
@@ -387,7 +395,9 @@ class PostInterface
         return $parameterString;
     }
 
-    /** @return PaymentRequest */
+    /**
+     * @return PaymentRequest 
+     */
     public static function createFromArray(ShaComposer $shaComposer, array $parameters)
     {
         $instance = new static($shaComposer);
@@ -416,14 +426,18 @@ class PostInterface
             throw new InvalidArgumentException("Uri is too long");
         }
     }
-	
+    
     // Traitement des reponses de Mercanet
     // -----------------------------------
-	
-	/** @var string */
+    
+    /**
+ * @var string 
+*/
     const SHASIGN_FIELD = "SEAL";
 
-    /** @var string */
+    /**
+ * @var string 
+*/
     const DATA_FIELD = "DATA";
 
     public function setResponse(array $httpRequest)
@@ -437,16 +451,17 @@ class PostInterface
         // filter request for Sips parameters
         $this->parameters = $this->filterRequestParameters($httpRequest);
     }
-	
+    
     /**
      * @var string
      */
     private $shaSign;
 
     private $dataString;
-	
+    
     /**
      * Filter http request parameters
+     *
      * @param array $requestParameters
      */
     private function filterRequestParameters(array $httpRequest)
@@ -460,7 +475,7 @@ class PostInterface
         $this->dataString = $dataString;
         $dataParams = explode('|', $dataString);
         foreach($dataParams as $dataParamString) {
-            $dataKeyValue = explode('=',$dataParamString,2);
+            $dataKeyValue = explode('=', $dataParamString, 2);
             $parameters[$dataKeyValue[0]] = $dataKeyValue[1];
         }
 
@@ -482,7 +497,8 @@ class PostInterface
 
     /**
      * Checks if the response is valid
-     * @param ShaComposer $shaComposer
+     *
+     * @param  ShaComposer $shaComposer
      * @return bool
      */
     public function isValid()
@@ -492,7 +508,8 @@ class PostInterface
 
     /**
      * Retrieves a response parameter
-     * @param string $param
+     *
+     * @param  string $param
      * @throws \InvalidArgumentException
      */
     public function getParam($key)
@@ -503,7 +520,7 @@ class PostInterface
 
         // always use uppercase
         $key = strtoupper($key);
-        $parameters = array_change_key_case($this->parameters,CASE_UPPER);
+        $parameters = array_change_key_case($this->parameters, CASE_UPPER);
         if(!array_key_exists($key, $parameters)) {
             throw new InvalidArgumentException('Parameter ' . $key . ' does not exist.');
         }

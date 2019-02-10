@@ -13,7 +13,8 @@ namespace Cmsbox\Mercanet\Controller\Response;
 use Cmsbox\Mercanet\Gateway\Processor\Connector;
 use Cmsbox\Mercanet\Gateway\Config\Core;
 
-class Automatic extends \Magento\Framework\App\Action\Action {
+class Automatic extends \Magento\Framework\App\Action\Action
+{
     /**
      * @var OrderHandlerService
      */
@@ -57,7 +58,8 @@ class Automatic extends \Magento\Framework\App\Action\Action {
         $this->config              = $config;
     }
  
-    public function execute() {
+    public function execute()
+    {
         // Get the request data
         $responseData = $this->getRequest()->getPostValue();
 
@@ -79,12 +81,15 @@ class Automatic extends \Magento\Framework\App\Action\Action {
         }
 
         // Stop the execution
-        return $this->resultJsonFactory->create()->setData([
+        return $this->resultJsonFactory->create()->setData(
+            [
             $this->handleError(__('Invalid request in automatic controller.'))
-        ]);
+            ]
+        );
     }
 
-    private function handleError($errorMessage) {
+    private function handleError($errorMessage)
+    {
         $this->watchdog->logError($errorMessage);
         return $errorMessage;
     }

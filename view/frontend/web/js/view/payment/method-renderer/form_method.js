@@ -23,134 +23,140 @@ define(
         'Magento_Payment/js/model/credit-card-validation/validator',
         'mage/validation'
     ],
-    function($, Component, Adapter, Url, FullScreenLoader, AdditionalValidators, t, RedirectOnSuccessAction) {
+    function ($, Component, Adapter, Url, FullScreenLoader, AdditionalValidators, t, RedirectOnSuccessAction) {
         'use strict';
 
         window.checkoutConfig.reloadOnBillingAddress = true;
         var code = 'form_method';
 
-        return Component.extend({
-            defaults: {
-                template: Adapter.getName() + '/payment/' + code + '.phtml',
-                moduleId: Adapter.getCode(),
-                methodId: Adapter.getMethodId(code),
-                config: Adapter.getPaymentConfig()[Adapter.getMethodId(code)],
-                targetButton:  Adapter.getMethodId(code) + '_button',
-                targetForm:  Adapter.getMethodId(code) + '_form',
-                formControllerUrl: Url.build(Adapter.getCode() + '/request/form'),
-                redirectAfterPlaceOrder: false
-            },
+        return Component.extend(
+            {
+                defaults: {
+                    template: Adapter.getName() + '/payment/' + code + '.phtml',
+                    moduleId: Adapter.getCode(),
+                    methodId: Adapter.getMethodId(code),
+                    config: Adapter.getPaymentConfig()[Adapter.getMethodId(code)],
+                    targetButton:  Adapter.getMethodId(code) + '_button',
+                    targetForm:  Adapter.getMethodId(code) + '_form',
+                    formControllerUrl: Url.build(Adapter.getCode() + '/request/form'),
+                    redirectAfterPlaceOrder: false
+                },
 
-            validateForm: function (form) {
-                return $(form).validation() && $(form).validation('isValid');
-            },
+                validateForm: function (form) {
+                    return $(form).validation() && $(form).validation('isValid');
+                },
 
-            /**
-             * @returns {exports}
-             */
-            initialize: function() {
-                this._super();
-                this.data = {'method': this.methodId};
-            },
+                /**
+                 * @returns {exports}
+                 */
+                initialize: function () {
+                    this._super();
+                    this.data = {'method': this.methodId};
+                },
 
-            initObservable: function() {
-                this._super().observe([]);
-                return this;
-            },
+                initObservable: function () {
+                    this._super().observe([]);
+                    return this;
+                },
 
-            /**
-             * @returns {string}
-             */
-            getCode: function() {
-                return this.methodId;
-            },
+                /**
+                 * @returns {string}
+                 */
+                getCode: function () {
+                    return this.methodId;
+                },
 
-            /**
-             * @returns {string}
-             */
-            getPaymentForm: function() {
-                FullScreenLoader.startLoader();
-                var self = this;
-                $.ajax({
-                    type: "POST",
-                    url: self.formControllerUrl,
-                    data: {task: 'block', method_id: self.methodId},
-                    success: function(data) {
-                        $('#' + self.targetForm).append(data.response);
-                        FullScreenLoader.stopLoader();
-                    },
-                    error: function(request, status, error) {
-                        Adapter.log(error);
-                    }
-                });
-            },
+                /**
+                 * @returns {string}
+                 */
+                getPaymentForm: function () {
+                    FullScreenLoader.startLoader();
+                    var self = this;
+                    $.ajax(
+                        {
+                            type: "POST",
+                            url: self.formControllerUrl,
+                            data: {task: 'block', method_id: self.methodId},
+                            success: function (data) {
+                                $('#' + self.targetForm).append(data.response);
+                                FullScreenLoader.stopLoader();
+                            },
+                            error: function (request, status, error) {
+                                Adapter.log(error);
+                            }
+                        }
+                    );
+                },
 
-            /**
-             * @returns {bool}
-             */
-            isActive: function() {
-                return this.config.active;
-            },
+                /**
+                 * @returns {bool}
+                 */
+                isActive: function () {
+                    return this.config.active;
+                },
 
-            /**
-             * @returns {string}
-             */
-            proceedWithSubmission: function() {
-                // Assign self to this
-                var self = this;
+                /**
+                 * @returns {string}
+                 */
+                proceedWithSubmission: function () {
+                    // Assign self to this
+                    var self = this;
 
-                // Prepare the selector
-                var sel = '#' + this.targetForm;
+                    // Prepare the selector
+                    var sel = '#' + this.targetForm;
 
-                // Disable jQuery validate checks
-                $(sel).validate().cancelSubmit = true;
+                    // Disable jQuery validate checks
+                    $(sel).validate().cancelSubmit = true;
                 
-                // Serialize the data
-                var payLoad = $(sel).serializeArray();
+                    // Serialize the data
+                    var payLoad = $(sel).serializeArray();
 
-                // Send the request
-                $.ajax({
-                    type: "POST",
-                    url: self.formControllerUrl,
-                    data: payLoad,
-                    success: function(res) {
-                        if (res.response === true) {
-                            RedirectOnSuccessAction.execute();
-                            Adapter.log(res);
+                    // Send the request
+                    $.ajax(
+                        {
+                            type: "POST",
+                            url: self.formControllerUrl,
+                            data: payLoad,
+                            success: function (res) {
+                                if (res.response === true) {
+                                    RedirectOnSuccessAction.execute();
+                                    Adapter.log(res);
+                                }
+                                else {
+                                    FullScreenLoader.stopLoader();
+                                    Adapter.showMessage('error', res.response);
+                                    Adapter.log(res);
+                                }
+                            },
+                            error: function (request, status, error) {
+                                FullScreenLoader.stopLoader();
+                                Adapter.showMessage(t('The transaction could not be processed. Please check your details or contact the site administrator.'));
+                                Adapter.log(error);
+                            }
                         }
-                        else {
-                            FullScreenLoader.stopLoader();
-                            Adapter.showMessage('error', res.response);
-                            Adapter.log(res);
-                        }
-                    },
-                    error: function(request, status, error) {
-                        FullScreenLoader.stopLoader();
-                        Adapter.showMessage(t('The transaction could not be processed. Please check your details or contact the site administrator.'));
-                        Adapter.log(error);
-                    }
-                });
-            },
+                    );
+                },
 
-            /**
-             * @returns {string}
-             */
-            beforePlaceOrder: function() {
-                // Start the loader
-                FullScreenLoader.startLoader();
+                /**
+                 * @returns {string}
+                 */
+                beforePlaceOrder: function () {
+                    // Start the loader
+                    FullScreenLoader.startLoader();
 
-                // Validate before submission
-                if (AdditionalValidators.validate() && this.validateForm('#' + this.targetForm)) {
-                    // Set the cookie data
-                    Adapter.setCookieData(this.methodId);
+                    // Validate before submission
+                    if (AdditionalValidators.validate() && this.validateForm('#' + this.targetForm)) {
+                        // Set the cookie data
+                        Adapter.setCookieData(this.methodId);
                     
-                    // Check cart and submit
-                    this.proceedWithSubmission();
-                }
-                else {
-                    FullScreenLoader.stopLoader();
+                        // Check cart and submit
+                        this.proceedWithSubmission();
+                    }
+                    else {
+                        FullScreenLoader.stopLoader();
+                    }
                 }
             }
-        });
+        );
     }
 );

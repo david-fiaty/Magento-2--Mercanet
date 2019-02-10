@@ -7,12 +7,16 @@
  * License GNU/GPL V3 https://www.gnu.org/licenses/gpl-3.0.en.html
  */
 
-require([
+require(
+    [
     'jquery', 'domReady!'
-], function($) {
+    ], function ($) {
 
-    $(document).ready(function() {
+        $(document).ready(
+            function () {
 
 
-    });
-});
+            }
+        );
+    }
+);

@@ -12,7 +12,8 @@ namespace Cmsbox\Mercanet\Controller\Request;
 
 use Cmsbox\Mercanet\Gateway\Processor\Connector;
 
-class Logger extends \Magento\Framework\App\Action\Action {
+class Logger extends \Magento\Framework\App\Action\Action
+{
     /**
      * @var JsonFactory
      */
@@ -37,7 +38,8 @@ class Logger extends \Magento\Framework\App\Action\Action {
         $this->watchdog    = $watchdog;
     }
  
-    public function execute() {
+    public function execute()
+    {
         if ($this->getRequest()->isAjax()) {
             // Get the request data
             $logData = $this->getRequest()->getParam('log_data');
@@ -46,12 +48,15 @@ class Logger extends \Magento\Framework\App\Action\Action {
             $this->watchdog->bark(Connector::KEY_REQUEST, $logData, $canDisplay = false, $canLog = true);
         }
 
-        return $this->jsonFactory->create()->setData([
+        return $this->jsonFactory->create()->setData(
+            [
             $this->handleError(__('Invalid AJAX request in logger controller.'))
-        ]);
+            ]
+        );
     }
 
-    private function handleError($errorMessage) {
+    private function handleError($errorMessage)
+    {
         $this->watchdog->logError($errorMessage);
         return $errorMessage;
     }

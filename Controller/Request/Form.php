@@ -13,7 +13,8 @@ namespace Cmsbox\Mercanet\Controller\Request;
 use Cmsbox\Mercanet\Gateway\Config\Core;
 use Cmsbox\Mercanet\Gateway\Processor\Connector;
 
-class Form extends \Magento\Framework\App\Action\Action {
+class Form extends \Magento\Framework\App\Action\Action
+{
     /**
      * @var PageFactory
      */
@@ -80,18 +81,19 @@ class Form extends \Magento\Framework\App\Action\Action {
         $this->storeManager  = $storeManager;
     }
  
-    public function execute() {
+    public function execute()
+    {
         if ($this->getRequest()->isAjax()) {
             switch ($this->getRequest()->getParam('task')) {
-                case 'block':
+            case 'block':
                 $response = $this->runBlock();
                 break;
 
-                case 'charge':
+            case 'charge':
                 $response = $this->runCharge();
                 break;
 
-                default:
+            default:
                 $response = $this->runBlock();
                 break;
             }
@@ -99,12 +101,15 @@ class Form extends \Magento\Framework\App\Action\Action {
             return $this->jsonFactory->create()->setData([Connector::KEY_RESPONSE => $response]);
         }
 
-        return $this->jsonFactory->create()->setData([
+        return $this->jsonFactory->create()->setData(
+            [
             $this->handleError(__('Invalid AJAX request in form controller.'))
-        ]);
+            ]
+        );
     }
 
-    private function runCharge() {
+    private function runCharge()
+    {
         // Retrieve the expected parameters
         $methodId = $this->getRequest()->getParam('method_id', null);
         $cardData = $this->getRequest()->getParam('card_data', []);
@@ -131,14 +136,16 @@ class Form extends \Magento\Framework\App\Action\Action {
                     $quote = $this->orderHandler->findQuote();
 
                     // Prepare the order data
-                    $params = Connector::packData([
+                    $params = Connector::packData(
+                        [
                         $this->config->base[Connector::KEY_ORDER_ID_FIELD]       => $this->tools->getIncrementId($quote),
                         $this->config->base[Connector::KEY_TRANSACTION_ID_FIELD] => $methodInstance::getTransactionId($this->config, $paymentObject),
                         $this->config->base[Connector::KEY_CUSTOMER_EMAIL_FIELD] => isset($response[$this->config->base[Connector::KEY_CUSTOMER_EMAIL_FIELD]])
                             ? $response[$this->config->base[Connector::KEY_CUSTOMER_EMAIL_FIELD]]
                             : $this->orderHandler->findCustomerEmail($quote),
                         $this->config->base[Connector::KEY_CAPTURE_MODE_FIELD]   => $this->config->params[$methodId][Connector::KEY_CAPTURE_MODE]
-                    ]);
+                        ]
+                    );
 
                     // Place the order
                     $order = $this->orderHandler->placeOrder($params, $methodId);
@@ -157,24 +164,26 @@ class Form extends \Magento\Framework\App\Action\Action {
         return $this->handleError(__('Invalid request or payment method.'));
     }
 
-    private function runBlock() {
+    private function runBlock()
+    {
         // Retrieve the expected parameters
         $methodId = $this->getRequest()->getParam('method_id', null);
         $template = $this->config->params[$methodId][Connector::KEY_FORM_TEMPLATE];
 
         // Create the block
         return $this->pageFactory->create()->getLayout()
-        ->createBlock(Core::moduleClass() . '\Block\Payment\Form')
-        ->setData('area', 'adminhtml')
-        ->setTemplate(Core::moduleName() . '::payment_form/' . $template . '.phtml')
-        ->setData('method_id', $methodId)
-        ->setData('module_name', Core::moduleName())
-        ->setData('template_name', $template)
-        ->setData('is_admin', false)
-        ->toHtml();
+            ->createBlock(Core::moduleClass() . '\Block\Payment\Form')
+            ->setData('area', 'adminhtml')
+            ->setTemplate(Core::moduleName() . '::payment_form/' . $template . '.phtml')
+            ->setData('method_id', $methodId)
+            ->setData('module_name', Core::moduleName())
+            ->setData('template_name', $template)
+            ->setData('is_admin', false)
+            ->toHtml();
     }
 
-    private function handleError($errorMessage) {
+    private function handleError($errorMessage)
+    {
         $this->watchdog->logError($errorMessage);
         return $errorMessage;
     }

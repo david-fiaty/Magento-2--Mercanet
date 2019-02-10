@@ -15,7 +15,8 @@ use Magento\Sales\Model\Order\Payment\Transaction;
 use Cmsbox\Mercanet\Gateway\Processor\Connector;
 use Cmsbox\Mercanet\Gateway\Config\Core;
 
-class OrderHandlerService {
+class OrderHandlerService
+{
     /**
      * @var CookieManagerInterface
      */
@@ -110,7 +111,8 @@ class OrderHandlerService {
     /**
      * Place an order
      */
-    public function placeOrder($data, $methodId) {
+    public function placeOrder($data, $methodId)
+    {
         // Get the fields
         $fields = Connector::unpackData($data);
 
@@ -132,7 +134,8 @@ class OrderHandlerService {
     /**
      * Create an order
      */
-    public function createOrder($fields, $methodId) {
+    public function createOrder($fields, $methodId)
+    {
         try {
             // Find the quote
             $quote = $this->findQuote($fields[$this->config->base[Connector::KEY_ORDER_ID_FIELD]]);
@@ -184,15 +187,16 @@ class OrderHandlerService {
     /**
      * Sets the email for guest users
      */
-    public function prepareGuestQuote($quote, $email = null) {
+    public function prepareGuestQuote($quote, $email = null)
+    {
         // Retrieve the user email
         $guestEmail = ($email) ? $email : $this->findCustomerEmail();
 
         // Set the quote as guest
         $quote->setCustomerId(null)
-        ->setCustomerEmail($guestEmail)
-        ->setCustomerIsGuest(true)
-        ->setCustomerGroupId(GroupInterface::NOT_LOGGED_IN_ID);
+            ->setCustomerEmail($guestEmail)
+            ->setCustomerIsGuest(true)
+            ->setCustomerGroupId(GroupInterface::NOT_LOGGED_IN_ID);
 
         // Delete the cookie
         $this->cookieManager->deleteCookie(self::EMAIL_COOKIE_NAME);
@@ -204,23 +208,25 @@ class OrderHandlerService {
     /**
      * Tasks after place order
      */
-    public function afterPlaceOrder($quote, $order) {
+    public function afterPlaceOrder($quote, $order)
+    {
         // Prepare session quote info for redirection after payment
         $this->checkoutSession
-        ->setLastQuoteId($quote->getId())
-        ->setLastSuccessQuoteId($quote->getId())
-        ->clearHelperData();
+            ->setLastQuoteId($quote->getId())
+            ->setLastSuccessQuoteId($quote->getId())
+            ->clearHelperData();
 
         // Prepare session order info for redirection after payment
         $this->checkoutSession->setLastOrderId($order->getId())
-        ->setLastRealOrderId($order->getIncrementId())
-        ->setLastOrderStatus($order->getStatus());
+            ->setLastRealOrderId($order->getIncrementId())
+            ->setLastOrderStatus($order->getStatus());
     } 
 
     /**
      * Find a customer email
      */
-    public function findCustomerEmail($quote) {
+    public function findCustomerEmail($quote)
+    {
         return $quote->getCustomerEmail()
         ?? $quote->getBillingAddress()->getEmail()
         ?? $this->cookieManager->getCookie(self::EMAIL_COOKIE_NAME);
@@ -229,7 +235,8 @@ class OrderHandlerService {
     /**
      * Find a method id
      */
-    public function findMethodId() {
+    public function findMethodId()
+    {
         return ($this->cookieManager->getCookie(Connector::METHOD_COOKIE_NAME))
         ? $this->cookieManager->getCookie(Connector::METHOD_COOKIE_NAME)
         : Core::moduleId() . '_' . Connector::KEY_REDIRECT_METHOD;
@@ -238,12 +245,13 @@ class OrderHandlerService {
     /**
      * Find a quote
      */
-    public function findQuote($reservedIncrementId = null) {
+    public function findQuote($reservedIncrementId = null)
+    {
         if ($reservedIncrementId) {
             return $this->quoteFactory
-            ->create()->getCollection()
-            ->addFieldToFilter('reserved_order_id', $reservedIncrementId)
-            ->getFirstItem();
+                ->create()->getCollection()
+                ->addFieldToFilter('reserved_order_id', $reservedIncrementId)
+                ->getFirstItem();
         }
 
         try {

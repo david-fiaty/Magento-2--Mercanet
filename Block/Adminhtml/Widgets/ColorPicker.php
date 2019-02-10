@@ -10,8 +10,13 @@
 
 namespace Cmsbox\Mercanet\Block\Adminhtml\Widgets;
 
+use Cmsbox\Mercanet\Gateway\Config\Core;
+
 class ColorPicker extends \Magento\Config\Block\System\Config\Form\Field {
 
+    /**
+     * @var Registry
+     */
     protected $_coreRegistry;
 
     public function __construct(
@@ -25,9 +30,9 @@ class ColorPicker extends \Magento\Config\Block\System\Config\Form\Field {
 
     protected function _getElementHtml(\Magento\Framework\Data\Form\Element\AbstractElement $element) {
         $html = $element->getElementHtml();
-        $cpPath = $this->getViewFileUrl('Cmsbox_Mercanet::js');
+        $cpPath = $this->getViewFileUrl(Core::moduleName() . '::js');
 
-        // 
+        // Build the javascript
         if (!$this->_coreRegistry->registry('colorpicker_loaded')) {
             $html .= '<script type="text/javascript" src="' . $cpPath.'/'.'jscolor.js"></script>';
             $this->_coreRegistry->registry('colorpicker_loaded', 1);

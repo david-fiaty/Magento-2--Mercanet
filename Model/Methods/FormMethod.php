@@ -126,7 +126,7 @@ class FormMethod extends \Magento\Payment\Model\Method\AbstractMethod {
     /**
      * Prepare the request data.
      */  
-    public static function getRequestData($config, $methodId, $cardData = null, $entity = null) {
+    public static function getRequestData($config, $storeManager, $methodId, $cardData = null, $entity = null) {
         // Get the order entity
         $entity = ($entity) ? $entity : $config->cart->getQuote();
 
@@ -139,7 +139,7 @@ class FormMethod extends \Magento\Payment\Model\Method\AbstractMethod {
         $paymentRequest->setInterfaceVersion($config->params[$methodId][Core::KEY_INTERFACE_VERSION_CHARGE]);
         $paymentRequest->setKeyVersion($config->params[Core::moduleId()][Core::KEY_VERSION]);
         $paymentRequest->setAmount($config->formatAmount($entity->getGrandTotal()));
-        $paymentRequest->setCurrency(Tools::getCurrencyCode($entity));
+        $paymentRequest->setCurrency(Tools::getCurrencyCode($entity, $storeManager));
         $paymentRequest->setCardNumber($cardData[Core::KEY_CARD_NUMBER]);
         $paymentRequest->setCardExpiryDate($cardData[Core::KEY_CARD_YEAR] . $cardData[Core::KEY_CARD_MONTH]);
         $paymentRequest->setCardCSCValue($cardData[Core::KEY_CARD_CVV]);

@@ -47,6 +47,11 @@ class OrderSaveBefore implements \Magento\Framework\Event\ObserverInterface {
     protected $watchdog;
 
     /**
+     * @var StoreManagerInterface
+     */
+    public $storeManager;
+
+    /**
      * OrderSaveBefore constructor.
      */
     public function __construct(
@@ -55,7 +60,8 @@ class OrderSaveBefore implements \Magento\Framework\Event\ObserverInterface {
         \Cmsbox\Mercanet\Helper\Tools $tools,
         \Cmsbox\Mercanet\Gateway\Config\Config $config,
         \Cmsbox\Mercanet\Model\Service\MethodHandlerService $methodHandler,
-        \Cmsbox\Mercanet\Helper\Watchdog $watchdog
+        \Cmsbox\Mercanet\Helper\Watchdog $watchdog,
+        \Magento\Store\Model\StoreManagerInterface $storeManager
     ) {
         $this->backendAuthSession    = $backendAuthSession;
         $this->request               = $request;
@@ -63,6 +69,7 @@ class OrderSaveBefore implements \Magento\Framework\Event\ObserverInterface {
         $this->config                = $config;
         $this->methodHandler         = $methodHandler;
         $this->watchdog              = $watchdog;
+        $this->storeManager          = $storeManager;
 
         // Get the request parameters
         $this->params = $this->request->getParams();
@@ -97,7 +104,7 @@ class OrderSaveBefore implements \Magento\Framework\Event\ObserverInterface {
                     // Perform the charge request
                     if ($methodInstance) {
                         // Get the request object
-                        $paymentObject = $methodInstance::getRequestData($this->config, $methodId, $cardData, $order);
+                        $paymentObject = $methodInstance::getRequestData($this->config, $this->storeManager,  $methodId, $cardData, $order);
 
                         // Log the request
                         $methodInstance::logRequestData(Connector::KEY_REQUEST, $this->watchdog, $paymentObject);

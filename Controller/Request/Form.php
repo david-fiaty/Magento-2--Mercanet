@@ -50,6 +50,11 @@ class Form extends \Magento\Framework\App\Action\Action {
     protected $watchdog;
 
     /**
+     * @var StoreManagerInterface
+     */
+    protected $storeManager;
+
+    /**
      * Normal constructor.
      */
     public function __construct(
@@ -60,7 +65,8 @@ class Form extends \Magento\Framework\App\Action\Action {
         \Cmsbox\Mercanet\Gateway\Config\Config $config,
         \Cmsbox\Mercanet\Model\Service\OrderHandlerService $orderHandler,
         \Cmsbox\Mercanet\Helper\Tools $tools,
-        \Cmsbox\Mercanet\Helper\Watchdog $watchdog
+        \Cmsbox\Mercanet\Helper\Watchdog $watchdog,
+        \Magento\Store\Model\StoreManagerInterface $storeManager
     ) {
         parent::__construct($context);
 
@@ -71,6 +77,7 @@ class Form extends \Magento\Framework\App\Action\Action {
         $this->orderHandler  = $orderHandler;
         $this->tools         = $tools;
         $this->watchdog      = $watchdog;
+        $this->storeManager  = $storeManager;
     }
  
     public function execute() {
@@ -110,7 +117,7 @@ class Form extends \Magento\Framework\App\Action\Action {
             // Perform the charge request
             if ($methodInstance && $methodInstance::isFrontend($this->config, $methodId)) {
                 // Process the payment
-                $paymentObject = $methodInstance::getRequestData($this->config, $methodId, $cardData);
+                $paymentObject = $methodInstance::getRequestData($this->config, $this->storeManager, $methodId, $cardData);
 
                 // Log the request
                 $methodInstance::logRequestData(Connector::KEY_REQUEST, $this->watchdog, $paymentObject);

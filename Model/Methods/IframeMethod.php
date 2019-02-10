@@ -123,7 +123,7 @@ class IframeMethod extends \Magento\Payment\Model\Method\AbstractMethod {
     /**
      * Prepare the request data.
      */  
-    public static function getRequestData($config, $methodId, $cardData = null, $entity = null) {
+    public static function getRequestData($config, $storeManager, $methodId, $cardData = null, $entity = null) {
         // Get the order entity
         $entity = ($entity) ? $entity : $config->cart->getQuote();
 
@@ -136,7 +136,7 @@ class IframeMethod extends \Magento\Payment\Model\Method\AbstractMethod {
         $paymentRequest->setKeyVersion($config->params[Core::moduleId()][Core::KEY_VERSION]);
         $paymentRequest->setTransactionReference($config->createTransactionReference());
         $paymentRequest->setAmount($config->formatAmount($entity->getGrandTotal()));
-        $paymentRequest->setCurrency(Tools::getCurrencyCode($entity));
+        $paymentRequest->setCurrency(Tools::getCurrencyCode($entity, $storeManager));
         $paymentRequest->setCustomerContactEmail($entity->getCustomerEmail());
         $paymentRequest->setOrderId(Tools::getIncrementId($entity));
         $paymentRequest->setCaptureMode($config->params[$methodId][Connector::KEY_CAPTURE_MODE]);

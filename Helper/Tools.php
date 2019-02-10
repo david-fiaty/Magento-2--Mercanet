@@ -28,19 +28,17 @@ class Tools {
      *
      * @return string
      */
-    public static function getCurrencyCode($entity) {
+    public static function getCurrencyCode($entity, $storeManager) {
         try {
-            // Get a reflection instance
-            $reflection = new \ReflectionClass($entity);
-
-            // Get the class name
-            $className = $reflection->getShortName() == 'Interceptor'
-            ? $reflection->getParentClass()->getShortName() : $reflection->getShortName();
-
-            // Return the currency code
-            $fn = 'get' . $className . 'CurrencyCode';
-            return $entity->$fn();
-
+            if (method_exists($entity, 'getQuoteCurrencyCode')) {
+                return $entity->getQuoteCurrencyCode();
+            }
+            else if (method_exists($entity, 'getOrderCurrencyCode')) {
+                return $entity->getOrderCurrencyCode();
+            }
+            else {
+                return $storeManager->getStore()->getCurrentCurrency()->getCode();
+            }
         } catch (\Exception $e) {
             throw new \Magento\Framework\Exception\LocalizedException(__($e->getMessage()));
         }

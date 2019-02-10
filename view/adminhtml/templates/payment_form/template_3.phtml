@@ -47,11 +47,8 @@ $formCssFile = $this->assetRepository->createAsset($moduleName . '::css/payment_
         border-radius: <?= $this->config->params[$methodId][$templateName . '_corner_radius']; ?>;
     }
 
-    .card-form-container .field-error,
-    .card-form-container .mage-error,
-    .card-form-container .admin__field-error, 
-    .card-form-container label.mage-error {
-        color: <?= $this->config->params[$methodId][$templateName . '_error_color']; ?> !important;
+    .card-form-container input.mage-error {
+        border-color: <?= $this->config->params[$methodId][$templateName . '_error_color']; ?> !important;
     }
 </style>
 

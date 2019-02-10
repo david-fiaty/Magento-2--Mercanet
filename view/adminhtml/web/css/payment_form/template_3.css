@@ -193,9 +193,11 @@ fieldset.cmsbox_mercanet_admin_method {
 
 div.mage-error[generated] {
   margin-top: 0px !important;
+  display: none !important;
 }
 
 #card_data[month]-error {
+  display: none !important;
   display: none !important;
 }
 
@@ -203,6 +205,7 @@ div.mage-error[generated] {
 .card-form-container .exp-container label.mage-error {
   position: relative !important;
   left: 15px !important; 
+  display: none !important;
 }
 
 .card-form-container .cvc-container div.mage-error,
@@ -212,6 +215,7 @@ div.mage-error[generated] {
   top: 0px;
   overflow-wrap: break-word;
   max-width: 83px;
+  display: none !important;
 }
 
 /* Admin */
@@ -219,8 +223,10 @@ div.mage-error[generated] {
 .card-form-container label.mage-error {
   background: transparent !important;
   border: none !important;
+  display: none !important;
 }
 
 label[id^="card_data"].mage-error {
   padding-left: 0px;
+  display: none !important;
 }

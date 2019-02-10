@@ -143,12 +143,14 @@ fieldset.cmsbox_mercanet_admin_method .card-form-container .cvv-details {
 .card-form-container .field-error {
     margin-top: 0px !important;
     font-size: 1.1rem !important;
+    display: none !important;
 }
 
 .card-form-container .year div.mage-error,
 .card-form-container .year label.mage-error {
     position: relative !important;
     left: 15px !important; 
+    display: none !important;
 }
 
 .card-form-container .cvv-input div.mage-error,
@@ -156,6 +158,7 @@ fieldset.cmsbox_mercanet_admin_method .card-form-container .cvv-details {
     position: relative;
     left: 16px;
     top: 0px;
+    display: none !important;
 }
 
 /* Admin */
@@ -163,8 +166,10 @@ fieldset.cmsbox_mercanet_admin_method .card-form-container .cvv-details {
 .card-form-container label.mage-error {
     background: transparent !important;
     border: none !important;
+    display: none !important;
 }
 
 label[id^="card_data"].mage-error {
     padding-left: 0px;
+    display: none !important;
 }

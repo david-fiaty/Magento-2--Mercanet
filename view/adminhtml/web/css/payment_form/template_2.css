@@ -21,12 +21,7 @@ fieldset.cmsbox_mercanet_admin_method {
   margin-top: 0px;
   margin-bottom: 20px;
   padding: 15px;
-  background: #f3f6fa;
-  border: 1px solid;
-  border-color: #c2cadb #bbc5d6 #b7c0cd;
-  border-radius: 7px;
-  -webkit-box-shadow: 0 1px 5px rgba(0, 0, 0, 0.15);
-  box-shadow: 0 1px 5px rgba(0, 0, 0, 0.15);
+  border-style: solid;
 }
 
 .card-form-container > p {
@@ -57,15 +52,8 @@ fieldset.cmsbox_mercanet_admin_method {
   line-height: 38px;
   font-size: 13px;
   font-weight: bold;
-  color: #7f889e;
-  text-shadow: 0 1px rgba(255, 255, 255, 0.7);
-  background: #eceff5;
-  border-bottom: 1px solid #c5ccdb;
-  border-radius: 7px 7px 0 0;
-  background-image: -webkit-linear-gradient(top, #f5f8fb, #e9edf3);
-  background-image: -moz-linear-gradient(top, #f5f8fb, #e9edf3);
-  background-image: -o-linear-gradient(top, #f5f8fb, #e9edf3);
-  background-image: linear-gradient(to bottom, #f5f8fb, #e9edf3);
+  border-bottom-width: 1px;
+  border-bottom-style: solid;
   -webkit-box-shadow: inset 0 1px white;
   box-shadow: inset 0 1px white;
 }
@@ -77,8 +65,6 @@ fieldset.cmsbox_mercanet_admin_method {
   left: 0;
   right: 0;
   height: 2px;
-  -webkit-box-shadow: 0 1px 2px rgba(0, 0, 0, 0.08);
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.08);
 }
 
 .card-form-container input {
@@ -95,24 +81,12 @@ fieldset.cmsbox_mercanet_admin_method {
   float: left;
   padding: 0 7px;
   height: 32px;
-  color: #525864;
   background: white;
-  border: 1px solid;
-  border-color: #b3c0e2 #bcc5e2 #c0ccea;
-  border-radius: 4px;
-  background-image: -webkit-linear-gradient(top, #f6f8fa, white);
-  background-image: -moz-linear-gradient(top, #f6f8fa, white);
-  background-image: -o-linear-gradient(top, #f6f8fa, white);
-  background-image: linear-gradient(to bottom, #f6f8fa, white);
-  -webkit-box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1), 0 1px rgba(255, 255, 255, 0.5);
-  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1), 0 1px rgba(255, 255, 255, 0.5);
+  border-style: solid;
 }
 
 .card-form-container .checkout-input:focus {
-  border-color: #46aefe;
   outline: none;
-  -webkit-box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1), 0 0 5px #46aefe;
-  box-shadow: inset 0 1px 2px rgba(0, 0, 0, 0.1), 0 0 5px #46aefe;
 }
 
 .card-form-container .lt-ie9 .checkout-input {
@@ -133,21 +107,8 @@ fieldset.cmsbox_mercanet_admin_method {
   width: 45px;
 }
 
-.card-form-container :-moz-placeholder {
-  color: #acb6c8 !important;
-}
-
 .card-form-container ::-moz-placeholder {
-  color: #acb6c8 !important;
   opacity: 1;
-}
-
-.card-form-container ::-webkit-input-placeholder {
-  color: #acb6c8 !important;
-}
-
-.card-form-container :-ms-input-placeholder {
-  color: #acb6c8 !important;
 }
 
 .card-form-container ::-moz-focus-inner {

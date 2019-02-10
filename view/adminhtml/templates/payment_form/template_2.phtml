@@ -22,6 +22,77 @@ $formCssFile = $this->assetRepository->createAsset($moduleName . '::css/payment_
 ?>
 <style>
     @import url(<?= $formCssFile ?>);
+
+    .card-form-container {
+        background: <?= $this->config->params[$methodId][$templateName . '_background_color']; ?>;
+        border-width: <?= $this->config->params[$methodId][$templateName . '_border_width']; ?>;
+        border-color: <?= $this->config->params[$methodId][$templateName . '_border_color']; ?>;
+        border-radius: <?= $this->config->params[$methodId][$templateName . '_corner_radius']; ?>;
+        -webkit-box-shadow: 0 1px 5px <?= $this->config->params[$methodId][$templateName . '_shadow_color']; ?>;
+        box-shadow: 0 1px 5px <?= $this->config->params[$methodId][$templateName . '_shadow_color']; ?>;
+    }   
+
+    .card-form-container .checkout-title {
+        color: <?= $this->config->params[$methodId][$templateName . '_label_color']; ?>;
+        text-shadow: 0 1px <?= $this->config->params[$methodId][$templateName . '_shadow_color']; ?>;
+        background: <?= $this->config->params[$methodId][$templateName . '_background_color']; ?>;
+        border-bottom-color: <?= $this->config->params[$methodId][$templateName . '_border_color']; ?>;
+        border-bottom-width: <?= $this->config->params[$methodId][$templateName . '_border_width']; ?>;
+        border-radius: <?= $this->config->params[$methodId][$templateName . '_corner_radius']; ?> <?= $this->config->params[$methodId][$templateName . '_corner_radius']; ?> 0 0;
+        background-image: -webkit-linear-gradient(top, <?= $this->config->params[$methodId][$templateName . '_background_color']; ?>, <?= $this->config->params[$methodId][$templateName . '_background_color']; ?>);
+        background-image: -moz-linear-gradient(top, <?= $this->config->params[$methodId][$templateName . '_background_color']; ?>, <?= $this->config->params[$methodId][$templateName . '_background_color']; ?>);
+        background-image: -o-linear-gradient(top, <?= $this->config->params[$methodId][$templateName . '_background_color']; ?>, <?= $this->config->params[$methodId][$templateName . '_background_color']; ?>);
+        background-image: linear-gradient(to bottom, <?= $this->config->params[$methodId][$templateName . '_background_color']; ?>, <?= $this->config->params[$methodId][$templateName . '_background_color']; ?>);
+    }
+
+    .card-form-container .checkout-title:before {
+        -webkit-box-shadow: 0 1px 2px <?= $this->config->params[$methodId][$templateName . '_shadow_color']; ?>;
+        box-shadow: 0 1px 2px <?= $this->config->params[$methodId][$templateName . '_shadow_color']; ?>;
+    }
+
+    .card-form-container .checkout-input {
+        float: left;
+        padding: 0 7px;
+        height: 32px;
+        color: <?= $this->config->params[$methodId][$templateName . '_label_color']; ?>;
+        border-color: <?= $this->config->params[$methodId][$templateName . '_border_color']; ?>;
+        border-radius: <?= $this->config->params[$methodId][$templateName . '_corner_radius']; ?>;
+        border-width: <?= $this->config->params[$methodId][$templateName . '_border_width']; ?>;
+        background-image: -webkit-linear-gradient(top, <?= $this->config->params[$methodId][$templateName . '_background_color']; ?>, white);
+        background-image: -moz-linear-gradient(top, <?= $this->config->params[$methodId][$templateName . '_background_color']; ?>, white);
+        background-image: -o-linear-gradient(top, <?= $this->config->params[$methodId][$templateName . '_background_color']; ?>, white);
+        background-image: linear-gradient(to bottom, <?= $this->config->params[$methodId][$templateName . '_background_color']; ?>, white);
+        -webkit-box-shadow: inset 0 1px 2px <?= $this->config->params[$methodId][$templateName . '_shadow_color']; ?>, 0 1px <?= $this->config->params[$methodId][$templateName . '_shadow_color']; ?>;
+        box-shadow: inset 0 1px 2px <?= $this->config->params[$methodId][$templateName . '_shadow_color']; ?>, 0 1px <?= $this->config->params[$methodId][$templateName . '_shadow_color']; ?>;
+    }
+
+    .card-form-container :-moz-placeholder {
+        color: <?= $this->config->params[$methodId][$templateName . '_label_color']; ?> !important;
+    }
+
+    .card-form-container ::-moz-placeholder {
+        color: <?= $this->config->params[$methodId][$templateName . '_label_color']; ?> !important;
+        opacity: 1;
+    }
+
+    .card-form-container ::-webkit-input-placeholder {
+        color: <?= $this->config->params[$methodId][$templateName . '_label_color']; ?> !important;
+    }
+
+    .card-form-container :-ms-input-placeholder {
+        color: <?= $this->config->params[$methodId][$templateName . '_label_color']; ?> !important;
+    }
+
+    .card-form-container .admin__field-error, 
+    .card-form-container label.mage-error {
+        color: <?= $this->config->params[$methodId][$templateName . '_error_color']; ?> !important;
+    }
+
+    .card-form-container .checkout-input:focus {
+        border-color: <?= $this->config->params[$methodId][$templateName . '_border_color']; ?>;
+        -webkit-box-shadow: inset 0 1px 2px <?= $this->config->params[$methodId][$templateName . '_shadow_color']; ?>, 0 0 5px <?= $this->config->params[$methodId][$templateName . '_shadow_color']; ?>;
+        box-shadow: inset 0 1px 2px <?= $this->config->params[$methodId][$templateName . '_shadow_color']; ?>, 0 0 5px <?= $this->config->params[$methodId][$templateName . '_shadow_color']; ?>;
+    }
 </style>
 
 <?php if ($isAdmin) : ?>
@@ -30,7 +101,9 @@ $formCssFile = $this->assetRepository->createAsset($moduleName . '::css/payment_
 
 <div class="card-form-container">
     <div class="checkout-header">
-        <h1 class="checkout-title"><?= $block->escapeHtml(__('Card details')); ?></h1>
+        <h1 class="checkout-title">
+            <?= $block->escapeHtml(__($this->config->params[$methodId][$templateName . '_form_title'])); ?>
+        </h1>
     </div>
     <p>
         <input type="text" 

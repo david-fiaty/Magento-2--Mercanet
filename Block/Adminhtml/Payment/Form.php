@@ -6,7 +6,7 @@
  *
  * @category  Cmsbox
  * @package   Mercanet
- * @author    Cmsbox.fr <contact@cmsbox.fr> 
+ * @author    Cmsbox France <contact@cmsbox.fr> 
  * @copyright Cmsbox.fr all rights reserved.
  * @license   https://opensource.org/licenses/mit-license.html MIT License
  * @link      https://www.cmsbox.fr

@@ -6,7 +6,13 @@
  * Author: David Fiaty | contact@cmsbox.fr
  *
  * PHP version 7
- * License GNU/GPL V3 https://www.gnu.org/licenses/gpl-3.0.en.html
+ *
+ * @category  Cmsbox
+ * @package   Mercanet
+ * @author    Cmsbox.fr <contact@cmsbox.fr> 
+ * @copyright Cmsbox.fr all rights reserved.
+ * @license   https://opensource.org/licenses/mit-license.html MIT License
+ * @link      https://www.cmsbox.fr
  */
 
 namespace Cmsbox\Mercanet\Model\Methods;

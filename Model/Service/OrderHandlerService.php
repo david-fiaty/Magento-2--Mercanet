@@ -170,12 +170,16 @@ class OrderHandlerService
                 $order = $this->quoteManagement->submit($quote);
 
                 // Update order status
-                if ($fields[$this->config->base[Connector::KEY_CAPTURE_MODE_FIELD]] == Connector::KEY_CAPTURE_IMMEDIATE) {
+                $isCaptureImmediate = $fields[
+                    $this->config->base[Connector::KEY_CAPTURE_MODE_FIELD]
+                ] == Connector::KEY_CAPTURE_IMMEDIATE;
+                if ($isCaptureImmediate) {
                     // Create the transaction
                     $transactionId = $this->transactionHandler->createTransaction(
                         $order,
                         $fields,
-                        Transaction::TYPE_CAPTURE, $methodId
+                        Transaction::TYPE_CAPTURE,
+                        $methodId
                     );
                 } else {
                     // Update order status

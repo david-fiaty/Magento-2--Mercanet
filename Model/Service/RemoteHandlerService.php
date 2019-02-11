@@ -127,7 +127,12 @@ class RemoteHandlerService
             $methodId = $transaction->getOrder()->getPayment()->getMethodInstance()->getCode();
 
             // Prepare the request URL
-            $url = Connector::getApiUrl('void', $this->config, $methodId) . 'charges/' . $transaction->getTxnId() . '/void';
+            $url = Connector::getApiUrl(
+                'void',
+                $this->config,
+                $methodId
+            );
+            $url .= 'charges/' . $transaction->getTxnId() . '/void';
 
             // Get the order
             $order = $this->orderRepository->get($transaction->getOrderId());

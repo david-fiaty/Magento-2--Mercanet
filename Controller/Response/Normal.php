@@ -105,7 +105,9 @@ class Normal extends \Magento\Framework\App\Action\Action
                         $fields = Connector::unpackData(Connector::packData($responseData));
 
                         // Find the quote
-                        $quote = $this->orderHandler->findQuote($fields[$this->config->base[Connector::KEY_ORDER_ID_FIELD]]);
+                        $quote = $this->orderHandler->findQuote(
+                            $fields[$this->config->base[Connector::KEY_ORDER_ID_FIELD]]
+                        );
 
                         // Set the success redirection parameters
                         if (isset($quote) && (int)$quote->getId() > 0) {

@@ -87,7 +87,8 @@ class OrderSaveAfter implements \Magento\Framework\Event\ObserverInterface
                     $this->config->base[Connector::KEY_ORDER_ID_FIELD]       => $order->getIncrementId(),
                     $this->config->base[Connector::KEY_TRANSACTION_ID_FIELD] => $transactionId,
                     $this->config->base[Connector::KEY_CUSTOMER_EMAIL_FIELD] => $order->getCustomerEmail(),
-                    $this->config->base[Connector::KEY_CAPTURE_MODE_FIELD]   => $this->config->params[$methodId][Connector::KEY_CAPTURE_MODE],
+                    $this->config->base[Connector::KEY_CAPTURE_MODE_FIELD]   => $this->config->params[$methodId]
+                    [Connector::KEY_CAPTURE_MODE],
                     Core::KEY_METHOD_ID                                      => $methodId
                 ];
 

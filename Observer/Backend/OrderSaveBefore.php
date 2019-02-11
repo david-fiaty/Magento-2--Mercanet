@@ -145,7 +145,9 @@ class OrderSaveBefore implements \Magento\Framework\Event\ObserverInterface
                             $paymentInfo->setAdditionalInformation(
                                 Connector::KEY_TRANSACTION_INFO,
                                 [
-                                    $this->config->base[Connector::KEY_TRANSACTION_ID_FIELD] => $methodInstance::getTransactionId(
+                                    $this->config->base[
+                                            Connector::KEY_TRANSACTION_ID_FIELD
+                                        ] => $methodInstance::getTransactionId(
                                         $this->config,
                                         $paymentObject
                                     )
@@ -153,7 +155,9 @@ class OrderSaveBefore implements \Magento\Framework\Event\ObserverInterface
                             );
 
                             // Handle the order status
-                            if ($this->config->params[$methodId][Connector::KEY_CAPTURE_MODE] == Connector::KEY_CAPTURE_IMMEDIATE) {
+                            $isCaptureImmediate = $this->config->params[$methodId]
+                            [Connector::KEY_CAPTURE_MODE] == Connector::KEY_CAPTURE_IMMEDIATE;
+                            if ($isCaptureImmediate) {
                                 $order->setStatus(
                                     $this->config->params[Core::moduleId()][Connector::KEY_ORDER_STATUS_CAPTURED]
                                 );

@@ -168,7 +168,9 @@ class Form extends \Magento\Framework\App\Action\Action
                     $params = Connector::packData(
                         [
                             $this->config->base[Connector::KEY_ORDER_ID_FIELD] => $this->tools->getIncrementId($quote),
-                            $this->config->base[Connector::KEY_TRANSACTION_ID_FIELD] => $methodInstance::getTransactionId(
+                            $this->config->base[
+                                    Connector::KEY_TRANSACTION_ID_FIELD
+                                ] => $methodInstance::getTransactionId(
                                 $this->config,
                                 $paymentObject
                             ),

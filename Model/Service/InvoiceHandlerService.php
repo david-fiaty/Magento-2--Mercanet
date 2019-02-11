@@ -64,7 +64,9 @@ class InvoiceHandlerService
 
     public function shouldInvoice($order)
     {
-        return $order->canInvoice() && ($this->config->params[$order->getPayment()->getMethodInstance()->getCode()][Core::KEY_AUTO_GENERATE_INVOICE]);
+        return $order->canInvoice()
+        && ($this->config->params[$order->getPayment()->getMethodInstance()->getCode()]
+        [Core::KEY_AUTO_GENERATE_INVOICE]);
     }
 
     public function createInvoice($order)

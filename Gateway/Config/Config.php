@@ -245,7 +245,11 @@ class Config
                         $output[$methodId][Connector::KEY_ACTIVE] = $methodInstance::isFrontend($this, $methodId);
                         if (isset($val['load_request_data']) && (int) $val['load_request_data'] == 1) {
                             $output[$methodId]['api_url'] = Connector::getApiUrl('charge', $this, $methodId);
-                            $output[$methodId]['request_data'] = $methodInstance::getRequestData($this, $this->storeManager, $methodId);
+                            $output[$methodId]['request_data'] = $methodInstance::getRequestData(
+                                $this,
+                                $this->storeManager,
+                                $methodId
+                            );
                         }
                     }
                 }

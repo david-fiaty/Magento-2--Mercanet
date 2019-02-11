@@ -81,7 +81,12 @@ class Normal extends \Magento\Framework\App\Action\Action
         $responseData = $this->getRequest()->getPostValue();
 
         // Log the response
-        $this->watchdog->bark(Connector::KEY_RESPONSE, $responseData, $canDisplay = true, $canLog = false);
+        $this->watchdog->bark(
+            Connector::KEY_RESPONSE,
+            $responseData,
+            $canDisplay = true,
+            $canLog = false
+        );
 
         // Load the method instance
         $methodId = $this->orderHandler->findMethodId();

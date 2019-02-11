@@ -93,9 +93,19 @@ class OrderSaveAfter implements \Magento\Framework\Event\ObserverInterface
 
                 // Handle the transactions
                 if ($this->config->params[$methodId][Connector::KEY_CAPTURE_MODE] == Connector::KEY_CAPTURE_IMMEDIATE) {
-                    $captureTransactionId = $this->transactionHandler->createTransaction($order, $fields, Transaction::TYPE_CAPTURE, $methodId);
+                    $captureTransactionId = $this->transactionHandler->createTransaction(
+                        $order,
+                        $fields,
+                        Transaction::TYPE_CAPTURE,
+                        $methodId
+                    );
                 } else {
-                    $authorizationTransactionId = $this->transactionHandler->createTransaction($order, $fields, Transaction::TYPE_AUTH, $methodId);
+                    $authorizationTransactionId = $this->transactionHandler->createTransaction(
+                        $order,
+                        $fields,
+                        Transaction::TYPE_AUTH,
+                        $methodId
+                    );
                 }
             } catch (\Exception $e) {
                 $this->watchdog->logError($e);

@@ -75,7 +75,12 @@ class RemoteHandlerService
             $methodId = $transaction->getOrder()->getPayment()->getMethodInstance()->getCode();
 
             // Prepare the request URL
-            $url = Connector::getApiUrl('charge', $this->config, $methodId) . 'charges/' . $transaction->getTxnId() . '/capture';
+            $url = Connector::getApiUrl(
+                'charge',
+                $this->config,
+                $methodId
+            );
+            $url .= 'charges/' . $transaction->getTxnId() . '/capture';
 
             // Get the order
             $order = $this->orderRepository->get($transaction->getOrderId());
@@ -106,7 +111,9 @@ class RemoteHandlerService
             }
         } catch (\Exception $e) {
             $this->watchdog->logError($e);
-            throw new \Magento\Framework\Exception\LocalizedException(__('The remote transaction could not be captured.'));
+            throw new \Magento\Framework\Exception\LocalizedException(
+                __('The remote transaction could not be captured.')
+            );
         }
     }
 
@@ -151,7 +158,9 @@ class RemoteHandlerService
             }
         } catch (\Exception $e) {
             $this->watchdog->logError($e);
-            throw new \Magento\Framework\Exception\LocalizedException(__('The remote transaction could not be voided.'));
+            throw new \Magento\Framework\Exception\LocalizedException(
+                __('The remote transaction could not be voided.')
+            );
         }
     }
 
@@ -165,7 +174,12 @@ class RemoteHandlerService
             $methodId = $transaction->getOrder()->getPayment()->getMethodInstance()->getCode();
 
             // Prepare the request URL
-            $url = Connector::getApiUrl('refund', $this->config, $methodId) . 'charges/' . $transaction->getTxnId() . '/refund';
+            $url = Connector::getApiUrl(
+                'refund',
+                $this->config,
+                $methodId
+            );
+            $url .= 'charges/' . $transaction->getTxnId() . '/refund';
 
             // Get the order
             $order = $this->orderRepository->get($transaction->getOrderId());
@@ -196,7 +210,9 @@ class RemoteHandlerService
             }
         } catch (\Exception $e) {
             $this->watchdog->logError($e);
-            throw new \Magento\Framework\Exception\LocalizedException(__('The remote transaction could not be refunded.'));
+            throw new \Magento\Framework\Exception\LocalizedException(
+                __('The remote transaction could not be refunded.')
+            );
         }
     }
 }

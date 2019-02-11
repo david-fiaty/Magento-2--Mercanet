@@ -123,7 +123,9 @@ class OrderHandlerService
         // If a track id is available
         if (isset($fields[$this->config->base[Connector::KEY_ORDER_ID_FIELD]])) {
             // Check if the order exists
-            $order = $this->orderInterface->loadByIncrementId($fields[$this->config->base[Connector::KEY_ORDER_ID_FIELD]]);
+            $order = $this->orderInterface->loadByIncrementId(
+                $fields[$this->config->base[Connector::KEY_ORDER_ID_FIELD]]
+            );
 
             // Update the order
             if ($order) {
@@ -142,7 +144,9 @@ class OrderHandlerService
     {
         try {
             // Find the quote
-            $quote = $this->findQuote($fields[$this->config->base[Connector::KEY_ORDER_ID_FIELD]]);
+            $quote = $this->findQuote(
+                $fields[$this->config->base[Connector::KEY_ORDER_ID_FIELD]]
+            );
 
             // If there is a quote, create the order
             if ($quote->getId()) {
@@ -151,7 +155,10 @@ class OrderHandlerService
 
                 // Check for guest user quote
                 if ($this->customerSession->isLoggedIn() === false) {
-                    $quote = $this->prepareGuestQuote($quote, $fields[$this->config->base[Connector::KEY_CUSTOMER_EMAIL_FIELD]]);
+                    $quote = $this->prepareGuestQuote(
+                        $quote,
+                        $fields[$this->config->base[Connector::KEY_CUSTOMER_EMAIL_FIELD]]
+                    );
                 }
 
                 // Set the payment information
@@ -165,13 +172,24 @@ class OrderHandlerService
                 // Update order status
                 if ($fields[$this->config->base[Connector::KEY_CAPTURE_MODE_FIELD]] == Connector::KEY_CAPTURE_IMMEDIATE) {
                     // Create the transaction
-                    $transactionId = $this->transactionHandler->createTransaction($order, $fields, Transaction::TYPE_CAPTURE, $methodId);
+                    $transactionId = $this->transactionHandler->createTransaction(
+                        $order,
+                        $fields,
+                        Transaction::TYPE_CAPTURE, $methodId
+                    );
                 } else {
                     // Update order status
-                    $order->setStatus($this->config->params[Core::moduleId()][Connector::KEY_ORDER_STATUS_AUTHORIZED]);
+                    $order->setStatus(
+                        $this->config->params[Core::moduleId()][Connector::KEY_ORDER_STATUS_AUTHORIZED]
+                    );
 
                     // Create the transaction
-                    $transactionId = $this->transactionHandler->createTransaction($order, $fields, Transaction::TYPE_AUTH, $methodId);
+                    $transactionId = $this->transactionHandler->createTransaction(
+                        $order,
+                        $fields,
+                        Transaction::TYPE_AUTH,
+                        $methodId
+                    );
                 }
 
                 // Save the order

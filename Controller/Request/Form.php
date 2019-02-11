@@ -102,12 +102,14 @@ class Form extends \Magento\Framework\App\Action\Action
                     break;
             }
 
-            return $this->jsonFactory->create()->setData([Connector::KEY_RESPONSE => $response]);
+            return $this->jsonFactory->create()->setData(
+                [Connector::KEY_RESPONSE => $response]
+            );
         }
 
         return $this->jsonFactory->create()->setData(
             [
-            $this->handleError(__('Invalid AJAX request in form controller.'))
+                $this->handleError(__('Invalid AJAX request in form controller.'))
             ]
         );
     }
@@ -126,16 +128,39 @@ class Form extends \Magento\Framework\App\Action\Action
             // Perform the charge request
             if ($methodInstance && $methodInstance::isFrontend($this->config, $methodId)) {
                 // Process the payment
-                $paymentObject = $methodInstance::getRequestData($this->config, $this->storeManager, $methodId, $cardData);
+                $paymentObject = $methodInstance::getRequestData(
+                    $this->config,
+                    $this->storeManager,
+                    $methodId,
+                    $cardData
+                );
 
                 // Log the request
-                $methodInstance::logRequestData(Connector::KEY_REQUEST, $this->watchdog, $paymentObject);
+                $methodInstance::logRequestData(
+                    Connector::KEY_REQUEST,
+                    $this->watchdog,
+                    $paymentObject
+                );
 
                 // Log the response
-                $methodInstance::logResponseData(Connector::KEY_RESPONSE, $this->watchdog, $paymentObject);
+                $methodInstance::logResponseData(
+                    Connector::KEY_RESPONSE,
+                    $this->watchdog,
+                    $paymentObject
+                );
 
                 // Process the response
-                if ($methodInstance::isValidResponse($this->config, $methodId, $paymentObject) && $methodInstance::isSuccessResponse($this->config, $methodId, $paymentObject)) {
+                $isValidResponse = $methodInstance::isValidResponse(
+                    $this->config,
+                    $methodId,
+                    $paymentObject
+                );
+                $isSuccessResponse = $methodInstance::isSuccessResponse(
+                    $this->config,
+                    $methodId,
+                    $paymentObject
+                );
+                if ($isValidResponse && $isSuccessResponse) {
                     // Get the quote
                     $quote = $this->orderHandler->findQuote();
 

@@ -113,7 +113,10 @@ class TransactionHandlerService
  
             // Add authorization transaction to payment if needed
             if ($transactionMode == Transaction::TYPE_AUTH) {
-                $payment->addTransactionCommentsToOrder($transaction, __('The authorized amount is %1.', $formatedPrice));
+                $payment->addTransactionCommentsToOrder(
+                    $transaction,
+                    __('The authorized amount is %1.', $formatedPrice)
+                );
                 $payment->setParentTransactionId(null);
             }
 

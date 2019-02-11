@@ -107,7 +107,7 @@ class OrderSaveBefore implements \Magento\Framework\Event\ObserverInterface
                     // Perform the charge request
                     if ($methodInstance) {
                         // Get the request object
-                        $paymentObject = $methodInstance::getRequestData($this->config, $this->storeManager,  $methodId, $cardData, $order);
+                        $paymentObject = $methodInstance::getRequestData($this->config, $this->storeManager, $methodId, $cardData, $order);
 
                         // Log the request
                         $methodInstance::logRequestData(Connector::KEY_REQUEST, $this->watchdog, $paymentObject);
@@ -128,18 +128,15 @@ class OrderSaveBefore implements \Magento\Framework\Event\ObserverInterface
                             // Handle the order status
                             if ($this->config->params[$methodId][Connector::KEY_CAPTURE_MODE] == Connector::KEY_CAPTURE_IMMEDIATE) {
                                 $order->setStatus($this->config->params[Core::moduleId()][Connector::KEY_ORDER_STATUS_CAPTURED]);
-                            }
-                            else {
+                            } else {
                                 $order->setStatus($this->config->params[Core::moduleId()][Connector::KEY_ORDER_STATUS_AUTHORIZED]);
                             }
-                        }
-                        else {
+                        } else {
                             throw new \Magento\Framework\Exception\LocalizedException(__('The transaction could not be processed'));
                         }
                     }
                 }
-            }
-            catch (\Exception $e) {
+            } catch (\Exception $e) {
                 $this->watchdog->logError($e);
                 throw new \Magento\Framework\Exception\LocalizedException(__($e->getMessage()));
             }

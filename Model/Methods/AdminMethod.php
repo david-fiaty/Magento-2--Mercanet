@@ -6,8 +6,8 @@
  *
  * @category  Cmsbox
  * @package   Mercanet
- * @author    Cmsbox France <contact@cmsbox.fr> 
- * @copyright Cmsbox.fr all rights reserved.
+ * @author    Cmsbox Development Team <contact@cmsbox.fr>
+ * @copyright 2019 Cmsbox.fr all rights reserved
  * @license   https://opensource.org/licenses/mit-license.html MIT License
  * @link      https://www.cmsbox.fr
  */
@@ -64,7 +64,7 @@ class AdminMethod extends \Magento\Payment\Model\Method\AbstractMethod
         \Cmsbox\Mercanet\Gateway\Config\Config $config,
         \Magento\Checkout\Model\Cart $cart,
         \Magento\Framework\UrlInterface $urlBuilder,
-        \Magento\Framework\ObjectManagerInterface $objectManager, 
+        \Magento\Framework\ObjectManagerInterface $objectManager,
         \Magento\Sales\Model\Order\Email\Sender\InvoiceSender $invoiceSender,
         \Magento\Framework\DB\TransactionFactory $transactionFactory,
         \Magento\Customer\Model\Session $customerSession,
@@ -130,7 +130,7 @@ class AdminMethod extends \Magento\Payment\Model\Method\AbstractMethod
 
     /**
      * Prepare the request data.
-     */  
+     */
     public static function getRequestData($config, $storeManager, $methodId, $cardData = null, $entity = null)
     {
         // Get the order entity
@@ -177,7 +177,7 @@ class AdminMethod extends \Magento\Payment\Model\Method\AbstractMethod
 
     /**
      * Checks if a response is valid.
-     */  
+     */
     public static function isValidResponse($config, $methodId, $asset)
     {
         $status = $asset->isValid();
@@ -186,7 +186,7 @@ class AdminMethod extends \Magento\Payment\Model\Method\AbstractMethod
 
     /**
      * Checks if a response is success.
-     */  
+     */
     public static function isSuccessResponse($config, $methodId, $asset)
     {
         $status = $asset->isValid();
@@ -195,7 +195,7 @@ class AdminMethod extends \Magento\Payment\Model\Method\AbstractMethod
     
     /**
      * Gets a transaction id.
-     */  
+     */
     public static function getTransactionId($config, $paymentObject)
     {
         return $paymentObject->getParam($config->base[Connector::KEY_TRANSACTION_ID_FIELD]);
@@ -203,7 +203,7 @@ class AdminMethod extends \Magento\Payment\Model\Method\AbstractMethod
     
     /**
      * Logs a request data.
-     */  
+     */
     public static function logRequestData($action, $watchdog, $asset)
     {
         $logData = $asset->toParameterString();
@@ -212,7 +212,7 @@ class AdminMethod extends \Magento\Payment\Model\Method\AbstractMethod
 
     /**
      * Logs a response data.
-     */  
+     */
     public static function logResponseData($action, $watchdog, $asset)
     {
         $logData = $asset->getResponseRequest();

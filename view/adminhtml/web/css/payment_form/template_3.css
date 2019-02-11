@@ -5,8 +5,8 @@
  *
  * @category  Cmsbox
  * @package   Mercanet
- * @author    Cmsbox France <contact@cmsbox.fr> 
- * @copyright Cmsbox.fr all rights reserved.
+ * @author    Cmsbox Development Team <contact@cmsbox.fr>
+ * @copyright 2019 Cmsbox.fr all rights reserved
  * @license   https://opensource.org/licenses/mit-license.html MIT License
  * @link      https://www.cmsbox.fr
  */
@@ -202,7 +202,7 @@ div.mage-error[generated] {
 .card-form-container .exp-container div.mage-error,
 .card-form-container .exp-container label.mage-error {
   position: relative !important;
-  left: 15px !important; 
+  left: 15px !important;
   display: none !important;
 }
 
@@ -217,7 +217,7 @@ div.mage-error[generated] {
 }
 
 /* Admin */
-.card-form-container .admin__field-error, 
+.card-form-container .admin__field-error,
 .card-form-container label.mage-error {
   background: transparent !important;
   border: none !important;

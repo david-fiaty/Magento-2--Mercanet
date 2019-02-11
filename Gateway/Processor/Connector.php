@@ -6,8 +6,8 @@
  *
  * @category  Cmsbox
  * @package   Mercanet
- * @author    Cmsbox France <contact@cmsbox.fr> 
- * @copyright Cmsbox.fr all rights reserved.
+ * @author    Cmsbox Development Team <contact@cmsbox.fr>
+ * @copyright 2019 Cmsbox.fr all rights reserved
  * @license   https://opensource.org/licenses/mit-license.html MIT License
  * @link      https://www.cmsbox.fr
  */
@@ -82,7 +82,7 @@ class Connector
 
     /**
      * Turns a data request array into a string.
-     */   
+     */
     public static function packData($arr)
     {
         $output = [];
@@ -113,17 +113,18 @@ class Connector
     public static function getMerchantId($config)
     {
         switch ($config->base[self::KEY_ENVIRONMENT]) {
-        case 'simu': 
-            $id = $config->base[self::KEY_SIMU_MERCHANT_ID];
-            break;
+            case 'simu':
+                $id = $config->base[self::KEY_SIMU_MERCHANT_ID];
+                break;
 
-        case 'test': 
-            $id = $config->base[self::KEY_TEST_MERCHANT_ID];
-            break;
+            case 'test':
+                $id = $config->base[self::KEY_TEST_MERCHANT_ID];
+                break;
 
-        case 'prod': 
-            $id = $config->base[self::KEY_PROD_MERCHANT_ID];;
-            break;
+            case 'prod':
+                $id = $config->base[self::KEY_PROD_MERCHANT_ID];
+                ;
+                break;
         }
 
         return (string) $id;
@@ -138,17 +139,17 @@ class Connector
     {
         // Return the secret key
         switch ($config->base[self::KEY_ENVIRONMENT]) {
-        case 'simu': 
-            $key = $config->params[\Cmsbox\Mercanet\Gateway\Config\Core::moduleId()][self::KEY_SIMU_SECRET_KEY];
-            break;
+            case 'simu':
+                $key = $config->params[\Cmsbox\Mercanet\Gateway\Config\Core::moduleId()][self::KEY_SIMU_SECRET_KEY];
+                break;
 
-        case 'test': 
-            $key = $config->params[\Cmsbox\Mercanet\Gateway\Config\Core::moduleId()][self::KEY_TEST_SECRET_KEY];
-            break;
+            case 'test':
+                $key = $config->params[\Cmsbox\Mercanet\Gateway\Config\Core::moduleId()][self::KEY_TEST_SECRET_KEY];
+                break;
 
-        case 'prod': 
-            $key = $config->params[\Cmsbox\Mercanet\Gateway\Config\Core::moduleId()][self::KEY_PROD_SECRET_KEY];
-            break;
+            case 'prod':
+                $key = $config->params[\Cmsbox\Mercanet\Gateway\Config\Core::moduleId()][self::KEY_PROD_SECRET_KEY];
+                break;
         }
 
         return $key;
@@ -183,7 +184,7 @@ class Connector
 
         // Return the formatted array,
         return [
-            'customerAddress.street'  => implode(', ', $address->getStreet()),        
+            'customerAddress.street'  => implode(', ', $address->getStreet()),
             'customerAddress.city'    => $address->getCity(),
             'customerAddress.country' => $config->getCountryCodeA2A3($address->getCountryId()),
             'customerAddress.zipCode' => $address->getPostcode(),

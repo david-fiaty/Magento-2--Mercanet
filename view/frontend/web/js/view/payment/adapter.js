@@ -5,8 +5,8 @@
  *
  * @category  Cmsbox
  * @package   Mercanet
- * @author    Cmsbox France <contact@cmsbox.fr> 
- * @copyright Cmsbox.fr all rights reserved.
+ * @author    Cmsbox Development Team <contact@cmsbox.fr>
+ * @copyright 2019 Cmsbox.fr all rights reserved
  * @license   https://opensource.org/licenses/mit-license.html MIT License
  * @link      https://www.cmsbox.fr
  */
@@ -19,7 +19,8 @@ define(
     'Magento_Checkout/js/checkout-data',
     'mage/url',
     'mage/cookies'
-    ], function ($, GlobalMessageList, Quote, CheckoutData, Url) {
+    ],
+    function ($, GlobalMessageList, Quote, CheckoutData, Url) {
         'use strict';
 
         return {
@@ -73,13 +74,13 @@ define(
             setCookieData: function (methodId) {
                 // Set the email
                 $.cookie(
-                    this.getPaymentConfig()['email_cookie_name'], 
+                    this.getPaymentConfig()['email_cookie_name'],
                     this.getEmailAddress()
                 );
 
                 // Set the payment method
                 $.cookie(
-                    this.getPaymentConfig()['method_cookie_name'], 
+                    this.getPaymentConfig()['method_cookie_name'],
                     methodId
                 );
             },
@@ -117,7 +118,8 @@ define(
             log: function (data) {
                 var isDebugMode = JSON.parse(this.getPaymentConfig(this.getCode())['debug']);
                 var output = this.getCode() + ':' + JSON.stringify(data);
-                if (isDebugMode) { console.log(output);
+                if (isDebugMode) {
+                    console.log(output);
                 }
             },
 
@@ -139,7 +141,7 @@ define(
                         }
                     );
                 }
-            }    
+            }
         };
     }
 );

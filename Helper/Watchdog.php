@@ -6,8 +6,8 @@
  *
  * @category  Cmsbox
  * @package   Mercanet
- * @author    Cmsbox France <contact@cmsbox.fr> 
- * @copyright Cmsbox.fr all rights reserved.
+ * @author    Cmsbox Development Team <contact@cmsbox.fr>
+ * @copyright 2019 Cmsbox.fr all rights reserved
  * @license   https://opensource.org/licenses/mit-license.html MIT License
  * @link      https://www.cmsbox.fr
  */
@@ -31,12 +31,12 @@ class Watchdog
 
     /**
      * @var Tools
-     */ 
+     */
     protected $tools;
 
     /**
      * @var LoggerInterface
-     */ 
+     */
     protected $logger;
 
     /**
@@ -79,7 +79,7 @@ class Watchdog
         if ((int) $this->config->params[Core::moduleId()]['debug'] == 1 && $canDisplay) {
             $this->messageManager->addNoticeMessage($output);
         }
-    } 
+    }
 
     /**
      * Write to system file.
@@ -96,7 +96,7 @@ class Watchdog
         if ($canDisplay) {
             get_class($message) == 'Exception'
             ? $this->messageManager->addExceptionMessage($message, $message->getMessage())
-            : $this->messageManager->addErrorMessage($message);            
+            : $this->messageManager->addErrorMessage($message);
         }
     }
 }

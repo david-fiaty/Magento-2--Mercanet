@@ -8,10 +8,10 @@ class GestionPlusInterface
     const TEST       = "https://office-server-mercanet.test.sips-atos.com/rs-services/v2/";
     const PRODUCTION = "https://office-server.mercanet.bnpparibas.net/rs-services/v2/";
     
-    const INTERFACE_VERSION_CASH     = "CR_WS_2.20"; 
+    const INTERFACE_VERSION_CASH     = "CR_WS_2.20";
     const INTERFACE_VERSION_CHECKOUT = "IR_WS_2.20";
-    const INTERFACE_VERSION_DIAG     = "DR_WS_2.20"; 
-    const INTERFACE_VERSION_WALLET   = "WR_WS_2.20"; 
+    const INTERFACE_VERSION_DIAG     = "DR_WS_2.20";
+    const INTERFACE_VERSION_WALLET   = "WR_WS_2.20";
     
     const INSTALMENT                       = "INSTALMENT";
     const REQUEST_CARD_ORDER              = "checkout/cardOrder";
@@ -62,7 +62,7 @@ class GestionPlusInterface
     );
 
     /**
-     * @var ShaComposer 
+     * @var ShaComposer
      */
     private $secretKey;
 
@@ -76,7 +76,7 @@ class GestionPlusInterface
 
     private $pspFields = array(
         'amount', 'cardExpiryDate', 'cardNumber', 'cardCSCValue',
-    'currencyCode', 'merchantId', 'interfaceVersion', 
+    'currencyCode', 'merchantId', 'interfaceVersion',
         'transactionReference', 'keyVersion', 'paymentMeanBrand', 'customerLanguage',
         'billingAddress.city', 'billingAddress.company', 'billingAddress.country',
         'billingAddress', 'billingAddress.postBox', 'billingAddress.state',
@@ -92,7 +92,7 @@ class GestionPlusInterface
         'templateName','paymentMeanBrandList', 'instalmentData', 'paymentPattern',
         'captureDay', 'captureMode', 'merchantTransactionDateTime', 'fraudData.bypass3DS', 'seal',
         'orderChannel', 'orderId', 'returnContext', 'transactionOrigin', 'merchantWalletId', 'paymentMeanId',
-        'operationAmount', 'operationOrigin', 's10TransactionReference', 'fromTransactionReference', 
+        'operationAmount', 'operationOrigin', 's10TransactionReference', 'fromTransactionReference',
         'fromMerchantId', 's10FromTransactionReference', 'statementReference', 'shoppingCartDetail',
         'redirectionData', 'paResMessage', 'messageVersion', 'customerContact', 'customerContact.email'
     );
@@ -120,7 +120,7 @@ class GestionPlusInterface
 
     public static function convertCurrencyToCurrencyCode($currency)
     {
-        if(!in_array($currency, array_keys(self::$currencies))) {
+        if (!in_array($currency, array_keys(self::$currencies))) {
             throw new InvalidArgumentException("Unknown currencyCode $currency.");
         }
         return self::$currencies[$currency];
@@ -128,7 +128,7 @@ class GestionPlusInterface
 
     public static function convertCurrencyCodeToCurrency($code)
     {
-        if(!in_array($code, array_values(self::$currencies))) {
+        if (!in_array($code, array_values(self::$currencies))) {
             throw new InvalidArgumentException("Unknown Code $code.");
         }
         return array_search($code, self::$currencies);
@@ -157,14 +157,14 @@ class GestionPlusInterface
     }
     
     /**
-     * @return string 
+     * @return string
      */
     public function getShaSign()
     {
         global $shaString;
         $this->validate();
         $arr = $this->toArray();
-        array_walk_recursive($arr, [$this, 'shaCompose']); 
+        array_walk_recursive($arr, [$this, 'shaCompose']);
         if (self::TRACE == 1) {
             echo "<br>Seal composed by : " . $this->shaString . "<br>";
         }
@@ -172,7 +172,7 @@ class GestionPlusInterface
     }
     
     /**
-     * @return string 
+     * @return string
      */
     public function getPspRequest()
     {
@@ -195,7 +195,7 @@ class GestionPlusInterface
     }
 
     /**
-     * @return string 
+     * @return string
      */
     public function getUrl()
     {
@@ -222,7 +222,7 @@ class GestionPlusInterface
 
     public function setTransactionReference($transactionReference)
     {
-        if(preg_match('/[^a-zA-Z0-9_-]/', $transactionReference)) {
+        if (preg_match('/[^a-zA-Z0-9_-]/', $transactionReference)) {
             throw new \InvalidArgumentException("TransactionReference cannot contain special characters");
         }
         $this->parameters['transactionReference'] = $transactionReference;
@@ -233,26 +233,24 @@ class GestionPlusInterface
      */
     public function setAmount($amount)
     {
-        if(!is_int($amount)) {
+        if (!is_int($amount)) {
             throw new InvalidArgumentException("Integer expected. Amount is always in cents");
         }
-        if($amount <= 0) {
+        if ($amount <= 0) {
             throw new InvalidArgumentException("Amount must be a positive number");
         }
         $this->parameters['amount'] = $amount;
-
     }
     
     public function setOperationAmount($amount)
     {
-        if(!is_int($amount)) {
+        if (!is_int($amount)) {
             throw new InvalidArgumentException("Integer expected. Amount is always in cents");
         }
-        if($amount <= 0) {
+        if ($amount <= 0) {
             throw new InvalidArgumentException("Amount must be a positive number");
         }
         $this->parameters['operationAmount'] = $amount;
-
     }
     
     public function setOperationOrigin($origin)
@@ -292,7 +290,7 @@ class GestionPlusInterface
 
     public function setCurrency($currency)
     {
-        if(!array_key_exists(strtoupper($currency), self::getCurrencies())) {
+        if (!array_key_exists(strtoupper($currency), self::getCurrencies())) {
             throw new InvalidArgumentException("Unknown currency");
         }
         $this->parameters['currencyCode'] = self::convertCurrencyToCurrencyCode($currency);
@@ -300,7 +298,7 @@ class GestionPlusInterface
 
     public function setLanguage($language)
     {
-        if(!in_array($language, $this->allowedlanguages)) {
+        if (!in_array($language, $this->allowedlanguages)) {
             throw new InvalidArgumentException("Invalid language locale");
         }
         $this->parameters['customerLanguage'] = $language;
@@ -325,7 +323,7 @@ class GestionPlusInterface
     public function setPaymentBrand($brand)
     {
         $this->parameters['paymentMeanBrandList'] = '';
-        if(!array_key_exists(strtoupper($brand), $this->brandsmap)) {
+        if (!array_key_exists(strtoupper($brand), $this->brandsmap)) {
             throw new InvalidArgumentException("Unknown Brand [$brand].");
         }
         $this->parameters['paymentMeanBrandList'] = strtoupper($brand);
@@ -333,10 +331,10 @@ class GestionPlusInterface
 
     public function setCustomerContactEmail($email)
     {
-        if(strlen($email) > 50) {
+        if (strlen($email) > 50) {
             throw new InvalidArgumentException("Email is too long");
         }
-        if(!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
             throw new InvalidArgumentException("Email is invalid");
         }
         $this->parameters['customerContact'] = ['email' => $email];
@@ -344,10 +342,10 @@ class GestionPlusInterface
 
     public function setBillingContactEmail($email)
     {
-        if(strlen($email) > 50) {
+        if (strlen($email) > 50) {
             throw new InvalidArgumentException("Email is too long");
         }
-        if(!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
             throw new InvalidArgumentException("Email is invalid");
         }
         $this->parameters['billingContact.email'] = $email;
@@ -355,7 +353,7 @@ class GestionPlusInterface
 
     public function setBillingAddressStreet($street)
     {
-        if(strlen($street) > 35) {
+        if (strlen($street) > 35) {
             throw new InvalidArgumentException("street is too long");
         }
         $this->parameters['billingAddress.street'] = Normalizer::normalize($street);
@@ -363,7 +361,7 @@ class GestionPlusInterface
 
     public function setBillingAddressStreetNumber($nr)
     {
-        if(strlen($nr) > 10) {
+        if (strlen($nr) > 10) {
             throw new InvalidArgumentException("streetNumber is too long");
         }
         $this->parameters['billingAddress.streetNumber'] = Normalizer::normalize($nr);
@@ -371,7 +369,7 @@ class GestionPlusInterface
 
     public function setBillingAddressZipCode($zipCode)
     {
-        if(strlen($zipCode) > 10) {
+        if (strlen($zipCode) > 10) {
             throw new InvalidArgumentException("zipCode is too long");
         }
         $this->parameters['billingAddress.zipCode'] = Normalizer::normalize($zipCode);
@@ -379,7 +377,7 @@ class GestionPlusInterface
 
     public function setBillingAddressCity($city)
     {
-        if(strlen($city) > 25) {
+        if (strlen($city) > 25) {
             throw new InvalidArgumentException("city is too long");
         }
         $this->parameters['billingAddress.city'] = Normalizer::normalize($city);
@@ -387,7 +385,7 @@ class GestionPlusInterface
 
     public function setBillingContactPhone($phone)
     {
-        if(strlen($phone) > 30) {
+        if (strlen($phone) > 30) {
             throw new InvalidArgumentException("phone is too long");
         }
         $this->parameters['billingContact.phone'] = $phone;
@@ -496,7 +494,7 @@ class GestionPlusInterface
     
     public function setFraudDataBypass3DS($value)
     {
-        if(strlen($value) > 128) {
+        if (strlen($value) > 128) {
             throw new InvalidArgumentException("fraudData.bypass3DS is too long");
         }
         $this->parameters['fraudData.bypass3DS'] = $value;
@@ -506,7 +504,7 @@ class GestionPlusInterface
     
     public function setMerchantWalletId($wallet)
     {
-        if(strlen($wallet) > 21) {
+        if (strlen($wallet) > 21) {
             throw new InvalidArgumentException("merchantWalletId is too long");
         }
         $this->parameters['merchantWalletId'] = $wallet;
@@ -514,7 +512,7 @@ class GestionPlusInterface
     
     public function setPaymentMeanId($value)
     {
-        if(strlen($value) > 6) {
+        if (strlen($value) > 6) {
             throw new InvalidArgumentException("paymentMeanId is too long");
         }
         $this->parameters['paymentMeanId'] = $value;
@@ -534,17 +532,17 @@ class GestionPlusInterface
 
     public function __call($method, $args)
     {
-        if(substr($method, 0, 3) == 'set') {
+        if (substr($method, 0, 3) == 'set') {
             $field = lcfirst(substr($method, 3));
-            if(in_array($field, $this->pspFields)) {
+            if (in_array($field, $this->pspFields)) {
                 $this->parameters[$field] = $args[0];
                 return;
             }
         }
 
-        if(substr($method, 0, 3) == 'get') {
+        if (substr($method, 0, 3) == 'get') {
             $field = lcfirst(substr($method, 3));
-            if(array_key_exists($field, $this->parameters)) {
+            if (array_key_exists($field, $this->parameters)) {
                 return $this->parameters[$field];
             }
         }
@@ -561,7 +559,7 @@ class GestionPlusInterface
     public function toParameterString()
     {
         $this->parameters = $this->mulsort($this->parameters);
-        if (self::TRACE == 1) { 
+        if (self::TRACE == 1) {
             echo "<pre>";
             print_r($this->parameters);
             echo "</pre><br>";
@@ -569,20 +567,19 @@ class GestionPlusInterface
         $seal = $this->getShaSign();
         $this->parameters['seal'] = $seal;
         $chaine = json_encode($this->parameters);
-        if (self::TRACE == 1) { 
+        if (self::TRACE == 1) {
             echo "JSON envoy&eacute; : " . $chaine . "<br>";
         }
         return $chaine;
     }
 
     /**
-     * @return PaymentRequest 
+     * @return PaymentRequest
      */
     public static function createFromArray(ShaComposer $shaComposer, array $parameters)
     {
         $instance = new static($shaComposer);
-        foreach($parameters as $key => $value)
-        {
+        foreach ($parameters as $key => $value) {
             $instance->{"set$key"}($value);
         }
         return $instance;
@@ -591,31 +588,28 @@ class GestionPlusInterface
     public function validate()
     {
         if ($this->pspRequest == self::REQUEST_CARD_ORDER) {
-            foreach($this->requiredFieldsCardOrder as $field)
-            {
-                if(empty($this->parameters[$field])) {
+            foreach ($this->requiredFieldsCardOrder as $field) {
+                if (empty($this->parameters[$field])) {
                     throw new \RuntimeException($field . " can not be empty");
                 }
             }
         }
     
         if ($this->pspRequest == self::REQUEST_WALLET_ORDER) {
-            foreach($this->requiredFieldsWalletOrder as $field)
-            {
-                if(empty($this->parameters[$field])) {
+            foreach ($this->requiredFieldsWalletOrder as $field) {
+                if (empty($this->parameters[$field])) {
                     throw new \RuntimeException($field . " can not be empty");
                 }
             }
         }
-
     }
 
     protected function validateUri($uri)
     {
-        if(!filter_var($uri, FILTER_VALIDATE_URL)) {
+        if (!filter_var($uri, FILTER_VALIDATE_URL)) {
             throw new InvalidArgumentException("Uri is not valid");
         }
-        if(strlen($uri) > 200) {
+        if (strlen($uri) > 200) {
             throw new InvalidArgumentException("Uri is too long");
         }
     }
@@ -624,12 +618,12 @@ class GestionPlusInterface
     // -----------------------------------
     
     /**
- * @var string 
+ * @var string
 */
     const SHASIGN_FIELD = "SEAL";
 
     /**
- * @var string 
+ * @var string
 */
     const DATA_FIELD = "DATA";
 
@@ -638,7 +632,7 @@ class GestionPlusInterface
         // use lowercase internally
         $httpRequest = array_change_key_case($httpRequest, CASE_UPPER);
 
-        // set sha sign        
+        // set sha sign
         $this->shaSign = $this->extractShaSign($httpRequest);
 
         // filter request for Sips parameters
@@ -664,14 +658,14 @@ class GestionPlusInterface
     private function filterRequestParameters(array $httpRequest)
     {
         //filter request for Sips parameters
-        if(!array_key_exists(self::DATA_FIELD, $httpRequest) || $httpRequest[self::DATA_FIELD] == '') {
+        if (!array_key_exists(self::DATA_FIELD, $httpRequest) || $httpRequest[self::DATA_FIELD] == '') {
             throw new InvalidArgumentException('Data parameter not present in parameters.');
         }
         $parameters = array();
         $dataString = $httpRequest[self::DATA_FIELD];
         $this->dataString = $dataString;
         $dataParams = explode('|', $dataString);
-        foreach($dataParams as $dataParamString) {
+        foreach ($dataParams as $dataParamString) {
             $dataKeyValue = explode('=', $dataParamString, 2);
             $parameters[$dataKeyValue[0]] = $dataKeyValue[1];
         }
@@ -686,20 +680,19 @@ class GestionPlusInterface
 
     private function extractShaSign(array $parameters)
     {
-        if(!array_key_exists(self::SHASIGN_FIELD, $parameters) || $parameters[self::SHASIGN_FIELD] == '') {
+        if (!array_key_exists(self::SHASIGN_FIELD, $parameters) || $parameters[self::SHASIGN_FIELD] == '') {
             throw new InvalidArgumentException('SHASIGN parameter not present in parameters.');
         }
         return $parameters[self::SHASIGN_FIELD];
     }
 
     function mulsort(array $tab)
-    { 
+    {
         if (is_array($tab)) {
             ksort($tab);
         }
-        foreach ($tab as $key => $val)
-        {  
-            if (is_array($val)) {  
+        foreach ($tab as $key => $val) {
+            if (is_array($val)) {
                 $tab[$key] = $this->mulsort($val);
             }
         }
@@ -730,7 +723,7 @@ class GestionPlusInterface
     
             if (self::TRACE == 1) {
                 echo "<br>signature compute = " . $compute . " from " . $this->shaString . "<br><br>signature received = " . $result['seal'] . "<br><br>";
-            } 
+            }
             if ($compute == $result['seal']) {
                 if ((strcmp($result['responseCode'], "00") == 0) || (strcmp($result['responseCode'], "60") == 0)) {
                     $resultat = true;
@@ -773,13 +766,9 @@ class GestionPlusInterface
                 $this->responseRequest .= "\n". curl_error($ch);
             }
             $this->responseStatus = false;
-        }
-        else
-        {
+        } else {
             $this->responseStatus = true;
         }
         curl_close($ch);
     }
 }
-
-?>

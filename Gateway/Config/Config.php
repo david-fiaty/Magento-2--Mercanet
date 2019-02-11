@@ -6,8 +6,8 @@
  *
  * @category  Cmsbox
  * @package   Mercanet
- * @author    Cmsbox France <contact@cmsbox.fr> 
- * @copyright Cmsbox.fr all rights reserved.
+ * @author    Cmsbox Development Team <contact@cmsbox.fr>
+ * @copyright 2019 Cmsbox.fr all rights reserved
  * @license   https://opensource.org/licenses/mit-license.html MIT License
  * @link      https://www.cmsbox.fr
  */
@@ -41,7 +41,7 @@ class Config
 
     /**
      * @var ScopeConfigInterface
-     */    
+     */
     protected $scopeConfig;
 
     /**
@@ -71,17 +71,17 @@ class Config
 
     /**
      * @var Resolver
-     */    
+     */
     protected $localeResolver;
 
     /**
      * @var Array
-     */    
+     */
     public $params = [];
 
     /**
      * @var Array
-     */    
+     */
     public $base = [];
 
     /**
@@ -138,7 +138,7 @@ class Config
                     foreach ($params as $key => $val) {
                         // Check a database value
                         $dbValue = $this->scopeConfig->getValue(
-                            'payment/' . $methodId . '/' . $key, 
+                            'payment/' . $methodId . '/' . $key,
                             ScopeInterface::SCOPE_STORE
                         );
 
@@ -148,19 +148,17 @@ class Config
                         // Assign the value or override with db value
                         if (!empty($testValue)) {
                             $lines[$key] = $testValue;
-                        }
-                        else {
+                        } else {
                             $lines[$key] = $val;
                         }
                     }
 
-                    $output[$methodId] = $lines;  
+                    $output[$methodId] = $lines;
                 }
             }
 
             // Set the payment methods config array
             $this->params = $output;
-
         } catch (\Exception $e) {
             throw new \Magento\Framework\Exception\LocalizedException(__($e->getMessage()));
         }
@@ -181,7 +179,7 @@ class Config
                 if (!in_array($key, $exclude)) {
                     // Check a database value
                     $dbValue = $this->scopeConfig->getValue(
-                        'payment/' . Core::moduleId() . '/' . $key, 
+                        'payment/' . Core::moduleId() . '/' . $key,
                         ScopeInterface::SCOPE_STORE
                     );
 
@@ -191,8 +189,7 @@ class Config
                     // Assign the value or override with db value
                     if (!empty($testValue)) {
                         $output[$key] = $testValue;
-                    }
-                    else {
+                    } else {
                         $output[$key] = $val;
                     }
                 }
@@ -201,7 +198,6 @@ class Config
             unset($fileData['base']['exclude']);
 
             return array_merge($fileData['base'], $output);
-
         } catch (\Exception $e) {
             throw new \Magento\Framework\Exception\LocalizedException(__($e->getMessage()));
         }
@@ -251,7 +247,7 @@ class Config
                             $output[$methodId]['api_url'] = Connector::getApiUrl('charge', $this, $methodId);
                             $output[$methodId]['request_data'] = $methodInstance::getRequestData($this, $this->storeManager, $methodId);
                         }
-                    } 
+                    }
                 }
             }
 
@@ -259,7 +255,7 @@ class Config
             return [
                 'payment' => [
                     Core::moduleId() => array_merge(
-                        $output, 
+                        $output,
                         $this->base
                     )
                 ]
@@ -271,7 +267,7 @@ class Config
 
     public function methodIsValid($arr, $key, $val)
     {
-        return isset($arr[2]) && isset($arr[3]) 
+        return isset($arr[2]) && isset($arr[3])
         && isset($val['can_use_internal']) && (int) $val['can_use_internal'] != 1
         && !in_array($key, $arr);
     }
@@ -283,7 +279,7 @@ class Config
      */
     public function createTransactionReference()
     {
-        return (string) time();   
+        return (string) time();
     }
 
     /**
@@ -297,7 +293,7 @@ class Config
 
     /**
      * Formats an amount for a gateway request.
-     */   
+     */
     public function formatAmount($amount)
     {
         return (int) (number_format($amount, 2))*100;
@@ -318,7 +314,8 @@ class Config
 
                 // Find the wanted result
                 $res = array_filter(
-                    $countries, function ($arr) use ($val) {
+                    $countries,
+                    function ($arr) use ($val) {
                         return $arr[1] == $val;
                     }
                 );

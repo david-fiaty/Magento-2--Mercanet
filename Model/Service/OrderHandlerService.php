@@ -6,8 +6,8 @@
  *
  * @category  Cmsbox
  * @package   Mercanet
- * @author    Cmsbox France <contact@cmsbox.fr> 
- * @copyright Cmsbox.fr all rights reserved.
+ * @author    Cmsbox Development Team <contact@cmsbox.fr>
+ * @copyright 2019 Cmsbox.fr all rights reserved
  * @license   https://opensource.org/licenses/mit-license.html MIT License
  * @link      https://www.cmsbox.fr
  */
@@ -91,7 +91,7 @@ class OrderHandlerService
         \Cmsbox\Mercanet\Model\Service\TransactionHandlerService $transactionHandler,
         \Magento\Checkout\Model\Session $checkoutSession,
         \Magento\Customer\Model\Session $customerSession,
-        \Magento\Quote\Model\QuoteManagement $quoteManagement, 
+        \Magento\Quote\Model\QuoteManagement $quoteManagement,
         \Magento\Sales\Model\Order\Email\Sender\OrderSender $orderSender,
         \Magento\Sales\Api\OrderRepositoryInterface $orderRepository,
         \Magento\Sales\Api\Data\OrderInterface $orderInterface,
@@ -224,7 +224,7 @@ class OrderHandlerService
         $this->checkoutSession->setLastOrderId($order->getId())
             ->setLastRealOrderId($order->getIncrementId())
             ->setLastOrderStatus($order->getStatus());
-    } 
+    }
 
     /**
      * Find a customer email

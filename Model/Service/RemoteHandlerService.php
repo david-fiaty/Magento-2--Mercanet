@@ -6,8 +6,8 @@
  *
  * @category  Cmsbox
  * @package   Mercanet
- * @author    Cmsbox France <contact@cmsbox.fr> 
- * @copyright Cmsbox.fr all rights reserved.
+ * @author    Cmsbox Development Team <contact@cmsbox.fr>
+ * @copyright 2019 Cmsbox.fr all rights reserved
  * @license   https://opensource.org/licenses/mit-license.html MIT License
  * @link      https://www.cmsbox.fr
  */
@@ -107,7 +107,7 @@ class RemoteHandlerService
         } catch (\Exception $e) {
             $this->watchdog->logError($e);
             throw new \Magento\Framework\Exception\LocalizedException(__('The remote transaction could not be captured.'));
-        } 
+        }
     }
 
     /**
@@ -152,7 +152,7 @@ class RemoteHandlerService
         } catch (\Exception $e) {
             $this->watchdog->logError($e);
             throw new \Magento\Framework\Exception\LocalizedException(__('The remote transaction could not be voided.'));
-        } 
+        }
     }
 
     /**
@@ -177,7 +177,7 @@ class RemoteHandlerService
             $params = [
                 'value' => $this->tools->formatAmount($amount),
                 'trackId' => $trackId
-            ]; 
+            ];
 
             // Send the request
             $response = $this->client->getPostResponse($url, $params);
@@ -197,6 +197,6 @@ class RemoteHandlerService
         } catch (\Exception $e) {
             $this->watchdog->logError($e);
             throw new \Magento\Framework\Exception\LocalizedException(__('The remote transaction could not be refunded.'));
-        } 
+        }
     }
 }

@@ -6,8 +6,8 @@
  *
  * @category  Cmsbox
  * @package   Mercanet
- * @author    Cmsbox France <contact@cmsbox.fr> 
- * @copyright Cmsbox.fr all rights reserved.
+ * @author    Cmsbox Development Team <contact@cmsbox.fr>
+ * @copyright 2019 Cmsbox.fr all rights reserved
  * @license   https://opensource.org/licenses/mit-license.html MIT License
  * @link      https://www.cmsbox.fr
  */
@@ -25,8 +25,8 @@ class ColorPicker extends \Magento\Config\Block\System\Config\Form\Field
     protected $_coreRegistry;
 
     public function __construct(
-        \Magento\Backend\Block\Template\Context $context, 
-        \Magento\Framework\Registry $coreRegistry, 
+        \Magento\Backend\Block\Template\Context $context,
+        \Magento\Framework\Registry $coreRegistry,
         array $data = []
     ) {
         $this->_coreRegistry = $coreRegistry;

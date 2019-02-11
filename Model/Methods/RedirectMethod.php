@@ -6,8 +6,8 @@
  *
  * @category  Cmsbox
  * @package   Mercanet
- * @author    Cmsbox France <contact@cmsbox.fr> 
- * @copyright Cmsbox.fr all rights reserved.
+ * @author    Cmsbox Development Team <contact@cmsbox.fr>
+ * @copyright 2019 Cmsbox.fr all rights reserved
  * @license   https://opensource.org/licenses/mit-license.html MIT License
  * @link      https://www.cmsbox.fr
  */
@@ -63,7 +63,7 @@ class RedirectMethod extends \Magento\Payment\Model\Method\AbstractMethod
         \Cmsbox\Mercanet\Gateway\Config\Config $config,
         \Magento\Checkout\Model\Cart $cart,
         \Magento\Framework\UrlInterface $urlBuilder,
-        \Magento\Framework\ObjectManagerInterface $objectManager, 
+        \Magento\Framework\ObjectManagerInterface $objectManager,
         \Magento\Sales\Model\Order\Email\Sender\InvoiceSender $invoiceSender,
         \Magento\Framework\DB\TransactionFactory $transactionFactory,
         \Magento\Customer\Model\Session $customerSession,
@@ -119,7 +119,7 @@ class RedirectMethod extends \Magento\Payment\Model\Method\AbstractMethod
 
     /**
      * Prepare the request data.
-     */  
+     */
     public static function getRequestData($config, $storeManager, $methodId, $cardData = null, $entity = null)
     {
         // Get the order entity
@@ -141,11 +141,11 @@ class RedirectMethod extends \Magento\Payment\Model\Method\AbstractMethod
         $paymentRequest->setCaptureDay((string) $config->params[$methodId][Connector::KEY_CAPTURE_DAY]);
         $paymentRequest->setLanguage($config->getCustomerLanguage());
         $paymentRequest->setNormalReturnUrl(
-            $config->storeManager->getStore()->getBaseUrl() 
+            $config->storeManager->getStore()->getBaseUrl()
             . Core::moduleId() . '/' . $config->params[$methodId][Core::KEY_NORMAL_RETURN_URL]
-        );    
+        );
         $paymentRequest->setAutomaticResponseUrl(
-            $config->storeManager->getStore()->getBaseUrl() 
+            $config->storeManager->getStore()->getBaseUrl()
             . Core::moduleId() . '/' . $config->params[$methodId][Core::KEY_AUTOMATIC_RESPONSE_URL]
         );
 
@@ -171,7 +171,7 @@ class RedirectMethod extends \Magento\Payment\Model\Method\AbstractMethod
 
     /**
      * Checks if a response is valid.
-     */  
+     */
     public static function isValidResponse($config, $methodId, $asset)
     {
         // Get the vendor instance
@@ -182,12 +182,12 @@ class RedirectMethod extends \Magento\Payment\Model\Method\AbstractMethod
         $paymentResponse->setResponse($asset);
     
         // Return the validity status
-        return $paymentResponse->isValid(); 
+        return $paymentResponse->isValid();
     }
 
     /**
      * Checks if a response is success.
-     */  
+     */
     public static function isSuccessResponse($config, $methodId, $asset)
     {
         // Get the vendor instance
@@ -198,12 +198,12 @@ class RedirectMethod extends \Magento\Payment\Model\Method\AbstractMethod
         $paymentResponse->setResponse($asset);
 
         // Return the success status
-        return $paymentResponse->isSuccessful();      
+        return $paymentResponse->isSuccessful();
     }
 
     /**
      * Gets a transaction id.
-     */  
+     */
     public static function getTransactionId($config, $paymentObject)
     {
         return $paymentObject->getParam($config->base[Connector::KEY_TRANSACTION_ID_FIELD]);

@@ -52,7 +52,7 @@ class OrderSaveAfter implements \Magento\Framework\Event\ObserverInterface
         \Cmsbox\Mercanet\Gateway\Config\Config $config,
         \Cmsbox\Mercanet\Model\Service\TransactionHandlerService $transactionHandler,
         \Cmsbox\Mercanet\Helper\Watchdog $watchdog
-    ) { 
+    ) {
         $this->backendAuthSession = $backendAuthSession;
         $this->client             = $client;
         $this->config             = $config;
@@ -64,7 +64,7 @@ class OrderSaveAfter implements \Magento\Framework\Event\ObserverInterface
      * Observer execute function.
      */
     public function execute(Observer $observer)
-    { 
+    {
         if ($this->backendAuthSession->isLoggedIn()) {
             try {
                 // Get the order
@@ -97,8 +97,7 @@ class OrderSaveAfter implements \Magento\Framework\Event\ObserverInterface
                 } else {
                     $authorizationTransactionId = $this->transactionHandler->createTransaction($order, $fields, Transaction::TYPE_AUTH, $methodId);
                 }
-            }
-            catch (\Exception $e) {
+            } catch (\Exception $e) {
                 $this->watchdog->logError($e);
                 throw new \Magento\Framework\Exception\LocalizedException(__($e->getMessage()));
             }

@@ -6,8 +6,8 @@
  *
  * @category  Cmsbox
  * @package   Mercanet
- * @author    Cmsbox France <contact@cmsbox.fr> 
- * @copyright Cmsbox.fr all rights reserved.
+ * @author    Cmsbox Development Team <contact@cmsbox.fr>
+ * @copyright 2019 Cmsbox.fr all rights reserved
  * @license   https://opensource.org/licenses/mit-license.html MIT License
  * @link      https://www.cmsbox.fr
  */
@@ -95,7 +95,7 @@ class TransactionHandlerService
         try {
             // Prepare payment object
             $payment = $order->getPayment();
-            $payment->setMethod($methodId); 
+            $payment->setMethod($methodId);
             $payment->setLastTransId($paymentData[$this->config->base[Connector::KEY_TRANSACTION_ID_FIELD]]);
             $payment->setTransactionId($paymentData[$this->config->base[Connector::KEY_TRANSACTION_ID_FIELD]]);
             $payment->setAdditionalInformation([Transaction::RAW_DETAILS => (array) $paymentData]);
@@ -125,10 +125,9 @@ class TransactionHandlerService
             // Create the invoice
             if ($this->config->params[$methodId][Core::KEY_INVOICE_CREATION] == $transactionMode) {
                 $this->invoiceHandler->processInvoice($order);
-            }   
+            }
  
             return $transaction->getTransactionId();
-
         } catch (Exception $e) {
             $this->watchdog->logError($e);
             return false;

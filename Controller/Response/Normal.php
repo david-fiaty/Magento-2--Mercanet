@@ -6,8 +6,8 @@
  *
  * @category  Cmsbox
  * @package   Mercanet
- * @author    Cmsbox France <contact@cmsbox.fr> 
- * @copyright Cmsbox.fr all rights reserved.
+ * @author    Cmsbox Development Team <contact@cmsbox.fr>
+ * @copyright 2019 Cmsbox.fr all rights reserved
  * @license   https://opensource.org/licenses/mit-license.html MIT License
  * @link      https://www.cmsbox.fr
  */
@@ -118,16 +118,13 @@ class Normal extends \Magento\Framework\App\Action\Action
                     } else {
                         $this->watchdog->logError(__('The order could not be created.'));
                     }
-                }
-                else {
+                } else {
                     $this->watchdog->logError(__('The transaction could not be processed. Please try again.'));
                 }
-            }
-            else {
+            } else {
                 $this->watchdog->logError(__('Invalid gateway response.'));
             }
-        }
-        else {
+        } else {
             $this->watchdog->logError(__('Invalid payment method.'));
         }
 

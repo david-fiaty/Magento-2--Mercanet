@@ -6,8 +6,8 @@
  *
  * @category  Cmsbox
  * @package   Mercanet
- * @author    Cmsbox France <contact@cmsbox.fr> 
- * @copyright Cmsbox.fr all rights reserved.
+ * @author    Cmsbox Development Team <contact@cmsbox.fr>
+ * @copyright 2019 Cmsbox.fr all rights reserved
  * @license   https://opensource.org/licenses/mit-license.html MIT License
  * @link      https://www.cmsbox.fr
  */
@@ -26,7 +26,7 @@ class Client
 
     /**
      * Client constructor.
-     */     
+     */
     public function __construct(
         \Magento\Framework\HTTP\Client\Curl $curl
     ) {
@@ -38,7 +38,7 @@ class Client
 
     /**
      * Adds the request headers.
-     */ 
+     */
     private function addHeaders()
     {
         $this->curl->addHeader('Content-Type', 'application/json');
@@ -47,7 +47,7 @@ class Client
 
     /**
      * Encode the response to JSON format.
-     */ 
+     */
     private function formatResponse($response)
     {
         return isset($response) ? (array) json_decode($response) : null;
@@ -55,7 +55,7 @@ class Client
 
     /**
      * Returns a prepared post response.
-     */    
+     */
     public function getPostResponse($url, $params)
     {
         // Send the request
@@ -69,7 +69,7 @@ class Client
 
     /**
      * Returns a prepared get response.
-     */    
+     */
     public function getGetResponse($url)
     {
         // Send the request
@@ -96,7 +96,7 @@ class Client
         $this->curl->get($url);
 
         // Return the response
-        return $this->curl->getBody();     
+        return $this->curl->getBody();
     }
 
     public function setOption($name, $value)

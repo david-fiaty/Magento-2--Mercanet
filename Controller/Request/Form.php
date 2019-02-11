@@ -6,8 +6,8 @@
  *
  * @category  Cmsbox
  * @package   Mercanet
- * @author    Cmsbox France <contact@cmsbox.fr> 
- * @copyright Cmsbox.fr all rights reserved.
+ * @author    Cmsbox Development Team <contact@cmsbox.fr>
+ * @copyright 2019 Cmsbox.fr all rights reserved
  * @license   https://opensource.org/licenses/mit-license.html MIT License
  * @link      https://www.cmsbox.fr
  */
@@ -89,17 +89,17 @@ class Form extends \Magento\Framework\App\Action\Action
     {
         if ($this->getRequest()->isAjax()) {
             switch ($this->getRequest()->getParam('task')) {
-            case 'block':
-                $response = $this->runBlock();
-                break;
+                case 'block':
+                    $response = $this->runBlock();
+                    break;
 
-            case 'charge':
-                $response = $this->runCharge();
-                break;
+                case 'charge':
+                    $response = $this->runCharge();
+                    break;
 
-            default:
-                $response = $this->runBlock();
-                break;
+                default:
+                    $response = $this->runBlock();
+                    break;
             }
 
             return $this->jsonFactory->create()->setData([Connector::KEY_RESPONSE => $response]);
@@ -163,7 +163,7 @@ class Form extends \Magento\Framework\App\Action\Action
             }
 
             return $this->handleError(__('The transaction data is invalid.'));
-        } 
+        }
         
         return $this->handleError(__('Invalid request or payment method.'));
     }

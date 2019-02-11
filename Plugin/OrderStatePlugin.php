@@ -6,8 +6,8 @@
  *
  * @category  Cmsbox
  * @package   Mercanet
- * @author    Cmsbox France <contact@cmsbox.fr> 
- * @copyright Cmsbox.fr all rights reserved.
+ * @author    Cmsbox Development Team <contact@cmsbox.fr>
+ * @copyright 2019 Cmsbox.fr all rights reserved
  * @license   https://opensource.org/licenses/mit-license.html MIT License
  * @link      https://www.cmsbox.fr
  */
@@ -41,10 +41,10 @@ class OrderStatePlugin
     }
 
     public function aroundExecute(
-        \Magento\Sales\Model\Order\Payment\State\CommandInterface $subject, 
-        \Closure $proceed, 
-        \Magento\Sales\Api\Data\OrderPaymentInterface $payment, 
-        $amount, 
+        \Magento\Sales\Model\Order\Payment\State\CommandInterface $subject,
+        \Closure $proceed,
+        \Magento\Sales\Api\Data\OrderPaymentInterface $payment,
+        $amount,
         \Magento\Sales\Api\Data\OrderInterface $order
     ) {
         // Prepare the result
@@ -53,14 +53,14 @@ class OrderStatePlugin
         // Build the module id from the payment method
         $methodCode = $payment->getMethodInstance()->getCode();
         $members = explode('_', $methodCode);
-        $moduleId = isset($members[0]) && isset($members[1]) 
+        $moduleId = isset($members[0]) && isset($members[1])
         ? $members[0] . $members[1] : '';
 
         // Check the payment method and update order status
         if (!empty($moduleId) && $moduleId == Core::moduleId()) {
             if ($order->getState() == Order::STATE_PROCESSING) {
                 $order->setStatus($this->config->params[Core::moduleId()][Core::KEY_ORDER_STATUS_CAPTURED]);
-            }            
+            }
         }
 
         return $result;

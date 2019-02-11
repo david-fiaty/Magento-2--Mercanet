@@ -6,8 +6,8 @@
  *
  * @category  Cmsbox
  * @package   Mercanet
- * @author    Cmsbox France <contact@cmsbox.fr> 
- * @copyright Cmsbox.fr all rights reserved.
+ * @author    Cmsbox Development Team <contact@cmsbox.fr>
+ * @copyright 2019 Cmsbox.fr all rights reserved
  * @license   https://opensource.org/licenses/mit-license.html MIT License
  * @link      https://www.cmsbox.fr
  */
@@ -47,7 +47,7 @@ class InvoiceHandlerService
         \Cmsbox\Mercanet\Gateway\Config\Config $config,
         \Magento\Sales\Model\Service\InvoiceService $invoiceService,
         \Magento\Sales\Api\InvoiceRepositoryInterface $invoiceRepository,
-        \Cmsbox\Mercanet\Helper\Watchdog $watchdog      
+        \Cmsbox\Mercanet\Helper\Watchdog $watchdog
     ) {
         $this->config             = $config;
         $this->invoiceService     = $invoiceService;
@@ -57,7 +57,8 @@ class InvoiceHandlerService
 
     public function processInvoice($order)
     {
-        if ($this->shouldInvoice($order)) {  $this->createInvoice($order);
+        if ($this->shouldInvoice($order)) {
+            $this->createInvoice($order);
         }
     }
 

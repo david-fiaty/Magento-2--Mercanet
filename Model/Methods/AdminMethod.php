@@ -21,11 +21,12 @@ use Cmsbox\Mercanet\Gateway\Config\Core;
 use Cmsbox\Mercanet\Helper\Tools;
 use Cmsbox\Mercanet\Gateway\Processor\Connector;
 use Cmsbox\Mercanet\Gateway\Config\Config;
+use Cmsbox\Mercanet\Block\Adminhtml\Payment\Form;
+use Cmsbox\Mercanet\Gateway\Vendor\GestionPlusInterface;
 
 class AdminMethod extends \Magento\Payment\Model\Method\AbstractMethod
 {
-
-    protected $_formBlockType = \Cmsbox\Mercanet\Block\Adminhtml\Payment\Form::class;
+    protected $_formBlockType = Form::class;
     protected $_code;
     protected $_isInitializeNeeded = true;
     protected $_isGateway = true;
@@ -138,8 +139,7 @@ class AdminMethod extends \Magento\Payment\Model\Method\AbstractMethod
         $entity = ($entity) ? $entity : $config->cart->getQuote();
 
         // Get the vendor instance
-        $fn = "\\" . $config->params[$methodId][Core::KEY_VENDOR];
-        $paymentRequest = new $fn(Connector::getSecretKey($config));
+        $paymentRequest = new GestionPlusInterface(Connector::getSecretKey($config));
 
         // Prepare the request
         $paymentRequest = new $fn(Connector::getSecretKey($config));

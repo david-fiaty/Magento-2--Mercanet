@@ -137,8 +137,7 @@ class IframeMethod extends \Magento\Payment\Model\Method\AbstractMethod
         $entity = ($entity) ? $entity : $config->cart->getQuote();
 
         // Get the vendor class
-        $fn = "\\" . $config->params[$methodId][Core::KEY_VENDOR];
-        $paymentRequest = new $fn(Connector::getSecretKey($config));
+        $paymentRequest = new PostInterface(Connector::getSecretKey($config));
 
         // Prepare the request
         $paymentRequest->setMerchantId(Connector::getMerchantId($config));

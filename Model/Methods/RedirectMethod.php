@@ -21,7 +21,7 @@ use Cmsbox\Mercanet\Gateway\Config\Core;
 use Cmsbox\Mercanet\Helper\Tools;
 use Cmsbox\Mercanet\Gateway\Processor\Connector;
 use Cmsbox\Mercanet\Gateway\Config\Config;
-
+use Cmsbox\Mercanet\Gateway\Vendor\PostInterface;
 class RedirectMethod extends \Magento\Payment\Model\Method\AbstractMethod
 {
 
@@ -127,8 +127,7 @@ class RedirectMethod extends \Magento\Payment\Model\Method\AbstractMethod
         $entity = ($entity) ? $entity : $config->cart->getQuote();
 
         // Get the vendor instance
-        $fn = "\\" . $config->params[$methodId][Core::KEY_VENDOR];
-        $paymentRequest = new $fn(Connector::getSecretKey($config));
+        $paymentRequest = new PostInterface(Connector::getSecretKey($config));
 
         // Prepare the request
         $paymentRequest->setMerchantId(Connector::getMerchantId($config));

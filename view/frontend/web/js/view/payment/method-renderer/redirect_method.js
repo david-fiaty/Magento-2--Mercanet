@@ -1,10 +1,14 @@
 /**
- * Cmsbox.fr Magento 2 Payment module (https://www.cmsbox.fr)
+ * Cmsbox.fr Magento 2 Mercanet Payment.
  *
- * Copyright (c) 2017 Cmsbox.fr (https://www.cmsbox.fr)
- * Author: David Fiaty | contact@cmsbox.fr
+ * PHP version 7
  *
- * License GNU/GPL V3 https://www.gnu.org/licenses/gpl-3.0.en.html
+ * @category  Cmsbox
+ * @package   Mercanet
+ * @author    Cmsbox Development Team <contact@cmsbox.fr>
+ * @copyright 2019 Cmsbox.fr all rights reserved
+ * @license   https://opensource.org/licenses/mit-license.html MIT License
+ * @link      https://www.cmsbox.fr
  */
 
 /*browser:true*/
@@ -19,84 +23,85 @@ define(
         'Magento_Checkout/js/model/payment/additional-validators',
         'mage/translate'
     ],
-    function($, Component, Adapter, FullScreenLoader, AdditionalValidators, t) {
+    function ($, Component, Adapter, FullScreenLoader, AdditionalValidators, t) {
         'use strict';
 
         window.checkoutConfig.reloadOnBillingAddress = true;
         var code = 'redirect_method';
 
-        return Component.extend({
-            defaults: {
-                template: Adapter.getName() + '/payment/' + code + '.phtml',
-                moduleId: Adapter.getCode(),
-                methodId: Adapter.getMethodId(code),
-                config: Adapter.getPaymentConfig()[Adapter.getMethodId(code)],
-                targetButton:  Adapter.getMethodId(code) + '_button',
-                targetForm:  Adapter.getMethodId(code) + '_form',
-                redirectAfterPlaceOrder: false
-            },
+        return Component.extend(
+            {
+                defaults: {
+                    template: Adapter.getName() + '/payment/' + code + '.phtml',
+                    moduleId: Adapter.getCode(),
+                    methodId: Adapter.getMethodId(code),
+                    config: Adapter.getPaymentConfig()[Adapter.getMethodId(code)],
+                    targetButton:  Adapter.getMethodId(code) + '_button',
+                    targetForm:  Adapter.getMethodId(code) + '_form',
+                    redirectAfterPlaceOrder: false
+                },
 
-            /**
-             * @returns {exports}
-             */
-            initialize: function() {
-                this._super();
-                this.data = {'method': this.methodId};
-                Adapter.log(this.config.request_data.params);
-            },
+                /**
+                 * @returns {exports}
+                 */
+                initialize: function () {
+                    this._super();
+                    this.data = {'method': this.methodId};
+                    Adapter.log(this.config.request_data.params);
+                },
 
-            initObservable: function() {
-                this._super().observe([]);
-                return this;
-            },
+                initObservable: function () {
+                    this._super().observe([]);
+                    return this;
+                },
 
-            /**
-             * @returns {string}
-             */
-            getCode: function() {
-                return this.methodId;
-            },
+                /**
+                 * @returns {string}
+                 */
+                getCode: function () {
+                    return this.methodId;
+                },
 
-            /**
-             * @returns {bool}
-             */
-            isActive: function() {
-                return this.config.active;
-            },
+                /**
+                 * @returns {bool}
+                 */
+                isActive: function () {
+                    return this.config.active;
+                },
 
-            /**
-             * @returns {string}
-             */
-            proceedWithSubmission: function() {
-                // Disable jQuery validate checks
-                $('#' + this.targetForm).validate().cancelSubmit = true;
+                /**
+                 * @returns {string}
+                 */
+                proceedWithSubmission: function () {
+                    // Disable jQuery validate checks
+                    $('#' + this.targetForm).validate().cancelSubmit = true;
 
-                // Submit the form
-                $('#' + this.targetForm).submit();
-            },
+                    // Submit the form
+                    $('#' + this.targetForm).submit();
+                },
 
-            /**
-             * @returns {string}
-             */
-            beforePlaceOrder: function() {
-                // Start the loader
-                FullScreenLoader.startLoader();
+                /**
+                 * @returns {string}
+                 */
+                beforePlaceOrder: function () {
+                    // Start the loader
+                    FullScreenLoader.startLoader();
 
-                // Validate before submission
-                if (AdditionalValidators.validate()) {
-                    // Set the cookie data
-                    Adapter.setCookieData(this.methodId);
+                    // Validate before submission
+                    if (AdditionalValidators.validate()) {
+                        // Set the cookie data
+                        Adapter.setCookieData(this.methodId);
                     
-                    // Log the request data
-                    Adapter.backendLog(this.config.request_data.params);
+                        // Log the request data
+                        Adapter.backendLog(this.config.request_data.params);
 
-                    // Submit
-                    this.proceedWithSubmission();
-                }
-                else {
-                    FullScreenLoader.stopLoader();
+                        // Submit
+                        this.proceedWithSubmission();
+                    } else {
+                        FullScreenLoader.stopLoader();
+                    }
                 }
             }
-        });
+        );
     }
 );

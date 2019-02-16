@@ -1,11 +1,15 @@
 <?php
 /**
- * Cmsbox.fr Magento 2 Payment module (https://www.cmsbox.fr)
+ * Cmsbox.fr Magento 2 Mercanet Payment.
  *
- * Copyright (c) 2017 Cmsbox.fr (https://www.cmsbox.fr)
- * Author: David Fiaty | contact@cmsbox.fr
+ * PHP version 7
  *
- * License GNU/GPL V3 https://www.gnu.org/licenses/gpl-3.0.en.html
+ * @category  Cmsbox
+ * @package   Mercanet
+ * @author    Cmsbox Development Team <contact@cmsbox.fr>
+ * @copyright 2019 Cmsbox.fr all rights reserved
+ * @license   https://opensource.org/licenses/mit-license.html MIT License
+ * @link      https://www.cmsbox.fr
  */
 
 namespace Cmsbox\Mercanet\Plugin;
@@ -13,7 +17,8 @@ namespace Cmsbox\Mercanet\Plugin;
 use Magento\Sales\Model\Order;
 use Cmsbox\Mercanet\Gateway\Config\Core;
 
-class OrderStatePlugin {
+class OrderStatePlugin
+{
     /**
      * @var Tools
      */
@@ -36,10 +41,10 @@ class OrderStatePlugin {
     }
 
     public function aroundExecute(
-        \Magento\Sales\Model\Order\Payment\State\CommandInterface $subject, 
-        \Closure $proceed, 
-        \Magento\Sales\Api\Data\OrderPaymentInterface $payment, 
-        $amount, 
+        \Magento\Sales\Model\Order\Payment\State\CommandInterface $subject,
+        \Closure $proceed,
+        \Magento\Sales\Api\Data\OrderPaymentInterface $payment,
+        $amount,
         \Magento\Sales\Api\Data\OrderInterface $order
     ) {
         // Prepare the result
@@ -48,14 +53,14 @@ class OrderStatePlugin {
         // Build the module id from the payment method
         $methodCode = $payment->getMethodInstance()->getCode();
         $members = explode('_', $methodCode);
-        $moduleId = isset($members[0]) && isset($members[1]) 
+        $moduleId = isset($members[0]) && isset($members[1])
         ? $members[0] . $members[1] : '';
 
         // Check the payment method and update order status
         if (!empty($moduleId) && $moduleId == Core::moduleId()) {
             if ($order->getState() == Order::STATE_PROCESSING) {
                 $order->setStatus($this->config->params[Core::moduleId()][Core::KEY_ORDER_STATUS_CAPTURED]);
-            }            
+            }
         }
 
         return $result;

@@ -1,16 +1,21 @@
 <?php
 /**
- * Cmsbox.fr Magento 2 Payment module (https://www.cmsbox.fr)
+ * Cmsbox.fr Magento 2 Mercanet Payment.
  *
- * Copyright (c) 2017 Cmsbox.fr (https://www.cmsbox.fr)
- * Author: David Fiaty | contact@cmsbox.fr
+ * PHP version 7
  *
- * License GNU/GPL V3 https://www.gnu.org/licenses/gpl-3.0.en.html
+ * @category  Cmsbox
+ * @package   Mercanet
+ * @author    Cmsbox Development Team <contact@cmsbox.fr>
+ * @copyright 2019 Cmsbox.fr all rights reserved
+ * @license   https://opensource.org/licenses/mit-license.html MIT License
+ * @link      https://www.cmsbox.fr
  */
  
 namespace Cmsbox\Mercanet\Gateway\Processor;
 
-class Connector {
+class Connector
+{
     const KEY_ENVIRONMENT = 'environment';
     const KEY_SIMU_MERCHANT_ID = 'simu_merchant_id';
     const KEY_TEST_MERCHANT_ID = 'test_merchant_id';
@@ -47,7 +52,8 @@ class Connector {
     /**
      * Turns a data response string into an array.
      */
-    public static function unpackData($response) {
+    public static function unpackData($response)
+    {
         // Get the parameters
         $params = $response;
 
@@ -76,8 +82,9 @@ class Connector {
 
     /**
      * Turns a data request array into a string.
-     */   
-    public static function packData($arr) {
+     */
+    public static function packData($arr)
+    {
         $output = [];
         foreach ($arr as $key => $val) {
             $output[] = $key . '=' . $val;
@@ -91,7 +98,8 @@ class Connector {
      *
      * @return string
      */
-    public static function getApiUrl($action, $config, $methodId) {
+    public static function getApiUrl($action, $config, $methodId)
+    {
         $mode = $config->params[\Cmsbox\Mercanet\Gateway\Config\Core::moduleId()][self::KEY_ENVIRONMENT];
         $path = 'api_url' . '_' . $mode . '_' . $action;
         return $config->params[$methodId][$path];
@@ -102,19 +110,21 @@ class Connector {
      *
      * @return string
      */
-    public static function getMerchantId($config) {
+    public static function getMerchantId($config)
+    {
         switch ($config->base[self::KEY_ENVIRONMENT]) {
-            case 'simu': 
-            $id = $config->base[self::KEY_SIMU_MERCHANT_ID];
-            break;
+            case 'simu':
+                $id = $config->base[self::KEY_SIMU_MERCHANT_ID];
+                break;
 
-            case 'test': 
-            $id = $config->base[self::KEY_TEST_MERCHANT_ID];
-            break;
+            case 'test':
+                $id = $config->base[self::KEY_TEST_MERCHANT_ID];
+                break;
 
-            case 'prod': 
-            $id = $config->base[self::KEY_PROD_MERCHANT_ID];;
-            break;
+            case 'prod':
+                $id = $config->base[self::KEY_PROD_MERCHANT_ID];
+                ;
+                break;
         }
 
         return (string) $id;
@@ -125,20 +135,21 @@ class Connector {
      *
      * @return string
      */
-    public static function getSecretKey($config) {
+    public static function getSecretKey($config)
+    {
         // Return the secret key
         switch ($config->base[self::KEY_ENVIRONMENT]) {
-            case 'simu': 
-            $key = $config->params[\Cmsbox\Mercanet\Gateway\Config\Core::moduleId()][self::KEY_SIMU_SECRET_KEY];
-            break;
+            case 'simu':
+                $key = $config->params[\Cmsbox\Mercanet\Gateway\Config\Core::moduleId()][self::KEY_SIMU_SECRET_KEY];
+                break;
 
-            case 'test': 
-            $key = $config->params[\Cmsbox\Mercanet\Gateway\Config\Core::moduleId()][self::KEY_TEST_SECRET_KEY];
-            break;
+            case 'test':
+                $key = $config->params[\Cmsbox\Mercanet\Gateway\Config\Core::moduleId()][self::KEY_TEST_SECRET_KEY];
+                break;
 
-            case 'prod': 
-            $key = $config->params[\Cmsbox\Mercanet\Gateway\Config\Core::moduleId()][self::KEY_PROD_SECRET_KEY];
-            break;
+            case 'prod':
+                $key = $config->params[\Cmsbox\Mercanet\Gateway\Config\Core::moduleId()][self::KEY_PROD_SECRET_KEY];
+                break;
         }
 
         return $key;
@@ -147,7 +158,8 @@ class Connector {
     /**
      * Returns the billing address.
      */
-    public static function getBillingAddress($entity, $config) {
+    public static function getBillingAddress($entity, $config)
+    {
         // Retrieve the address object
         $address = $entity->getBillingAddress();
 
@@ -165,13 +177,14 @@ class Connector {
     /**
      * Returns the shipping address.
      */
-    public static function getShippingAddress($entity, $config) {
+    public static function getShippingAddress($entity, $config)
+    {
         // Retrieve the address object
         $address = $entity->getBillingAddress();
 
         // Return the formatted array,
         return [
-            'customerAddress.street'  => implode(', ', $address->getStreet()),        
+            'customerAddress.street'  => implode(', ', $address->getStreet()),
             'customerAddress.city'    => $address->getCity(),
             'customerAddress.country' => $config->getCountryCodeA2A3($address->getCountryId()),
             'customerAddress.zipCode' => $address->getPostcode(),

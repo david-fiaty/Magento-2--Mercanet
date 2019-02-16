@@ -1,23 +1,29 @@
 <?php
 /**
- * Cmsbox.fr Magento 2 Payment module (https://www.cmsbox.fr)
+ * Cmsbox.fr Magento 2 Mercanet Payment.
  *
- * Copyright (c) 2017 Cmsbox.fr (https://www.cmsbox.fr)
- * Author: David Fiaty | contact@cmsbox.fr
+ * PHP version 7
  *
- * License GNU/GPL V3 https://www.gnu.org/licenses/gpl-3.0.en.html
+ * @category  Cmsbox
+ * @package   Mercanet
+ * @author    Cmsbox Development Team <contact@cmsbox.fr>
+ * @copyright 2019 Cmsbox.fr all rights reserved
+ * @license   https://opensource.org/licenses/mit-license.html MIT License
+ * @link      https://www.cmsbox.fr
  */
 
 namespace Cmsbox\Mercanet\Model\Methods;
 
 use Magento\Framework\DataObject;
 use Magento\Quote\Api\Data\PaymentInterface;
+use Magento\Framework\Module\Dir;
 use Cmsbox\Mercanet\Gateway\Config\Core;
 use Cmsbox\Mercanet\Helper\Tools;
 use Cmsbox\Mercanet\Gateway\Processor\Connector;
 use Cmsbox\Mercanet\Gateway\Config\Config;
 
-class AdminMethod extends \Magento\Payment\Model\Method\AbstractMethod {
+class AdminMethod extends \Magento\Payment\Model\Method\AbstractMethod
+{
 
     protected $_formBlockType = \Cmsbox\Mercanet\Block\Adminhtml\Payment\Form::class;
     protected $_code;
@@ -59,7 +65,7 @@ class AdminMethod extends \Magento\Payment\Model\Method\AbstractMethod {
         \Cmsbox\Mercanet\Gateway\Config\Config $config,
         \Magento\Checkout\Model\Cart $cart,
         \Magento\Framework\UrlInterface $urlBuilder,
-        \Magento\Framework\ObjectManagerInterface $objectManager, 
+        \Magento\Framework\ObjectManagerInterface $objectManager,
         \Magento\Sales\Model\Order\Email\Sender\InvoiceSender $invoiceSender,
         \Magento\Framework\DB\TransactionFactory $transactionFactory,
         \Magento\Customer\Model\Session $customerSession,
@@ -71,7 +77,6 @@ class AdminMethod extends \Magento\Payment\Model\Method\AbstractMethod {
         \Magento\Backend\Model\Session\Quote $sessionQuote,
         \Magento\Framework\Model\ResourceModel\AbstractResource $resource = null,
         \Magento\Framework\Data\Collection\AbstractDb $resourceCollection = null,
-
         array $data = []
     ) {
         parent::__construct(
@@ -106,7 +111,7 @@ class AdminMethod extends \Magento\Payment\Model\Method\AbstractMethod {
     /**
      * Check whether method is available
      *
-     * @param \Magento\Quote\Api\Data\CartInterface|\Magento\Quote\Model\Quote|null $quote
+     * @param  \Magento\Quote\Api\Data\CartInterface|\Magento\Quote\Model\Quote|null $quote
      * @return bool
      */
     public function isAvailable(\Magento\Quote\Api\Data\CartInterface $quote = null)
@@ -116,6 +121,7 @@ class AdminMethod extends \Magento\Payment\Model\Method\AbstractMethod {
 
     /**
      * Check whether method is active
+     *
      * @return bool
      */
     public function isActive($storeId = null)
@@ -125,8 +131,9 @@ class AdminMethod extends \Magento\Payment\Model\Method\AbstractMethod {
 
     /**
      * Prepare the request data.
-     */  
-    public static function getRequestData($config, $storeManager, $methodId, $cardData = null, $entity = null) {
+     */
+    public static function getRequestData($config, $storeManager, $methodId, $cardData = null, $entity = null, $moduleDirReader = null)
+    {
         // Get the order entity
         $entity = ($entity) ? $entity : $config->cart->getQuote();
 
@@ -148,7 +155,7 @@ class AdminMethod extends \Magento\Payment\Model\Method\AbstractMethod {
         $paymentRequest->setCaptureDay((string) $config->params[$methodId][Connector::KEY_CAPTURE_DAY]);
         $paymentRequest->setCaptureMode($config->params[$methodId][Connector::KEY_CAPTURE_MODE]);
         $paymentRequest->setOrderId(Tools::getIncrementId($entity));
-        $paymentRequest->setUrl($config->params[$methodId]['api_url_test']); // Todo- add prod detection linked to config
+        $paymentRequest->setUrl($config->params[$methodId]['api_url_' . $config->base[Connector::KEY_ENVIRONMENT]]);
         $paymentRequest->setPspRequest($config->params[$methodId][Core::KEY_CHARGE_SUFFIX]);
         $paymentRequest->setOrderChannel("INTERNET");
         $paymentRequest->setCustomerContactEmail($entity->getCustomerEmail());
@@ -171,39 +178,44 @@ class AdminMethod extends \Magento\Payment\Model\Method\AbstractMethod {
 
     /**
      * Checks if a response is valid.
-     */  
-    public static function isValidResponse($config, $methodId, $asset) {
+     */
+    public static function isValidResponse($config, $methodId, $asset)
+    {
         $status = $asset->isValid();
         return $status;
     }
 
     /**
      * Checks if a response is success.
-     */  
-    public static function isSuccessResponse($config, $methodId, $asset) {
+     */
+    public static function isSuccessResponse($config, $methodId, $asset)
+    {
         $status = $asset->isValid();
         return $status;
     }
     
     /**
      * Gets a transaction id.
-     */  
-    public static function getTransactionId($config, $paymentObject) {
+     */
+    public static function getTransactionId($config, $paymentObject)
+    {
         return $paymentObject->getParam($config->base[Connector::KEY_TRANSACTION_ID_FIELD]);
     }
     
     /**
      * Logs a request data.
-     */  
-    public static function logRequestData($action, $watchdog, $asset) {
+     */
+    public static function logRequestData($action, $watchdog, $asset)
+    {
         $logData = $asset->toParameterString();
         $watchdog->bark($action, $logData, $canDisplay = false, $canLog = true);
     }
 
     /**
      * Logs a response data.
-     */  
-    public static function logResponseData($action, $watchdog, $asset) {
+     */
+    public static function logResponseData($action, $watchdog, $asset)
+    {
         $logData = $asset->getResponseRequest();
         $watchdog->bark($action, $logData, $canDisplay = true, $canLog = true);
     }
@@ -211,7 +223,8 @@ class AdminMethod extends \Magento\Payment\Model\Method\AbstractMethod {
     /**
      * Determines if the method is active on frontend.
      */
-    public static function isFrontend($config, $methodId) {
+    public static function isFrontend($config, $methodId)
+    {
         return false;
     }
 }

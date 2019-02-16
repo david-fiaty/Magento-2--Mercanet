@@ -1,23 +1,29 @@
 <?php
 /**
- * Cmsbox.fr Magento 2 Payment module (https://www.cmsbox.fr)
+ * Cmsbox.fr Magento 2 Mercanet Payment.
  *
- * Copyright (c) 2017 Cmsbox.fr (https://www.cmsbox.fr)
- * Author: David Fiaty | contact@cmsbox.fr
+ * PHP version 7
  *
- * License GNU/GPL V3 https://www.gnu.org/licenses/gpl-3.0.en.html
+ * @category  Cmsbox
+ * @package   Mercanet
+ * @author    Cmsbox Development Team <contact@cmsbox.fr>
+ * @copyright 2019 Cmsbox.fr all rights reserved
+ * @license   https://opensource.org/licenses/mit-license.html MIT License
+ * @link      https://www.cmsbox.fr
  */
 
 namespace Cmsbox\Mercanet\Model\Methods;
 
 use Magento\Framework\DataObject;
 use Magento\Quote\Api\Data\PaymentInterface;
+use Magento\Framework\Module\Dir;
 use Cmsbox\Mercanet\Gateway\Config\Core;
 use Cmsbox\Mercanet\Helper\Tools;
 use Cmsbox\Mercanet\Gateway\Processor\Connector;
 use Cmsbox\Mercanet\Gateway\Config\Config;
 
-class RedirectMethod extends \Magento\Payment\Model\Method\AbstractMethod {
+class RedirectMethod extends \Magento\Payment\Model\Method\AbstractMethod
+{
 
     protected $_code;
     protected $_isInitializeNeeded = true;
@@ -58,7 +64,7 @@ class RedirectMethod extends \Magento\Payment\Model\Method\AbstractMethod {
         \Cmsbox\Mercanet\Gateway\Config\Config $config,
         \Magento\Checkout\Model\Cart $cart,
         \Magento\Framework\UrlInterface $urlBuilder,
-        \Magento\Framework\ObjectManagerInterface $objectManager, 
+        \Magento\Framework\ObjectManagerInterface $objectManager,
         \Magento\Sales\Model\Order\Email\Sender\InvoiceSender $invoiceSender,
         \Magento\Framework\DB\TransactionFactory $transactionFactory,
         \Magento\Customer\Model\Session $customerSession,
@@ -104,17 +110,19 @@ class RedirectMethod extends \Magento\Payment\Model\Method\AbstractMethod {
     /**
      * Check whether method is available
      *
-     * @param \Magento\Quote\Api\Data\CartInterface|\Magento\Quote\Model\Quote|null $quote
+     * @param  \Magento\Quote\Api\Data\CartInterface|\Magento\Quote\Model\Quote|null $quote
      * @return bool
      */
-    public function isAvailable(\Magento\Quote\Api\Data\CartInterface $quote = null) {
+    public function isAvailable(\Magento\Quote\Api\Data\CartInterface $quote = null)
+    {
         return parent::isAvailable($quote) && null !== $quote;
     }
 
     /**
      * Prepare the request data.
-     */  
-    public static function getRequestData($config, $storeManager, $methodId, $cardData = null, $entity = null) {
+     */
+    public static function getRequestData($config, $storeManager, $methodId, $cardData = null, $entity = null, $moduleDirReader = null)
+    {
         // Get the order entity
         $entity = ($entity) ? $entity : $config->cart->getQuote();
 
@@ -134,16 +142,16 @@ class RedirectMethod extends \Magento\Payment\Model\Method\AbstractMethod {
         $paymentRequest->setCaptureDay((string) $config->params[$methodId][Connector::KEY_CAPTURE_DAY]);
         $paymentRequest->setLanguage($config->getCustomerLanguage());
         $paymentRequest->setNormalReturnUrl(
-            $config->storeManager->getStore()->getBaseUrl() 
+            $config->storeManager->getStore()->getBaseUrl()
             . Core::moduleId() . '/' . $config->params[$methodId][Core::KEY_NORMAL_RETURN_URL]
-        );    
+        );
         $paymentRequest->setAutomaticResponseUrl(
-            $config->storeManager->getStore()->getBaseUrl() 
+            $config->storeManager->getStore()->getBaseUrl()
             . Core::moduleId() . '/' . $config->params[$methodId][Core::KEY_AUTOMATIC_RESPONSE_URL]
         );
 
         // Set the 3DS parameter
-        if ($config->params[$methodId][Core::KEY_VERIFY_3DS] && $config->base[self::KEY_ENVIRONMENT] != 'simu') {
+        if ($config->params[$methodId][Core::KEY_VERIFY_3DS] && $config->base[Connector::KEY_ENVIRONMENT] != 'simu') {
             $paymentRequest->setFraudDataBypass3DS($config->params[$methodId][Core::KEY_BYPASS_RECEIPT]);
         }
 
@@ -164,8 +172,9 @@ class RedirectMethod extends \Magento\Payment\Model\Method\AbstractMethod {
 
     /**
      * Checks if a response is valid.
-     */  
-    public static function isValidResponse($config, $methodId, $asset) {
+     */
+    public static function isValidResponse($config, $methodId, $asset)
+    {
         // Get the vendor instance
         $fn = "\\" . $config->params[$methodId][Core::KEY_VENDOR];
         $paymentResponse = new $fn(Connector::getSecretKey($config));
@@ -174,13 +183,14 @@ class RedirectMethod extends \Magento\Payment\Model\Method\AbstractMethod {
         $paymentResponse->setResponse($asset);
     
         // Return the validity status
-        return $paymentResponse->isValid(); 
+        return $paymentResponse->isValid();
     }
 
     /**
      * Checks if a response is success.
-     */  
-    public static function isSuccessResponse($config, $methodId, $asset) {
+     */
+    public static function isSuccessResponse($config, $methodId, $asset)
+    {
         // Get the vendor instance
         $fn = "\\" . $config->params[$methodId][Core::KEY_VENDOR];
         $paymentResponse = new $fn(Connector::getSecretKey($config));
@@ -189,20 +199,22 @@ class RedirectMethod extends \Magento\Payment\Model\Method\AbstractMethod {
         $paymentResponse->setResponse($asset);
 
         // Return the success status
-        return $paymentResponse->isSuccessful();      
+        return $paymentResponse->isSuccessful();
     }
 
     /**
      * Gets a transaction id.
-     */  
-    public static function getTransactionId($config, $paymentObject) {
+     */
+    public static function getTransactionId($config, $paymentObject)
+    {
         return $paymentObject->getParam($config->base[Connector::KEY_TRANSACTION_ID_FIELD]);
     }
     
     /**
      * Determines if the method is active on frontend.
      */
-    public static function isFrontend($config, $methodId) {
+    public static function isFrontend($config, $methodId)
+    {
         // Get the quote entity
         $entity = $config->cart->getQuote();
 

@@ -1,11 +1,15 @@
 <?php
 /**
- * Cmsbox.fr Magento 2 Payment module (https://www.cmsbox.fr)
+ * Cmsbox.fr Magento 2 Mercanet Payment.
  *
- * Copyright (c) 2017 Cmsbox.fr (https://www.cmsbox.fr)
- * Author: David Fiaty | contact@cmsbox.fr
+ * PHP version 7
  *
- * License GNU/GPL V3 https://www.gnu.org/licenses/gpl-3.0.en.html
+ * @category  Cmsbox
+ * @package   Mercanet
+ * @author    Cmsbox Development Team <contact@cmsbox.fr>
+ * @copyright 2019 Cmsbox.fr all rights reserved
+ * @license   https://opensource.org/licenses/mit-license.html MIT License
+ * @link      https://www.cmsbox.fr
  */
 
 namespace Cmsbox\Mercanet\Model\Service;
@@ -15,7 +19,8 @@ use Magento\Sales\Model\Order\Payment\Transaction;
 use Cmsbox\Mercanet\Gateway\Processor\Connector;
 use Cmsbox\Mercanet\Gateway\Config\Core;
 
-class OrderHandlerService {
+class OrderHandlerService
+{
     /**
      * @var CookieManagerInterface
      */
@@ -86,7 +91,7 @@ class OrderHandlerService {
         \Cmsbox\Mercanet\Model\Service\TransactionHandlerService $transactionHandler,
         \Magento\Checkout\Model\Session $checkoutSession,
         \Magento\Customer\Model\Session $customerSession,
-        \Magento\Quote\Model\QuoteManagement $quoteManagement, 
+        \Magento\Quote\Model\QuoteManagement $quoteManagement,
         \Magento\Sales\Model\Order\Email\Sender\OrderSender $orderSender,
         \Magento\Sales\Api\OrderRepositoryInterface $orderRepository,
         \Magento\Sales\Api\Data\OrderInterface $orderInterface,
@@ -110,14 +115,17 @@ class OrderHandlerService {
     /**
      * Place an order
      */
-    public function placeOrder($data, $methodId) {
+    public function placeOrder($data, $methodId)
+    {
         // Get the fields
         $fields = Connector::unpackData($data);
 
         // If a track id is available
         if (isset($fields[$this->config->base[Connector::KEY_ORDER_ID_FIELD]])) {
             // Check if the order exists
-            $order = $this->orderInterface->loadByIncrementId($fields[$this->config->base[Connector::KEY_ORDER_ID_FIELD]]);
+            $order = $this->orderInterface->loadByIncrementId(
+                $fields[$this->config->base[Connector::KEY_ORDER_ID_FIELD]]
+            );
 
             // Update the order
             if ($order) {
@@ -132,10 +140,13 @@ class OrderHandlerService {
     /**
      * Create an order
      */
-    public function createOrder($fields, $methodId) {
+    public function createOrder($fields, $methodId)
+    {
         try {
             // Find the quote
-            $quote = $this->findQuote($fields[$this->config->base[Connector::KEY_ORDER_ID_FIELD]]);
+            $quote = $this->findQuote(
+                $fields[$this->config->base[Connector::KEY_ORDER_ID_FIELD]]
+            );
 
             // If there is a quote, create the order
             if ($quote->getId()) {
@@ -144,7 +155,10 @@ class OrderHandlerService {
 
                 // Check for guest user quote
                 if ($this->customerSession->isLoggedIn() === false) {
-                    $quote = $this->prepareGuestQuote($quote, $fields[$this->config->base[Connector::KEY_CUSTOMER_EMAIL_FIELD]]);
+                    $quote = $this->prepareGuestQuote(
+                        $quote,
+                        $fields[$this->config->base[Connector::KEY_CUSTOMER_EMAIL_FIELD]]
+                    );
                 }
 
                 // Set the payment information
@@ -156,15 +170,30 @@ class OrderHandlerService {
                 $order = $this->quoteManagement->submit($quote);
 
                 // Update order status
-                if ($fields[$this->config->base[Connector::KEY_CAPTURE_MODE_FIELD]] == Connector::KEY_CAPTURE_IMMEDIATE) {
+                $isCaptureImmediate = $fields[
+                    $this->config->base[Connector::KEY_CAPTURE_MODE_FIELD]
+                ] == Connector::KEY_CAPTURE_IMMEDIATE;
+                if ($isCaptureImmediate) {
                     // Create the transaction
-                    $transactionId = $this->transactionHandler->createTransaction($order, $fields, Transaction::TYPE_CAPTURE, $methodId);
+                    $transactionId = $this->transactionHandler->createTransaction(
+                        $order,
+                        $fields,
+                        Transaction::TYPE_CAPTURE,
+                        $methodId
+                    );
                 } else {
                     // Update order status
-                    $order->setStatus($this->config->params[Core::moduleId()][Connector::KEY_ORDER_STATUS_AUTHORIZED]);
+                    $order->setStatus(
+                        $this->config->params[Core::moduleId()][Connector::KEY_ORDER_STATUS_AUTHORIZED]
+                    );
 
                     // Create the transaction
-                    $transactionId = $this->transactionHandler->createTransaction($order, $fields, Transaction::TYPE_AUTH, $methodId);
+                    $transactionId = $this->transactionHandler->createTransaction(
+                        $order,
+                        $fields,
+                        Transaction::TYPE_AUTH,
+                        $methodId
+                    );
                 }
 
                 // Save the order
@@ -184,15 +213,16 @@ class OrderHandlerService {
     /**
      * Sets the email for guest users
      */
-    public function prepareGuestQuote($quote, $email = null) {
+    public function prepareGuestQuote($quote, $email = null)
+    {
         // Retrieve the user email
         $guestEmail = ($email) ? $email : $this->findCustomerEmail();
 
         // Set the quote as guest
         $quote->setCustomerId(null)
-        ->setCustomerEmail($guestEmail)
-        ->setCustomerIsGuest(true)
-        ->setCustomerGroupId(GroupInterface::NOT_LOGGED_IN_ID);
+            ->setCustomerEmail($guestEmail)
+            ->setCustomerIsGuest(true)
+            ->setCustomerGroupId(GroupInterface::NOT_LOGGED_IN_ID);
 
         // Delete the cookie
         $this->cookieManager->deleteCookie(self::EMAIL_COOKIE_NAME);
@@ -204,23 +234,25 @@ class OrderHandlerService {
     /**
      * Tasks after place order
      */
-    public function afterPlaceOrder($quote, $order) {
+    public function afterPlaceOrder($quote, $order)
+    {
         // Prepare session quote info for redirection after payment
         $this->checkoutSession
-        ->setLastQuoteId($quote->getId())
-        ->setLastSuccessQuoteId($quote->getId())
-        ->clearHelperData();
+            ->setLastQuoteId($quote->getId())
+            ->setLastSuccessQuoteId($quote->getId())
+            ->clearHelperData();
 
         // Prepare session order info for redirection after payment
         $this->checkoutSession->setLastOrderId($order->getId())
-        ->setLastRealOrderId($order->getIncrementId())
-        ->setLastOrderStatus($order->getStatus());
-    } 
+            ->setLastRealOrderId($order->getIncrementId())
+            ->setLastOrderStatus($order->getStatus());
+    }
 
     /**
      * Find a customer email
      */
-    public function findCustomerEmail($quote) {
+    public function findCustomerEmail($quote)
+    {
         return $quote->getCustomerEmail()
         ?? $quote->getBillingAddress()->getEmail()
         ?? $this->cookieManager->getCookie(self::EMAIL_COOKIE_NAME);
@@ -229,7 +261,8 @@ class OrderHandlerService {
     /**
      * Find a method id
      */
-    public function findMethodId() {
+    public function findMethodId()
+    {
         return ($this->cookieManager->getCookie(Connector::METHOD_COOKIE_NAME))
         ? $this->cookieManager->getCookie(Connector::METHOD_COOKIE_NAME)
         : Core::moduleId() . '_' . Connector::KEY_REDIRECT_METHOD;
@@ -238,12 +271,13 @@ class OrderHandlerService {
     /**
      * Find a quote
      */
-    public function findQuote($reservedIncrementId = null) {
+    public function findQuote($reservedIncrementId = null)
+    {
         if ($reservedIncrementId) {
             return $this->quoteFactory
-            ->create()->getCollection()
-            ->addFieldToFilter('reserved_order_id', $reservedIncrementId)
-            ->getFirstItem();
+                ->create()->getCollection()
+                ->addFieldToFilter('reserved_order_id', $reservedIncrementId)
+                ->getFirstItem();
         }
 
         try {

@@ -1,11 +1,15 @@
 <?php
 /**
- * Cmsbox.fr Magento 2 Payment module (https://www.cmsbox.fr)
+ * Cmsbox.fr Magento 2 Mercanet Payment.
  *
- * Copyright (c) 2017 Cmsbox.fr (https://www.cmsbox.fr)
- * Author: David Fiaty | contact@cmsbox.fr
+ * PHP version 7
  *
- * License GNU/GPL V3 https://www.gnu.org/licenses/gpl-3.0.en.html
+ * @category  Cmsbox
+ * @package   Mercanet
+ * @author    Cmsbox Development Team <contact@cmsbox.fr>
+ * @copyright 2019 Cmsbox.fr all rights reserved
+ * @license   https://opensource.org/licenses/mit-license.html MIT License
+ * @link      https://www.cmsbox.fr
  */
 
 namespace Cmsbox\Mercanet\Model\Service;
@@ -14,7 +18,8 @@ use Magento\Sales\Model\Order\Payment\Transaction;
 use Cmsbox\Mercanet\Gateway\Config\Core;
 use Cmsbox\Mercanet\Gateway\Processor\Connector;
 
-class TransactionHandlerService {
+class TransactionHandlerService
+{
     /**
      * @var BuilderInterface
      */
@@ -81,7 +86,8 @@ class TransactionHandlerService {
     /**
      * Create a transaction for an order.
      */
-    public function createTransaction($order, $paymentData, $transactionMode, $methodId = null) {
+    public function createTransaction($order, $paymentData, $transactionMode, $methodId = null)
+    {
         // Prepare the method id
         $methodId = ($methodId) ? $methodId : Core::moduleId();
 
@@ -89,7 +95,7 @@ class TransactionHandlerService {
         try {
             // Prepare payment object
             $payment = $order->getPayment();
-            $payment->setMethod($methodId); 
+            $payment->setMethod($methodId);
             $payment->setLastTransId($paymentData[$this->config->base[Connector::KEY_TRANSACTION_ID_FIELD]]);
             $payment->setTransactionId($paymentData[$this->config->base[Connector::KEY_TRANSACTION_ID_FIELD]]);
             $payment->setAdditionalInformation([Transaction::RAW_DETAILS => (array) $paymentData]);
@@ -99,15 +105,18 @@ class TransactionHandlerService {
  
             // Prepare transaction
             $transaction = $this->transactionBuilder->setPayment($payment)
-            ->setOrder($order)
-            ->setTransactionId($paymentData[$this->config->base[Connector::KEY_TRANSACTION_ID_FIELD]])
-            ->setAdditionalInformation([Transaction::RAW_DETAILS => (array) $paymentData])
-            ->setFailSafe(true)
-            ->build($transactionMode);
+                ->setOrder($order)
+                ->setTransactionId($paymentData[$this->config->base[Connector::KEY_TRANSACTION_ID_FIELD]])
+                ->setAdditionalInformation([Transaction::RAW_DETAILS => (array) $paymentData])
+                ->setFailSafe(true)
+                ->build($transactionMode);
  
             // Add authorization transaction to payment if needed
             if ($transactionMode == Transaction::TYPE_AUTH) {
-                $payment->addTransactionCommentsToOrder($transaction, __('The authorized amount is %1.', $formatedPrice));
+                $payment->addTransactionCommentsToOrder(
+                    $transaction,
+                    __('The authorized amount is %1.', $formatedPrice)
+                );
                 $payment->setParentTransactionId(null);
             }
 
@@ -119,10 +128,9 @@ class TransactionHandlerService {
             // Create the invoice
             if ($this->config->params[$methodId][Core::KEY_INVOICE_CREATION] == $transactionMode) {
                 $this->invoiceHandler->processInvoice($order);
-            }   
+            }
  
             return $transaction->getTransactionId();
-
         } catch (Exception $e) {
             $this->watchdog->logError($e);
             return false;
@@ -132,21 +140,22 @@ class TransactionHandlerService {
     /**
      * Get all transactions for an order.
      */
-    public function getTransactions($order) {
+    public function getTransactions($order)
+    {
         try {
             // Payment filter
             $filters[] = $this->filterBuilder->setField('payment_id')
-            ->setValue($order->getPayment()->getId())
-            ->create();
+                ->setValue($order->getPayment()->getId())
+                ->create();
 
             // Order filter
             $filters[] = $this->filterBuilder->setField('order_id')
-            ->setValue($order->getId())
-            ->create();
+                ->setValue($order->getId())
+                ->create();
 
             // Build the search criteria
             $searchCriteria = $this->searchCriteriaBuilder->addFilters($filters)
-            ->create();
+                ->create();
 
             return $this->transactionRepository->getList($searchCriteria)->getItems();
         } catch (Exception $e) {

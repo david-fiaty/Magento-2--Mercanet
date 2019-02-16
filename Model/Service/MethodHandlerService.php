@@ -1,18 +1,23 @@
 <?php
 /**
- * Cmsbox.fr Magento 2 Payment module (https://www.cmsbox.fr)
+ * Cmsbox.fr Magento 2 Mercanet Payment.
  *
- * Copyright (c) 2017 Cmsbox.fr (https://www.cmsbox.fr)
- * Author: David Fiaty | contact@cmsbox.fr
+ * PHP version 7
  *
- * License GNU/GPL V3 https://www.gnu.org/licenses/gpl-3.0.en.html
+ * @category  Cmsbox
+ * @package   Mercanet
+ * @author    Cmsbox Development Team <contact@cmsbox.fr>
+ * @copyright 2019 Cmsbox.fr all rights reserved
+ * @license   https://opensource.org/licenses/mit-license.html MIT License
+ * @link      https://www.cmsbox.fr
  */
 
 namespace Cmsbox\Mercanet\Model\Service;
 
 use Cmsbox\Mercanet\Gateway\Config\Core;
 
-class MethodHandlerService {
+class MethodHandlerService
+{
     /**
      * @var Reader
      */
@@ -27,7 +32,8 @@ class MethodHandlerService {
         $this->moduleDirReader = $moduleDirReader;
     }
 
-    private function getFiles($path) {
+    private function getFiles($path)
+    {
         $result = [];
         $flags = \FilesystemIterator::SKIP_DOTS | \FilesystemIterator::UNIX_PATHS;
         $iterator = new \FilesystemIterator($path, $flags);
@@ -46,7 +52,8 @@ class MethodHandlerService {
     /**
      * Build a payment method instance.
      */
-    public static function getStaticInstance($methodId) {
+    public static function getStaticInstance($methodId)
+    {
         $classPath = "\\" . str_replace('_', "\\", Core::moduleName())
         . "\\Model\\Methods\\" . Core::methodName($methodId);
         if (class_exists($classPath)) {
@@ -56,7 +63,8 @@ class MethodHandlerService {
         return false;
     }
 
-    private function getPath() {
+    private function getPath()
+    {
         return $this->moduleDirReader->getModuleDir('', Core::moduleName()) . '/Model/Methods';
     }
 }

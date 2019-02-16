@@ -1,23 +1,29 @@
 <?php
 /**
- * Cmsbox.fr Magento 2 Payment module (https://www.cmsbox.fr)
+ * Cmsbox.fr Magento 2 Mercanet Payment.
  *
- * Copyright (c) 2017 Cmsbox.fr (https://www.cmsbox.fr)
- * Author: David Fiaty | contact@cmsbox.fr
+ * PHP version 7
  *
- * License GNU/GPL V3 https://www.gnu.org/licenses/gpl-3.0.en.html
+ * @category  Cmsbox
+ * @package   Mercanet
+ * @author    Cmsbox Development Team <contact@cmsbox.fr>
+ * @copyright 2019 Cmsbox.fr all rights reserved
+ * @license   https://opensource.org/licenses/mit-license.html MIT License
+ * @link      https://www.cmsbox.fr
  */
 
 namespace Cmsbox\Mercanet\Helper;
 
-class Tools {
+class Tools
+{
 
     /**
      * Returns the increment id of an order or a quote.
      *
      * @return string
      */
-    public static function getIncrementId($entity) {
+    public static function getIncrementId($entity)
+    {
         return method_exists($entity, 'getIncrementId')
         ? $entity->getIncrementId()
         : $entity->reserveOrderId()->save()->getReservedOrderId();
@@ -28,15 +34,14 @@ class Tools {
      *
      * @return string
      */
-    public static function getCurrencyCode($entity, $storeManager) {
+    public static function getCurrencyCode($entity, $storeManager)
+    {
         try {
             if (method_exists($entity, 'getQuoteCurrencyCode')) {
                 return $entity->getQuoteCurrencyCode();
-            }
-            else if (method_exists($entity, 'getOrderCurrencyCode')) {
+            } elseif (method_exists($entity, 'getOrderCurrencyCode')) {
                 return $entity->getOrderCurrencyCode();
-            }
-            else {
+            } else {
                 return $storeManager->getStore()->getCurrentCurrency()->getCode();
             }
         } catch (\Exception $e) {

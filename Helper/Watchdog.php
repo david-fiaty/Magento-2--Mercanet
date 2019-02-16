@@ -1,11 +1,15 @@
 <?php
 /**
- * Cmsbox.fr Magento 2 Payment module (https://www.cmsbox.fr)
+ * Cmsbox.fr Magento 2 Mercanet Payment.
  *
- * Copyright (c) 2017 Cmsbox.fr (https://www.cmsbox.fr)
- * Author: David Fiaty | contact@cmsbox.fr
+ * PHP version 7
  *
- * License GNU/GPL V3 https://www.gnu.org/licenses/gpl-3.0.en.html
+ * @category  Cmsbox
+ * @package   Mercanet
+ * @author    Cmsbox Development Team <contact@cmsbox.fr>
+ * @copyright 2019 Cmsbox.fr all rights reserved
+ * @license   https://opensource.org/licenses/mit-license.html MIT License
+ * @link      https://www.cmsbox.fr
  */
 
 namespace Cmsbox\Mercanet\Helper;
@@ -13,7 +17,8 @@ namespace Cmsbox\Mercanet\Helper;
 use Cmsbox\Mercanet\Gateway\Config\Core;
 use Cmsbox\Mercanet\Gateway\Processor\Connector;
 
-class Watchdog {
+class Watchdog
+{
     /**
      * @var ManagerInterface
      */
@@ -26,12 +31,12 @@ class Watchdog {
 
     /**
      * @var Tools
-     */ 
+     */
     protected $tools;
 
     /**
      * @var LoggerInterface
-     */ 
+     */
     protected $logger;
 
     /**
@@ -52,7 +57,8 @@ class Watchdog {
     /**
      * Display messages and write to custom log file.
      */
-    public function bark($action, $data, $canDisplay = true, $canLog = true) {
+    public function bark($action, $data, $canDisplay = true, $canLog = true)
+    {
         // Prepare the output
         $output = ($data) ? print_r($data, 1) : '';
         $output = strtoupper($action) . "\n" . $output;
@@ -73,12 +79,13 @@ class Watchdog {
         if ((int) $this->config->params[Core::moduleId()]['debug'] == 1 && $canDisplay) {
             $this->messageManager->addNoticeMessage($output);
         }
-    } 
+    }
 
     /**
      * Write to system file.
      */
-    public function logError($message, $canDisplay = true) {
+    public function logError($message, $canDisplay = true)
+    {
         // Log to system log file
         if ((int) $this->config->params[Core::moduleId()][Connector::KEY_LOGGING] == 1) {
             $output = Core::moduleId() . ' | ' . $message;
@@ -89,7 +96,7 @@ class Watchdog {
         if ($canDisplay) {
             get_class($message) == 'Exception'
             ? $this->messageManager->addExceptionMessage($message, $message->getMessage())
-            : $this->messageManager->addErrorMessage($message);            
+            : $this->messageManager->addErrorMessage($message);
         }
     }
 }

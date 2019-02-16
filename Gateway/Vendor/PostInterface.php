@@ -5,7 +5,7 @@ class PostInterface
 {
     const TEST = "https://payment-webinit-mercanet.test.sips-atos.com/paymentInit";
     const PRODUCTION = "https://payment-webinit.mercanet.bnpparibas.net/paymentInit";
-	
+    
     const INTERFACE_VERSION = "HP_2.20";
     const INSTALMENT = "INSTALMENT";
     
@@ -39,7 +39,9 @@ class PostInterface
         'KBCONLINE' => 'CREDIT_TRANSFER'
     );
 
-    /** @var ShaComposer */
+    /**
+     * @var ShaComposer
+     */
     private $secretKey;
 
     private $pspURL = self::TEST;
@@ -61,8 +63,8 @@ class PostInterface
         'customerContact.gender', 'customerContact.lastname', 'customerContact.mobile',
         'customerContact.phone', 'customerContact.title', 'expirationDate', 'automaticResponseUrl',
         'templateName','paymentMeanBrandList', 'instalmentData.number', 'instalmentData.datesList',
-	    'instalmentData.transactionReferencesList', 'instalmentData.amountsList', 'paymentPattern',
-	    'captureDay', 'captureMode', 'fraudData.bypass3DS', 'orderId'
+        'instalmentData.transactionReferencesList', 'instalmentData.amountsList', 'paymentPattern',
+        'captureDay', 'captureMode', 'fraudData.bypass3DS', 'orderId'
     );
 
     private $requiredFields = array(
@@ -73,8 +75,8 @@ class PostInterface
     public $allowedlanguages = array(
         'nl', 'fr', 'de', 'it', 'es', 'cy', 'en'
     );
-	
-	private static $currencies = array(
+    
+    private static $currencies = array(
         'EUR' => '978', 'USD' => '840', 'CHF' => '756', 'GBP' => '826',
         'CAD' => '124', 'JPY' => '392', 'MXP' => '484', 'TRY' => '949',
         'AUD' => '036', 'NZD' => '554', 'NOK' => '578', 'BRC' => '986',
@@ -85,15 +87,17 @@ class PostInterface
 
     public static function convertCurrencyToCurrencyCode($currency)
     {
-        if(!in_array($currency, array_keys(self::$currencies)))
+        if (!in_array($currency, array_keys(self::$currencies))) {
             throw new InvalidArgumentException("Unknown currencyCode $currency.");
+        }
         return self::$currencies[$currency];
     }
 
     public static function convertCurrencyCodeToCurrency($code)
     {
-        if(!in_array($code, array_values(self::$currencies)))
+        if (!in_array($code, array_values(self::$currencies))) {
             throw new InvalidArgumentException("Unknown Code $code.");
+        }
         return array_search($code, self::$currencies);
     }
 
@@ -106,27 +110,31 @@ class PostInterface
     {
         $this->secretKey = $secret;
     }
-	
-	public function shaCompose(array $parameters)
+    
+    public function shaCompose(array $parameters)
     {
         // compose SHA string
         $shaString = '';
-        foreach($parameters as $key => $value) {
+        foreach ($parameters as $key => $value) {
             $shaString .= $key . '=' . $value;
             $shaString .= (array_search($key, array_keys($parameters)) != (count($parameters)-1)) ? '|' : $this->secretKey;
         }
 
         return hash('sha256', $shaString);
     }
-	
-    /** @return string */
+    
+    /**
+     * @return string
+     */
     public function getShaSign()
     {
         $this->validate();
         return $this->shaCompose($this->toArray());
     }
 
-    /** @return string */
+    /**
+     * @return string
+     */
     public function getUrl()
     {
         return $this->pspURL;
@@ -161,69 +169,68 @@ class PostInterface
 
     public function setTransactionReference($transactionReference)
     {
-        if(preg_match('/[^a-zA-Z0-9_-]/', $transactionReference)) {
+        if (preg_match('/[^a-zA-Z0-9_-]/', $transactionReference)) {
             throw new \InvalidArgumentException("TransactionReference cannot contain special characters");
         }
         $this->parameters['transactionReference'] = $transactionReference;
     }
 
     /**
-	 * Set amount in cents, eg EUR 12.34 is written as 1234
-	 */
-	public function setAmount($amount)
-	{
-		if(!is_int($amount)) {
-			throw new InvalidArgumentException("Integer expected. Amount is always in cents");
-		}
-		if($amount <= 0) {
-			throw new InvalidArgumentException("Amount must be a positive number");
-		}
-		$this->parameters['amount'] = $amount;
-
-	}
+     * Set amount in cents, eg EUR 12.34 is written as 1234
+     */
+    public function setAmount($amount)
+    {
+        if (!is_int($amount)) {
+            throw new InvalidArgumentException("Integer expected. Amount is always in cents");
+        }
+        if ($amount <= 0) {
+            throw new InvalidArgumentException("Amount must be a positive number");
+        }
+        $this->parameters['amount'] = $amount;
+    }
 
     public function setCurrency($currency)
-	{
-		if(!array_key_exists(strtoupper($currency), self::getCurrencies())) {
-			throw new InvalidArgumentException("Unknown currency");
-		}
-		$this->parameters['currencyCode'] = self::convertCurrencyToCurrencyCode($currency);
-	}
+    {
+        if (!array_key_exists(strtoupper($currency), self::getCurrencies())) {
+            throw new InvalidArgumentException("Unknown currency");
+        }
+        $this->parameters['currencyCode'] = self::convertCurrencyToCurrencyCode($currency);
+    }
 
-	public function setLanguage($language)
-	{
-		if(!in_array($language, $this->allowedlanguages)) {
-			throw new InvalidArgumentException("Invalid language locale");
-		}
-		$this->parameters['customerLanguage'] = $language;
-	}
+    public function setLanguage($language)
+    {
+        if (!in_array($language, $this->allowedlanguages)) {
+            throw new InvalidArgumentException("Invalid language locale");
+        }
+        $this->parameters['customerLanguage'] = $language;
+    }
 
     public function setPaymentBrand($brand)
     {
         $this->parameters['paymentMeanBrandList'] = '';
-        if(!array_key_exists(strtoupper($brand), $this->brandsmap)) {
+        if (!array_key_exists(strtoupper($brand), $this->brandsmap)) {
             throw new InvalidArgumentException("Unknown Brand [$brand].");
         }
         $this->parameters['paymentMeanBrandList'] = strtoupper($brand);
     }
 
-	public function setCustomerContactEmail($email)
+    public function setCustomerContactEmail($email)
     {
-        if(strlen($email) > 50) {
+        if (strlen($email) > 50) {
             throw new InvalidArgumentException("Email is too long");
         }
-        if(!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
             throw new InvalidArgumentException("Email is invalid");
         }
         $this->parameters['customerContact.email'] = $email;
     }
-	
+    
     public function setBillingContactEmail($email)
     {
-        if(strlen($email) > 50) {
+        if (strlen($email) > 50) {
             throw new InvalidArgumentException("Email is too long");
         }
-        if(!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
             throw new InvalidArgumentException("Email is invalid");
         }
         $this->parameters['billingContact.email'] = $email;
@@ -231,7 +238,7 @@ class PostInterface
 
     public function setBillingAddressStreet($street)
     {
-        if(strlen($street) > 35) {
+        if (strlen($street) > 35) {
             throw new InvalidArgumentException("street is too long");
         }
         $this->parameters['billingAddress.street'] = Normalizer::normalize($street);
@@ -239,7 +246,7 @@ class PostInterface
 
     public function setBillingAddressStreetNumber($nr)
     {
-        if(strlen($nr) > 10) {
+        if (strlen($nr) > 10) {
             throw new InvalidArgumentException("streetNumber is too long");
         }
         $this->parameters['billingAddress.streetNumber'] = Normalizer::normalize($nr);
@@ -247,7 +254,7 @@ class PostInterface
 
     public function setBillingAddressZipCode($zipCode)
     {
-        if(strlen($zipCode) > 10) {
+        if (strlen($zipCode) > 10) {
             throw new InvalidArgumentException("zipCode is too long");
         }
         $this->parameters['billingAddress.zipCode'] = Normalizer::normalize($zipCode);
@@ -255,7 +262,7 @@ class PostInterface
 
     public function setBillingAddressCity($city)
     {
-        if(strlen($city) > 25) {
+        if (strlen($city) > 25) {
             throw new InvalidArgumentException("city is too long");
         }
         $this->parameters['billingAddress.city'] = Normalizer::normalize($city);
@@ -263,7 +270,7 @@ class PostInterface
 
     public function setBillingContactPhone($phone)
     {
-        if(strlen($phone) > 30) {
+        if (strlen($phone) > 30) {
             throw new InvalidArgumentException("phone is too long");
         }
         $this->parameters['billingContact.phone'] = $phone;
@@ -300,7 +307,7 @@ class PostInterface
     
     public function setFraudDataBypass3DS($value)
     {
-	if(strlen($value) > 128) {
+        if (strlen($value) > 128) {
             throw new InvalidArgumentException("fraudData.bypass3DS is too long");
         }
         $this->parameters['fraudData.bypass3DS'] = $value;
@@ -310,7 +317,7 @@ class PostInterface
     
     public function setMerchantWalletId($wallet)
     {
-        if(strlen($wallet) > 21) {
+        if (strlen($wallet) > 21) {
             throw new InvalidArgumentException("merchantWalletId is too long");
         }
         $this->parameters['merchantWalletId'] = $wallet;
@@ -325,7 +332,7 @@ class PostInterface
         if (strlen($number) > 2) {
             throw new InvalidArgumentException("instalmentData.number is too long");
         }
-	if ( ($number < 2) || ($number > 50) ) {
+        if (($number < 2) || ($number > 50)) {
             throw new InvalidArgumentException("instalmentData.number invalid value : value must be set between 2 and 50");
         }
         $this->parameters['instalmentData.number'] = $number;
@@ -353,17 +360,17 @@ class PostInterface
 
     public function __call($method, $args)
     {
-        if(substr($method, 0, 3) == 'set') {
+        if (substr($method, 0, 3) == 'set') {
             $field = lcfirst(substr($method, 3));
-            if(in_array($field, $this->pspFields)) {
+            if (in_array($field, $this->pspFields)) {
                 $this->parameters[$field] = $args[0];
                 return;
             }
         }
 
-        if(substr($method, 0, 3) == 'get') {
+        if (substr($method, 0, 3) == 'get') {
             $field = lcfirst(substr($method, 3));
-            if(array_key_exists($field, $this->parameters)) {
+            if (array_key_exists($field, $this->parameters)) {
                 return $this->parameters[$field];
             }
         }
@@ -379,7 +386,7 @@ class PostInterface
     public function toParameterString()
     {
         $parameterString = "";
-        foreach($this->parameters as $key => $value) {
+        foreach ($this->parameters as $key => $value) {
             $parameterString .= $key . '=' . $value;
             $parameterString .= (array_search($key, array_keys($this->parameters)) != (count($this->parameters)-1)) ? '|' : '';
         }
@@ -387,12 +394,13 @@ class PostInterface
         return $parameterString;
     }
 
-    /** @return PaymentRequest */
+    /**
+     * @return PaymentRequest
+     */
     public static function createFromArray(ShaComposer $shaComposer, array $parameters)
     {
         $instance = new static($shaComposer);
-        foreach($parameters as $key => $value)
-        {
+        foreach ($parameters as $key => $value) {
             $instance->{"set$key"}($value);
         }
         return $instance;
@@ -400,8 +408,8 @@ class PostInterface
 
     public function validate()
     {
-        foreach($this->requiredFields as $field) {
-            if(empty($this->parameters[$field])) {
+        foreach ($this->requiredFields as $field) {
+            if (empty($this->parameters[$field])) {
                 throw new \RuntimeException($field . " can not be empty");
             }
         }
@@ -409,21 +417,25 @@ class PostInterface
 
     protected function validateUri($uri)
     {
-        if(!filter_var($uri, FILTER_VALIDATE_URL)) {
+        if (!filter_var($uri, FILTER_VALIDATE_URL)) {
             throw new InvalidArgumentException("Uri is not valid");
         }
-        if(strlen($uri) > 200) {
+        if (strlen($uri) > 200) {
             throw new InvalidArgumentException("Uri is too long");
         }
     }
-	
+    
     // Traitement des reponses de Mercanet
     // -----------------------------------
-	
-	/** @var string */
+    
+    /**
+ * @var string
+*/
     const SHASIGN_FIELD = "SEAL";
 
-    /** @var string */
+    /**
+ * @var string
+*/
     const DATA_FIELD = "DATA";
 
     public function setResponse(array $httpRequest)
@@ -431,36 +443,37 @@ class PostInterface
         // use lowercase internally
         $httpRequest = array_change_key_case($httpRequest, CASE_UPPER);
 
-        // set sha sign        
+        // set sha sign
         $this->shaSign = $this->extractShaSign($httpRequest);
 
         // filter request for Sips parameters
         $this->parameters = $this->filterRequestParameters($httpRequest);
     }
-	
+    
     /**
      * @var string
      */
     private $shaSign;
 
     private $dataString;
-	
+    
     /**
      * Filter http request parameters
+     *
      * @param array $requestParameters
      */
     private function filterRequestParameters(array $httpRequest)
     {
         //filter request for Sips parameters
-        if(!array_key_exists(self::DATA_FIELD, $httpRequest) || $httpRequest[self::DATA_FIELD] == '') {
+        if (!array_key_exists(self::DATA_FIELD, $httpRequest) || $httpRequest[self::DATA_FIELD] == '') {
             throw new InvalidArgumentException('Data parameter not present in parameters.');
         }
         $parameters = array();
         $dataString = $httpRequest[self::DATA_FIELD];
         $this->dataString = $dataString;
         $dataParams = explode('|', $dataString);
-        foreach($dataParams as $dataParamString) {
-            $dataKeyValue = explode('=',$dataParamString,2);
+        foreach ($dataParams as $dataParamString) {
+            $dataKeyValue = explode('=', $dataParamString, 2);
             $parameters[$dataKeyValue[0]] = $dataKeyValue[1];
         }
 
@@ -474,7 +487,7 @@ class PostInterface
 
     private function extractShaSign(array $parameters)
     {
-        if(!array_key_exists(self::SHASIGN_FIELD, $parameters) || $parameters[self::SHASIGN_FIELD] == '') {
+        if (!array_key_exists(self::SHASIGN_FIELD, $parameters) || $parameters[self::SHASIGN_FIELD] == '') {
             throw new InvalidArgumentException('SHASIGN parameter not present in parameters.');
         }
         return $parameters[self::SHASIGN_FIELD];
@@ -482,7 +495,8 @@ class PostInterface
 
     /**
      * Checks if the response is valid
-     * @param ShaComposer $shaComposer
+     *
+     * @param  ShaComposer $shaComposer
      * @return bool
      */
     public function isValid()
@@ -492,19 +506,20 @@ class PostInterface
 
     /**
      * Retrieves a response parameter
-     * @param string $param
+     *
+     * @param  string $param
      * @throws \InvalidArgumentException
      */
     public function getParam($key)
     {
-        if(method_exists($this, 'get'.$key)) {
+        if (method_exists($this, 'get'.$key)) {
             return $this->{'get'.$key}();
         }
 
         // always use uppercase
         $key = strtoupper($key);
-        $parameters = array_change_key_case($this->parameters,CASE_UPPER);
-        if(!array_key_exists($key, $parameters)) {
+        $parameters = array_change_key_case($this->parameters, CASE_UPPER);
+        if (!array_key_exists($key, $parameters)) {
             throw new InvalidArgumentException('Parameter ' . $key . ' does not exist.');
         }
 
@@ -530,5 +545,3 @@ class PostInterface
         return $this->dataString;
     }
 }
-
-?>

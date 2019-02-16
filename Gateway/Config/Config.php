@@ -1,11 +1,15 @@
 <?php
 /**
- * Cmsbox.fr Magento 2 Payment module (https://www.cmsbox.fr)
+ * Cmsbox.fr Magento 2 Mercanet Payment.
  *
- * Copyright (c) 2017 Cmsbox.fr (https://www.cmsbox.fr)
- * Author: David Fiaty | contact@cmsbox.fr
+ * PHP version 7
  *
- * License GNU/GPL V3 https://www.gnu.org/licenses/gpl-3.0.en.html
+ * @category  Cmsbox
+ * @package   Mercanet
+ * @author    Cmsbox Development Team <contact@cmsbox.fr>
+ * @copyright 2019 Cmsbox.fr all rights reserved
+ * @license   https://opensource.org/licenses/mit-license.html MIT License
+ * @link      https://www.cmsbox.fr
  */
  
 namespace Cmsbox\Mercanet\Gateway\Config;
@@ -15,7 +19,8 @@ use Magento\Framework\Module\Dir;
 use Cmsbox\Mercanet\Gateway\Processor\Connector;
 use Cmsbox\Mercanet\Gateway\Config\Core;
 
-class Config {
+class Config
+{
     
     const KEY_DEFAULT_LANGUAGE = 'en';
 
@@ -36,7 +41,7 @@ class Config {
 
     /**
      * @var ScopeConfigInterface
-     */    
+     */
     protected $scopeConfig;
 
     /**
@@ -66,17 +71,17 @@ class Config {
 
     /**
      * @var Resolver
-     */    
+     */
     protected $localeResolver;
 
     /**
      * @var Array
-     */    
+     */
     public $params = [];
 
     /**
      * @var Array
-     */    
+     */
     public $base = [];
 
     /**
@@ -110,7 +115,8 @@ class Config {
     /**
      * Loads the module configuration parameters.
      */
-    public function loadConfig() {
+    public function loadConfig()
+    {
         try {
             // Prepare the output container
             $output = [];
@@ -132,7 +138,7 @@ class Config {
                     foreach ($params as $key => $val) {
                         // Check a database value
                         $dbValue = $this->scopeConfig->getValue(
-                            'payment/' . $methodId . '/' . $key, 
+                            'payment/' . $methodId . '/' . $key,
                             ScopeInterface::SCOPE_STORE
                         );
 
@@ -142,19 +148,17 @@ class Config {
                         // Assign the value or override with db value
                         if (!empty($testValue)) {
                             $lines[$key] = $testValue;
-                        }
-                        else {
+                        } else {
                             $lines[$key] = $val;
                         }
                     }
 
-                    $output[$methodId] = $lines;  
+                    $output[$methodId] = $lines;
                 }
             }
 
             // Set the payment methods config array
             $this->params = $output;
-
         } catch (\Exception $e) {
             throw new \Magento\Framework\Exception\LocalizedException(__($e->getMessage()));
         }
@@ -165,7 +169,8 @@ class Config {
      *
      * @return bool
      */
-    public function buildBase($fileData) {
+    public function buildBase($fileData)
+    {
         try {
             $output = [];
             $exclude = explode(',', $fileData['base']['exclude']);
@@ -174,7 +179,7 @@ class Config {
                 if (!in_array($key, $exclude)) {
                     // Check a database value
                     $dbValue = $this->scopeConfig->getValue(
-                        'payment/' . Core::moduleId() . '/' . $key, 
+                        'payment/' . Core::moduleId() . '/' . $key,
                         ScopeInterface::SCOPE_STORE
                     );
 
@@ -184,8 +189,7 @@ class Config {
                     // Assign the value or override with db value
                     if (!empty($testValue)) {
                         $output[$key] = $testValue;
-                    }
-                    else {
+                    } else {
                         $output[$key] = $val;
                     }
                 }
@@ -194,7 +198,6 @@ class Config {
             unset($fileData['base']['exclude']);
 
             return array_merge($fileData['base'], $output);
-
         } catch (\Exception $e) {
             throw new \Magento\Framework\Exception\LocalizedException(__($e->getMessage()));
         }
@@ -205,7 +208,8 @@ class Config {
      *
      * @return string
      */
-    public function getSupportedCurrencies() {
+    public function getSupportedCurrencies()
+    {
         try {
             $output = [];
             $arr = explode(';', $this->base[Core::KEY_SUPPORTED_CURRENCIES]);
@@ -225,7 +229,8 @@ class Config {
      *
      * @return string
      */
-    public function getFrontendConfig() {
+    public function getFrontendConfig()
+    {
         try {
             // Prepare the output
             $output = [];
@@ -240,9 +245,13 @@ class Config {
                         $output[$methodId][Connector::KEY_ACTIVE] = $methodInstance::isFrontend($this, $methodId);
                         if (isset($val['load_request_data']) && (int) $val['load_request_data'] == 1) {
                             $output[$methodId]['api_url'] = Connector::getApiUrl('charge', $this, $methodId);
-                            $output[$methodId]['request_data'] = $methodInstance::getRequestData($this, $this->storeManager, $methodId);
+                            $output[$methodId]['request_data'] = $methodInstance::getRequestData(
+                                $this,
+                                $this->storeManager,
+                                $methodId
+                            );
                         }
-                    } 
+                    }
                 }
             }
 
@@ -250,7 +259,7 @@ class Config {
             return [
                 'payment' => [
                     Core::moduleId() => array_merge(
-                        $output, 
+                        $output,
                         $this->base
                     )
                 ]
@@ -260,8 +269,9 @@ class Config {
         }
     }
 
-    public function methodIsValid($arr, $key, $val) {
-        return isset($arr[2]) && isset($arr[3]) 
+    public function methodIsValid($arr, $key, $val)
+    {
+        return isset($arr[2]) && isset($arr[3])
         && isset($val['can_use_internal']) && (int) $val['can_use_internal'] != 1
         && !in_array($key, $arr);
     }
@@ -271,29 +281,33 @@ class Config {
      *
      * @return string
      */
-    public function createTransactionReference() {
-        return (string) time();   
+    public function createTransactionReference()
+    {
+        return (string) time();
     }
 
     /**
      * Retrieves the customer language.
      */
-    public function getCustomerLanguage() {
-        $lang = explode('_', $this->localeResolver->getLocale()) ;
+    public function getCustomerLanguage()
+    {
+        $lang = explode('_', $this->localeResolver->getLocale());
         return (isset($lang[0]) && !empty($lang[0])) ? $lang[0] : self::KEY_DEFAULT_LANGUAGE;
     }
 
     /**
      * Formats an amount for a gateway request.
-     */   
-    public function formatAmount($amount) {
+     */
+    public function formatAmount($amount)
+    {
         return (int) (number_format($amount, 2))*100;
     }
 
     /**
      * Retrieves an Alpha 3 country code from Alpha 2 code.
      */
-    public function getCountryCodeA2A3($val) {
+    public function getCountryCodeA2A3($val)
+    {
         try {
             // Get the csv file path
             $path = $this->moduleDirReader->getModuleDir('', Core::moduleName()) . '/Model/Files/countries.csv';
@@ -303,9 +317,12 @@ class Config {
                 $countries = $this->csvParser->getData($path);
 
                 // Find the wanted result
-                $res = array_filter($countries, function ($arr) use ($val) {
-                    return $arr[1] == $val;
-                });
+                $res = array_filter(
+                    $countries,
+                    function ($arr) use ($val) {
+                        return $arr[1] == $val;
+                    }
+                );
 
                 // Reset the array ke
                 $res = array_merge(array(), $res);

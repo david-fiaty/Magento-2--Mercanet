@@ -1,16 +1,21 @@
 <?php
 /**
- * Cmsbox.fr Magento 2 Payment module (https://www.cmsbox.fr)
+ * Cmsbox.fr Magento 2 Mercanet Payment.
  *
- * Copyright (c) 2017 Cmsbox.fr (https://www.cmsbox.fr)
- * Author: David Fiaty | contact@cmsbox.fr
+ * PHP version 7
  *
- * License GNU/GPL V3 https://www.gnu.org/licenses/gpl-3.0.en.html
+ * @category  Cmsbox
+ * @package   Mercanet
+ * @author    Cmsbox Development Team <contact@cmsbox.fr>
+ * @copyright 2019 Cmsbox.fr all rights reserved
+ * @license   https://opensource.org/licenses/mit-license.html MIT License
+ * @link      https://www.cmsbox.fr
  */
 
 namespace Cmsbox\Mercanet\Model\Service;
 
-class RemoteHandlerService {
+class RemoteHandlerService
+{
     /**
      * @var OrderRepositoryInterface
      */
@@ -63,13 +68,19 @@ class RemoteHandlerService {
     /**
      * Capture a transaction remotely.
      */
-    public function captureRemoteTransaction($transaction, $amount, $payment = false) {
+    public function captureRemoteTransaction($transaction, $amount, $payment = false)
+    {
         try {
             // Get the method id
             $methodId = $transaction->getOrder()->getPayment()->getMethodInstance()->getCode();
 
             // Prepare the request URL
-            $url = Connector::getApiUrl('charge', $this->config, $methodId) . 'charges/' . $transaction->getTxnId() . '/capture';
+            $url = Connector::getApiUrl(
+                'charge',
+                $this->config,
+                $methodId
+            );
+            $url .= 'charges/' . $transaction->getTxnId() . '/capture';
 
             // Get the order
             $order = $this->orderRepository->get($transaction->getOrderId());
@@ -81,7 +92,7 @@ class RemoteHandlerService {
             $params = [
             'value' => $this->tools->formatAmount($amount),
             'trackId' => $trackId
-        ];
+            ];
 
             // Send the request
             $response = $this->client->getPostResponse($url, $params);
@@ -100,20 +111,28 @@ class RemoteHandlerService {
             }
         } catch (\Exception $e) {
             $this->watchdog->logError($e);
-            throw new \Magento\Framework\Exception\LocalizedException(__('The remote transaction could not be captured.'));
-        } 
+            throw new \Magento\Framework\Exception\LocalizedException(
+                __('The remote transaction could not be captured.')
+            );
+        }
     }
 
     /**
      * Void a transaction remotely.
      */
-    public function voidRemoteTransaction($transaction, $amount, $payment = false) {
+    public function voidRemoteTransaction($transaction, $amount, $payment = false)
+    {
         try {
             // Get the method id
             $methodId = $transaction->getOrder()->getPayment()->getMethodInstance()->getCode();
 
             // Prepare the request URL
-            $url = Connector::getApiUrl('void', $this->config, $methodId) . 'charges/' . $transaction->getTxnId() . '/void';
+            $url = Connector::getApiUrl(
+                'void',
+                $this->config,
+                $methodId
+            );
+            $url .= 'charges/' . $transaction->getTxnId() . '/void';
 
             // Get the order
             $order = $this->orderRepository->get($transaction->getOrderId());
@@ -144,20 +163,28 @@ class RemoteHandlerService {
             }
         } catch (\Exception $e) {
             $this->watchdog->logError($e);
-            throw new \Magento\Framework\Exception\LocalizedException(__('The remote transaction could not be voided.'));
-        } 
+            throw new \Magento\Framework\Exception\LocalizedException(
+                __('The remote transaction could not be voided.')
+            );
+        }
     }
 
     /**
      * Refund a transaction remotely.
      */
-    public function refundRemoteTransaction($transaction, $amount, $payment = false) {
+    public function refundRemoteTransaction($transaction, $amount, $payment = false)
+    {
         try {
             // Get the method id
             $methodId = $transaction->getOrder()->getPayment()->getMethodInstance()->getCode();
 
             // Prepare the request URL
-            $url = Connector::getApiUrl('refund', $this->config, $methodId) . 'charges/' . $transaction->getTxnId() . '/refund';
+            $url = Connector::getApiUrl(
+                'refund',
+                $this->config,
+                $methodId
+            );
+            $url .= 'charges/' . $transaction->getTxnId() . '/refund';
 
             // Get the order
             $order = $this->orderRepository->get($transaction->getOrderId());
@@ -169,7 +196,7 @@ class RemoteHandlerService {
             $params = [
                 'value' => $this->tools->formatAmount($amount),
                 'trackId' => $trackId
-            ]; 
+            ];
 
             // Send the request
             $response = $this->client->getPostResponse($url, $params);
@@ -178,17 +205,19 @@ class RemoteHandlerService {
             if ($this->tools->isChargeSuccess($response)) {
                 // Update the refund transaction
                 if ($payment) {
-                $payment->setTransactionId($response['id']);
-                $payment->setParentTransactionId($transaction->getTxnId());
-                $payment->setIsTransactionClosed(1);
-                $payment->save();
+                    $payment->setTransactionId($response['id']);
+                    $payment->setParentTransactionId($transaction->getTxnId());
+                    $payment->setIsTransactionClosed(1);
+                    $payment->save();
                 }
 
                 return true;
             }
         } catch (\Exception $e) {
             $this->watchdog->logError($e);
-            throw new \Magento\Framework\Exception\LocalizedException(__('The remote transaction could not be refunded.'));
-        } 
+            throw new \Magento\Framework\Exception\LocalizedException(
+                __('The remote transaction could not be refunded.')
+            );
+        }
     }
 }

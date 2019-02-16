@@ -1,16 +1,21 @@
 <?php
 /**
- * Cmsbox.fr Magento 2 Payment module (https://www.cmsbox.fr)
+ * Cmsbox.fr Magento 2 Mercanet Payment.
  *
- * Copyright (c) 2017 Cmsbox.fr (https://www.cmsbox.fr)
- * Author: David Fiaty | contact@cmsbox.fr
+ * PHP version 7
  *
- * License GNU/GPL V3 https://www.gnu.org/licenses/gpl-3.0.en.html
+ * @category  Cmsbox
+ * @package   Mercanet
+ * @author    Cmsbox Development Team <contact@cmsbox.fr>
+ * @copyright 2019 Cmsbox.fr all rights reserved
+ * @license   https://opensource.org/licenses/mit-license.html MIT License
+ * @link      https://www.cmsbox.fr
  */
  
 namespace Cmsbox\Mercanet\Gateway\Config;
 
-class Core {
+class Core
+{
     const CODE = 'cmsbox_mercanet';
     const CODE_ADMIN = 'cmsbox_mercanet_admin_method';
     const CODE_FORM = 'cmsbox_mercanet_form_method';
@@ -39,7 +44,8 @@ class Core {
     /**
      * Build a payment method ID.
      */
-    public static function methodId($classPath) {
+    public static function methodId($classPath)
+    {
         $members = explode("\\", $classPath);
         $arr = preg_split('/(?<=[a-z])(?=[A-Z])/x', $members[4]);
         return self::moduleId() . '_' . strtolower($arr[0]) . '_' . strtolower($arr[1]);
@@ -48,7 +54,8 @@ class Core {
     /**
      * Build a payment method name from method ID.
      */
-    public static function methodName($methodId) {
+    public static function methodName($methodId)
+    {
         $members = explode("_", $methodId);
         return ucfirst($members[2]) . ucfirst($members[3]);
     }
@@ -57,7 +64,8 @@ class Core {
     /**
      * Get the module id from folder.
      */
-    public static function moduleId() {
+    public static function moduleId()
+    {
         $members = explode("\\", get_class());
         return (strtolower($members[0]) . '_' . strtolower($members[1]));
     }
@@ -65,24 +73,27 @@ class Core {
     /**
      * Get the module name from folder.
      */
-    public static function moduleName() {
+    public static function moduleName()
+    {
         $members = explode("\\", get_class());
         return ($members[0] . '_' . $members[1]);
-    }  
+    }
 
     /**
      * Get the module path from folder.
      */
-    public static function moduleClass() {
+    public static function moduleClass()
+    {
         $members = explode("\\", get_class());
         return ($members[0] . "\\" . $members[1]);
-    }  
+    }
     
     /**
      * Get the module name from folder.
      */
-    public static function moduleLabel() {
+    public static function moduleLabel()
+    {
         $members = explode("\\", get_class());
         return ($members[0] . ' ' . $members[1]);
-    }  
+    }
 }

@@ -1,11 +1,15 @@
 <?php
 /**
- * Cmsbox.fr Magento 2 Payment module (https://www.cmsbox.fr)
+ * Cmsbox.fr Magento 2 Mercanet Payment.
  *
- * Copyright (c) 2017 Cmsbox.fr (https://www.cmsbox.fr)
- * Author: David Fiaty | contact@cmsbox.fr
+ * PHP version 7
  *
- * License GNU/GPL V3 https://www.gnu.org/licenses/gpl-3.0.en.html
+ * @category  Cmsbox
+ * @package   Mercanet
+  * @author    Cmsbox Development Team <contact@cmsbox.fr>
+ * @copyright 2019 Cmsbox.fr all rights reserved
+ * @license   https://opensource.org/licenses/mit-license.html MIT License
+ * @link      https://www.cmsbox.fr
  */
 
 namespace Cmsbox\Mercanet\Controller\Response;
@@ -13,7 +17,8 @@ namespace Cmsbox\Mercanet\Controller\Response;
 use Cmsbox\Mercanet\Gateway\Processor\Connector;
 use Cmsbox\Mercanet\Gateway\Config\Core;
 
-class Automatic extends \Magento\Framework\App\Action\Action {
+class Automatic extends \Magento\Framework\App\Action\Action
+{
     /**
      * @var OrderHandlerService
      */
@@ -57,7 +62,8 @@ class Automatic extends \Magento\Framework\App\Action\Action {
         $this->config              = $config;
     }
  
-    public function execute() {
+    public function execute()
+    {
         // Get the request data
         $responseData = $this->getRequest()->getPostValue();
 
@@ -79,12 +85,15 @@ class Automatic extends \Magento\Framework\App\Action\Action {
         }
 
         // Stop the execution
-        return $this->resultJsonFactory->create()->setData([
+        return $this->resultJsonFactory->create()->setData(
+            [
             $this->handleError(__('Invalid request in automatic controller.'))
-        ]);
+            ]
+        );
     }
 
-    private function handleError($errorMessage) {
+    private function handleError($errorMessage)
+    {
         $this->watchdog->logError($errorMessage);
         return $errorMessage;
     }

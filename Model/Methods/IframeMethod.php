@@ -21,6 +21,7 @@ use Cmsbox\Mercanet\Gateway\Config\Core;
 use Cmsbox\Mercanet\Helper\Tools;
 use Cmsbox\Mercanet\Gateway\Processor\Connector;
 use Cmsbox\Mercanet\Gateway\Config\Config;
+use Cmsbox\Mercanet\Gateway\Vendor\PostInterface;
 
 class IframeMethod extends \Magento\Payment\Model\Method\AbstractMethod
 {

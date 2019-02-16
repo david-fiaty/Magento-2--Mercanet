@@ -16,6 +16,7 @@ namespace Cmsbox\Mercanet\Model\Methods;
 
 use Magento\Framework\DataObject;
 use Magento\Quote\Api\Data\PaymentInterface;
+use Magento\Framework\Module\Dir;
 use Cmsbox\Mercanet\Gateway\Config\Core;
 use Cmsbox\Mercanet\Helper\Tools;
 use Cmsbox\Mercanet\Gateway\Processor\Connector;
@@ -130,7 +131,7 @@ class IframeMethod extends \Magento\Payment\Model\Method\AbstractMethod
     /**
      * Prepare the request data.
      */
-    public static function getRequestData($config, $storeManager, $methodId, $cardData = null, $entity = null)
+    public static function getRequestData($config, $storeManager, $methodId, $cardData = null, $entity = null, $moduleDirReader = null)
     {
         // Get the order entity
         $entity = ($entity) ? $entity : $config->cart->getQuote();

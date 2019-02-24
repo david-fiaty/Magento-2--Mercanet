@@ -45,6 +45,11 @@ class Automatic extends \Magento\Framework\App\Action\Action
     protected $config;
 
     /**
+     * @var MethodHandlerService
+     */
+    public $methodHandler;
+
+    /**
      * Automatic constructor.
      */
     public function __construct(
@@ -52,7 +57,8 @@ class Automatic extends \Magento\Framework\App\Action\Action
         \Cmsbox\Mercanet\Model\Service\OrderHandlerService $orderHandler,
         \Magento\Framework\Controller\Result\JsonFactory $resultJsonFactory,
         \Cmsbox\Mercanet\Helper\Watchdog $watchdog,
-        \Cmsbox\Mercanet\Gateway\Config\Config $config
+        \Cmsbox\Mercanet\Gateway\Config\Config $config,
+        \Cmsbox\Monetico\Model\Service\MethodHandlerService $methodHandler
     ) {
         parent::__construct($context);
         
@@ -60,6 +66,7 @@ class Automatic extends \Magento\Framework\App\Action\Action
         $this->resultJsonFactory   = $resultJsonFactory;
         $this->watchdog            = $watchdog;
         $this->config              = $config;
+        $this->methodHandler       = $methodHandler;
     }
  
     public function execute()

@@ -181,9 +181,9 @@ class IframeMethod extends \Magento\Payment\Model\Method\AbstractMethod
     }
 
     /**
-     * Checks if a response is valid.
+     * Process the gateway response.
      */
-    public static function isValidResponse($config, $methodId, $asset)
+    public static function processResponse($config, $methodId, $asset)
     {
         // Get the vendor instance
         $fn = "\\" . $config->params[$methodId][Core::KEY_VENDOR];
@@ -193,23 +193,10 @@ class IframeMethod extends \Magento\Payment\Model\Method\AbstractMethod
         $paymentResponse->setResponse($asset);
     
         // Return the validity status
-        return $paymentResponse->isValid();
-    }
-
-    /**
-     * Checks if a response is success.
-     */
-    public static function isSuccessResponse($config, $methodId, $asset)
-    {
-        // Get the vendor instance
-        $fn = "\\" . $config->params[$methodId][Core::KEY_VENDOR];
-        $paymentResponse = new $fn(Connector::getSecretKey($config));
-
-        // Set the response
-        $paymentResponse->setResponse($asset);
-
-        // Return the success status
-        return $paymentResponse->isSuccessful();
+        return [
+            'isValid' => $paymentResponse->isValid(),
+            'isSuccess' => $paymentResponse->isSuccessful()
+       ];
     }
     
     /**

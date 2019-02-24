@@ -150,17 +150,14 @@ class Form extends \Magento\Framework\App\Action\Action
                 );
 
                 // Process the response
-                $isValidResponse = $methodInstance::isValidResponse(
+                $response = $methodInstance::processResponse(
                     $this->config,
                     $methodId,
                     $paymentObject
                 );
-                $isSuccessResponse = $methodInstance::isSuccessResponse(
-                    $this->config,
-                    $methodId,
-                    $paymentObject
-                );
-                if ($isValidResponse && $isSuccessResponse) {
+
+                if (isset($response['isValid']) && $response['isValid'] === true 
+                && isset($response['isSuccess']) && $response['isSuccess'] === true) {
                     // Get the quote
                     $quote = $this->orderHandler->findQuote();
 

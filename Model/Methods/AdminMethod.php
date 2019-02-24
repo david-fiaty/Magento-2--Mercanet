@@ -177,21 +177,18 @@ class AdminMethod extends \Magento\Payment\Model\Method\AbstractMethod
     }
 
     /**
-     * Checks if a response is valid.
+     * Process the gateway response.
      */
-    public static function isValidResponse($config, $methodId, $asset)
+    public static function processResponse($config, $methodId, $asset)
     {
+        // Check the response
         $status = $asset->isValid();
-        return $status;
-    }
 
-    /**
-     * Checks if a response is success.
-     */
-    public static function isSuccessResponse($config, $methodId, $asset)
-    {
-        $status = $asset->isValid();
-        return $status;
+        // Return the validity status
+        return [
+            'isValid' => $status,
+            'isSuccess' => $status
+       ];
     }
     
     /**

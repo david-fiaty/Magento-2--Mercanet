@@ -81,6 +81,9 @@ class Automatic extends \Magento\Framework\App\Action\Action
                 if (isset($response['isSuccess']) && $response['isSuccess'] === true) {
                     // Place order
                     $order = $this->orderHandler->placeOrder($responseData, $methodId);
+                    
+                    // Return success
+                    return $this->resultJsonFactory->create()->setData([]);
                 }
             }
         }

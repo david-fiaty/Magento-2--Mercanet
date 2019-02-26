@@ -79,7 +79,7 @@ class Automatic extends \Magento\Framework\App\Action\Action
 
         // Load the method instance
         $methodId = Core::moduleId() . '_' . Connector::KEY_REDIRECT_METHOD;
-        $methodInstance = $this->methodHandler->getStaticInstance($methodId);
+        $methodInstance = $this->methodHandler::getStaticInstance($methodId);
 
         // Process the response
         if ($methodInstance && $methodInstance::isFrontend($this->config, $methodId)) {

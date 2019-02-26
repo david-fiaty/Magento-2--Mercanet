@@ -123,7 +123,7 @@ class Form extends \Magento\Framework\App\Action\Action
         // Load the method instance if parameters are valid
         if ($methodId && !empty($methodId) && is_array($cardData) && !empty($cardData)) {
             // Load the method instance
-            $methodInstance = $this->methodHandler->getStaticInstance($methodId);
+            $methodInstance = $this->methodHandler::getStaticInstance($methodId);
 
             // Perform the charge request
             if ($methodInstance && $methodInstance::isFrontend($this->config, $methodId)) {

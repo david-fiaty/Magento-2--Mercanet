@@ -81,13 +81,19 @@ class Automatic extends \Magento\Framework\App\Action\Action
         $methodId = Core::moduleId() . '_' . Connector::KEY_REDIRECT_METHOD;
         $methodInstance = $this->methodHandler::getStaticInstance($methodId);
 
-        // Process the response
-        if ($methodInstance && $methodInstance::isFrontend($this->config, $methodId)) {
-            $response = $methodInstance::processResponse($this->config, $methodId, $responseData);
+        if ($methodInstance) {
+            // Get the response
+            $response = $methodInstance::processResponse(
+                $this->config,
+                $methodId,
+                $responseData
+            );
+            
+            // Process the response
             if (isset($response['isValid']) && $response['isValid'] === true) {
                 if (isset($response['isSuccess']) && $response['isSuccess'] === true) {
                     // Place order
-                    $order = $this->orderHandler->placeOrder($responseData, $methodId);
+                    $order = $this->orderHandler->placeOrder($responseData['Data'], $methodId);
                     
                     // Return success
                     return $this->resultJsonFactory->create()->setData([]);

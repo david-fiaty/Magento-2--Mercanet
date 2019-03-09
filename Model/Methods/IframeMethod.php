@@ -186,8 +186,7 @@ class IframeMethod extends \Magento\Payment\Model\Method\AbstractMethod
     public static function processResponse($config, $methodId, $asset)
     {
         // Get the vendor instance
-        $fn = "\\" . $config->params[$methodId][Core::KEY_VENDOR];
-        $paymentResponse = new $fn(Connector::getSecretKey($config));
+        $paymentResponse = new PostInterface(Connector::getSecretKey($config));
 
         // Set the response
         $paymentResponse->setResponse($asset);

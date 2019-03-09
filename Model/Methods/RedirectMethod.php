@@ -172,11 +172,10 @@ class RedirectMethod extends \Magento\Payment\Model\Method\AbstractMethod
     /**
      * Process the gateway response.
      */
-    public static function processResponse($config, $methodId, $asset)
+    public static function processResponse($config, $methodId, $asset, $moduleDirReader = null)
     {
         // Get the vendor instance
-        $fn = "\\" . $config->params[$methodId][Core::KEY_VENDOR];
-        $paymentResponse = new $fn(Connector::getSecretKey($config));
+        $paymentResponse = new PostInterface(Connector::getSecretKey($config));
 
         // Set the response
         $paymentResponse->setResponse($asset);
@@ -185,7 +184,7 @@ class RedirectMethod extends \Magento\Payment\Model\Method\AbstractMethod
         return [
             'isValid' => $paymentResponse->isValid(),
             'isSuccess' => $paymentResponse->isSuccessful()
-       ];
+        ];
     }
 
     /**

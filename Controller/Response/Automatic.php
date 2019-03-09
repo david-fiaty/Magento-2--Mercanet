@@ -58,7 +58,7 @@ class Automatic extends \Magento\Framework\App\Action\Action
         \Magento\Framework\Controller\Result\JsonFactory $resultJsonFactory,
         \Cmsbox\Mercanet\Helper\Watchdog $watchdog,
         \Cmsbox\Mercanet\Gateway\Config\Config $config,
-        \Cmsbox\Monetico\Model\Service\MethodHandlerService $methodHandler
+        \Cmsbox\Mercanet\Model\Service\MethodHandlerService $methodHandler
     ) {
         parent::__construct($context);
         

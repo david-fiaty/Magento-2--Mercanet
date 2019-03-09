@@ -128,7 +128,7 @@ class OrderHandlerService
             );
 
             // Update the order
-            if (!$order) {
+            if ((int) $order->getId() == 0) {
                 $order = $this->createOrder($fields, $methodId);
                 return $order;
             }

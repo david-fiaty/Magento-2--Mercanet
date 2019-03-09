@@ -506,6 +506,39 @@
                             <config_path>payment/cmsbox_mercanet_iframe_method/verify_3ds</config_path>
                         </field>
 
+                        <field id="iframe_method_capture_mode" translate="label" sortOrder="90" type="select" showInDefault="1" showInWebsite="1" showInStore="1">
+                            <label>Capture mode</label>
+                            <source_model>Cmsbox\Mercanet\Model\Adminhtml\Source\CaptureMode</source_model>
+                            <config_path>payment/cmsbox_mercanet_iframe_method/capture_mode</config_path>
+                        </field>
+
+                        <field id="iframe_method_capture_day" translate="label comment" sortOrder="100" type="text" showInDefault="1" showInWebsite="1" showInStore="1">
+                            <label>Capture Day</label>
+                            <config_path>payment/cmsbox_mercanet_iframe_method/capture_day</config_path>
+                            <validate>validate-required validate-digits validate-zero-or-greater</validate>
+                            <depends>
+                                <field id="iframe_method_capture_mode" separator=",">AUTHOR_CAPTURE,VALIDATION</field>
+                            </depends>
+                            <comment>
+                                Deferred capture in number of days.
+                            </comment>
+                        </field>
+
+                        <field id="iframe_method_auto_generate_invoice" translate="label comment" sortOrder="110" type="select" showInDefault="1" showInWebsite="1" showInStore="1">
+                            <label>Automatically generate invoice</label>
+                            <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                            <config_path>payment/cmsbox_mercanet_iframe_method/auto_generate_invoice</config_path>
+                        </field>
+
+                        <field id="iframe_method_invoice_creation" translate="label comment" sortOrder="120" type="select" showInDefault="1" showInWebsite="1" showInStore="1">
+                            <label>Invoice creation</label>
+                            <source_model>Cmsbox\Mercanet\Model\Adminhtml\Source\InvoiceCreation</source_model>
+                            <config_path>payment/cmsbox_mercanet_iframe_method/invoice_creation</config_path>
+                            <depends>
+                                <field id="iframe_method_auto_generate_invoice">1</field>
+                            </depends>                        
+                        </field>      
+
                     </group>
 
                     <group id="cmsbox_mercanet_admin_method" translate="label" showInDefault="1" showInWebsite="1" sortOrder="30">

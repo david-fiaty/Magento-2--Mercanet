@@ -169,10 +169,14 @@ class OrderHandlerService
                 // Create the order
                 $order = $this->quoteManagement->submit($quote);
 
+                $writer = new \Zend\Log\Writer\Stream(BP . '/var/log/fields.log');
+                $logger = new \Zend\Log\Logger();
+                $logger->addWriter($writer);
+                $logger->info(print_r($fields ,1));
+
                 // Update order status
-                $isCaptureImmediate = $fields[
-                    $this->config->base[Connector::KEY_CAPTURE_MODE_FIELD]
-                ] == Connector::KEY_CAPTURE_IMMEDIATE;
+                $isCaptureImmediate = $this->config->params[$methodId]
+                [Connector::KEY_CAPTURE_MODE] == Connector::KEY_CAPTURE_IMMEDIATE;
                 if ($isCaptureImmediate) {
                     // Create the transaction
                     $transactionId = $this->transactionHandler->createTransaction(

@@ -166,10 +166,11 @@ class IframeMethod extends \Magento\Payment\Model\Method\AbstractMethod
         }
 
         // Set the billing address info
-        $params = array_merge($config->params, Connector::getBillingAddress($entity, $config));
-
-        // Set the shipping address info
-        $params = array_merge($config->params, Connector::getShippingAddress($entity, $config));
+        $address = $entity->getBillingAddress();
+        $paymentRequest->setBillingContactEmail($entity->getCustomerEmail());
+        $paymentRequest->setBillingAddressStreet(implode(', ', $address->getStreet()));
+        $paymentRequest->setBillingAddressZipCode($address->getPostcode());
+        $paymentRequest->setBillingAddressCity($address->getCity());
 
         // Validate the request
         $paymentRequest->validate();

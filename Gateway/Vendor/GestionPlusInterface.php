@@ -121,7 +121,7 @@ class GestionPlusInterface
     public static function convertCurrencyToCurrencyCode($currency)
     {
         if (!in_array($currency, array_keys(self::$currencies))) {
-            throw new InvalidArgumentException("Unknown currencyCode $currency.");
+            throw new \InvalidArgumentException("Unknown currencyCode $currency.");
         }
         return self::$currencies[$currency];
     }
@@ -129,7 +129,7 @@ class GestionPlusInterface
     public static function convertCurrencyCodeToCurrency($code)
     {
         if (!in_array($code, array_values(self::$currencies))) {
-            throw new InvalidArgumentException("Unknown Code $code.");
+            throw new \InvalidArgumentException("Unknown Code $code.");
         }
         return array_search($code, self::$currencies);
     }
@@ -234,10 +234,10 @@ class GestionPlusInterface
     public function setAmount($amount)
     {
         if (!is_int($amount)) {
-            throw new InvalidArgumentException("Integer expected. Amount is always in cents");
+            throw new \InvalidArgumentException("Integer expected. Amount is always in cents");
         }
         if ($amount <= 0) {
-            throw new InvalidArgumentException("Amount must be a positive number");
+            throw new \InvalidArgumentException("Amount must be a positive number");
         }
         $this->parameters['amount'] = $amount;
     }
@@ -245,10 +245,10 @@ class GestionPlusInterface
     public function setOperationAmount($amount)
     {
         if (!is_int($amount)) {
-            throw new InvalidArgumentException("Integer expected. Amount is always in cents");
+            throw new \InvalidArgumentException("Integer expected. Amount is always in cents");
         }
         if ($amount <= 0) {
-            throw new InvalidArgumentException("Amount must be a positive number");
+            throw new \InvalidArgumentException("Amount must be a positive number");
         }
         $this->parameters['operationAmount'] = $amount;
     }
@@ -291,7 +291,7 @@ class GestionPlusInterface
     public function setCurrency($currency)
     {
         if (!array_key_exists(strtoupper($currency), self::getCurrencies())) {
-            throw new InvalidArgumentException("Unknown currency");
+            throw new \InvalidArgumentException("Unknown currency");
         }
         $this->parameters['currencyCode'] = self::convertCurrencyToCurrencyCode($currency);
     }
@@ -299,7 +299,7 @@ class GestionPlusInterface
     public function setLanguage($language)
     {
         if (!in_array($language, $this->allowedlanguages)) {
-            throw new InvalidArgumentException("Invalid language locale");
+            throw new \InvalidArgumentException("Invalid language locale");
         }
         $this->parameters['customerLanguage'] = $language;
     }
@@ -324,7 +324,7 @@ class GestionPlusInterface
     {
         $this->parameters['paymentMeanBrandList'] = '';
         if (!array_key_exists(strtoupper($brand), $this->brandsmap)) {
-            throw new InvalidArgumentException("Unknown Brand [$brand].");
+            throw new \InvalidArgumentException("Unknown Brand [$brand].");
         }
         $this->parameters['paymentMeanBrandList'] = strtoupper($brand);
     }
@@ -332,10 +332,10 @@ class GestionPlusInterface
     public function setCustomerContactEmail($email)
     {
         if (strlen($email) > 50) {
-            throw new InvalidArgumentException("Email is too long");
+            throw new \InvalidArgumentException("Email is too long");
         }
         if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-            throw new InvalidArgumentException("Email is invalid");
+            throw new \InvalidArgumentException("Email is invalid");
         }
         $this->parameters['customerContact'] = ['email' => $email];
     }
@@ -343,10 +343,10 @@ class GestionPlusInterface
     public function setBillingContactEmail($email)
     {
         if (strlen($email) > 50) {
-            throw new InvalidArgumentException("Email is too long");
+            throw new \InvalidArgumentException("Email is too long");
         }
         if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-            throw new InvalidArgumentException("Email is invalid");
+            throw new \InvalidArgumentException("Email is invalid");
         }
         $this->parameters['billingContact.email'] = $email;
     }
@@ -354,7 +354,7 @@ class GestionPlusInterface
     public function setBillingAddressStreet($street)
     {
         if (strlen($street) > 35) {
-            throw new InvalidArgumentException("street is too long");
+            throw new \InvalidArgumentException("street is too long");
         }
         $this->parameters['billingAddress.street'] = Normalizer::normalize($street);
     }
@@ -362,7 +362,7 @@ class GestionPlusInterface
     public function setBillingAddressStreetNumber($nr)
     {
         if (strlen($nr) > 10) {
-            throw new InvalidArgumentException("streetNumber is too long");
+            throw new \InvalidArgumentException("streetNumber is too long");
         }
         $this->parameters['billingAddress.streetNumber'] = Normalizer::normalize($nr);
     }
@@ -370,7 +370,7 @@ class GestionPlusInterface
     public function setBillingAddressZipCode($zipCode)
     {
         if (strlen($zipCode) > 10) {
-            throw new InvalidArgumentException("zipCode is too long");
+            throw new \InvalidArgumentException("zipCode is too long");
         }
         $this->parameters['billingAddress.zipCode'] = Normalizer::normalize($zipCode);
     }
@@ -378,7 +378,7 @@ class GestionPlusInterface
     public function setBillingAddressCity($city)
     {
         if (strlen($city) > 25) {
-            throw new InvalidArgumentException("city is too long");
+            throw new \InvalidArgumentException("city is too long");
         }
         $this->parameters['billingAddress.city'] = Normalizer::normalize($city);
     }
@@ -386,7 +386,7 @@ class GestionPlusInterface
     public function setBillingContactPhone($phone)
     {
         if (strlen($phone) > 30) {
-            throw new InvalidArgumentException("phone is too long");
+            throw new \InvalidArgumentException("phone is too long");
         }
         $this->parameters['billingContact.phone'] = $phone;
     }
@@ -404,7 +404,7 @@ class GestionPlusInterface
     public function setCaptureDay($number)
     {
         if (strlen($number) > 2) {
-            throw new InvalidArgumentException("captureDay is too long");
+            throw new \InvalidArgumentException("captureDay is too long");
         }
         $this->parameters['captureDay'] = $number;
     }
@@ -412,7 +412,7 @@ class GestionPlusInterface
     public function setCaptureMode($value)
     {
         if (strlen($value) > 20) {
-            throw new InvalidArgumentException("captureMode is too long");
+            throw new \InvalidArgumentException("captureMode is too long");
         }
         $this->parameters['captureMode'] = $value;
     }
@@ -420,7 +420,7 @@ class GestionPlusInterface
     public function setMerchantTransactionDateTime($value)
     {
         if (strlen($value) > 25) {
-            throw new InvalidArgumentException("merchantTransactionDateTime is too long");
+            throw new \InvalidArgumentException("merchantTransactionDateTime is too long");
         }
         $this->parameters['merchantTransactionDateTime'] = $value;
     }
@@ -433,7 +433,7 @@ class GestionPlusInterface
     public function setOrderChannel($value)
     {
         if (strlen($value) > 20) {
-            throw new InvalidArgumentException("orderChannel is too long");
+            throw new \InvalidArgumentException("orderChannel is too long");
         }
         $this->parameters['orderChannel'] = $value;
     }
@@ -441,7 +441,7 @@ class GestionPlusInterface
     public function setOrderId($value)
     {
         if (strlen($value) > 32) {
-            throw new InvalidArgumentException("orderId is too long");
+            throw new \InvalidArgumentException("orderId is too long");
         }
         $this->parameters['orderId'] = $value;
     }
@@ -449,7 +449,7 @@ class GestionPlusInterface
     public function setReturnContext($value)
     {
         if (strlen($value) > 255) {
-            throw new InvalidArgumentException("returnContext is too long");
+            throw new \InvalidArgumentException("returnContext is too long");
         }
         $this->parameters['returnContext'] = $value;
     }
@@ -457,7 +457,7 @@ class GestionPlusInterface
     public function setTransactionOrigin($value)
     {
         if (strlen($value) > 20) {
-            throw new InvalidArgumentException("transactionOrigin is too long");
+            throw new \InvalidArgumentException("transactionOrigin is too long");
         }
         $this->parameters['transactionOrigin'] = $value;
     }
@@ -466,10 +466,10 @@ class GestionPlusInterface
     public function setCardNumber($number)
     {
         if (strlen($number) > 19) {
-            throw new InvalidArgumentException("cardNumber is too long");
+            throw new \InvalidArgumentException("cardNumber is too long");
         }
         if (strlen($number) < 12) {
-            throw new InvalidArgumentException("cardNumber is too short");
+            throw new \InvalidArgumentException("cardNumber is too short");
         }
         $this->parameters['cardNumber'] = $number;
     }
@@ -477,7 +477,7 @@ class GestionPlusInterface
     public function setCardExpiryDate($date)
     {
         if (strlen($date) != 6) {
-            throw new InvalidArgumentException("cardExpiryDate value is invalid");
+            throw new \InvalidArgumentException("cardExpiryDate value is invalid");
         }
         $this->parameters['cardExpiryDate'] = $date;
     }
@@ -485,7 +485,7 @@ class GestionPlusInterface
     public function setCardCSCValue($value)
     {
         if (strlen($value) > 4) {
-            throw new InvalidArgumentException("cardCSCValue value is invalid");
+            throw new \InvalidArgumentException("cardCSCValue value is invalid");
         }
         $this->parameters['cardCSCValue'] = $value;
     }
@@ -495,7 +495,7 @@ class GestionPlusInterface
     public function setFraudDataBypass3DS($value)
     {
         if (strlen($value) > 128) {
-            throw new InvalidArgumentException("fraudData.bypass3DS is too long");
+            throw new \InvalidArgumentException("fraudData.bypass3DS is too long");
         }
         $this->parameters['fraudData.bypass3DS'] = $value;
     }
@@ -505,7 +505,7 @@ class GestionPlusInterface
     public function setMerchantWalletId($wallet)
     {
         if (strlen($wallet) > 21) {
-            throw new InvalidArgumentException("merchantWalletId is too long");
+            throw new \InvalidArgumentException("merchantWalletId is too long");
         }
         $this->parameters['merchantWalletId'] = $wallet;
     }
@@ -513,7 +513,7 @@ class GestionPlusInterface
     public function setPaymentMeanId($value)
     {
         if (strlen($value) > 6) {
-            throw new InvalidArgumentException("paymentMeanId is too long");
+            throw new \InvalidArgumentException("paymentMeanId is too long");
         }
         $this->parameters['paymentMeanId'] = $value;
     }
@@ -547,7 +547,7 @@ class GestionPlusInterface
             }
         }
 
-        throw new BadMethodCallException("Unknown method $method");
+        throw new \BadMethodCallException("Unknown method $method");
     }
 
     public function toArray()
@@ -607,10 +607,10 @@ class GestionPlusInterface
     protected function validateUri($uri)
     {
         if (!filter_var($uri, FILTER_VALIDATE_URL)) {
-            throw new InvalidArgumentException("Uri is not valid");
+            throw new \InvalidArgumentException("Uri is not valid");
         }
         if (strlen($uri) > 200) {
-            throw new InvalidArgumentException("Uri is too long");
+            throw new \InvalidArgumentException("Uri is too long");
         }
     }
     
@@ -659,7 +659,7 @@ class GestionPlusInterface
     {
         //filter request for Sips parameters
         if (!array_key_exists(self::DATA_FIELD, $httpRequest) || $httpRequest[self::DATA_FIELD] == '') {
-            throw new InvalidArgumentException('Data parameter not present in parameters.');
+            throw new \InvalidArgumentException('Data parameter not present in parameters.');
         }
         $parameters = array();
         $dataString = $httpRequest[self::DATA_FIELD];
@@ -681,7 +681,7 @@ class GestionPlusInterface
     private function extractShaSign(array $parameters)
     {
         if (!array_key_exists(self::SHASIGN_FIELD, $parameters) || $parameters[self::SHASIGN_FIELD] == '') {
-            throw new InvalidArgumentException('SHASIGN parameter not present in parameters.');
+            throw new \InvalidArgumentException('SHASIGN parameter not present in parameters.');
         }
         return $parameters[self::SHASIGN_FIELD];
     }

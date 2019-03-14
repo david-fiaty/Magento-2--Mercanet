@@ -78,7 +78,7 @@ class Normal extends \Magento\Framework\App\Action\Action
     public function execute()
     {
         // Get the request data
-        $responseData = $this->getRequest()->getPostValue();
+        $responseData = $this->getRequest()->getParams();
 
         // Log the response
         $this->watchdog->bark(
@@ -90,12 +90,13 @@ class Normal extends \Magento\Framework\App\Action\Action
 
         // Load the method instance
         $methodId = $this->orderHandler->findMethodId();
-        $methodInstance = $this->methodHandler->getStaticInstance($methodId);
+        $methodInstance = $this->methodHandler::getStaticInstance($methodId);
 
         // Process the response
-        if ($methodInstance && $methodInstance::isFrontend($this->config, $methodId)) {
-            if ($methodInstance::isValidResponse($this->config, $methodId, $responseData)) {
-                if ($methodInstance::isSuccessResponse($this->config, $methodId, $responseData)) {
+        if ($methodInstance) {
+            $response = $methodInstance::processResponse($this->config, $methodId, $responseData);
+            if (isset($response['isValid']) && $response['isValid'] === true) {
+                if (isset($response['isSuccess']) && $response['isSuccess'] === true) {
                     // Place order
                     $order = $this->orderHandler->placeOrder(Connector::packData($responseData), $methodId);
 

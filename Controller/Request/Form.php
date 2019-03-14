@@ -123,7 +123,7 @@ class Form extends \Magento\Framework\App\Action\Action
         // Load the method instance if parameters are valid
         if ($methodId && !empty($methodId) && is_array($cardData) && !empty($cardData)) {
             // Load the method instance
-            $methodInstance = $this->methodHandler->getStaticInstance($methodId);
+            $methodInstance = $this->methodHandler::getStaticInstance($methodId);
 
             // Perform the charge request
             if ($methodInstance && $methodInstance::isFrontend($this->config, $methodId)) {
@@ -150,17 +150,14 @@ class Form extends \Magento\Framework\App\Action\Action
                 );
 
                 // Process the response
-                $isValidResponse = $methodInstance::isValidResponse(
+                $response = $methodInstance::processResponse(
                     $this->config,
                     $methodId,
                     $paymentObject
                 );
-                $isSuccessResponse = $methodInstance::isSuccessResponse(
-                    $this->config,
-                    $methodId,
-                    $paymentObject
-                );
-                if ($isValidResponse && $isSuccessResponse) {
+
+                if (isset($response['isValid']) && $response['isValid'] === true 
+                && isset($response['isSuccess']) && $response['isSuccess'] === true) {
                     // Get the quote
                     $quote = $this->orderHandler->findQuote();
 

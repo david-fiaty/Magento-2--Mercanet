@@ -45,6 +45,11 @@ class Automatic extends \Magento\Framework\App\Action\Action
     protected $config;
 
     /**
+     * @var MethodHandlerService
+     */
+    public $methodHandler;
+
+    /**
      * Automatic constructor.
      */
     public function __construct(
@@ -52,7 +57,8 @@ class Automatic extends \Magento\Framework\App\Action\Action
         \Cmsbox\Mercanet\Model\Service\OrderHandlerService $orderHandler,
         \Magento\Framework\Controller\Result\JsonFactory $resultJsonFactory,
         \Cmsbox\Mercanet\Helper\Watchdog $watchdog,
-        \Cmsbox\Mercanet\Gateway\Config\Config $config
+        \Cmsbox\Mercanet\Gateway\Config\Config $config,
+        \Cmsbox\Mercanet\Model\Service\MethodHandlerService $methodHandler
     ) {
         parent::__construct($context);
         
@@ -60,26 +66,37 @@ class Automatic extends \Magento\Framework\App\Action\Action
         $this->resultJsonFactory   = $resultJsonFactory;
         $this->watchdog            = $watchdog;
         $this->config              = $config;
+        $this->methodHandler       = $methodHandler;
     }
  
     public function execute()
     {
         // Get the request data
-        $responseData = $this->getRequest()->getPostValue();
+        $responseData = $this->getRequest()->getParams();
 
         // Log the response
         $this->watchdog->bark(Connector::KEY_RESPONSE, $responseData, $canDisplay = false);
 
         // Load the method instance
         $methodId = Core::moduleId() . '_' . Connector::KEY_REDIRECT_METHOD;
-        $methodInstance = $this->methodHandler->getStaticInstance($methodId);
+        $methodInstance = $this->methodHandler::getStaticInstance($methodId);
 
-        // Process the response
-        if ($methodInstance && $methodInstance::isFrontend($this->config, $methodId)) {
-            if ($methodInstance::isValidResponse($this->config, $methodId, $responseData)) {
-                if ($methodInstance::isSuccessResponse($this->config, $methodId, $responseData)) {
+        if ($methodInstance) {
+            // Get the response
+            $response = $methodInstance::processResponse(
+                $this->config,
+                $methodId,
+                $responseData
+            );
+            
+            // Process the response
+            if (isset($response['isValid']) && $response['isValid'] === true) {
+                if (isset($response['isSuccess']) && $response['isSuccess'] === true) {
                     // Place order
-                    $order = $this->orderHandler->placeOrder($responseData, $methodId);
+                    $order = $this->orderHandler->placeOrder($responseData['Data'], $methodId);
+                    
+                    // Return success
+                    return $this->resultJsonFactory->create()->setData([]);
                 }
             }
         }
@@ -87,7 +104,7 @@ class Automatic extends \Magento\Framework\App\Action\Action
         // Stop the execution
         return $this->resultJsonFactory->create()->setData(
             [
-            $this->handleError(__('Invalid request in automatic controller.'))
+                $this->handleError(__('Invalid request in automatic controller.'))
             ]
         );
     }

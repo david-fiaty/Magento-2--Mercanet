@@ -102,7 +102,7 @@ class OrderSaveBefore implements \Magento\Framework\Event\ObserverInterface
                 // Load the method instance if parameters are valid
                 if ($methodId && is_array($cardData) && !empty($cardData)) {
                     // Load the method instance
-                    $methodInstance = $this->methodHandler->getStaticInstance($methodId);
+                    $methodInstance = $this->methodHandler::getStaticInstance($methodId);
 
                     // Perform the charge request
                     if ($methodInstance) {
@@ -129,18 +129,15 @@ class OrderSaveBefore implements \Magento\Framework\Event\ObserverInterface
                             $paymentObject
                         );
 
-                        // Get the response
-                        $isValidResponse = $methodInstance::isValidResponse(
+                        // Process the response
+                        $response = $methodInstance::processResponse(
                             $this->config,
                             $methodId,
                             $paymentObject
                         );
-                        $isSuccessResponse = $methodInstance::isSuccessResponse(
-                            $this->config,
-                            $methodId,
-                            $paymentObject
-                        );
-                        if ($isValidResponse && $isSuccessResponse) {
+
+                        if (isset($response['isValid']) && $response['isValid'] === true 
+                        && isset($response['isSuccess']) && $response['isSuccess'] === true) {
                             // Add the transaction info for order save after
                             $paymentInfo->setAdditionalInformation(
                                 Connector::KEY_TRANSACTION_INFO,

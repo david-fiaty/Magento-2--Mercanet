@@ -43,29 +43,62 @@
                             <config_path>payment/cmsbox_mercanet_redirect_method/title</config_path>
                         </field>
 
-                        <field id="redirect_method_button_label" translate="label" type="text" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <field id="redirect_method_sort_order" translate="label" sortOrder="20" type="text" showInDefault="1" showInWebsite="1" showInStore="1">
+                            <label>Sort Order</label>
+                            <validate>validate-number</validate>
+                            <config_path>payment/cmsbox_mercanet_redirect_method/sort_order</config_path>
+                        </field>
+
+                        <field id="redirect_method_button_label" translate="label" type="text" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
                             <label>Button label</label>
                             <config_path>payment/cmsbox_mercanet_redirect_method/button_label</config_path>
                         </field>
 
-                        <field id="redirect_method_bypass_receipt" translate="label comment" sortOrder="30" type="select" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <field id="redirect_method_bypass_receipt" translate="label comment" sortOrder="40" type="select" showInDefault="1" showInWebsite="1" showInStore="1">
                             <label>Bypass receipt page</label>
                             <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
                             <config_path>payment/cmsbox_mercanet_redirect_method/bypass_receipt</config_path>
                             <comment>If set to yes, the shopper will be redirected directly to the site after payment without the receipt step.</comment>       
                         </field>
 
-                        <field id="redirect_method_verify_3ds" translate="label" sortOrder="40" type="select" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <field id="redirect_method_verify_3ds" translate="label" sortOrder="50" type="select" showInDefault="1" showInWebsite="1" showInStore="1">
                             <label>3D Secure Verification</label>
                             <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
                             <config_path>payment/cmsbox_mercanet_redirect_method/verify_3ds</config_path>
                         </field>
 
-                        <field id="redirect_method_sort_order" translate="label" sortOrder="50" type="text" showInDefault="1" showInWebsite="1" showInStore="1">
-                            <label>Sort Order</label>
-                            <validate>validate-number</validate>
-                            <config_path>payment/cmsbox_mercanet_redirect_method/sort_order</config_path>
+                        <field id="redirect_method_capture_mode" translate="label" sortOrder="60" type="select" showInDefault="1" showInWebsite="1" showInStore="1">
+                            <label>Capture mode</label>
+                            <source_model>Cmsbox\Mercanet\Model\Adminhtml\Source\CaptureMode</source_model>
+                            <config_path>payment/cmsbox_mercanet_redirect_method/capture_mode</config_path>
                         </field>
+
+                        <field id="redirect_method_capture_day" translate="label comment" sortOrder="70" type="text" showInDefault="1" showInWebsite="1" showInStore="1">
+                            <label>Capture Day</label>
+                            <config_path>payment/cmsbox_mercanet_redirect_method/capture_day</config_path>
+                            <validate>validate-required validate-digits validate-zero-or-greater</validate>
+                            <depends>
+                                <field id="redirect_method_capture_mode" separator=",">AUTHOR_CAPTURE,VALIDATION</field>
+                            </depends>
+                            <comment>
+                                Deferred capture in number of days.
+                            </comment>
+                        </field>
+
+                        <field id="redirect_method_auto_generate_invoice" translate="label comment" sortOrder="80" type="select" showInDefault="1" showInWebsite="1" showInStore="1">
+                            <label>Automatically generate invoice</label>
+                            <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                            <config_path>payment/cmsbox_mercanet_redirect_method/auto_generate_invoice</config_path>
+                        </field>
+
+                        <field id="redirect_method_invoice_creation" translate="label comment" sortOrder="90" type="select" showInDefault="1" showInWebsite="1" showInStore="1">
+                            <label>Invoice creation</label>
+                            <source_model>Cmsbox\Mercanet\Model\Adminhtml\Source\InvoiceCreation</source_model>
+                            <config_path>payment/cmsbox_mercanet_redirect_method/invoice_creation</config_path>
+                            <depends>
+                                <field id="redirect_method_auto_generate_invoice">1</field>
+                            </depends>                        
+                        </field>                        
                     </group>
 
                     <group id="cmsbox_mercanet_form_method" translate="label" showInDefault="1" showInWebsite="1" sortOrder="10">
@@ -226,6 +259,24 @@
                             </depends>
                         </field>
 
+                        <field id="template_1_input_text_color" translate="label" type="text" sortOrder="200" showInDefault="1" showInWebsite="1" showInStore="1">
+                            <label>Input Text Color</label>
+                            <config_path>payment/cmsbox_mercanet_form_method/template_1_input_text_color</config_path>
+                            <frontend_model>Cmsbox\Mercanet\Block\Adminhtml\Widgets\ColorPicker</frontend_model>
+                            <depends>
+                                <field id="form_method_template">template_1</field>
+                            </depends>
+                        </field>
+
+                        <field id="template_1_input_background_color" translate="label" type="text" sortOrder="210" showInDefault="1" showInWebsite="1" showInStore="1">
+                            <label>Input Background Color</label>
+                            <config_path>payment/cmsbox_mercanet_form_method/template_1_input_background_color</config_path>
+                            <frontend_model>Cmsbox\Mercanet\Block\Adminhtml\Widgets\ColorPicker</frontend_model>
+                            <depends>
+                                <field id="form_method_template">template_1</field>
+                            </depends>
+                        </field>                   
+
                         <field id="template_2_form_title" translate="label" type="text" sortOrder="120" showInDefault="1" showInWebsite="1" showInStore="1">
                             <label>Form title</label>
                             <config_path>payment/cmsbox_mercanet_form_method/template_2_form_title</config_path>
@@ -295,6 +346,23 @@
                             </depends>
                         </field>
 
+                        <field id="template_2_input_text_color" translate="label" type="text" sortOrder="200" showInDefault="1" showInWebsite="1" showInStore="1">
+                            <label>Input Text Color</label>
+                            <config_path>payment/cmsbox_mercanet_form_method/template_2_input_text_color</config_path>
+                            <frontend_model>Cmsbox\Mercanet\Block\Adminhtml\Widgets\ColorPicker</frontend_model>
+                            <depends>
+                                <field id="form_method_template">template_2</field>
+                            </depends>
+                        </field>
+
+                        <field id="template_2_input_background_color" translate="label" type="text" sortOrder="210" showInDefault="1" showInWebsite="1" showInStore="1">
+                            <label>Input Background Color</label>
+                            <config_path>payment/cmsbox_mercanet_form_method/template_2_input_background_color</config_path>
+                            <frontend_model>Cmsbox\Mercanet\Block\Adminhtml\Widgets\ColorPicker</frontend_model>
+                            <depends>
+                                <field id="form_method_template">template_2</field>
+                            </depends>
+                        </field>                        
 
                         <field id="template_3_form_title" translate="label" type="text" sortOrder="120" showInDefault="1" showInWebsite="1" showInStore="1">
                             <label>Form title</label>
@@ -365,6 +433,23 @@
                             </depends>
                         </field>
 
+                        <field id="template_3_input_text_color" translate="label" type="text" sortOrder="200" showInDefault="1" showInWebsite="1" showInStore="1">
+                            <label>Input Text Color</label>
+                            <config_path>payment/cmsbox_mercanet_form_method/template_3_input_text_color</config_path>
+                            <frontend_model>Cmsbox\Mercanet\Block\Adminhtml\Widgets\ColorPicker</frontend_model>
+                            <depends>
+                                <field id="form_method_template">template_3</field>
+                            </depends>
+                        </field>
+
+                        <field id="template_3_input_background_color" translate="label" type="text" sortOrder="210" showInDefault="1" showInWebsite="1" showInStore="1">
+                            <label>Input Background Color</label>
+                            <config_path>payment/cmsbox_mercanet_form_method/template_3_input_background_color</config_path>
+                            <frontend_model>Cmsbox\Mercanet\Block\Adminhtml\Widgets\ColorPicker</frontend_model>
+                            <depends>
+                                <field id="form_method_template">template_3</field>
+                            </depends>
+                        </field>
                     </group>
 
                     <group id="cmsbox_mercanet_iframe_method" translate="label" showInDefault="1" showInWebsite="1" sortOrder="20">
@@ -382,44 +467,78 @@
                             <config_path>payment/cmsbox_mercanet_iframe_method/title</config_path>
                         </field>
 
-                        <field id="iframe_method_button_label" translate="label" type="text" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <field id="iframe_method_sort_order" translate="label" sortOrder="20" type="text" showInDefault="1" showInWebsite="1" showInStore="1">
+                            <label>Sort Order</label>
+                            <validate>validate-number</validate>
+                            <config_path>payment/cmsbox_mercanet_iframe_method/sort_order</config_path>
+                        </field>
+
+                        <field id="iframe_method_button_label" translate="label" type="text" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
                             <label>Button label</label>
                             <config_path>payment/cmsbox_mercanet_iframe_method/button_label</config_path>
                         </field>
 
-                        <field id="iframe_method_width" translate="label" type="text" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <field id="iframe_method_width" translate="label" type="text" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1">
                             <label>Iframe width</label>
                             <config_path>payment/cmsbox_mercanet_iframe_method/iframe_width</config_path>
                         </field>
 
-                        <field id="iframe_method_height" translate="label" type="text" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <field id="iframe_method_height" translate="label" type="text" sortOrder="50" showInDefault="1" showInWebsite="1" showInStore="1">
                             <label>Iframe height</label>
                             <config_path>payment/cmsbox_mercanet_iframe_method/iframe_height</config_path>
                         </field>
 
-                        <field id="iframe_method_border" translate="label" type="text" sortOrder="50" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <field id="iframe_method_border" translate="label" type="text" sortOrder="60" showInDefault="1" showInWebsite="1" showInStore="1">
                             <label>Iframe height</label>
                             <config_path>payment/cmsbox_mercanet_iframe_method/iframe_border</config_path>
                         </field>
 
-                        <field id="iframe_method_bypass_receipt" translate="label comment" sortOrder="60" type="select" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <field id="iframe_method_bypass_receipt" translate="label comment" sortOrder="70" type="select" showInDefault="1" showInWebsite="1" showInStore="1">
                             <label>Bypass receipt page</label>
                             <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
                             <config_path>payment/cmsbox_mercanet_iframe_method/bypass_receipt</config_path>
                             <comment>If set to yes, the shopper will be redirected directly to the site after payment without the receipt step.</comment>       
                         </field>
 
-                        <field id="iframe_method_verify_3ds" translate="label" sortOrder="70" type="select" showInDefault="1" showInWebsite="1" showInStore="1">
+                        <field id="iframe_method_verify_3ds" translate="label" sortOrder="80" type="select" showInDefault="1" showInWebsite="1" showInStore="1">
                             <label>3D Secure Verification</label>
                             <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
                             <config_path>payment/cmsbox_mercanet_iframe_method/verify_3ds</config_path>
                         </field>
 
-                        <field id="iframe_method_sort_order" translate="label" sortOrder="80" type="text" showInDefault="1" showInWebsite="1" showInStore="1">
-                            <label>Sort Order</label>
-                            <validate>validate-number</validate>
-                            <config_path>payment/cmsbox_mercanet_iframe_method/sort_order</config_path>
+                        <field id="iframe_method_capture_mode" translate="label" sortOrder="90" type="select" showInDefault="1" showInWebsite="1" showInStore="1">
+                            <label>Capture mode</label>
+                            <source_model>Cmsbox\Mercanet\Model\Adminhtml\Source\CaptureMode</source_model>
+                            <config_path>payment/cmsbox_mercanet_iframe_method/capture_mode</config_path>
                         </field>
+
+                        <field id="iframe_method_capture_day" translate="label comment" sortOrder="100" type="text" showInDefault="1" showInWebsite="1" showInStore="1">
+                            <label>Capture Day</label>
+                            <config_path>payment/cmsbox_mercanet_iframe_method/capture_day</config_path>
+                            <validate>validate-required validate-digits validate-zero-or-greater</validate>
+                            <depends>
+                                <field id="iframe_method_capture_mode" separator=",">AUTHOR_CAPTURE,VALIDATION</field>
+                            </depends>
+                            <comment>
+                                Deferred capture in number of days.
+                            </comment>
+                        </field>
+
+                        <field id="iframe_method_auto_generate_invoice" translate="label comment" sortOrder="110" type="select" showInDefault="1" showInWebsite="1" showInStore="1">
+                            <label>Automatically generate invoice</label>
+                            <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                            <config_path>payment/cmsbox_mercanet_iframe_method/auto_generate_invoice</config_path>
+                        </field>
+
+                        <field id="iframe_method_invoice_creation" translate="label comment" sortOrder="120" type="select" showInDefault="1" showInWebsite="1" showInStore="1">
+                            <label>Invoice creation</label>
+                            <source_model>Cmsbox\Mercanet\Model\Adminhtml\Source\InvoiceCreation</source_model>
+                            <config_path>payment/cmsbox_mercanet_iframe_method/invoice_creation</config_path>
+                            <depends>
+                                <field id="iframe_method_auto_generate_invoice">1</field>
+                            </depends>                        
+                        </field>      
+
                     </group>
 
                     <group id="cmsbox_mercanet_admin_method" translate="label" showInDefault="1" showInWebsite="1" sortOrder="30">
@@ -568,6 +687,24 @@
                                 <field id="admin_method_template">template_1</field>
                             </depends>
                         </field>
+        
+                        <field id="template_1_input_text_color" translate="label" type="text" sortOrder="200" showInDefault="1" showInWebsite="1" showInStore="1">
+                            <label>Input Text Color</label>
+                            <config_path>payment/cmsbox_mercanet_admin_method/template_1_input_text_color</config_path>
+                            <frontend_model>Cmsbox\Mercanet\Block\Adminhtml\Widgets\ColorPicker</frontend_model>
+                            <depends>
+                                <field id="admin_method_template">template_1</field>
+                            </depends>
+                        </field>
+
+                        <field id="template_1_input_background_color" translate="label" type="text" sortOrder="210" showInDefault="1" showInWebsite="1" showInStore="1">
+                            <label>Input Background Color</label>
+                            <config_path>payment/cmsbox_mercanet_admin_method/template_1_input_background_color</config_path>
+                            <frontend_model>Cmsbox\Mercanet\Block\Adminhtml\Widgets\ColorPicker</frontend_model>
+                            <depends>
+                                <field id="admin_method_template">template_1</field>
+                            </depends>
+                        </field>                   
 
                         <field id="template_2_form_title" translate="label" type="text" sortOrder="120" showInDefault="1" showInWebsite="1" showInStore="1">
                             <label>Form title</label>
@@ -638,6 +775,23 @@
                             </depends>
                         </field>
 
+                        <field id="template_2_input_text_color" translate="label" type="text" sortOrder="200" showInDefault="1" showInWebsite="1" showInStore="1">
+                            <label>Input Text Color</label>
+                            <config_path>payment/cmsbox_mercanet_admin_method/template_2_input_text_color</config_path>
+                            <frontend_model>Cmsbox\Mercanet\Block\Adminhtml\Widgets\ColorPicker</frontend_model>
+                            <depends>
+                                <field id="admin_method_template">template_2</field>
+                            </depends>
+                        </field>
+
+                        <field id="template_2_input_background_color" translate="label" type="text" sortOrder="210" showInDefault="1" showInWebsite="1" showInStore="1">
+                            <label>Input Background Color</label>
+                            <config_path>payment/cmsbox_mercanet_admin_method/template_2_input_background_color</config_path>
+                            <frontend_model>Cmsbox\Mercanet\Block\Adminhtml\Widgets\ColorPicker</frontend_model>
+                            <depends>
+                                <field id="admin_method_template">template_2</field>
+                            </depends>
+                        </field>                   
 
                         <field id="template_3_form_title" translate="label" type="text" sortOrder="120" showInDefault="1" showInWebsite="1" showInStore="1">
                             <label>Form title</label>
@@ -707,6 +861,24 @@
                                 <field id="admin_method_template">template_3</field>
                             </depends>
                         </field>
+
+                        <field id="template_3_input_text_color" translate="label" type="text" sortOrder="200" showInDefault="1" showInWebsite="1" showInStore="1">
+                            <label>Input Text Color</label>
+                            <config_path>payment/cmsbox_mercanet_admin_method/template_3_input_text_color</config_path>
+                            <frontend_model>Cmsbox\Mercanet\Block\Adminhtml\Widgets\ColorPicker</frontend_model>
+                            <depends>
+                                <field id="admin_method_template">template_3</field>
+                            </depends>
+                        </field>
+
+                        <field id="template_3_input_background_color" translate="label" type="text" sortOrder="210" showInDefault="1" showInWebsite="1" showInStore="1">
+                            <label>Input Background Color</label>
+                            <config_path>payment/cmsbox_mercanet_admin_method/template_3_input_background_color</config_path>
+                            <frontend_model>Cmsbox\Mercanet\Block\Adminhtml\Widgets\ColorPicker</frontend_model>
+                            <depends>
+                                <field id="admin_method_template">template_3</field>
+                            </depends>
+                        </field>         
 
                     </group>
                 </group>

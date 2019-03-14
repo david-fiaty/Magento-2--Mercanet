@@ -118,6 +118,7 @@ class OrderHandlerService
     public function placeOrder($data, $methodId)
     {
         // Get the fields
+        $order = null;
         $fields = Connector::unpackData($data);
 
         // If a track id is available
@@ -128,13 +129,13 @@ class OrderHandlerService
             );
 
             // Update the order
-            if ($order) {
+            if ((int) $order->getId() == 0) {
                 $order = $this->createOrder($fields, $methodId);
                 return $order;
             }
         }
 
-        return null;
+        return $order;
     }
 
     /**
@@ -170,9 +171,8 @@ class OrderHandlerService
                 $order = $this->quoteManagement->submit($quote);
 
                 // Update order status
-                $isCaptureImmediate = $fields[
-                    $this->config->base[Connector::KEY_CAPTURE_MODE_FIELD]
-                ] == Connector::KEY_CAPTURE_IMMEDIATE;
+                $isCaptureImmediate = $this->config->params[$methodId]
+                [Connector::KEY_CAPTURE_MODE] == Connector::KEY_CAPTURE_IMMEDIATE;
                 if ($isCaptureImmediate) {
                     // Create the transaction
                     $transactionId = $this->transactionHandler->createTransaction(
@@ -225,7 +225,7 @@ class OrderHandlerService
             ->setCustomerGroupId(GroupInterface::NOT_LOGGED_IN_ID);
 
         // Delete the cookie
-        $this->cookieManager->deleteCookie(self::EMAIL_COOKIE_NAME);
+        $this->cookieManager->deleteCookie(Connector::EMAIL_COOKIE_NAME);
 
         // Return the quote
         return $quote;
@@ -255,7 +255,7 @@ class OrderHandlerService
     {
         return $quote->getCustomerEmail()
         ?? $quote->getBillingAddress()->getEmail()
-        ?? $this->cookieManager->getCookie(self::EMAIL_COOKIE_NAME);
+        ?? $this->cookieManager->getCookie(Connector::EMAIL_COOKIE_NAME);
     }
 
     /**
@@ -263,8 +263,8 @@ class OrderHandlerService
      */
     public function findMethodId()
     {
-        return ($this->cookieManager->getCookie(Connector::METHOD_COOKIE_NAME))
-        ? $this->cookieManager->getCookie(Connector::METHOD_COOKIE_NAME)
+        $methodId = $this->cookieManager->getCookie(Connector::METHOD_COOKIE_NAME);
+        return ($methodId) ? $methodId
         : Core::moduleId() . '_' . Connector::KEY_REDIRECT_METHOD;
     }
 

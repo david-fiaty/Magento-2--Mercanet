@@ -21,6 +21,7 @@ use Cmsbox\Mercanet\Gateway\Config\Core;
 use Cmsbox\Mercanet\Helper\Tools;
 use Cmsbox\Mercanet\Gateway\Processor\Connector;
 use Cmsbox\Mercanet\Gateway\Config\Config;
+use Cmsbox\Mercanet\Gateway\Vendor\GestionPlusInterface;
 
 class FormMethod extends \Magento\Payment\Model\Method\AbstractMethod
 {
@@ -139,8 +140,7 @@ class FormMethod extends \Magento\Payment\Model\Method\AbstractMethod
         $entity = ($entity) ? $entity : $config->cart->getQuote();
 
         // Get the vendor instance
-        $fn = "\\" . $config->params[$methodId][Core::KEY_VENDOR];
-        $paymentRequest = new $fn(Connector::getSecretKey($config));
+        $paymentRequest = new GestionPlusInterface(Connector::getSecretKey($config));
 
         // Prepare the request
         $paymentRequest->setMerchantId(Connector::getMerchantId($config));
@@ -161,10 +161,11 @@ class FormMethod extends \Magento\Payment\Model\Method\AbstractMethod
         $paymentRequest->setCustomerContactEmail($entity->getCustomerEmail());
 
         // Set the billing address info
-        $params = array_merge($config->params, Connector::getBillingAddress($entity, $config));
-
-        // Set the shipping address info
-        $params = array_merge($config->params, Connector::getShippingAddress($entity, $config));
+        $address = $entity->getBillingAddress();
+        $paymentRequest->setBillingContactEmail($entity->getCustomerEmail());
+        $paymentRequest->setBillingAddressStreet(implode(', ', $address->getStreet()));
+        $paymentRequest->setBillingAddressZipCode($address->getPostcode());
+        $paymentRequest->setBillingAddressCity($address->getCity());
 
         // Execute the request
         $paymentRequest->executeRequest();
@@ -177,21 +178,18 @@ class FormMethod extends \Magento\Payment\Model\Method\AbstractMethod
     }
 
     /**
-     * Checks if a response is valid.
+     * Process the gateway response.
      */
-    public static function isValidResponse($config, $methodId, $asset)
+    public static function processResponse($config, $methodId, $asset)
     {
+        // Check the response
         $status = $asset->isValid();
-        return $status;
-    }
 
-    /**
-     * Checks if a response is success.
-     */
-    public static function isSuccessResponse($config, $methodId, $asset)
-    {
-        $status = $asset->isValid();
-        return $status;
+        // Return the validity status
+        return [
+            'isValid' => $status,
+            'isSuccess' => $status
+       ];
     }
 
     /**

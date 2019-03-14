@@ -262,8 +262,8 @@ class OrderHandlerService
      */
     public function findMethodId()
     {
-        return ($this->cookieManager->getCookie(Connector::METHOD_COOKIE_NAME))
-        ? $this->cookieManager->getCookie(Connector::METHOD_COOKIE_NAME)
+        $methodId = $this->cookieManager->getCookie(Connector::METHOD_COOKIE_NAME);
+        return ($methodId) ? $methodId
         : Core::moduleId() . '_' . Connector::KEY_REDIRECT_METHOD;
     }
 

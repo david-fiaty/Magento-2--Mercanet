@@ -300,7 +300,7 @@ class Config
      */
     public function formatAmount($amount)
     {
-        return (int) (number_format($amount, 2))*100;
+        return  (int) (number_format($amount, 2))*100;
     }
 
     /**

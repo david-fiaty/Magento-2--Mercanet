@@ -88,7 +88,7 @@ class PostInterface
     public static function convertCurrencyToCurrencyCode($currency)
     {
         if (!in_array($currency, array_keys(self::$currencies))) {
-            throw new InvalidArgumentException("Unknown currencyCode $currency.");
+            throw new \InvalidArgumentException("Unknown currencyCode $currency.");
         }
         return self::$currencies[$currency];
     }
@@ -96,7 +96,7 @@ class PostInterface
     public static function convertCurrencyCodeToCurrency($code)
     {
         if (!in_array($code, array_values(self::$currencies))) {
-            throw new InvalidArgumentException("Unknown Code $code.");
+            throw new \InvalidArgumentException("Unknown Code $code.");
         }
         return array_search($code, self::$currencies);
     }
@@ -150,7 +150,7 @@ class PostInterface
     public function setOrderId($value)
     {
         if (strlen($value) > 32) {
-            throw new InvalidArgumentException("orderId is too long");
+            throw new \InvalidArgumentException("orderId is too long");
         }
         $this->parameters['orderId'] = $value;
     }
@@ -181,10 +181,10 @@ class PostInterface
     public function setAmount($amount)
     {
         if (!is_int($amount)) {
-            throw new InvalidArgumentException("Integer expected. Amount is always in cents");
+            throw new \InvalidArgumentException("Integer expected. Amount is always in cents");
         }
         if ($amount <= 0) {
-            throw new InvalidArgumentException("Amount must be a positive number");
+            throw new \InvalidArgumentException("Amount must be a positive number");
         }
         $this->parameters['amount'] = $amount;
     }
@@ -192,7 +192,7 @@ class PostInterface
     public function setCurrency($currency)
     {
         if (!array_key_exists(strtoupper($currency), self::getCurrencies())) {
-            throw new InvalidArgumentException("Unknown currency");
+            throw new \InvalidArgumentException("Unknown currency");
         }
         $this->parameters['currencyCode'] = self::convertCurrencyToCurrencyCode($currency);
     }
@@ -200,7 +200,7 @@ class PostInterface
     public function setLanguage($language)
     {
         if (!in_array($language, $this->allowedlanguages)) {
-            throw new InvalidArgumentException("Invalid language locale");
+            throw new \InvalidArgumentException("Invalid language locale");
         }
         $this->parameters['customerLanguage'] = $language;
     }
@@ -209,7 +209,7 @@ class PostInterface
     {
         $this->parameters['paymentMeanBrandList'] = '';
         if (!array_key_exists(strtoupper($brand), $this->brandsmap)) {
-            throw new InvalidArgumentException("Unknown Brand [$brand].");
+            throw new \InvalidArgumentException("Unknown Brand [$brand].");
         }
         $this->parameters['paymentMeanBrandList'] = strtoupper($brand);
     }
@@ -217,10 +217,10 @@ class PostInterface
     public function setCustomerContactEmail($email)
     {
         if (strlen($email) > 50) {
-            throw new InvalidArgumentException("Email is too long");
+            throw new \InvalidArgumentException("Email is too long");
         }
         if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-            throw new InvalidArgumentException("Email is invalid");
+            throw new \InvalidArgumentException("Email is invalid");
         }
         $this->parameters['customerContact.email'] = $email;
     }
@@ -228,10 +228,10 @@ class PostInterface
     public function setBillingContactEmail($email)
     {
         if (strlen($email) > 50) {
-            throw new InvalidArgumentException("Email is too long");
+            throw new \InvalidArgumentException("Email is too long");
         }
         if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-            throw new InvalidArgumentException("Email is invalid");
+            throw new \InvalidArgumentException("Email is invalid");
         }
         $this->parameters['billingContact.email'] = $email;
     }
@@ -239,7 +239,7 @@ class PostInterface
     public function setBillingAddressStreet($street)
     {
         if (strlen($street) > 35) {
-            throw new InvalidArgumentException("street is too long");
+            throw new \InvalidArgumentException("street is too long");
         }
         $this->parameters['billingAddress.street'] = Normalizer::normalize($street);
     }
@@ -247,7 +247,7 @@ class PostInterface
     public function setBillingAddressStreetNumber($nr)
     {
         if (strlen($nr) > 10) {
-            throw new InvalidArgumentException("streetNumber is too long");
+            throw new \InvalidArgumentException("streetNumber is too long");
         }
         $this->parameters['billingAddress.streetNumber'] = Normalizer::normalize($nr);
     }
@@ -255,7 +255,7 @@ class PostInterface
     public function setBillingAddressZipCode($zipCode)
     {
         if (strlen($zipCode) > 10) {
-            throw new InvalidArgumentException("zipCode is too long");
+            throw new \InvalidArgumentException("zipCode is too long");
         }
         $this->parameters['billingAddress.zipCode'] = Normalizer::normalize($zipCode);
     }
@@ -263,7 +263,7 @@ class PostInterface
     public function setBillingAddressCity($city)
     {
         if (strlen($city) > 25) {
-            throw new InvalidArgumentException("city is too long");
+            throw new \InvalidArgumentException("city is too long");
         }
         $this->parameters['billingAddress.city'] = Normalizer::normalize($city);
     }
@@ -271,7 +271,7 @@ class PostInterface
     public function setBillingContactPhone($phone)
     {
         if (strlen($phone) > 30) {
-            throw new InvalidArgumentException("phone is too long");
+            throw new \InvalidArgumentException("phone is too long");
         }
         $this->parameters['billingContact.phone'] = $phone;
     }
@@ -289,7 +289,7 @@ class PostInterface
     public function setCaptureDay($number)
     {
         if (strlen($number) > 2) {
-            throw new InvalidArgumentException("captureDay is too long");
+            throw new \InvalidArgumentException("captureDay is too long");
         }
         $this->parameters['captureDay'] = $number;
     }
@@ -298,7 +298,7 @@ class PostInterface
     public function setCaptureMode($value)
     {
         if (strlen($value) > 20) {
-            throw new InvalidArgumentException("captureMode is too long");
+            throw new \InvalidArgumentException("captureMode is too long");
         }
         $this->parameters['captureMode'] = $value;
     }
@@ -308,7 +308,7 @@ class PostInterface
     public function setFraudDataBypass3DS($value)
     {
         if (strlen($value) > 128) {
-            throw new InvalidArgumentException("fraudData.bypass3DS is too long");
+            throw new \InvalidArgumentException("fraudData.bypass3DS is too long");
         }
         $this->parameters['fraudData.bypass3DS'] = $value;
     }
@@ -318,7 +318,7 @@ class PostInterface
     public function setMerchantWalletId($wallet)
     {
         if (strlen($wallet) > 21) {
-            throw new InvalidArgumentException("merchantWalletId is too long");
+            throw new \InvalidArgumentException("merchantWalletId is too long");
         }
         $this->parameters['merchantWalletId'] = $wallet;
     }
@@ -330,10 +330,10 @@ class PostInterface
     public function setInstalmentDataNumber($number)
     {
         if (strlen($number) > 2) {
-            throw new InvalidArgumentException("instalmentData.number is too long");
+            throw new \InvalidArgumentException("instalmentData.number is too long");
         }
         if (($number < 2) || ($number > 50)) {
-            throw new InvalidArgumentException("instalmentData.number invalid value : value must be set between 2 and 50");
+            throw new \InvalidArgumentException("instalmentData.number invalid value : value must be set between 2 and 50");
         }
         $this->parameters['instalmentData.number'] = $number;
     }
@@ -375,7 +375,7 @@ class PostInterface
             }
         }
 
-        throw new BadMethodCallException("Unknown method $method");
+        throw new \BadMethodCallException("Unknown method $method");
     }
 
     public function toArray()
@@ -418,10 +418,10 @@ class PostInterface
     protected function validateUri($uri)
     {
         if (!filter_var($uri, FILTER_VALIDATE_URL)) {
-            throw new InvalidArgumentException("Uri is not valid");
+            throw new \InvalidArgumentException("Uri is not valid");
         }
         if (strlen($uri) > 200) {
-            throw new InvalidArgumentException("Uri is too long");
+            throw new \InvalidArgumentException("Uri is too long");
         }
     }
     
@@ -466,7 +466,7 @@ class PostInterface
     {
         //filter request for Sips parameters
         if (!array_key_exists(self::DATA_FIELD, $httpRequest) || $httpRequest[self::DATA_FIELD] == '') {
-            throw new InvalidArgumentException('Data parameter not present in parameters.');
+            throw new \InvalidArgumentException('Data parameter not present in parameters.');
         }
         $parameters = array();
         $dataString = $httpRequest[self::DATA_FIELD];
@@ -488,7 +488,7 @@ class PostInterface
     private function extractShaSign(array $parameters)
     {
         if (!array_key_exists(self::SHASIGN_FIELD, $parameters) || $parameters[self::SHASIGN_FIELD] == '') {
-            throw new InvalidArgumentException('SHASIGN parameter not present in parameters.');
+            throw new \InvalidArgumentException('SHASIGN parameter not present in parameters.');
         }
         return $parameters[self::SHASIGN_FIELD];
     }
@@ -520,7 +520,7 @@ class PostInterface
         $key = strtoupper($key);
         $parameters = array_change_key_case($this->parameters, CASE_UPPER);
         if (!array_key_exists($key, $parameters)) {
-            throw new InvalidArgumentException('Parameter ' . $key . ' does not exist.');
+            throw new \InvalidArgumentException('Parameter ' . $key . ' does not exist.');
         }
 
         return $parameters[$key];

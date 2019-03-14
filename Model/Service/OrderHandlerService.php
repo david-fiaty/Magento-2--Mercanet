@@ -118,6 +118,7 @@ class OrderHandlerService
     public function placeOrder($data, $methodId)
     {
         // Get the fields
+        $order = null;
         $fields = Connector::unpackData($data);
 
         // If a track id is available
@@ -134,7 +135,7 @@ class OrderHandlerService
             }
         }
 
-        return null;
+        return $order;
     }
 
     /**

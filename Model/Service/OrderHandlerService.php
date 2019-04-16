@@ -216,7 +216,7 @@ class OrderHandlerService
     public function prepareGuestQuote($quote, $email = null)
     {
         // Retrieve the user email
-        $guestEmail = ($email) ? $email : $this->findCustomerEmail();
+        $guestEmail = ($email) ? $email : $this->findCustomerEmail($quote);
 
         // Set the quote as guest
         $quote->setCustomerId(null)

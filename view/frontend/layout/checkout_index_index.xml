@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
     <head>
-        <css src="Cmsbox_Mercanet::css/main.css" />
+        <css src="Naxero_Mercanet::css/main.css" />
     </head>
     <body>
         <referenceBlock name="checkout.root">
@@ -20,19 +20,19 @@
                                                         <item name="renders" xsi:type="array">
                                                             <!-- merge payment method renders here -->
                                                             <item name="children" xsi:type="array">
-                                                                <item name="cmsbox_mercanet" xsi:type="array">
-                                                                    <item name="component" xsi:type="string">Cmsbox_Mercanet/js/view/payment/method_renderer</item>
+                                                                <item name="naxero_mercanet" xsi:type="array">
+                                                                    <item name="component" xsi:type="string">Naxero_Mercanet/js/view/payment/method_renderer</item>
                                                                     <item name="methods" xsi:type="array">
-                                                                        <item name="cmsbox_mercanet" xsi:type="array">
+                                                                        <item name="naxero_mercanet" xsi:type="array">
                                                                             <item name="isBillingAddressRequired" xsi:type="boolean">true</item>
                                                                         </item>
-                                                                        <item name="cmsbox_mercanet_redirect_method" xsi:type="array">
+                                                                        <item name="naxero_mercanet_redirect_method" xsi:type="array">
                                                                             <item name="isBillingAddressRequired" xsi:type="boolean">true</item>
                                                                         </item>                                                                        
-                                                                        <item name="cmsbox_mercanet_form_method" xsi:type="array">
+                                                                        <item name="naxero_mercanet_form_method" xsi:type="array">
                                                                             <item name="isBillingAddressRequired" xsi:type="boolean">true</item>                                                                   
                                                                         </item>
-                                                                        <item name="cmsbox_mercanet_iframe_method" xsi:type="array">
+                                                                        <item name="naxero_mercanet_iframe_method" xsi:type="array">
                                                                             <item name="isBillingAddressRequired" xsi:type="boolean">true</item>                                                                   
                                                                         </item>                                                                    
                                                                     </item>
@@ -42,7 +42,7 @@
                                                         <item name="additional-payment-validators" xsi:type="array">
                                                             <item name="children" xsi:type="array">
                                                                 <item name="agreement-validator" xsi:type="array">
-                                                                    <item name="component" xsi:type="string">Cmsbox_Mercanet/js/view/agreement-validation</item>
+                                                                    <item name="component" xsi:type="string">Naxero_Mercanet/js/view/agreement-validation</item>
                                                                 </item>
                                                             </item>
                                                         </item>

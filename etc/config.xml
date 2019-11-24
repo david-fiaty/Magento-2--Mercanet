@@ -2,10 +2,10 @@
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
     <default>
         <base>
-            <module_id>cmsbox_mercanet</module_id>
-            <module_name>Cmsbox_Mercanet</module_name>
-            <module_label>Cmsbox Mercanet</module_label>
-            <module_url><![CDATA[https://www.cmsbox.fr]]></module_url>
+            <module_id>naxero_mercanet</module_id>
+            <module_name>Naxero_Mercanet</module_name>
+            <module_label>Naxero Mercanet</module_label>
+            <module_url><![CDATA[https://www.naxero.com]]></module_url>
             <exclude>model,simu_secret_key,test_secret_key</exclude>
             <supported_currencies>EUR,978;USD,840;CHF,756;GBP,826;CAD,124;JPY,392;MXP,484;TRY,949;AUD,036;NZD,554;NOK,578;BRC,986;ARP,032;KHR,116;TWD,901;SEK,752;DKK,208;KRW,410;SGD,702;XPF,953;XOF,952</supported_currencies>
             <customer_email_field>customerEmail</customer_email_field>
@@ -14,8 +14,8 @@
             <transaction_id_field>transactionReference</transaction_id_field>
         </base>
         <payment>
-            <cmsbox_mercanet>
-                <model>Cmsbox\Mercanet\Model\Methods\RedirectMethod</model>
+            <naxero_mercanet>
+                <model>Naxero\Mercanet\Model\Methods\RedirectMethod</model>
                 <debug>0</debug>
                 <logging>1</logging>
                 <new_order_status>pending</new_order_status>
@@ -32,10 +32,10 @@
                 <test_secret_key>S9i8qClCnb2CZU3y3Vn0toIOgz3z_aBi79akR30vM9o</test_secret_key>
                 <email_cookie_name>guestEmail</email_cookie_name>
                 <method_cookie_name>methodId</method_cookie_name>
-            </cmsbox_mercanet>
-            <cmsbox_mercanet_redirect_method>
-                <method_id>cmsbox_mercanet_redirect_method</method_id>
-                <model>Cmsbox\Mercanet\Model\Methods\RedirectMethod</model>
+            </naxero_mercanet>
+            <naxero_mercanet_redirect_method>
+                <method_id>naxero_mercanet_redirect_method</method_id>
+                <model>Naxero\Mercanet\Model\Methods\RedirectMethod</model>
                 <can_use_checkout>1</can_use_checkout>
                 <can_authorize>1</can_authorize>
                 <can_capture>1</can_capture>
@@ -61,10 +61,10 @@
                 <api_url_prod_charge><![CDATA[https://payment-webinit.mercanet.bnpparibas.net/paymentInit]]></api_url_prod_charge>
                 <interface_version_charge>HP_2.20</interface_version_charge>
                 <load_request_data>1</load_request_data>
-            </cmsbox_mercanet_redirect_method>
-            <cmsbox_mercanet_form_method>
-                <method_id>cmsbox_mercanet_form_method</method_id>
-                <model>Cmsbox\Mercanet\Model\Methods\FormMethod</model>
+            </naxero_mercanet_redirect_method>
+            <naxero_mercanet_form_method>
+                <method_id>naxero_mercanet_form_method</method_id>
+                <model>Naxero\Mercanet\Model\Methods\FormMethod</model>
                 <can_use_checkout>1</can_use_checkout>
                 <can_authorize>1</can_authorize>
                 <can_capture>1</can_capture>
@@ -127,10 +127,10 @@
                 <template_3_corner_radius>6px</template_3_corner_radius>
                 <template_3_input_text_color>#CCCCCC</template_3_input_text_color>
                 <template_3_input_background_color>#FFFFFF</template_3_input_background_color>
-            </cmsbox_mercanet_form_method>
-            <cmsbox_mercanet_iframe_method>
-                <method_id>cmsbox_mercanet_iframe_method</method_id>
-                <model>Cmsbox\Mercanet\Model\Methods\IframeMethod</model>
+            </naxero_mercanet_form_method>
+            <naxero_mercanet_iframe_method>
+                <method_id>naxero_mercanet_iframe_method</method_id>
+                <model>Naxero\Mercanet\Model\Methods\IframeMethod</model>
                 <can_use_checkout>1</can_use_checkout>
                 <can_authorize>1</can_authorize>
                 <can_capture>1</can_capture>
@@ -159,10 +159,10 @@
                 <iframe_width>100%</iframe_width>
                 <iframe_height>510px</iframe_height>
                 <iframe_border>1</iframe_border>
-            </cmsbox_mercanet_iframe_method>
-            <cmsbox_mercanet_admin_method>
-                <method_id>cmsbox_mercanet_admin_method</method_id>
-                <model>Cmsbox\Mercanet\Model\Methods\AdminMethod</model>
+            </naxero_mercanet_iframe_method>
+            <naxero_mercanet_admin_method>
+                <method_id>naxero_mercanet_admin_method</method_id>
+                <model>Naxero\Mercanet\Model\Methods\AdminMethod</model>
                 <can_use_checkout>1</can_use_checkout>
                 <can_authorize>1</can_authorize>
                 <can_capture>1</can_capture>
@@ -223,7 +223,7 @@
                 <template_3_corner_radius>6px</template_3_corner_radius>
                 <template_3_input_text_color>#CCCCCC</template_3_input_text_color>
                 <template_3_input_background_color>#FFFFFF</template_3_input_background_color>
-           </cmsbox_mercanet_admin_method>
+           </naxero_mercanet_admin_method>
         </payment>
     </default>
 </config>

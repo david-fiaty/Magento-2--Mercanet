@@ -1,5 +1,5 @@
 <?php
-namespace Cmsbox\Mercanet\Gateway\Vendor;
+namespace Naxero\Mercanet\Gateway\Vendor;
 
 class GestionPlusInterface
 {

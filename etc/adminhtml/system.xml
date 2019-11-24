@@ -2,80 +2,80 @@
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
     <system>
         <section id="payment" translate="label" sortOrder="0" showInDefault="1" showInWebsite="1" showInStore="1">
-            <group id="cmsbox_mercanet" translate="label" type="text" sortOrder="0" showInDefault="1" showInWebsite="1" showInStore="1">
-                <label>Cmsbox Mercanet</label>
+            <group id="naxero_mercanet" translate="label" type="text" sortOrder="0" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>Naxero Mercanet</label>
                 <group id="base_settings" showInDefault="1" showInWebsite="1" showInStore="1" sortOrder="10">
                     <label>Base Settings</label>
 
                     <field id="debug" translate="label" type="select" sortOrder="0" showInDefault="1" showInWebsite="1" showInStore="1">
                         <label>Debug</label>
                         <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
-                        <config_path>payment/cmsbox_mercanet/debug</config_path>
+                        <config_path>payment/naxero_mercanet/debug</config_path>
                     </field>
 
                     <field id="logging" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
                         <label>Logging</label>
                         <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
-                        <config_path>payment/cmsbox_mercanet/logging</config_path>
+                        <config_path>payment/naxero_mercanet/logging</config_path>
                     </field>
                    
                     <field id="sort_order" translate="label" sortOrder="20" type="text" showInDefault="1" showInWebsite="1" showInStore="1">
                         <label>Sort Order</label>
                         <validate>validate-number</validate>
-                        <config_path>payment/cmsbox_mercanet/sort_order</config_path>
+                        <config_path>payment/naxero_mercanet/sort_order</config_path>
                     </field>
                 </group>
 
                 <group id="payment_methods" translate="label" showInDefault="1" showInWebsite="1" sortOrder="20">
                     <label>Payment Methods</label>
-                    <group id="cmsbox_mercanet_redirect_method" translate="label" showInDefault="1" showInWebsite="1" sortOrder="0">
+                    <group id="naxero_mercanet_redirect_method" translate="label" showInDefault="1" showInWebsite="1" sortOrder="0">
                         <label>Redirect Method</label>
-                        <attribute type="activity_path">payment/cmsbox_mercanet_redirect_method/active</attribute>
+                        <attribute type="activity_path">payment/naxero_mercanet_redirect_method/active</attribute>
 
                         <field id="redirect_method_active" translate="label" type="select" sortOrder="0" showInDefault="1" showInWebsite="1" showInStore="1">
                             <label>Enabled</label>
                             <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
-                            <config_path>payment/cmsbox_mercanet_redirect_method/active</config_path>
+                            <config_path>payment/naxero_mercanet_redirect_method/active</config_path>
                         </field>
 
                         <field id="redirect_method_title" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
                             <label>Title</label>
-                            <config_path>payment/cmsbox_mercanet_redirect_method/title</config_path>
+                            <config_path>payment/naxero_mercanet_redirect_method/title</config_path>
                         </field>
 
                         <field id="redirect_method_sort_order" translate="label" sortOrder="20" type="text" showInDefault="1" showInWebsite="1" showInStore="1">
                             <label>Sort Order</label>
                             <validate>validate-number</validate>
-                            <config_path>payment/cmsbox_mercanet_redirect_method/sort_order</config_path>
+                            <config_path>payment/naxero_mercanet_redirect_method/sort_order</config_path>
                         </field>
 
                         <field id="redirect_method_button_label" translate="label" type="text" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
                             <label>Button label</label>
-                            <config_path>payment/cmsbox_mercanet_redirect_method/button_label</config_path>
+                            <config_path>payment/naxero_mercanet_redirect_method/button_label</config_path>
                         </field>
 
                         <field id="redirect_method_bypass_receipt" translate="label comment" sortOrder="40" type="select" showInDefault="1" showInWebsite="1" showInStore="1">
                             <label>Bypass receipt page</label>
                             <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
-                            <config_path>payment/cmsbox_mercanet_redirect_method/bypass_receipt</config_path>
+                            <config_path>payment/naxero_mercanet_redirect_method/bypass_receipt</config_path>
                             <comment>If set to yes, the shopper will be redirected directly to the site after payment without the receipt step.</comment>       
                         </field>
 
                         <field id="redirect_method_verify_3ds" translate="label" sortOrder="50" type="select" showInDefault="1" showInWebsite="1" showInStore="1">
                             <label>3D Secure Verification</label>
                             <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
-                            <config_path>payment/cmsbox_mercanet_redirect_method/verify_3ds</config_path>
+                            <config_path>payment/naxero_mercanet_redirect_method/verify_3ds</config_path>
                         </field>
 
                         <field id="redirect_method_capture_mode" translate="label" sortOrder="60" type="select" showInDefault="1" showInWebsite="1" showInStore="1">
                             <label>Capture mode</label>
-                            <source_model>Cmsbox\Mercanet\Model\Adminhtml\Source\CaptureMode</source_model>
-                            <config_path>payment/cmsbox_mercanet_redirect_method/capture_mode</config_path>
+                            <source_model>Naxero\Mercanet\Model\Adminhtml\Source\CaptureMode</source_model>
+                            <config_path>payment/naxero_mercanet_redirect_method/capture_mode</config_path>
                         </field>
 
                         <field id="redirect_method_capture_day" translate="label comment" sortOrder="70" type="text" showInDefault="1" showInWebsite="1" showInStore="1">
                             <label>Capture Day</label>
-                            <config_path>payment/cmsbox_mercanet_redirect_method/capture_day</config_path>
+                            <config_path>payment/naxero_mercanet_redirect_method/capture_day</config_path>
                             <validate>validate-required validate-digits validate-zero-or-greater</validate>
                             <depends>
                                 <field id="redirect_method_capture_mode" separator=",">AUTHOR_CAPTURE,VALIDATION</field>
@@ -88,60 +88,60 @@
                         <field id="redirect_method_auto_generate_invoice" translate="label comment" sortOrder="80" type="select" showInDefault="1" showInWebsite="1" showInStore="1">
                             <label>Automatically generate invoice</label>
                             <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
-                            <config_path>payment/cmsbox_mercanet_redirect_method/auto_generate_invoice</config_path>
+                            <config_path>payment/naxero_mercanet_redirect_method/auto_generate_invoice</config_path>
                         </field>
 
                         <field id="redirect_method_invoice_creation" translate="label comment" sortOrder="90" type="select" showInDefault="1" showInWebsite="1" showInStore="1">
                             <label>Invoice creation</label>
-                            <source_model>Cmsbox\Mercanet\Model\Adminhtml\Source\InvoiceCreation</source_model>
-                            <config_path>payment/cmsbox_mercanet_redirect_method/invoice_creation</config_path>
+                            <source_model>Naxero\Mercanet\Model\Adminhtml\Source\InvoiceCreation</source_model>
+                            <config_path>payment/naxero_mercanet_redirect_method/invoice_creation</config_path>
                             <depends>
                                 <field id="redirect_method_auto_generate_invoice">1</field>
                             </depends>                        
                         </field>                        
                     </group>
 
-                    <group id="cmsbox_mercanet_form_method" translate="label" showInDefault="1" showInWebsite="1" sortOrder="10">
+                    <group id="naxero_mercanet_form_method" translate="label" showInDefault="1" showInWebsite="1" sortOrder="10">
                         <label>Form Method</label>
-                        <attribute type="activity_path">payment/cmsbox_mercanet_form_method/active</attribute>
+                        <attribute type="activity_path">payment/naxero_mercanet_form_method/active</attribute>
 
                         <field id="form_method_active" translate="label" type="select" sortOrder="0" showInDefault="1" showInWebsite="1" showInStore="1">
                             <label>Enabled</label>
                             <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
-                            <config_path>payment/cmsbox_mercanet_form_method/active</config_path>
+                            <config_path>payment/naxero_mercanet_form_method/active</config_path>
                         </field>
 
                         <field id="form_method_title" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
                             <label>Title</label>
-                            <config_path>payment/cmsbox_mercanet_form_method/title</config_path>
+                            <config_path>payment/naxero_mercanet_form_method/title</config_path>
                         </field>
 
                         <field id="form_method_sort_order" translate="label" sortOrder="20" type="text" showInDefault="1" showInWebsite="1" showInStore="1">
                             <label>Sort Order</label>
                             <validate>validate-number</validate>
-                            <config_path>payment/cmsbox_mercanet_form_method/sort_order</config_path>
+                            <config_path>payment/naxero_mercanet_form_method/sort_order</config_path>
                         </field>
 
                         <field id="form_method_button_label" translate="label" type="text" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
                             <label>Button label</label>
-                            <config_path>payment/cmsbox_mercanet_form_method/button_label</config_path>
+                            <config_path>payment/naxero_mercanet_form_method/button_label</config_path>
                         </field>
 
                         <field id="form_method_verify_3ds" translate="label" sortOrder="40" type="select" showInDefault="1" showInWebsite="1" showInStore="1">
                             <label>3D Secure Verification</label>
                             <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
-                            <config_path>payment/cmsbox_mercanet_form_method/verify_3ds</config_path>
+                            <config_path>payment/naxero_mercanet_form_method/verify_3ds</config_path>
                         </field>
 
                         <field id="form_method_capture_mode" translate="label" sortOrder="50" type="select" showInDefault="1" showInWebsite="1" showInStore="1">
                             <label>Capture mode</label>
-                            <source_model>Cmsbox\Mercanet\Model\Adminhtml\Source\CaptureMode</source_model>
-                            <config_path>payment/cmsbox_mercanet_form_method/capture_mode</config_path>
+                            <source_model>Naxero\Mercanet\Model\Adminhtml\Source\CaptureMode</source_model>
+                            <config_path>payment/naxero_mercanet_form_method/capture_mode</config_path>
                         </field>
 
                         <field id="form_method_capture_day" translate="label comment" sortOrder="60" type="text" showInDefault="1" showInWebsite="1" showInStore="1">
                             <label>Capture Day</label>
-                            <config_path>payment/cmsbox_mercanet_form_method/capture_day</config_path>
+                            <config_path>payment/naxero_mercanet_form_method/capture_day</config_path>
                             <validate>validate-required validate-digits validate-zero-or-greater</validate>
                             <depends>
                                 <field id="form_method_capture_mode" separator=",">AUTHOR_CAPTURE,VALIDATION</field>
@@ -154,13 +154,13 @@
                         <field id="form_method_auto_generate_invoice" translate="label comment" sortOrder="70" type="select" showInDefault="1" showInWebsite="1" showInStore="1">
                             <label>Automatically generate invoice</label>
                             <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
-                            <config_path>payment/cmsbox_mercanet_form_method/auto_generate_invoice</config_path>
+                            <config_path>payment/naxero_mercanet_form_method/auto_generate_invoice</config_path>
                         </field>
 
                         <field id="form_method_invoice_creation" translate="label comment" sortOrder="80" type="select" showInDefault="1" showInWebsite="1" showInStore="1">
                             <label>Invoice creation</label>
-                            <source_model>Cmsbox\Mercanet\Model\Adminhtml\Source\InvoiceCreation</source_model>
-                            <config_path>payment/cmsbox_mercanet_form_method/invoice_creation</config_path>
+                            <source_model>Naxero\Mercanet\Model\Adminhtml\Source\InvoiceCreation</source_model>
+                            <config_path>payment/naxero_mercanet_form_method/invoice_creation</config_path>
                             <depends>
                                 <field id="form_method_auto_generate_invoice">1</field>
                             </depends>                        
@@ -169,7 +169,7 @@
                         <field id="form_method_cvv_check_customer" translate="label comment" sortOrder="90" type="select" showInDefault="1" showInWebsite="1" showInStore="1">
                             <label>Customer CVV Check</label>
                             <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
-                            <config_path>payment/cmsbox_mercanet_form_method/cvv_check_customer</config_path>     
+                            <config_path>payment/naxero_mercanet_form_method/cvv_check_customer</config_path>     
                             <comment>
                                 Should the CVV (Card Verifivation Value) be requested for customer card payments).
                             </comment>
@@ -178,7 +178,7 @@
                         <field id="form_method_cvv_check_admin" translate="label comment" sortOrder="100" type="select" showInDefault="1" showInWebsite="1" showInStore="1">
                             <label>Admin CVV Check</label>
                             <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
-                            <config_path>payment/cmsbox_mercanet_form_method/cvv_check_admin</config_path>     
+                            <config_path>payment/naxero_mercanet_form_method/cvv_check_admin</config_path>     
                             <comment>
                                 Should the CVV (Card Verifivation Value) be requested for admin card payments).
                             </comment>
@@ -186,13 +186,13 @@
 
                         <field id="form_method_template" translate="label" type="select" sortOrder="110" showInDefault="1" showInWebsite="1" showInStore="1">
                             <label>Form template</label>
-                            <source_model>Cmsbox\Mercanet\Model\Adminhtml\Source\FormTemplate</source_model>
-                            <config_path>payment/cmsbox_mercanet_form_method/form_template</config_path>
+                            <source_model>Naxero\Mercanet\Model\Adminhtml\Source\FormTemplate</source_model>
+                            <config_path>payment/naxero_mercanet_form_method/form_template</config_path>
                         </field>
 
                         <field id="template_1_form_title" translate="label" type="text" sortOrder="120" showInDefault="1" showInWebsite="1" showInStore="1">
                             <label>Form title</label>
-                            <config_path>payment/cmsbox_mercanet_form_method/template_1_form_title</config_path>
+                            <config_path>payment/naxero_mercanet_form_method/template_1_form_title</config_path>
                             <depends>
                                 <field id="form_method_template">template_1</field>
                             </depends>
@@ -200,8 +200,8 @@
 
                         <field id="template_1_background_color" translate="label" type="text" sortOrder="130" showInDefault="1" showInWebsite="1" showInStore="1">
                             <label>Background Color</label>
-                            <config_path>payment/cmsbox_mercanet_form_method/template_1_background_color</config_path>
-                            <frontend_model>Cmsbox\Mercanet\Block\Adminhtml\Widgets\ColorPicker</frontend_model>
+                            <config_path>payment/naxero_mercanet_form_method/template_1_background_color</config_path>
+                            <frontend_model>Naxero\Mercanet\Block\Adminhtml\Widgets\ColorPicker</frontend_model>
                             <depends>
                                 <field id="form_method_template">template_1</field>
                             </depends>
@@ -209,8 +209,8 @@
 
                         <field id="template_1_shadow_color" translate="label" type="text" sortOrder="140" showInDefault="1" showInWebsite="1" showInStore="1">
                             <label>Shadow Color</label>
-                            <config_path>payment/cmsbox_mercanet_form_method/template_1_shadow_color</config_path>
-                            <frontend_model>Cmsbox\Mercanet\Block\Adminhtml\Widgets\ColorPicker</frontend_model>
+                            <config_path>payment/naxero_mercanet_form_method/template_1_shadow_color</config_path>
+                            <frontend_model>Naxero\Mercanet\Block\Adminhtml\Widgets\ColorPicker</frontend_model>
                             <depends>
                                 <field id="form_method_template">template_1</field>
                             </depends>
@@ -218,8 +218,8 @@
 
                         <field id="template_1_label_color" translate="label" type="text" sortOrder="150" showInDefault="1" showInWebsite="1" showInStore="1">
                             <label>Label Color</label>
-                            <config_path>payment/cmsbox_mercanet_form_method/template_1_label_color</config_path>
-                            <frontend_model>Cmsbox\Mercanet\Block\Adminhtml\Widgets\ColorPicker</frontend_model>
+                            <config_path>payment/naxero_mercanet_form_method/template_1_label_color</config_path>
+                            <frontend_model>Naxero\Mercanet\Block\Adminhtml\Widgets\ColorPicker</frontend_model>
                             <depends>
                                 <field id="form_method_template">template_1</field>
                             </depends>
@@ -227,8 +227,8 @@
 
                         <field id="template_1_error_color" translate="label" type="text" sortOrder="160" showInDefault="1" showInWebsite="1" showInStore="1">
                             <label>Placeholder Color</label>
-                            <config_path>payment/cmsbox_mercanet_form_method/template_1_error_color</config_path>
-                            <frontend_model>Cmsbox\Mercanet\Block\Adminhtml\Widgets\ColorPicker</frontend_model>
+                            <config_path>payment/naxero_mercanet_form_method/template_1_error_color</config_path>
+                            <frontend_model>Naxero\Mercanet\Block\Adminhtml\Widgets\ColorPicker</frontend_model>
                             <depends>
                                 <field id="form_method_template">template_1</field>
                             </depends>
@@ -236,8 +236,8 @@
 
                         <field id="template_1_border_color" translate="label" type="text" sortOrder="170" showInDefault="1" showInWebsite="1" showInStore="1">
                             <label>Border Color</label>
-                            <config_path>payment/cmsbox_mercanet_form_method/template_1_border_color</config_path>
-                            <frontend_model>Cmsbox\Mercanet\Block\Adminhtml\Widgets\ColorPicker</frontend_model>
+                            <config_path>payment/naxero_mercanet_form_method/template_1_border_color</config_path>
+                            <frontend_model>Naxero\Mercanet\Block\Adminhtml\Widgets\ColorPicker</frontend_model>
                             <depends>
                                 <field id="form_method_template">template_1</field>
                             </depends>
@@ -245,7 +245,7 @@
 
                         <field id="template_1_border_width" translate="label" type="text" sortOrder="180" showInDefault="1" showInWebsite="1" showInStore="1">
                             <label>Border Width</label>
-                            <config_path>payment/cmsbox_mercanet_form_method/template_1_border_width</config_path>
+                            <config_path>payment/naxero_mercanet_form_method/template_1_border_width</config_path>
                             <depends>
                                 <field id="form_method_template">template_1</field>
                             </depends>
@@ -253,7 +253,7 @@
 
                         <field id="template_1_corner_radius" translate="label" type="text" sortOrder="190" showInDefault="1" showInWebsite="1" showInStore="1">
                             <label>Corner Radius</label>
-                            <config_path>payment/cmsbox_mercanet_form_method/template_1_corner_radius</config_path>
+                            <config_path>payment/naxero_mercanet_form_method/template_1_corner_radius</config_path>
                             <depends>
                                 <field id="form_method_template">template_1</field>
                             </depends>
@@ -261,8 +261,8 @@
 
                         <field id="template_1_input_text_color" translate="label" type="text" sortOrder="200" showInDefault="1" showInWebsite="1" showInStore="1">
                             <label>Input Text Color</label>
-                            <config_path>payment/cmsbox_mercanet_form_method/template_1_input_text_color</config_path>
-                            <frontend_model>Cmsbox\Mercanet\Block\Adminhtml\Widgets\ColorPicker</frontend_model>
+                            <config_path>payment/naxero_mercanet_form_method/template_1_input_text_color</config_path>
+                            <frontend_model>Naxero\Mercanet\Block\Adminhtml\Widgets\ColorPicker</frontend_model>
                             <depends>
                                 <field id="form_method_template">template_1</field>
                             </depends>
@@ -270,8 +270,8 @@
 
                         <field id="template_1_input_background_color" translate="label" type="text" sortOrder="210" showInDefault="1" showInWebsite="1" showInStore="1">
                             <label>Input Background Color</label>
-                            <config_path>payment/cmsbox_mercanet_form_method/template_1_input_background_color</config_path>
-                            <frontend_model>Cmsbox\Mercanet\Block\Adminhtml\Widgets\ColorPicker</frontend_model>
+                            <config_path>payment/naxero_mercanet_form_method/template_1_input_background_color</config_path>
+                            <frontend_model>Naxero\Mercanet\Block\Adminhtml\Widgets\ColorPicker</frontend_model>
                             <depends>
                                 <field id="form_method_template">template_1</field>
                             </depends>
@@ -279,7 +279,7 @@
 
                         <field id="template_2_form_title" translate="label" type="text" sortOrder="120" showInDefault="1" showInWebsite="1" showInStore="1">
                             <label>Form title</label>
-                            <config_path>payment/cmsbox_mercanet_form_method/template_2_form_title</config_path>
+                            <config_path>payment/naxero_mercanet_form_method/template_2_form_title</config_path>
                             <depends>
                                 <field id="form_method_template">template_2</field>
                             </depends>
@@ -287,8 +287,8 @@
 
                         <field id="template_2_background_color" translate="label" type="text" sortOrder="130" showInDefault="1" showInWebsite="1" showInStore="1">
                             <label>Background Color</label>
-                            <config_path>payment/cmsbox_mercanet_form_method/template_2_background_color</config_path>
-                            <frontend_model>Cmsbox\Mercanet\Block\Adminhtml\Widgets\ColorPicker</frontend_model>
+                            <config_path>payment/naxero_mercanet_form_method/template_2_background_color</config_path>
+                            <frontend_model>Naxero\Mercanet\Block\Adminhtml\Widgets\ColorPicker</frontend_model>
                             <depends>
                                 <field id="form_method_template">template_2</field>
                             </depends>
@@ -296,8 +296,8 @@
 
                         <field id="template_2_shadow_color" translate="label" type="text" sortOrder="140" showInDefault="1" showInWebsite="1" showInStore="1">
                             <label>Shadow Color</label>
-                            <config_path>payment/cmsbox_mercanet_form_method/template_2_shadow_color</config_path>
-                            <frontend_model>Cmsbox\Mercanet\Block\Adminhtml\Widgets\ColorPicker</frontend_model>
+                            <config_path>payment/naxero_mercanet_form_method/template_2_shadow_color</config_path>
+                            <frontend_model>Naxero\Mercanet\Block\Adminhtml\Widgets\ColorPicker</frontend_model>
                             <depends>
                                 <field id="form_method_template">template_2</field>
                             </depends>
@@ -305,8 +305,8 @@
 
                         <field id="template_2_label_color" translate="label" type="text" sortOrder="150" showInDefault="1" showInWebsite="1" showInStore="1">
                             <label>Label Color</label>
-                            <config_path>payment/cmsbox_mercanet_form_method/template_2_label_color</config_path>
-                            <frontend_model>Cmsbox\Mercanet\Block\Adminhtml\Widgets\ColorPicker</frontend_model>
+                            <config_path>payment/naxero_mercanet_form_method/template_2_label_color</config_path>
+                            <frontend_model>Naxero\Mercanet\Block\Adminhtml\Widgets\ColorPicker</frontend_model>
                             <depends>
                                 <field id="form_method_template">template_2</field>
                             </depends>
@@ -314,8 +314,8 @@
 
                         <field id="template_2_error_color" translate="label" type="text" sortOrder="160" showInDefault="1" showInWebsite="1" showInStore="1">
                             <label>Placeholder Color</label>
-                            <config_path>payment/cmsbox_mercanet_form_method/template_2_error_color</config_path>
-                            <frontend_model>Cmsbox\Mercanet\Block\Adminhtml\Widgets\ColorPicker</frontend_model>
+                            <config_path>payment/naxero_mercanet_form_method/template_2_error_color</config_path>
+                            <frontend_model>Naxero\Mercanet\Block\Adminhtml\Widgets\ColorPicker</frontend_model>
                             <depends>
                                 <field id="form_method_template">template_2</field>
                             </depends>
@@ -323,8 +323,8 @@
 
                         <field id="template_2_border_color" translate="label" type="text" sortOrder="170" showInDefault="1" showInWebsite="1" showInStore="1">
                             <label>Border Color</label>
-                            <config_path>payment/cmsbox_mercanet_form_method/template_2_border_color</config_path>
-                            <frontend_model>Cmsbox\Mercanet\Block\Adminhtml\Widgets\ColorPicker</frontend_model>
+                            <config_path>payment/naxero_mercanet_form_method/template_2_border_color</config_path>
+                            <frontend_model>Naxero\Mercanet\Block\Adminhtml\Widgets\ColorPicker</frontend_model>
                             <depends>
                                 <field id="form_method_template">template_2</field>
                             </depends>
@@ -332,7 +332,7 @@
 
                         <field id="template_2_border_width" translate="label" type="text" sortOrder="180" showInDefault="1" showInWebsite="1" showInStore="1">
                             <label>Border Width</label>
-                            <config_path>payment/cmsbox_mercanet_form_method/template_2_border_width</config_path>
+                            <config_path>payment/naxero_mercanet_form_method/template_2_border_width</config_path>
                             <depends>
                                 <field id="form_method_template">template_2</field>
                             </depends>
@@ -340,7 +340,7 @@
 
                         <field id="template_2_corner_radius" translate="label" type="text" sortOrder="190" showInDefault="1" showInWebsite="1" showInStore="1">
                             <label>Corner Radius</label>
-                            <config_path>payment/cmsbox_mercanet_form_method/template_2_corner_radius</config_path>
+                            <config_path>payment/naxero_mercanet_form_method/template_2_corner_radius</config_path>
                             <depends>
                                 <field id="form_method_template">template_2</field>
                             </depends>
@@ -348,8 +348,8 @@
 
                         <field id="template_2_input_text_color" translate="label" type="text" sortOrder="200" showInDefault="1" showInWebsite="1" showInStore="1">
                             <label>Input Text Color</label>
-                            <config_path>payment/cmsbox_mercanet_form_method/template_2_input_text_color</config_path>
-                            <frontend_model>Cmsbox\Mercanet\Block\Adminhtml\Widgets\ColorPicker</frontend_model>
+                            <config_path>payment/naxero_mercanet_form_method/template_2_input_text_color</config_path>
+                            <frontend_model>Naxero\Mercanet\Block\Adminhtml\Widgets\ColorPicker</frontend_model>
                             <depends>
                                 <field id="form_method_template">template_2</field>
                             </depends>
@@ -357,8 +357,8 @@
 
                         <field id="template_2_input_background_color" translate="label" type="text" sortOrder="210" showInDefault="1" showInWebsite="1" showInStore="1">
                             <label>Input Background Color</label>
-                            <config_path>payment/cmsbox_mercanet_form_method/template_2_input_background_color</config_path>
-                            <frontend_model>Cmsbox\Mercanet\Block\Adminhtml\Widgets\ColorPicker</frontend_model>
+                            <config_path>payment/naxero_mercanet_form_method/template_2_input_background_color</config_path>
+                            <frontend_model>Naxero\Mercanet\Block\Adminhtml\Widgets\ColorPicker</frontend_model>
                             <depends>
                                 <field id="form_method_template">template_2</field>
                             </depends>
@@ -366,7 +366,7 @@
 
                         <field id="template_3_form_title" translate="label" type="text" sortOrder="120" showInDefault="1" showInWebsite="1" showInStore="1">
                             <label>Form title</label>
-                            <config_path>payment/cmsbox_mercanet_form_method/template_3_form_title</config_path>
+                            <config_path>payment/naxero_mercanet_form_method/template_3_form_title</config_path>
                             <depends>
                                 <field id="form_method_template">template_3</field>
                             </depends>
@@ -374,8 +374,8 @@
 
                         <field id="template_3_background_color" translate="label" type="text" sortOrder="130" showInDefault="1" showInWebsite="1" showInStore="1">
                             <label>Background Color</label>
-                            <config_path>payment/cmsbox_mercanet_form_method/template_3_background_color</config_path>
-                            <frontend_model>Cmsbox\Mercanet\Block\Adminhtml\Widgets\ColorPicker</frontend_model>
+                            <config_path>payment/naxero_mercanet_form_method/template_3_background_color</config_path>
+                            <frontend_model>Naxero\Mercanet\Block\Adminhtml\Widgets\ColorPicker</frontend_model>
                             <depends>
                                 <field id="form_method_template">template_3</field>
                             </depends>
@@ -383,8 +383,8 @@
 
                         <field id="template_3_shadow_color" translate="label" type="text" sortOrder="140" showInDefault="1" showInWebsite="1" showInStore="1">
                             <label>Shadow Color</label>
-                            <config_path>payment/cmsbox_mercanet_form_method/template_3_shadow_color</config_path>
-                            <frontend_model>Cmsbox\Mercanet\Block\Adminhtml\Widgets\ColorPicker</frontend_model>
+                            <config_path>payment/naxero_mercanet_form_method/template_3_shadow_color</config_path>
+                            <frontend_model>Naxero\Mercanet\Block\Adminhtml\Widgets\ColorPicker</frontend_model>
                             <depends>
                                 <field id="form_method_template">template_3</field>
                             </depends>
@@ -392,8 +392,8 @@
 
                         <field id="template_3_label_color" translate="label" type="text" sortOrder="150" showInDefault="1" showInWebsite="1" showInStore="1">
                             <label>Label Color</label>
-                            <config_path>payment/cmsbox_mercanet_form_method/template_3_label_color</config_path>
-                            <frontend_model>Cmsbox\Mercanet\Block\Adminhtml\Widgets\ColorPicker</frontend_model>
+                            <config_path>payment/naxero_mercanet_form_method/template_3_label_color</config_path>
+                            <frontend_model>Naxero\Mercanet\Block\Adminhtml\Widgets\ColorPicker</frontend_model>
                             <depends>
                                 <field id="form_method_template">template_3</field>
                             </depends>
@@ -401,8 +401,8 @@
 
                         <field id="template_3_error_color" translate="label" type="text" sortOrder="160" showInDefault="1" showInWebsite="1" showInStore="1">
                             <label>Placeholder Color</label>
-                            <config_path>payment/cmsbox_mercanet_form_method/template_3_error_color</config_path>
-                            <frontend_model>Cmsbox\Mercanet\Block\Adminhtml\Widgets\ColorPicker</frontend_model>
+                            <config_path>payment/naxero_mercanet_form_method/template_3_error_color</config_path>
+                            <frontend_model>Naxero\Mercanet\Block\Adminhtml\Widgets\ColorPicker</frontend_model>
                             <depends>
                                 <field id="form_method_template">template_3</field>
                             </depends>
@@ -410,8 +410,8 @@
 
                         <field id="template_3_border_color" translate="label" type="text" sortOrder="170" showInDefault="1" showInWebsite="1" showInStore="1">
                             <label>Border Color</label>
-                            <config_path>payment/cmsbox_mercanet_form_method/template_3_border_color</config_path>
-                            <frontend_model>Cmsbox\Mercanet\Block\Adminhtml\Widgets\ColorPicker</frontend_model>
+                            <config_path>payment/naxero_mercanet_form_method/template_3_border_color</config_path>
+                            <frontend_model>Naxero\Mercanet\Block\Adminhtml\Widgets\ColorPicker</frontend_model>
                             <depends>
                                 <field id="form_method_template">template_3</field>
                             </depends>
@@ -419,7 +419,7 @@
 
                         <field id="template_3_border_width" translate="label" type="text" sortOrder="180" showInDefault="1" showInWebsite="1" showInStore="1">
                             <label>Border Width</label>
-                            <config_path>payment/cmsbox_mercanet_form_method/template_3_border_width</config_path>
+                            <config_path>payment/naxero_mercanet_form_method/template_3_border_width</config_path>
                             <depends>
                                 <field id="form_method_template">template_3</field>
                             </depends>
@@ -427,7 +427,7 @@
 
                         <field id="template_3_corner_radius" translate="label" type="text" sortOrder="190" showInDefault="1" showInWebsite="1" showInStore="1">
                             <label>Corner Radius</label>
-                            <config_path>payment/cmsbox_mercanet_form_method/template_3_corner_radius</config_path>
+                            <config_path>payment/naxero_mercanet_form_method/template_3_corner_radius</config_path>
                             <depends>
                                 <field id="form_method_template">template_3</field>
                             </depends>
@@ -435,8 +435,8 @@
 
                         <field id="template_3_input_text_color" translate="label" type="text" sortOrder="200" showInDefault="1" showInWebsite="1" showInStore="1">
                             <label>Input Text Color</label>
-                            <config_path>payment/cmsbox_mercanet_form_method/template_3_input_text_color</config_path>
-                            <frontend_model>Cmsbox\Mercanet\Block\Adminhtml\Widgets\ColorPicker</frontend_model>
+                            <config_path>payment/naxero_mercanet_form_method/template_3_input_text_color</config_path>
+                            <frontend_model>Naxero\Mercanet\Block\Adminhtml\Widgets\ColorPicker</frontend_model>
                             <depends>
                                 <field id="form_method_template">template_3</field>
                             </depends>
@@ -444,77 +444,77 @@
 
                         <field id="template_3_input_background_color" translate="label" type="text" sortOrder="210" showInDefault="1" showInWebsite="1" showInStore="1">
                             <label>Input Background Color</label>
-                            <config_path>payment/cmsbox_mercanet_form_method/template_3_input_background_color</config_path>
-                            <frontend_model>Cmsbox\Mercanet\Block\Adminhtml\Widgets\ColorPicker</frontend_model>
+                            <config_path>payment/naxero_mercanet_form_method/template_3_input_background_color</config_path>
+                            <frontend_model>Naxero\Mercanet\Block\Adminhtml\Widgets\ColorPicker</frontend_model>
                             <depends>
                                 <field id="form_method_template">template_3</field>
                             </depends>
                         </field>
                     </group>
 
-                    <group id="cmsbox_mercanet_iframe_method" translate="label" showInDefault="1" showInWebsite="1" sortOrder="20">
+                    <group id="naxero_mercanet_iframe_method" translate="label" showInDefault="1" showInWebsite="1" sortOrder="20">
                         <label>Iframe Method</label>
-                        <attribute type="activity_path">payment/cmsbox_mercanet_iframe_method/active</attribute>
+                        <attribute type="activity_path">payment/naxero_mercanet_iframe_method/active</attribute>
 
                         <field id="iframe_method_active" translate="label" type="select" sortOrder="0" showInDefault="1" showInWebsite="1" showInStore="1">
                             <label>Enabled</label>
                             <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
-                            <config_path>payment/cmsbox_mercanet_iframe_method/active</config_path>
+                            <config_path>payment/naxero_mercanet_iframe_method/active</config_path>
                         </field>
 
                         <field id="iframe_method_title" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
                             <label>Title</label>
-                            <config_path>payment/cmsbox_mercanet_iframe_method/title</config_path>
+                            <config_path>payment/naxero_mercanet_iframe_method/title</config_path>
                         </field>
 
                         <field id="iframe_method_sort_order" translate="label" sortOrder="20" type="text" showInDefault="1" showInWebsite="1" showInStore="1">
                             <label>Sort Order</label>
                             <validate>validate-number</validate>
-                            <config_path>payment/cmsbox_mercanet_iframe_method/sort_order</config_path>
+                            <config_path>payment/naxero_mercanet_iframe_method/sort_order</config_path>
                         </field>
 
                         <field id="iframe_method_button_label" translate="label" type="text" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
                             <label>Button label</label>
-                            <config_path>payment/cmsbox_mercanet_iframe_method/button_label</config_path>
+                            <config_path>payment/naxero_mercanet_iframe_method/button_label</config_path>
                         </field>
 
                         <field id="iframe_method_width" translate="label" type="text" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1">
                             <label>Iframe width</label>
-                            <config_path>payment/cmsbox_mercanet_iframe_method/iframe_width</config_path>
+                            <config_path>payment/naxero_mercanet_iframe_method/iframe_width</config_path>
                         </field>
 
                         <field id="iframe_method_height" translate="label" type="text" sortOrder="50" showInDefault="1" showInWebsite="1" showInStore="1">
                             <label>Iframe height</label>
-                            <config_path>payment/cmsbox_mercanet_iframe_method/iframe_height</config_path>
+                            <config_path>payment/naxero_mercanet_iframe_method/iframe_height</config_path>
                         </field>
 
                         <field id="iframe_method_border" translate="label" type="text" sortOrder="60" showInDefault="1" showInWebsite="1" showInStore="1">
                             <label>Iframe height</label>
-                            <config_path>payment/cmsbox_mercanet_iframe_method/iframe_border</config_path>
+                            <config_path>payment/naxero_mercanet_iframe_method/iframe_border</config_path>
                         </field>
 
                         <field id="iframe_method_bypass_receipt" translate="label comment" sortOrder="70" type="select" showInDefault="1" showInWebsite="1" showInStore="1">
                             <label>Bypass receipt page</label>
                             <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
-                            <config_path>payment/cmsbox_mercanet_iframe_method/bypass_receipt</config_path>
+                            <config_path>payment/naxero_mercanet_iframe_method/bypass_receipt</config_path>
                             <comment>If set to yes, the shopper will be redirected directly to the site after payment without the receipt step.</comment>       
                         </field>
 
                         <field id="iframe_method_verify_3ds" translate="label" sortOrder="80" type="select" showInDefault="1" showInWebsite="1" showInStore="1">
                             <label>3D Secure Verification</label>
                             <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
-                            <config_path>payment/cmsbox_mercanet_iframe_method/verify_3ds</config_path>
+                            <config_path>payment/naxero_mercanet_iframe_method/verify_3ds</config_path>
                         </field>
 
                         <field id="iframe_method_capture_mode" translate="label" sortOrder="90" type="select" showInDefault="1" showInWebsite="1" showInStore="1">
                             <label>Capture mode</label>
-                            <source_model>Cmsbox\Mercanet\Model\Adminhtml\Source\CaptureMode</source_model>
-                            <config_path>payment/cmsbox_mercanet_iframe_method/capture_mode</config_path>
+                            <source_model>Naxero\Mercanet\Model\Adminhtml\Source\CaptureMode</source_model>
+                            <config_path>payment/naxero_mercanet_iframe_method/capture_mode</config_path>
                         </field>
 
                         <field id="iframe_method_capture_day" translate="label comment" sortOrder="100" type="text" showInDefault="1" showInWebsite="1" showInStore="1">
                             <label>Capture Day</label>
-                            <config_path>payment/cmsbox_mercanet_iframe_method/capture_day</config_path>
+                            <config_path>payment/naxero_mercanet_iframe_method/capture_day</config_path>
                             <validate>validate-required validate-digits validate-zero-or-greater</validate>
                             <depends>
                                 <field id="iframe_method_capture_mode" separator=",">AUTHOR_CAPTURE,VALIDATION</field>
@@ -527,13 +527,13 @@
                         <field id="iframe_method_auto_generate_invoice" translate="label comment" sortOrder="110" type="select" showInDefault="1" showInWebsite="1" showInStore="1">
                             <label>Automatically generate invoice</label>
                             <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
-                            <config_path>payment/cmsbox_mercanet_iframe_method/auto_generate_invoice</config_path>
+                            <config_path>payment/naxero_mercanet_iframe_method/auto_generate_invoice</config_path>
                         </field>
 
                         <field id="iframe_method_invoice_creation" translate="label comment" sortOrder="120" type="select" showInDefault="1" showInWebsite="1" showInStore="1">
                             <label>Invoice creation</label>
-                            <source_model>Cmsbox\Mercanet\Model\Adminhtml\Source\InvoiceCreation</source_model>
-                            <config_path>payment/cmsbox_mercanet_iframe_method/invoice_creation</config_path>
+                            <source_model>Naxero\Mercanet\Model\Adminhtml\Source\InvoiceCreation</source_model>
+                            <config_path>payment/naxero_mercanet_iframe_method/invoice_creation</config_path>
                             <depends>
                                 <field id="iframe_method_auto_generate_invoice">1</field>
                             </depends>                        
@@ -541,36 +541,36 @@
 
                     </group>
 
-                    <group id="cmsbox_mercanet_admin_method" translate="label" showInDefault="1" showInWebsite="1" sortOrder="30">
+                    <group id="naxero_mercanet_admin_method" translate="label" showInDefault="1" showInWebsite="1" sortOrder="30">
                         <label>Admin Method</label>
-                        <attribute type="activity_path">payment/cmsbox_mercanet_admin_method/active</attribute>
+                        <attribute type="activity_path">payment/naxero_mercanet_admin_method/active</attribute>
 
                         <field id="admin_method_active" translate="label" type="select" sortOrder="0" showInDefault="1" showInWebsite="1" showInStore="1">
                             <label>Enabled</label>
                             <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
-                            <config_path>payment/cmsbox_mercanet_admin_method/active</config_path>
+                            <config_path>payment/naxero_mercanet_admin_method/active</config_path>
                         </field>
 
                         <field id="admin_method_title" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
                             <label>Title</label>
-                            <config_path>payment/cmsbox_mercanet_admin_method/title</config_path>
+                            <config_path>payment/naxero_mercanet_admin_method/title</config_path>
                         </field>
 
                         <field id="admin_method_sort_order" translate="label" sortOrder="20" type="text" showInDefault="1" showInWebsite="1" showInStore="1">
                             <label>Sort Order</label>
                             <validate>validate-number</validate>
-                            <config_path>payment/cmsbox_mercanet_admin_method/sort_order</config_path>
+                            <config_path>payment/naxero_mercanet_admin_method/sort_order</config_path>
                         </field>
 
                         <field id="admin_method_capture_mode" translate="label" sortOrder="30" type="select" showInDefault="1" showInWebsite="1" showInStore="1">
                             <label>Capture mode</label>
-                            <source_model>Cmsbox\Mercanet\Model\Adminhtml\Source\CaptureMode</source_model>
-                            <config_path>payment/cmsbox_mercanet_admin_method/capture_mode</config_path>
+                            <source_model>Naxero\Mercanet\Model\Adminhtml\Source\CaptureMode</source_model>
+                            <config_path>payment/naxero_mercanet_admin_method/capture_mode</config_path>
                         </field>
 
                         <field id="admin_method_capture_day" translate="label comment" sortOrder="40" type="text" showInDefault="1" showInWebsite="1" showInStore="1">
                             <label>Capture Day</label>
-                            <config_path>payment/cmsbox_mercanet_admin_method/capture_day</config_path>
+                            <config_path>payment/naxero_mercanet_admin_method/capture_day</config_path>
                             <validate>validate-required validate-digits validate-zero-or-greater</validate>
                             <depends>
                                 <field id="admin_method_capture_mode" separator=",">AUTHOR_CAPTURE,VALIDATION</field>
@@ -583,13 +583,13 @@
                         <field id="admin_method_auto_generate_invoice" translate="label comment" sortOrder="50" type="select" showInDefault="1" showInWebsite="1" showInStore="1">
                             <label>Automatically generate invoice</label>
                             <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
-                            <config_path>payment/cmsbox_mercanet_admin_method/auto_generate_invoice</config_path>
+                            <config_path>payment/naxero_mercanet_admin_method/auto_generate_invoice</config_path>
                         </field>
 
                         <field id="admin_method_invoice_creation" translate="label comment" sortOrder="60" type="select" showInDefault="1" showInWebsite="1" showInStore="1">
                             <label>Invoice creation</label>
-                            <source_model>Cmsbox\Mercanet\Model\Adminhtml\Source\InvoiceCreation</source_model>
-                            <config_path>payment/cmsbox_mercanet_admin_method/invoice_creation</config_path>
+                            <source_model>Naxero\Mercanet\Model\Adminhtml\Source\InvoiceCreation</source_model>
+                            <config_path>payment/naxero_mercanet_admin_method/invoice_creation</config_path>
                             <depends>
                                 <field id="admin_method_auto_generate_invoice">1</field>
                             </depends>                        
@@ -598,7 +598,7 @@
                         <field id="admin_method_cvv_check_customer" translate="label comment" sortOrder="70" type="select" showInDefault="1" showInWebsite="1" showInStore="1">
                             <label>Customer CVV Check</label>
                             <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
-                            <config_path>payment/cmsbox_mercanet_admin_method/cvv_check_customer</config_path>     
+                            <config_path>payment/naxero_mercanet_admin_method/cvv_check_customer</config_path>     
                             <comment>
                                 Should the CVV (Card Verifivation Value) be requested for customer card payments).
                             </comment>
@@ -607,7 +607,7 @@
                         <field id="admin_method_cvv_check_admin" translate="label comment" sortOrder="80" type="select" showInDefault="1" showInWebsite="1" showInStore="1">
                             <label>Admin CVV Check</label>
                             <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
-                            <config_path>payment/cmsbox_mercanet_admin_method/cvv_check_admin</config_path>     
+                            <config_path>payment/naxero_mercanet_admin_method/cvv_check_admin</config_path>     
                             <comment>
                                 Should the CVV (Card Verifivation Value) be requested for admin card payments).
                             </comment>
@@ -615,13 +615,13 @@
 
                         <field id="admin_method_template" translate="label" type="select" sortOrder="90" showInDefault="1" showInWebsite="1" showInStore="1">
                             <label>Form template</label>
-                            <source_model>Cmsbox\Mercanet\Model\Adminhtml\Source\FormTemplate</source_model>
-                            <config_path>payment/cmsbox_mercanet_admin_method/form_template</config_path>
+                            <source_model>Naxero\Mercanet\Model\Adminhtml\Source\FormTemplate</source_model>
+                            <config_path>payment/naxero_mercanet_admin_method/form_template</config_path>
                         </field>
 
                         <field id="template_1_form_title" translate="label" type="text" sortOrder="120" showInDefault="1" showInWebsite="1" showInStore="1">
                             <label>Form title</label>
-                            <config_path>payment/cmsbox_mercanet_admin_method/template_1_form_title</config_path>
+                            <config_path>payment/naxero_mercanet_admin_method/template_1_form_title</config_path>
                             <depends>
                                 <field id="admin_method_template">template_1</field>
                             </depends>
@@ -629,8 +629,8 @@
 
                         <field id="template_1_background_color" translate="label" type="text" sortOrder="130" showInDefault="1" showInWebsite="1" showInStore="1">
                             <label>Background Color</label>
-                            <config_path>payment/cmsbox_mercanet_admin_method/template_1_background_color</config_path>
-                            <frontend_model>Cmsbox\Mercanet\Block\Adminhtml\Widgets\ColorPicker</frontend_model>
+                            <config_path>payment/naxero_mercanet_admin_method/template_1_background_color</config_path>
+                            <frontend_model>Naxero\Mercanet\Block\Adminhtml\Widgets\ColorPicker</frontend_model>
                             <depends>
                                 <field id="admin_method_template">template_1</field>
                             </depends>
@@ -638,8 +638,8 @@
 
                         <field id="template_1_shadow_color" translate="label" type="text" sortOrder="140" showInDefault="1" showInWebsite="1" showInStore="1">
                             <label>Shadow Color</label>
-                            <config_path>payment/cmsbox_mercanet_admin_method/template_1_shadow_color</config_path>
-                            <frontend_model>Cmsbox\Mercanet\Block\Adminhtml\Widgets\ColorPicker</frontend_model>
+                            <config_path>payment/naxero_mercanet_admin_method/template_1_shadow_color</config_path>
+                            <frontend_model>Naxero\Mercanet\Block\Adminhtml\Widgets\ColorPicker</frontend_model>
                             <depends>
                                 <field id="admin_method_template">template_1</field>
                             </depends>
@@ -647,8 +647,8 @@
 
                         <field id="template_1_label_color" translate="label" type="text" sortOrder="150" showInDefault="1" showInWebsite="1" showInStore="1">
                             <label>Label Color</label>
-                            <config_path>payment/cmsbox_mercanet_admin_method/template_1_label_color</config_path>
-                            <frontend_model>Cmsbox\Mercanet\Block\Adminhtml\Widgets\ColorPicker</frontend_model>
+                            <config_path>payment/naxero_mercanet_admin_method/template_1_label_color</config_path>
+                            <frontend_model>Naxero\Mercanet\Block\Adminhtml\Widgets\ColorPicker</frontend_model>
                             <depends>
                                 <field id="admin_method_template">template_1</field>
                             </depends>
@@ -656,8 +656,8 @@
 
                         <field id="template_1_error_color" translate="label" type="text" sortOrder="160" showInDefault="1" showInWebsite="1" showInStore="1">
                             <label>Placeholder Color</label>
-                            <config_path>payment/cmsbox_mercanet_admin_method/template_1_error_color</config_path>
-                            <frontend_model>Cmsbox\Mercanet\Block\Adminhtml\Widgets\ColorPicker</frontend_model>
+                            <config_path>payment/naxero_mercanet_admin_method/template_1_error_color</config_path>
+                            <frontend_model>Naxero\Mercanet\Block\Adminhtml\Widgets\ColorPicker</frontend_model>
                             <depends>
                                 <field id="admin_method_template">template_1</field>
                             </depends>
@@ -665,8 +665,8 @@
 
                         <field id="template_1_border_color" translate="label" type="text" sortOrder="170" showInDefault="1" showInWebsite="1" showInStore="1">
                             <label>Border Color</label>
-                            <config_path>payment/cmsbox_mercanet_admin_method/template_1_border_color</config_path>
-                            <frontend_model>Cmsbox\Mercanet\Block\Adminhtml\Widgets\ColorPicker</frontend_model>
+                            <config_path>payment/naxero_mercanet_admin_method/template_1_border_color</config_path>
+                            <frontend_model>Naxero\Mercanet\Block\Adminhtml\Widgets\ColorPicker</frontend_model>
                             <depends>
                                 <field id="admin_method_template">template_1</field>
                             </depends>
@@ -674,7 +674,7 @@
 
                         <field id="template_1_border_width" translate="label" type="text" sortOrder="180" showInDefault="1" showInWebsite="1" showInStore="1">
                             <label>Border Width</label>
-                            <config_path>payment/cmsbox_mercanet_admin_method/template_1_border_width</config_path>
+                            <config_path>payment/naxero_mercanet_admin_method/template_1_border_width</config_path>
                             <depends>
                                 <field id="admin_method_template">template_1</field>
                             </depends>
@@ -682,7 +682,7 @@
 
                         <field id="template_1_corner_radius" translate="label" type="text" sortOrder="190" showInDefault="1" showInWebsite="1" showInStore="1">
                             <label>Corner Radius</label>
-                            <config_path>payment/cmsbox_mercanet_admin_method/template_1_corner_radius</config_path>
+                            <config_path>payment/naxero_mercanet_admin_method/template_1_corner_radius</config_path>
                             <depends>
                                 <field id="admin_method_template">template_1</field>
                             </depends>
@@ -690,8 +690,8 @@
         
                         <field id="template_1_input_text_color" translate="label" type="text" sortOrder="200" showInDefault="1" showInWebsite="1" showInStore="1">
                             <label>Input Text Color</label>
-                            <config_path>payment/cmsbox_mercanet_admin_method/template_1_input_text_color</config_path>
-                            <frontend_model>Cmsbox\Mercanet\Block\Adminhtml\Widgets\ColorPicker</frontend_model>
+                            <config_path>payment/naxero_mercanet_admin_method/template_1_input_text_color</config_path>
+                            <frontend_model>Naxero\Mercanet\Block\Adminhtml\Widgets\ColorPicker</frontend_model>
                             <depends>
                                 <field id="admin_method_template">template_1</field>
                             </depends>
@@ -699,8 +699,8 @@
 
                         <field id="template_1_input_background_color" translate="label" type="text" sortOrder="210" showInDefault="1" showInWebsite="1" showInStore="1">
                             <label>Input Background Color</label>
-                            <config_path>payment/cmsbox_mercanet_admin_method/template_1_input_background_color</config_path>
-                            <frontend_model>Cmsbox\Mercanet\Block\Adminhtml\Widgets\ColorPicker</frontend_model>
+                            <config_path>payment/naxero_mercanet_admin_method/template_1_input_background_color</config_path>
+                            <frontend_model>Naxero\Mercanet\Block\Adminhtml\Widgets\ColorPicker</frontend_model>
                             <depends>
                                 <field id="admin_method_template">template_1</field>
                             </depends>
@@ -708,7 +708,7 @@
 
                         <field id="template_2_form_title" translate="label" type="text" sortOrder="120" showInDefault="1" showInWebsite="1" showInStore="1">
                             <label>Form title</label>
-                            <config_path>payment/cmsbox_mercanet_admin_method/template_2_form_title</config_path>
+                            <config_path>payment/naxero_mercanet_admin_method/template_2_form_title</config_path>
                             <depends>
                                 <field id="admin_method_template">template_2</field>
                             </depends>
@@ -716,8 +716,8 @@
 
                         <field id="template_2_background_color" translate="label" type="text" sortOrder="130" showInDefault="1" showInWebsite="1" showInStore="1">
                             <label>Background Color</label>
-                            <config_path>payment/cmsbox_mercanet_admin_method/template_2_background_color</config_path>
-                            <frontend_model>Cmsbox\Mercanet\Block\Adminhtml\Widgets\ColorPicker</frontend_model>
+                            <config_path>payment/naxero_mercanet_admin_method/template_2_background_color</config_path>
+                            <frontend_model>Naxero\Mercanet\Block\Adminhtml\Widgets\ColorPicker</frontend_model>
                             <depends>
                                 <field id="admin_method_template">template_2</field>
                             </depends>
@@ -725,8 +725,8 @@
 
                         <field id="template_2_shadow_color" translate="label" type="text" sortOrder="140" showInDefault="1" showInWebsite="1" showInStore="1">
                             <label>Shadow Color</label>
-                            <config_path>payment/cmsbox_mercanet_admin_method/template_2_shadow_color</config_path>
-                            <frontend_model>Cmsbox\Mercanet\Block\Adminhtml\Widgets\ColorPicker</frontend_model>
+                            <config_path>payment/naxero_mercanet_admin_method/template_2_shadow_color</config_path>
+                            <frontend_model>Naxero\Mercanet\Block\Adminhtml\Widgets\ColorPicker</frontend_model>
                             <depends>
                                 <field id="admin_method_template">template_2</field>
                             </depends>
@@ -734,8 +734,8 @@
 
                         <field id="template_2_label_color" translate="label" type="text" sortOrder="150" showInDefault="1" showInWebsite="1" showInStore="1">
                             <label>Label Color</label>
-                            <config_path>payment/cmsbox_mercanet_admin_method/template_2_label_color</config_path>
-                            <frontend_model>Cmsbox\Mercanet\Block\Adminhtml\Widgets\ColorPicker</frontend_model>
+                            <config_path>payment/naxero_mercanet_admin_method/template_2_label_color</config_path>
+                            <frontend_model>Naxero\Mercanet\Block\Adminhtml\Widgets\ColorPicker</frontend_model>
                             <depends>
                                 <field id="admin_method_template">template_2</field>
                             </depends>
@@ -743,8 +743,8 @@
 
                         <field id="template_2_error_color" translate="label" type="text" sortOrder="160" showInDefault="1" showInWebsite="1" showInStore="1">
                             <label>Placeholder Color</label>
-                            <config_path>payment/cmsbox_mercanet_admin_method/template_2_error_color</config_path>
-                            <frontend_model>Cmsbox\Mercanet\Block\Adminhtml\Widgets\ColorPicker</frontend_model>
+                            <config_path>payment/naxero_mercanet_admin_method/template_2_error_color</config_path>
+                            <frontend_model>Naxero\Mercanet\Block\Adminhtml\Widgets\ColorPicker</frontend_model>
                             <depends>
                                 <field id="admin_method_template">template_2</field>
                             </depends>
@@ -752,8 +752,8 @@
 
                         <field id="template_2_border_color" translate="label" type="text" sortOrder="170" showInDefault="1" showInWebsite="1" showInStore="1">
                             <label>Border Color</label>
-                            <config_path>payment/cmsbox_mercanet_admin_method/template_2_border_color</config_path>
-                            <frontend_model>Cmsbox\Mercanet\Block\Adminhtml\Widgets\ColorPicker</frontend_model>
+                            <config_path>payment/naxero_mercanet_admin_method/template_2_border_color</config_path>
+                            <frontend_model>Naxero\Mercanet\Block\Adminhtml\Widgets\ColorPicker</frontend_model>
                             <depends>
                                 <field id="admin_method_template">template_2</field>
                             </depends>
@@ -761,7 +761,7 @@
 
                         <field id="template_2_border_width" translate="label" type="text" sortOrder="180" showInDefault="1" showInWebsite="1" showInStore="1">
                             <label>Border Width</label>
-                            <config_path>payment/cmsbox_mercanet_admin_method/template_2_border_width</config_path>
+                            <config_path>payment/naxero_mercanet_admin_method/template_2_border_width</config_path>
                             <depends>
                                 <field id="admin_method_template">template_2</field>
                             </depends>
@@ -769,7 +769,7 @@
 
                         <field id="template_2_corner_radius" translate="label" type="text" sortOrder="190" showInDefault="1" showInWebsite="1" showInStore="1">
                             <label>Corner Radius</label>
-                            <config_path>payment/cmsbox_mercanet_admin_method/template_2_corner_radius</config_path>
+                            <config_path>payment/naxero_mercanet_admin_method/template_2_corner_radius</config_path>
                             <depends>
                                 <field id="admin_method_template">template_2</field>
                             </depends>
@@ -777,8 +777,8 @@
 
                         <field id="template_2_input_text_color" translate="label" type="text" sortOrder="200" showInDefault="1" showInWebsite="1" showInStore="1">
                             <label>Input Text Color</label>
-                            <config_path>payment/cmsbox_mercanet_admin_method/template_2_input_text_color</config_path>
-                            <frontend_model>Cmsbox\Mercanet\Block\Adminhtml\Widgets\ColorPicker</frontend_model>
+                            <config_path>payment/naxero_mercanet_admin_method/template_2_input_text_color</config_path>
+                            <frontend_model>Naxero\Mercanet\Block\Adminhtml\Widgets\ColorPicker</frontend_model>
                             <depends>
                                 <field id="admin_method_template">template_2</field>
                             </depends>
@@ -786,8 +786,8 @@
 
                         <field id="template_2_input_background_color" translate="label" type="text" sortOrder="210" showInDefault="1" showInWebsite="1" showInStore="1">
                             <label>Input Background Color</label>
-                            <config_path>payment/cmsbox_mercanet_admin_method/template_2_input_background_color</config_path>
-                            <frontend_model>Cmsbox\Mercanet\Block\Adminhtml\Widgets\ColorPicker</frontend_model>
+                            <config_path>payment/naxero_mercanet_admin_method/template_2_input_background_color</config_path>
+                            <frontend_model>Naxero\Mercanet\Block\Adminhtml\Widgets\ColorPicker</frontend_model>
                             <depends>
                                 <field id="admin_method_template">template_2</field>
                             </depends>
@@ -795,7 +795,7 @@
 
                         <field id="template_3_form_title" translate="label" type="text" sortOrder="120" showInDefault="1" showInWebsite="1" showInStore="1">
                             <label>Form title</label>
-                            <config_path>payment/cmsbox_mercanet_admin_method/template_3_form_title</config_path>
+                            <config_path>payment/naxero_mercanet_admin_method/template_3_form_title</config_path>
                             <depends>
                                 <field id="admin_method_template">template_3</field>
                             </depends>
@@ -803,8 +803,8 @@
 
                         <field id="template_3_background_color" translate="label" type="text" sortOrder="130" showInDefault="1" showInWebsite="1" showInStore="1">
                             <label>Background Color</label>
-                            <config_path>payment/cmsbox_mercanet_admin_method/template_3_background_color</config_path>
-                            <frontend_model>Cmsbox\Mercanet\Block\Adminhtml\Widgets\ColorPicker</frontend_model>
+                            <config_path>payment/naxero_mercanet_admin_method/template_3_background_color</config_path>
+                            <frontend_model>Naxero\Mercanet\Block\Adminhtml\Widgets\ColorPicker</frontend_model>
                             <depends>
                                 <field id="admin_method_template">template_3</field>
                             </depends>
@@ -812,8 +812,8 @@
 
                         <field id="template_3_shadow_color" translate="label" type="text" sortOrder="140" showInDefault="1" showInWebsite="1" showInStore="1">
                             <label>Shadow Color</label>
-                            <config_path>payment/cmsbox_mercanet_admin_method/template_3_shadow_color</config_path>
-                            <frontend_model>Cmsbox\Mercanet\Block\Adminhtml\Widgets\ColorPicker</frontend_model>
+                            <config_path>payment/naxero_mercanet_admin_method/template_3_shadow_color</config_path>
+                            <frontend_model>Naxero\Mercanet\Block\Adminhtml\Widgets\ColorPicker</frontend_model>
                             <depends>
                                 <field id="admin_method_template">template_3</field>
                             </depends>
@@ -821,8 +821,8 @@
 
                         <field id="template_3_label_color" translate="label" type="text" sortOrder="150" showInDefault="1" showInWebsite="1" showInStore="1">
                             <label>Label Color</label>
-                            <config_path>payment/cmsbox_mercanet_admin_method/template_3_label_color</config_path>
-                            <frontend_model>Cmsbox\Mercanet\Block\Adminhtml\Widgets\ColorPicker</frontend_model>
+                            <config_path>payment/naxero_mercanet_admin_method/template_3_label_color</config_path>
+                            <frontend_model>Naxero\Mercanet\Block\Adminhtml\Widgets\ColorPicker</frontend_model>
                             <depends>
                                 <field id="admin_method_template">template_3</field>
                             </depends>
@@ -830,8 +830,8 @@
 
                         <field id="template_3_error_color" translate="label" type="text" sortOrder="160" showInDefault="1" showInWebsite="1" showInStore="1">
                             <label>Placeholder Color</label>
-                            <config_path>payment/cmsbox_mercanet_admin_method/template_3_error_color</config_path>
-                            <frontend_model>Cmsbox\Mercanet\Block\Adminhtml\Widgets\ColorPicker</frontend_model>
+                            <config_path>payment/naxero_mercanet_admin_method/template_3_error_color</config_path>
+                            <frontend_model>Naxero\Mercanet\Block\Adminhtml\Widgets\ColorPicker</frontend_model>
                             <depends>
                                 <field id="admin_method_template">template_3</field>
                             </depends>
@@ -839,8 +839,8 @@
 
                         <field id="template_3_border_color" translate="label" type="text" sortOrder="170" showInDefault="1" showInWebsite="1" showInStore="1">
                             <label>Border Color</label>
-                            <config_path>payment/cmsbox_mercanet_admin_method/template_3_border_color</config_path>
-                            <frontend_model>Cmsbox\Mercanet\Block\Adminhtml\Widgets\ColorPicker</frontend_model>
+                            <config_path>payment/naxero_mercanet_admin_method/template_3_border_color</config_path>
+                            <frontend_model>Naxero\Mercanet\Block\Adminhtml\Widgets\ColorPicker</frontend_model>
                             <depends>
                                 <field id="admin_method_template">template_3</field>
                             </depends>
@@ -848,7 +848,7 @@
 
                         <field id="template_3_border_width" translate="label" type="text" sortOrder="180" showInDefault="1" showInWebsite="1" showInStore="1">
                             <label>Border Width</label>
-                            <config_path>payment/cmsbox_mercanet_admin_method/template_3_border_width</config_path>
+                            <config_path>payment/naxero_mercanet_admin_method/template_3_border_width</config_path>
                             <depends>
                                 <field id="admin_method_template">template_3</field>
                             </depends>
@@ -856,7 +856,7 @@
 
                         <field id="template_3_corner_radius" translate="label" type="text" sortOrder="190" showInDefault="1" showInWebsite="1" showInStore="1">
                             <label>Corner Radius</label>
-                            <config_path>payment/cmsbox_mercanet_admin_method/template_3_corner_radius</config_path>
+                            <config_path>payment/naxero_mercanet_admin_method/template_3_corner_radius</config_path>
                             <depends>
                                 <field id="admin_method_template">template_3</field>
                             </depends>
@@ -864,8 +864,8 @@
 
                         <field id="template_3_input_text_color" translate="label" type="text" sortOrder="200" showInDefault="1" showInWebsite="1" showInStore="1">
                             <label>Input Text Color</label>
-                            <config_path>payment/cmsbox_mercanet_admin_method/template_3_input_text_color</config_path>
-                            <frontend_model>Cmsbox\Mercanet\Block\Adminhtml\Widgets\ColorPicker</frontend_model>
+                            <config_path>payment/naxero_mercanet_admin_method/template_3_input_text_color</config_path>
+                            <frontend_model>Naxero\Mercanet\Block\Adminhtml\Widgets\ColorPicker</frontend_model>
                             <depends>
                                 <field id="admin_method_template">template_3</field>
                             </depends>
@@ -873,8 +873,8 @@
 
                         <field id="template_3_input_background_color" translate="label" type="text" sortOrder="210" showInDefault="1" showInWebsite="1" showInStore="1">
                             <label>Input Background Color</label>
-                            <config_path>payment/cmsbox_mercanet_admin_method/template_3_input_background_color</config_path>
-                            <frontend_model>Cmsbox\Mercanet\Block\Adminhtml\Widgets\ColorPicker</frontend_model>
+                            <config_path>payment/naxero_mercanet_admin_method/template_3_input_background_color</config_path>
+                            <frontend_model>Naxero\Mercanet\Block\Adminhtml\Widgets\ColorPicker</frontend_model>
                             <depends>
                                 <field id="admin_method_template">template_3</field>
                             </depends>
@@ -887,13 +887,13 @@
                     <label>Account parameters</label>
                     <field id="environment" translate="label" sortOrder="0" type="select" showInDefault="1" showInWebsite="1" showInStore="1">
                         <label>Environment</label>
-                        <source_model>Cmsbox\Mercanet\Model\Adminhtml\Source\Environment</source_model>
-                        <config_path>payment/cmsbox_mercanet/environment</config_path>
+                        <source_model>Naxero\Mercanet\Model\Adminhtml\Source\Environment</source_model>
+                        <config_path>payment/naxero_mercanet/environment</config_path>
                     </field>
 
                     <field id="simu_merchant_id" translate="label" type="text" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
                         <label>Merchant ID</label>
-                        <config_path>payment/cmsbox_mercanet/simu_merchant_id</config_path>
+                        <config_path>payment/naxero_mercanet/simu_merchant_id</config_path>
                         <depends>
                             <field id="environment">simu</field>
                         </depends>
@@ -901,7 +901,7 @@
 
                     <field id="test_merchant_id" translate="label" type="text" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
                         <label>Merchant ID</label>
-                        <config_path>payment/cmsbox_mercanet/test_merchant_id</config_path>
+                        <config_path>payment/naxero_mercanet/test_merchant_id</config_path>
                         <depends>
                             <field id="environment">test</field>
                         </depends>
@@ -916,7 +916,7 @@
 
                     <field id="simu_secret_key" translate="label" type="text" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1">
                         <label>Secret key</label>
-                        <config_path>payment/cmsbox_mercanet/simu_secret_key</config_path>
+                        <config_path>payment/naxero_mercanet/simu_secret_key</config_path>
                         <depends>
                             <field id="environment">simu</field>
                         </depends>
@@ -924,7 +924,7 @@
 
                     <field id="test_secret_key" translate="label" type="text" sortOrder="50" showInDefault="1" showInWebsite="1" showInStore="1">
                         <label>Secret key</label>
-                        <config_path>payment/cmsbox_mercanet/test_secret_key</config_path>
+                        <config_path>payment/naxero_mercanet/test_secret_key</config_path>
                         <depends>
                             <field id="environment">test</field>
                         </depends>
@@ -932,7 +932,7 @@
 
                     <field id="prod_secret_key" translate="label" type="text" sortOrder="60" showInDefault="1" showInWebsite="1" showInStore="1">
                         <label>Secret key</label>
-                        <config_path>payment/cmsbox_mercanet/prod_secret_key</config_path>
+                        <config_path>payment/naxero_mercanet/prod_secret_key</config_path>
                         <depends>
                             <field id="environment">prod</field>
                         </depends>
@@ -940,7 +940,7 @@
 
                     <field id="key_version" translate="label" type="text" sortOrder="70" showInDefault="1" showInWebsite="1" showInStore="1">
                         <label>Key version</label>
-                        <config_path>payment/cmsbox_mercanet/key_version</config_path>
+                        <config_path>payment/naxero_mercanet/key_version</config_path>
                     </field>
                 </group>
 
@@ -949,22 +949,22 @@
 
                     <field id="new_order_status" translate="label comment" type="select" sortOrder="0" showInDefault="1" showInWebsite="1" showInStore="1">
                         <label>New order status</label>
-                        <source_model>Cmsbox\Mercanet\Model\Adminhtml\Source\OrderStatus</source_model>
-                        <config_path>payment/cmsbox_mercanet/new_order_status</config_path>
+                        <source_model>Naxero\Mercanet\Model\Adminhtml\Source\OrderStatus</source_model>
+                        <config_path>payment/naxero_mercanet/new_order_status</config_path>
                         <comment>Select the status that should be used for new orders.</comment>
                     </field>
 
                     <field id="order_status_authorized" translate="label comment" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
                         <label>Authorisation order status</label>
-                        <source_model>Cmsbox\Mercanet\Model\Adminhtml\Source\OrderStatus</source_model>
-                        <config_path>payment/cmsbox_mercanet/order_status_authorized</config_path>
+                        <source_model>Naxero\Mercanet\Model\Adminhtml\Source\OrderStatus</source_model>
+                        <config_path>payment/naxero_mercanet/order_status_authorized</config_path>
                         <comment>Select the status that should be used for orders with successful payment authorisation.</comment>
                     </field>
 
                     <field id="order_status_captured" translate="label comment" type="select" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
                         <label>Capture order status</label>
-                        <source_model>Cmsbox\Mercanet\Model\Adminhtml\Source\OrderStatus</source_model>
-                        <config_path>payment/cmsbox_mercanet/order_status_captured</config_path>
+                        <source_model>Naxero\Mercanet\Model\Adminhtml\Source\OrderStatus</source_model>
+                        <config_path>payment/naxero_mercanet/order_status_captured</config_path>
                         <comment>Select the status that should be used for orders with successful payment capture.</comment>
                     </field>
                 </group>
@@ -974,7 +974,7 @@
                     <field id="accepted_currencies" translate="label comment" sortOrder="0" type="multiselect" showInDefault="1" showInWebsite="1" showInStore="1">
                         <label>Accepted Currencies</label>
                         <source_model>Magento\Config\Model\Config\Source\Locale\Currency</source_model>
-                        <config_path>payment/cmsbox_mercanet/accepted_currencies</config_path>
+                        <config_path>payment/naxero_mercanet/accepted_currencies</config_path>
                         <comment>The payment option will not be displayed if the shopper's order currency is not part of the ones selected here.</comment>
                    </field>
                 </group>
@@ -984,7 +984,7 @@
                     <field id="accepted_countries" translate="label" sortOrder="0" type="multiselect" showInDefault="1" showInWebsite="1" showInStore="1">
                         <label>Accepted countries</label>
                         <source_model>Magento\Directory\Model\Config\Source\Country</source_model>
-                        <config_path>payment/cmsbox_mercanet/accepted_countries</config_path>
+                        <config_path>payment/naxero_mercanet/accepted_countries</config_path>
                         <comment>The payment option will not be displayed if the shopper's billing or shipping country is not part of the ones selected here.</comment>
                     </field>
                 </group>

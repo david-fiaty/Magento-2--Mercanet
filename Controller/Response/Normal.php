@@ -1,20 +1,20 @@
 <?php
 /**
- * Cmsbox.fr Magento 2 Mercanet Payment.
+ * Naxero.com Magento 2 Mercanet Payment.
  *
  * PHP version 7
  *
- * @category  Cmsbox
+ * @category  Naxero
  * @package   Mercanet
- * @author    Cmsbox Development Team <contact@cmsbox.fr>
- * @copyright 2019 Cmsbox.fr all rights reserved
+ * @author    Naxero Development Team <contact@naxero.com>
+ * @copyright 2019 Naxero.com all rights reserved
  * @license   https://opensource.org/licenses/mit-license.html MIT License
- * @link      https://www.cmsbox.fr
+ * @link      https://www.naxero.com
  */
 
-namespace Cmsbox\Mercanet\Controller\Response;
+namespace Naxero\Mercanet\Controller\Response;
  
-use Cmsbox\Mercanet\Gateway\Processor\Connector;
+use Naxero\Mercanet\Gateway\Processor\Connector;
 
 class Normal extends \Magento\Framework\App\Action\Action
 {
@@ -58,12 +58,12 @@ class Normal extends \Magento\Framework\App\Action\Action
      */
     public function __construct(
         \Magento\Framework\App\Action\Context $context,
-        \Cmsbox\Mercanet\Model\Service\OrderHandlerService $orderHandler,
+        \Naxero\Mercanet\Model\Service\OrderHandlerService $orderHandler,
         \Magento\Checkout\Model\Session $checkoutSession,
         \Magento\Framework\Message\ManagerInterface $messageManager,
-        \Cmsbox\Mercanet\Helper\Watchdog $watchdog,
-        \Cmsbox\Mercanet\Gateway\Config\Config $config,
-        \Cmsbox\Mercanet\Model\Service\MethodHandlerService $methodHandler
+        \Naxero\Mercanet\Helper\Watchdog $watchdog,
+        \Naxero\Mercanet\Gateway\Config\Config $config,
+        \Naxero\Mercanet\Model\Service\MethodHandlerService $methodHandler
     ) {
         parent::__construct($context);
 

@@ -1,28 +1,28 @@
 <?php
 /**
- * Cmsbox.fr Magento 2 Mercanet Payment.
+ * Naxero.com Magento 2 Mercanet Payment.
  *
  * PHP version 7
  *
- * @category  Cmsbox
+ * @category  Naxero
  * @package   Mercanet
- * @author    Cmsbox Development Team <contact@cmsbox.fr>
- * @copyright 2019 Cmsbox.fr all rights reserved
+ * @author    Naxero Development Team <contact@naxero.com>
+ * @copyright 2019 Naxero.com all rights reserved
  * @license   https://opensource.org/licenses/mit-license.html MIT License
- * @link      https://www.cmsbox.fr
+ * @link      https://www.naxero.com
  */
 
-namespace Cmsbox\Mercanet\Model\Methods;
+namespace Naxero\Mercanet\Model\Methods;
 
 use Magento\Framework\DataObject;
 use Magento\Quote\Api\Data\PaymentInterface;
 use Magento\Framework\Module\Dir;
-use Cmsbox\Mercanet\Gateway\Config\Core;
-use Cmsbox\Mercanet\Helper\Tools;
-use Cmsbox\Mercanet\Gateway\Processor\Connector;
-use Cmsbox\Mercanet\Gateway\Config\Config;
-use Cmsbox\Mercanet\Block\Adminhtml\Payment\Form;
-use Cmsbox\Mercanet\Gateway\Vendor\GestionPlusInterface;
+use Naxero\Mercanet\Gateway\Config\Core;
+use Naxero\Mercanet\Helper\Tools;
+use Naxero\Mercanet\Gateway\Processor\Connector;
+use Naxero\Mercanet\Gateway\Config\Config;
+use Naxero\Mercanet\Block\Adminhtml\Payment\Form;
+use Naxero\Mercanet\Gateway\Vendor\GestionPlusInterface;
 
 class AdminMethod extends \Magento\Payment\Model\Method\AbstractMethod
 {
@@ -63,7 +63,7 @@ class AdminMethod extends \Magento\Payment\Model\Method\AbstractMethod
         \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
         \Magento\Payment\Model\Method\Logger $logger,
         \Magento\Backend\Model\Auth\Session $backendAuthSession,
-        \Cmsbox\Mercanet\Gateway\Config\Config $config,
+        \Naxero\Mercanet\Gateway\Config\Config $config,
         \Magento\Checkout\Model\Cart $cart,
         \Magento\Framework\UrlInterface $urlBuilder,
         \Magento\Framework\ObjectManagerInterface $objectManager,

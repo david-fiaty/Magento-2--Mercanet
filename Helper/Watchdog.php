@@ -1,21 +1,21 @@
 <?php
 /**
- * Cmsbox.fr Magento 2 Mercanet Payment.
+ * Naxero.com Magento 2 Mercanet Payment.
  *
  * PHP version 7
  *
- * @category  Cmsbox
+ * @category  Naxero
  * @package   Mercanet
- * @author    Cmsbox Development Team <contact@cmsbox.fr>
- * @copyright 2019 Cmsbox.fr all rights reserved
+ * @author    Naxero Development Team <contact@naxero.com>
+ * @copyright 2019 Naxero.com all rights reserved
  * @license   https://opensource.org/licenses/mit-license.html MIT License
- * @link      https://www.cmsbox.fr
+ * @link      https://www.naxero.com
  */
 
-namespace Cmsbox\Mercanet\Helper;
+namespace Naxero\Mercanet\Helper;
 
-use Cmsbox\Mercanet\Gateway\Config\Core;
-use Cmsbox\Mercanet\Gateway\Processor\Connector;
+use Naxero\Mercanet\Gateway\Config\Core;
+use Naxero\Mercanet\Gateway\Processor\Connector;
 
 class Watchdog
 {
@@ -44,8 +44,8 @@ class Watchdog
      */
     public function __construct(
         \Magento\Framework\Message\ManagerInterface $messageManager,
-        \Cmsbox\Mercanet\Gateway\Config\Config $config,
-        \Cmsbox\Mercanet\Helper\Tools $tools,
+        \Naxero\Mercanet\Gateway\Config\Config $config,
+        \Naxero\Mercanet\Helper\Tools $tools,
         \Psr\Log\LoggerInterface $logger
     ) {
         $this->messageManager = $messageManager;

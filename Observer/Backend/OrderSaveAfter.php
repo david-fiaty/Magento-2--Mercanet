@@ -8,12 +8,12 @@
  * MIT License
  */
 
-namespace Cmsbox\Mercanet\Observer\Backend;
+namespace Naxero\Mercanet\Observer\Backend;
 
 use Magento\Framework\Event\Observer;
 use Magento\Sales\Model\Order\Payment\Transaction;
-use Cmsbox\Mercanet\Gateway\Processor\Connector;
-use Cmsbox\Mercanet\Gateway\Config\Core;
+use Naxero\Mercanet\Gateway\Processor\Connector;
+use Naxero\Mercanet\Gateway\Config\Core;
 
 class OrderSaveAfter implements \Magento\Framework\Event\ObserverInterface
 {
@@ -48,10 +48,10 @@ class OrderSaveAfter implements \Magento\Framework\Event\ObserverInterface
      */
     public function __construct(
         \Magento\Backend\Model\Auth\Session $backendAuthSession,
-        \Cmsbox\Mercanet\Gateway\Http\Client $client,
-        \Cmsbox\Mercanet\Gateway\Config\Config $config,
-        \Cmsbox\Mercanet\Model\Service\TransactionHandlerService $transactionHandler,
-        \Cmsbox\Mercanet\Helper\Watchdog $watchdog
+        \Naxero\Mercanet\Gateway\Http\Client $client,
+        \Naxero\Mercanet\Gateway\Config\Config $config,
+        \Naxero\Mercanet\Model\Service\TransactionHandlerService $transactionHandler,
+        \Naxero\Mercanet\Helper\Watchdog $watchdog
     ) {
         $this->backendAuthSession = $backendAuthSession;
         $this->client             = $client;

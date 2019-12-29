@@ -31,10 +31,7 @@
                                                                         </item>                                                                        
                                                                         <item name="naxero_mercanet_form_method" xsi:type="array">
                                                                             <item name="isBillingAddressRequired" xsi:type="boolean">true</item>                                                                   
-                                                                        </item>
-                                                                        <item name="naxero_mercanet_iframe_method" xsi:type="array">
-                                                                            <item name="isBillingAddressRequired" xsi:type="boolean">true</item>                                                                   
-                                                                        </item>                                                                    
+                                                                        </item>                                                               
                                                                     </item>
                                                                 </item>
                                                             </item>

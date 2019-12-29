@@ -1,0 +1,36 @@
+Naxero Mercanet
+
+BASE SETTINGS
+- Debug yes/no
+- Logging yes/no
+
+PAYMENT SETTINGS
+- Redirect method
+- Form method
+- Iframe method
+- Admin method
+
+ACCOUNT PARAMETERS
+- Environnement test/production
+- Merchant id
+- Secret Key
+- Key version
+
+ORDER STATUS SETTINGS
+- New order status
+- Authorisation order status
+- Capture order status
+
+PAYMENT METHODS
+- enable yes/no
+- title
+- sort order
+- button label
+- bypass receipt page
+- 3ds verification
+- capture mode immediate/deferred/validation
+- automatically genereate invoice yes/no
+- invoice creation authorisation/capture
+
+
+

@@ -335,7 +335,7 @@ class GestionPlusInterface
             throw new \InvalidArgumentException("Email is too long");
         }
         if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-            throw new \InvalidArgumentException("Email is invalid");
+           // throw new \InvalidArgumentException("Email is invalid");
         }
         $this->parameters['customerContact'] = ['email' => $email];
     }
@@ -346,7 +346,7 @@ class GestionPlusInterface
             throw new \InvalidArgumentException("Email is too long");
         }
         if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-            throw new \InvalidArgumentException("Email is invalid");
+           // throw new \InvalidArgumentException("Email is invalid");
         }
         $this->parameters['billingContact.email'] = $email;
     }

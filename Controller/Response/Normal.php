@@ -92,6 +92,14 @@ class Normal extends \Magento\Framework\App\Action\Action
         $methodId = $this->orderHandler->findMethodId();
         $methodInstance = $this->methodHandler::getStaticInstance($methodId);
 
+echo "<pre>";
+var_dump($methodId);
+echo "</pre>";
+
+echo "<pre>";
+var_dump(get_class ($methodInstance));
+echo "</pre>";
+exit();
         // Process the response
         if ($methodInstance) {
             $response = $methodInstance::processResponse($this->config, $methodId, $responseData);

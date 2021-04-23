@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Naxero.com Magento 2 Mercanet Payment.
  *
@@ -89,7 +90,7 @@ class Client
         // Return the response
         return $this->curl->getBody();
     }
- 
+
     public function get($url)
     {
         // Send the CURL GET request

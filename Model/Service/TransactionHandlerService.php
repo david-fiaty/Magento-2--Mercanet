@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Naxero.com Magento 2 Mercanet Payment.
  *
@@ -102,7 +103,7 @@ class TransactionHandlerService
 
             // Formatted price
             $formatedPrice = $order->getBaseCurrency()->formatTxt($order->getGrandTotal());
- 
+
             // Prepare transaction
             $transaction = $this->transactionBuilder->setPayment($payment)
                 ->setOrder($order)
@@ -110,7 +111,7 @@ class TransactionHandlerService
                 ->setAdditionalInformation([Transaction::RAW_DETAILS => (array) $paymentData])
                 ->setFailSafe(true)
                 ->build($transactionMode);
- 
+
             // Add authorization transaction to payment if needed
             if ($transactionMode == Transaction::TYPE_AUTH) {
                 $payment->addTransactionCommentsToOrder(
@@ -129,7 +130,7 @@ class TransactionHandlerService
             if ($this->config->params[$methodId][Core::KEY_INVOICE_CREATION] == $transactionMode) {
                 $this->invoiceHandler->processInvoice($order);
             }
- 
+
             return $transaction->getTransactionId();
         } catch (Exception $e) {
             $this->watchdog->logError($e);

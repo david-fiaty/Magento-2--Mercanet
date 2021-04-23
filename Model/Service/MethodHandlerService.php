@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Naxero.com Magento 2 Mercanet Payment.
  *
@@ -37,7 +38,7 @@ class MethodHandlerService
         $result = [];
         $flags = \FilesystemIterator::SKIP_DOTS | \FilesystemIterator::UNIX_PATHS;
         $iterator = new \FilesystemIterator($path, $flags);
- 
+
         foreach ($iterator as $file) {
             $fileName = $file->getFilename();
             if (strpos($fileName, '.') !== 0) {

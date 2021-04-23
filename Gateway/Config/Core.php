@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Naxero.com Magento 2 Mercanet Payment.
  *
@@ -11,7 +12,7 @@
  * @license   https://opensource.org/licenses/mit-license.html MIT License
  * @link      https://www.naxero.com
  */
- 
+
 namespace Naxero\Mercanet\Gateway\Config;
 
 class Core
@@ -37,7 +38,7 @@ class Core
     const KEY_URL_REFUND = 'url_refund';
     const KEY_CHARGE_SUFFIX = 'charge_suffix';
     const KEY_AUTO_GENERATE_INVOICE = 'auto_generate_invoice';
-    
+
     /**
      * Build a payment method ID.
      */
@@ -84,7 +85,7 @@ class Core
         $members = explode("\\", get_class());
         return ($members[0] . "\\" . $members[1]);
     }
-    
+
     /**
      * Get the module name from folder.
      */

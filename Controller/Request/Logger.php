@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Naxero.com Magento 2 Mercanet Payment.
  *
@@ -41,7 +42,7 @@ class Logger extends \Magento\Framework\App\Action\Action
         $this->jsonFactory = $jsonFactory;
         $this->watchdog    = $watchdog;
     }
- 
+
     public function execute()
     {
         if ($this->getRequest()->isAjax()) {
@@ -52,8 +53,7 @@ class Logger extends \Magento\Framework\App\Action\Action
             $this->watchdog->bark(Connector::KEY_REQUEST, $logData, $canDisplay = false, $canLog = true);
 
             $response = true;
-        }
-        else {
+        } else {
             $response = $this->handleError(__('Invalid AJAX request in logger controller.'));
         }
 

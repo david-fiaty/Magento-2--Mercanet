@@ -91,7 +91,7 @@ define(
                     if (AdditionalValidators.validate()) {
                         // Set the cookie data
                         Adapter.setCookieData(this.methodId);
-                    
+
                         // Log the request data
                         Adapter.backendLog(this.config.request_data.params);
 

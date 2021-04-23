@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Naxero.com Magento 2 Mercanet Payment.
  *
@@ -6,14 +7,14 @@
  *
  * @category  Naxero
  * @package   Mercanet
-  * @author    Naxero Development Team <contact@naxero.com>
+ * @author    Naxero Development Team <contact@naxero.com>
  * @copyright 2019 Naxero.com all rights reserved
  * @license   https://opensource.org/licenses/mit-license.html MIT License
  * @link      https://www.naxero.com
  */
 
 namespace Naxero\Mercanet\Controller\Response;
- 
+
 use Naxero\Mercanet\Gateway\Processor\Connector;
 use Naxero\Mercanet\Gateway\Config\Core;
 
@@ -61,14 +62,14 @@ class Automatic extends \Magento\Framework\App\Action\Action
         \Naxero\Mercanet\Model\Service\MethodHandlerService $methodHandler
     ) {
         parent::__construct($context);
-        
+
         $this->orderHandler        = $orderHandler;
         $this->resultJsonFactory   = $resultJsonFactory;
         $this->watchdog            = $watchdog;
         $this->config              = $config;
         $this->methodHandler       = $methodHandler;
     }
- 
+
     public function execute()
     {
         // Get the request data
@@ -88,13 +89,13 @@ class Automatic extends \Magento\Framework\App\Action\Action
                 $methodId,
                 $responseData
             );
-            
+
             // Process the response
             if (isset($response['isValid']) && $response['isValid'] === true) {
                 if (isset($response['isSuccess']) && $response['isSuccess'] === true) {
                     // Place order
                     $order = $this->orderHandler->placeOrder($responseData['Data'], $methodId);
-                    
+
                     // Return success
                     return $this->resultJsonFactory->create()->setData([]);
                 }

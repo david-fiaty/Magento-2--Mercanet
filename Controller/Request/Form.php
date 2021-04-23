@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Naxero.com Magento 2 Mercanet Payment.
  *
@@ -13,7 +14,7 @@
  */
 
 namespace Naxero\Mercanet\Controller\Request;
- 
+
 use Naxero\Mercanet\Gateway\Config\Core;
 use Naxero\Mercanet\Gateway\Processor\Connector;
 
@@ -84,7 +85,7 @@ class Form extends \Magento\Framework\App\Action\Action
         $this->watchdog      = $watchdog;
         $this->storeManager  = $storeManager;
     }
- 
+
     public function execute()
     {
         if ($this->getRequest()->isAjax()) {
@@ -156,8 +157,9 @@ class Form extends \Magento\Framework\App\Action\Action
                     $paymentObject
                 );
 
-                if (isset($response['isValid']) && $response['isValid'] === true 
-                && isset($response['isSuccess']) && $response['isSuccess'] === true) {
+                if (isset($response['isValid']) && $response['isValid'] === true
+                    && isset($response['isSuccess']) && $response['isSuccess'] === true
+                ) {
                     // Get the quote
                     $quote = $this->orderHandler->findQuote();
 
@@ -168,12 +170,12 @@ class Form extends \Magento\Framework\App\Action\Action
                             $this->config->base[
                                     Connector::KEY_TRANSACTION_ID_FIELD
                                 ] => $methodInstance::getTransactionId(
-                                $this->config,
-                                $paymentObject
-                            ),
+                                    $this->config,
+                                    $paymentObject
+                                ),
                             $this->config->base[Connector::KEY_CUSTOMER_EMAIL_FIELD] => isset(
-                                    $response[$this->config->base[Connector::KEY_CUSTOMER_EMAIL_FIELD]]
-                                ) ? $response[$this->config->base[Connector::KEY_CUSTOMER_EMAIL_FIELD]]
+                                $response[$this->config->base[Connector::KEY_CUSTOMER_EMAIL_FIELD]]
+                            ) ? $response[$this->config->base[Connector::KEY_CUSTOMER_EMAIL_FIELD]]
                                 : $this->orderHandler->findCustomerEmail($quote),
                             $this->config->base[Connector::KEY_CAPTURE_MODE_FIELD] => $this->config->params[
                                 $methodId][Connector::KEY_CAPTURE_MODE]
@@ -193,7 +195,7 @@ class Form extends \Magento\Framework\App\Action\Action
 
             return $this->handleError(__('The transaction data is invalid.'));
         }
-        
+
         return $this->handleError(__('Invalid request or payment method.'));
     }
 

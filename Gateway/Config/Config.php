@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Naxero.com Magento 2 Mercanet Payment.
  *
@@ -11,7 +12,7 @@
  * @license   https://opensource.org/licenses/mit-license.html MIT License
  * @link      https://www.naxero.com
  */
- 
+
 namespace Naxero\Mercanet\Gateway\Config;
 
 use Magento\Store\Model\ScopeInterface;
@@ -21,7 +22,7 @@ use Naxero\Mercanet\Gateway\Config\Core;
 
 class Config
 {
-    
+
     const KEY_DEFAULT_LANGUAGE = 'en';
 
     /**
@@ -107,7 +108,7 @@ class Config
         $this->storeManager    = $storeManager;
         $this->methodHandler   = $methodHandler;
         $this->localeResolver  = $localeResolver;
-        
+
         // Load the module config file
         $this->loadConfig();
     }
@@ -194,7 +195,7 @@ class Config
                     }
                 }
             }
-            
+
             unset($fileData['base']['exclude']);
 
             return array_merge($fileData['base'], $output);
@@ -300,7 +301,7 @@ class Config
      */
     public function formatAmount($amount)
     {
-        return intval(round($amount, 2)*100);
+        return intval(round($amount, 2) * 100);
     }
 
     /**
@@ -311,7 +312,7 @@ class Config
         try {
             // Get the csv file path
             $path = $this->moduleDirReader->getModuleDir('', Core::moduleName()) . '/Model/Files/countries.csv';
-            
+
             if (is_file($path)) {
                 // Read the countries
                 $countries = $this->csvParser->getData($path);
@@ -325,12 +326,12 @@ class Config
                 );
 
                 // Reset the array ke
-                $res = array_merge(array(), $res);
+                $res = array_merge([], $res);
                 if (isset($res[0]) && !empty($res)) {
                     return $res[0][2];
                 }
             }
-        
+
             return null;
         } catch (\Exception $e) {
             throw new \Magento\Framework\Exception\LocalizedException(__($e->getMessage()));

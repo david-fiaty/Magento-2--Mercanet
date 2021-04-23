@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Naxero.com Magento 2 Mercanet Payment.
  *
@@ -191,7 +192,7 @@ class OrderHandlerService
 
                 // Save the order
                 $this->orderRepository->save($order);
-                
+
                 return $order;
             }
         } catch (\Exception $e) {

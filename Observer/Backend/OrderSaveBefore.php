@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Checkout.com Magento 2 Payment module (https://www.checkout.com)
  *
@@ -17,7 +18,7 @@ use Naxero\Mercanet\Gateway\Config\Core;
 
 class OrderSaveBefore implements \Magento\Framework\Event\ObserverInterface
 {
- 
+
     /**
      * @var Session
      */
@@ -76,7 +77,7 @@ class OrderSaveBefore implements \Magento\Framework\Event\ObserverInterface
         // Get the request parameters
         $this->params = $this->request->getParams();
     }
- 
+
     /**
      * Observer execute function.
      */
@@ -136,8 +137,9 @@ class OrderSaveBefore implements \Magento\Framework\Event\ObserverInterface
                             $paymentObject
                         );
 
-                        if (isset($response['isValid']) && $response['isValid'] === true 
-                        && isset($response['isSuccess']) && $response['isSuccess'] === true) {
+                        if (isset($response['isValid']) && $response['isValid'] === true
+                            && isset($response['isSuccess']) && $response['isSuccess'] === true
+                        ) {
                             // Add the transaction info for order save after
                             $paymentInfo->setAdditionalInformation(
                                 Connector::KEY_TRANSACTION_INFO,

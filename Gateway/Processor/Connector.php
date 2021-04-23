@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Naxero.com Magento 2 Mercanet Payment.
  *
@@ -11,7 +12,7 @@
  * @license   https://opensource.org/licenses/mit-license.html MIT License
  * @link      https://www.naxero.com
  */
- 
+
 namespace Naxero\Mercanet\Gateway\Processor;
 
 class Connector
@@ -48,7 +49,7 @@ class Connector
     const KEY_FORM_TEMPLATE = 'form_template';
     const EMAIL_COOKIE_NAME = 'guestEmail';
     const METHOD_COOKIE_NAME = 'methodId';
-        
+
     /**
      * Turns a data response string into an array.
      */
@@ -104,7 +105,7 @@ class Connector
         $path = 'api_url' . '_' . $mode . '_' . $action;
         return $config->params[$methodId][$path];
     }
-  
+
     /**
      * Returns the merchant ID.
      *

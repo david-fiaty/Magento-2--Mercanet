@@ -1,19 +1,20 @@
 <?php
+
 namespace Naxero\Mercanet\Gateway\Vendor;
 
 class PostInterface
 {
     const TEST = "https://payment-webinit-mercanet.test.sips-atos.com/paymentInit";
     const PRODUCTION = "https://payment-webinit.mercanet.bnpparibas.net/paymentInit";
-    
+
     const INTERFACE_VERSION = "HP_2.20";
     const INSTALMENT = "INSTALMENT";
-    
+
     // BYPASS3DS
     const BYPASS3DS_ALL = "ALL";
     const BYPASS3DS_MERCHANTWALLET = "MERCHANTWALLET";
 
-    private $brandsmap = array(
+    private $brandsmap = [
         'ACCEPTGIRO' => 'CREDIT_TRANSFER',
         'AMEX' => 'CARD',
         'BCMC' => 'CARD',
@@ -37,7 +38,7 @@ class PostInterface
         'VISA ELECTRON' => 'CARD',
         'CBCONLINE' => 'CREDIT_TRANSFER',
         'KBCONLINE' => 'CREDIT_TRANSFER'
-    );
+    ];
 
     /**
      * @var ShaComposer
@@ -46,9 +47,9 @@ class PostInterface
 
     private $pspURL = self::TEST;
 
-    private $parameters = array();
+    private $parameters = [];
 
-    private $pspFields = array(
+    private $pspFields = [
         'amount', 'currencyCode', 'merchantId', 'normalReturnUrl',
         'transactionReference', 'keyVersion', 'paymentMeanBrand', 'customerLanguage',
         'billingAddress.city', 'billingAddress.company', 'billingAddress.country',
@@ -65,25 +66,25 @@ class PostInterface
         'templateName','paymentMeanBrandList', 'instalmentData.number', 'instalmentData.datesList',
         'instalmentData.transactionReferencesList', 'instalmentData.amountsList', 'paymentPattern',
         'captureDay', 'captureMode', 'fraudData.bypass3DS', 'orderId'
-    );
+    ];
 
-    private $requiredFields = array(
+    private $requiredFields = [
         'amount', 'currencyCode', 'merchantId', 'normalReturnUrl',
         'transactionReference', 'keyVersion'
-    );
+    ];
 
-    public $allowedlanguages = array(
+    public $allowedlanguages = [
         'nl', 'fr', 'de', 'it', 'es', 'cy', 'en'
-    );
-    
-    private static $currencies = array(
+    ];
+
+    private static $currencies = [
         'EUR' => '978', 'USD' => '840', 'CHF' => '756', 'GBP' => '826',
         'CAD' => '124', 'JPY' => '392', 'MXP' => '484', 'TRY' => '949',
         'AUD' => '036', 'NZD' => '554', 'NOK' => '578', 'BRC' => '986',
         'ARP' => '032', 'KHR' => '116', 'TWD' => '901', 'SEK' => '752',
         'DKK' => '208', 'KRW' => '410', 'SGD' => '702', 'XPF' => '953',
         'XOF' => '952'
-    );
+    ];
 
     public static function convertCurrencyToCurrencyCode($currency)
     {
@@ -110,19 +111,19 @@ class PostInterface
     {
         $this->secretKey = $secret;
     }
-    
+
     public function shaCompose(array $parameters)
     {
         // compose SHA string
         $shaString = '';
         foreach ($parameters as $key => $value) {
             $shaString .= $key . '=' . $value;
-            $shaString .= (array_search($key, array_keys($parameters)) != (count($parameters)-1)) ? '|' : $this->secretKey;
+            $shaString .= (array_search($key, array_keys($parameters)) != (count($parameters) - 1)) ? '|' : $this->secretKey;
         }
 
         return hash('sha256', $shaString);
     }
-    
+
     /**
      * @return string
      */
@@ -224,7 +225,7 @@ class PostInterface
         }
         $this->parameters['customerContact.email'] = $email;
     }
-    
+
     public function setBillingContactEmail($email)
     {
         if (strlen($email) > 50) {
@@ -278,14 +279,14 @@ class PostInterface
 
     public function setBillingContactFirstname($firstname)
     {
-        $this->parameters['billingContact.firstname'] = str_replace(array("'", '"'), '', \Normalizer::normalize($firstname)); // replace quotes
+        $this->parameters['billingContact.firstname'] = str_replace(["'", '"'], '', \Normalizer::normalize($firstname)); // replace quotes
     }
 
     public function setBillingContactLastname($lastname)
     {
-        $this->parameters['billingContact.lastname'] = str_replace(array("'", '"'), '', \Normalizer::normalize($lastname)); // replace quotes
+        $this->parameters['billingContact.lastname'] = str_replace(["'", '"'], '', \Normalizer::normalize($lastname)); // replace quotes
     }
-    
+
     public function setCaptureDay($number)
     {
         if (strlen($number) > 2) {
@@ -293,7 +294,7 @@ class PostInterface
         }
         $this->parameters['captureDay'] = $number;
     }
-    
+
     // Added function
     public function setCaptureMode($value)
     {
@@ -304,7 +305,7 @@ class PostInterface
     }
 
     // Methodes liees a la lutte contre la fraude
-    
+
     public function setFraudDataBypass3DS($value)
     {
         if (strlen($value) > 128) {
@@ -312,9 +313,9 @@ class PostInterface
         }
         $this->parameters['fraudData.bypass3DS'] = $value;
     }
-    
+
     // Methodes liees au paiement one-click
-    
+
     public function setMerchantWalletId($wallet)
     {
         if (strlen($wallet) > 21) {
@@ -322,11 +323,11 @@ class PostInterface
         }
         $this->parameters['merchantWalletId'] = $wallet;
     }
-    
+
     // instalmentData.number instalmentData.datesList instalmentData.transactionReferencesList instalmentData.amountsList paymentPattern
-    
+
     // Methodes liees au paiement en n-fois
-    
+
     public function setInstalmentDataNumber($number)
     {
         if (strlen($number) > 2) {
@@ -337,22 +338,22 @@ class PostInterface
         }
         $this->parameters['instalmentData.number'] = $number;
     }
-    
+
     public function setInstalmentDatesList($datesList)
     {
         $this->parameters['instalmentData.datesList'] = $datesList;
     }
-    
+
     public function setInstalmentDataTransactionReferencesList($transactionReferencesList)
     {
         $this->parameters['instalmentData.transactionReferencesList'] = $transactionReferencesList;
     }
-    
+
     public function setInstalmentDataAmountsList($amountsList)
     {
         $this->parameters['instalmentData.amountsList'] = $amountsList;
     }
-    
+
     public function setPaymentPattern($paymentPattern)
     {
         $this->parameters['paymentPattern'] = $paymentPattern;
@@ -388,7 +389,7 @@ class PostInterface
         $parameterString = "";
         foreach ($this->parameters as $key => $value) {
             $parameterString .= $key . '=' . $value;
-            $parameterString .= (array_search($key, array_keys($this->parameters)) != (count($this->parameters)-1)) ? '|' : '';
+            $parameterString .= (array_search($key, array_keys($this->parameters)) != (count($this->parameters) - 1)) ? '|' : '';
         }
 
         return $parameterString;
@@ -424,10 +425,10 @@ class PostInterface
             throw new \InvalidArgumentException("Uri is too long");
         }
     }
-    
+
     // Traitement des reponses de Mercanet
     // -----------------------------------
-    
+
     /**
  * @var string
 */
@@ -449,14 +450,14 @@ class PostInterface
         // filter request for Sips parameters
         $this->parameters = $this->filterRequestParameters($httpRequest);
     }
-    
+
     /**
      * @var string
      */
     private $shaSign;
 
     private $dataString;
-    
+
     /**
      * Filter http request parameters
      *
@@ -468,7 +469,7 @@ class PostInterface
         if (!array_key_exists(self::DATA_FIELD, $httpRequest) || $httpRequest[self::DATA_FIELD] == '') {
             throw new \InvalidArgumentException('Data parameter not present in parameters.');
         }
-        $parameters = array();
+        $parameters = [];
         $dataString = $httpRequest[self::DATA_FIELD];
         $this->dataString = $dataString;
         $dataParams = explode('|', $dataString);
@@ -512,8 +513,8 @@ class PostInterface
      */
     public function getParam($key)
     {
-        if (method_exists($this, 'get'.$key)) {
-            return $this->{'get'.$key}();
+        if (method_exists($this, 'get' . $key)) {
+            return $this->{'get' . $key}();
         }
 
         // always use uppercase
@@ -537,7 +538,7 @@ class PostInterface
 
     public function isSuccessful()
     {
-        return in_array($this->getParam('RESPONSECODE'), array("00", "60"));
+        return in_array($this->getParam('RESPONSECODE'), ["00", "60"]);
     }
 
     public function getDataString()

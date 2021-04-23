@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Checkout.com Magento 2 Payment module (https://www.checkout.com)
  *
@@ -17,7 +18,7 @@ use Naxero\Mercanet\Gateway\Config\Core;
 
 class OrderSaveAfter implements \Magento\Framework\Event\ObserverInterface
 {
- 
+
     /**
      * @var Session
      */
@@ -59,7 +60,7 @@ class OrderSaveAfter implements \Magento\Framework\Event\ObserverInterface
         $this->transactionHandler = $transactionHandler;
         $this->watchdog           = $watchdog;
     }
- 
+
     /**
      * Observer execute function.
      */

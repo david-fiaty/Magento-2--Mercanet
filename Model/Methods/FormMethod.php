@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Naxero.com Magento 2 Mercanet Payment.
  *
@@ -189,7 +190,7 @@ class FormMethod extends \Magento\Payment\Model\Method\AbstractMethod
         return [
             'isValid' => $status,
             'isSuccess' => $status
-       ];
+        ];
     }
 
     /**

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Naxero.com Magento 2 Mercanet Payment.
  *
@@ -41,7 +42,7 @@ class ColorPicker extends \Magento\Config\Block\System\Config\Form\Field
 
         // Build the javascript
         if (!$this->coreRegistry->registry('colorpicker_loaded')) {
-            $html .= '<script type="text/javascript" src="' . $cpPath.'/'.'jscolor.js"></script>';
+            $html .= '<script type="text/javascript" src="' . $cpPath . '/' . 'jscolor.js"></script>';
             $this->coreRegistry->registry('colorpicker_loaded', 1);
         }
 
@@ -50,7 +51,7 @@ class ColorPicker extends \Magento\Config\Block\System\Config\Form\Field
                 var el = document.getElementById("' . $element->getHtmlId() . '");
                 el.className = el.className + " jscolor{hash:true}";
             </script>';
-            
+
         return $html;
     }
 }

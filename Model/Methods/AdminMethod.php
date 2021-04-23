@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Naxero.com Magento 2 Mercanet Payment.
  *
@@ -189,9 +190,9 @@ class AdminMethod extends \Magento\Payment\Model\Method\AbstractMethod
         return [
             'isValid' => $status,
             'isSuccess' => $status
-       ];
+        ];
     }
-    
+
     /**
      * Gets a transaction id.
      */
@@ -199,7 +200,7 @@ class AdminMethod extends \Magento\Payment\Model\Method\AbstractMethod
     {
         return $paymentObject->getParam($config->base[Connector::KEY_TRANSACTION_ID_FIELD]);
     }
-    
+
     /**
      * Logs a request data.
      */

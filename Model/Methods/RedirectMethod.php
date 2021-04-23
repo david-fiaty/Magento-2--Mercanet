@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Naxero.com Magento 2 Mercanet Payment.
  *
@@ -22,6 +23,7 @@ use Naxero\Mercanet\Helper\Tools;
 use Naxero\Mercanet\Gateway\Processor\Connector;
 use Naxero\Mercanet\Gateway\Config\Config;
 use Naxero\Mercanet\Gateway\Vendor\PostInterface;
+
 class RedirectMethod extends \Magento\Payment\Model\Method\AbstractMethod
 {
 
@@ -160,7 +162,7 @@ class RedirectMethod extends \Magento\Payment\Model\Method\AbstractMethod
         $paymentRequest->setBillingAddressStreet(implode(', ', $address->getStreet()));
         $paymentRequest->setBillingAddressZipCode($address->getPostcode());
         $paymentRequest->setBillingAddressCity($address->getCity());
-        
+
         // Validate the request
         $paymentRequest->validate();
 
@@ -180,7 +182,7 @@ class RedirectMethod extends \Magento\Payment\Model\Method\AbstractMethod
 
         // Set the response
         $paymentResponse->setResponse($asset);
-    
+
         // Return the validity status
         return [
             'isValid' => $paymentResponse->isValid(),
@@ -195,7 +197,7 @@ class RedirectMethod extends \Magento\Payment\Model\Method\AbstractMethod
     {
         return $paymentObject->getParam($config->base[Connector::KEY_TRANSACTION_ID_FIELD]);
     }
-    
+
     /**
      * Determines if the method is active on frontend.
      */

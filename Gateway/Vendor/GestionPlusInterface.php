@@ -1,4 +1,5 @@
 <?php
+
 namespace Naxero\Mercanet\Gateway\Vendor;
 
 class GestionPlusInterface
@@ -7,12 +8,12 @@ class GestionPlusInterface
 
     const TEST       = "https://office-server-mercanet.test.sips-atos.com/rs-services/v2/";
     const PRODUCTION = "https://office-server.mercanet.bnpparibas.net/rs-services/v2/";
-    
+
     const INTERFACE_VERSION_CASH     = "CR_WS_2.20";
     const INTERFACE_VERSION_CHECKOUT = "IR_WS_2.20";
     const INTERFACE_VERSION_DIAG     = "DR_WS_2.20";
     const INTERFACE_VERSION_WALLET   = "WR_WS_2.20";
-    
+
     const INSTALMENT                       = "INSTALMENT";
     const REQUEST_CARD_ORDER              = "checkout/cardOrder";
     const REQUEST_WALLET_ORDER          = "checkout/walletOrder";
@@ -30,12 +31,12 @@ class GestionPlusInterface
     const REQUEST_DIAG_GET_TRX_DATA      = "diagnostic/getTransactionData";
     const REQUEST_WALLET_ADD_CARD          = "wallet/addCard";
     const REQUEST_PAYMENT_MEAN_INFO      = "paymentMeanInfo/getCardData";
-    
+
     // BYPASS3DS
     const BYPASS3DS_ALL = "ALL";
     const BYPASS3DS_MERCHANTWALLET = "MERCHANTWALLET";
 
-    private $brandsmap = array(
+    private $brandsmap = [
         'ACCEPTGIRO' => 'CREDIT_TRANSFER',
         'AMEX' => 'CARD',
         'BCMC' => 'CARD',
@@ -59,7 +60,7 @@ class GestionPlusInterface
         'VISA ELECTRON' => 'CARD',
         'CBCONLINE' => 'CREDIT_TRANSFER',
         'KBCONLINE' => 'CREDIT_TRANSFER'
-    );
+    ];
 
     /**
      * @var ShaComposer
@@ -69,12 +70,12 @@ class GestionPlusInterface
     private $pspURL = self::TEST;
 
     private $pspRequest = self::REQUEST_CARD_ORDER;
-    
-    private $parameters = array();
+
+    private $parameters = [];
 
     private $shaString;
 
-    private $pspFields = array(
+    private $pspFields = [
         'amount', 'cardExpiryDate', 'cardNumber', 'cardCSCValue',
     'currencyCode', 'merchantId', 'interfaceVersion',
         'transactionReference', 'keyVersion', 'paymentMeanBrand', 'customerLanguage',
@@ -95,28 +96,28 @@ class GestionPlusInterface
         'operationAmount', 'operationOrigin', 's10TransactionReference', 'fromTransactionReference',
         'fromMerchantId', 's10FromTransactionReference', 'statementReference', 'shoppingCartDetail',
         'redirectionData', 'paResMessage', 'messageVersion', 'customerContact', 'customerContact.email'
-    );
+    ];
 
-    private $requiredFieldsCardOrder = array(
+    private $requiredFieldsCardOrder = [
         'amount', 'cardExpiryDate', 'cardNumber', 'currencyCode', 'interfaceVersion', 'merchantId', 'keyVersion'
-    );
-    
-    private $requiredFieldsWalletOrder = array(
-        'amount', 'currencyCode', 'interfaceVersion', 'keyVersion', 'merchantId', 'merchantWalletId', 'orderChannel'
-    );
+    ];
 
-    public $allowedlanguages = array(
+    private $requiredFieldsWalletOrder = [
+        'amount', 'currencyCode', 'interfaceVersion', 'keyVersion', 'merchantId', 'merchantWalletId', 'orderChannel'
+    ];
+
+    public $allowedlanguages = [
         'nl', 'fr', 'de', 'it', 'es', 'cy', 'en'
-    );
-    
-    private static $currencies = array(
+    ];
+
+    private static $currencies = [
         'EUR' => '978', 'USD' => '840', 'CHF' => '756', 'GBP' => '826',
         'CAD' => '124', 'JPY' => '392', 'MXP' => '484', 'TRY' => '949',
         'AUD' => '036', 'NZD' => '554', 'NOK' => '578', 'BRC' => '986',
         'ARP' => '032', 'KHR' => '116', 'TWD' => '901', 'SEK' => '752',
         'DKK' => '208', 'KRW' => '410', 'SGD' => '702', 'XPF' => '953',
         'XOF' => '952'
-    );
+    ];
 
     public static function convertCurrencyToCurrencyCode($currency)
     {
@@ -145,9 +146,9 @@ class GestionPlusInterface
         $this->secretKey = $secret;
         $this->shaString = "";
         unset($this->parameters);
-        $this->parameters = array();
+        $this->parameters = [];
     }
-    
+
     public function shaCompose($item, $key)
     {
         global $shaString;
@@ -155,7 +156,7 @@ class GestionPlusInterface
             $this->shaString .= $item;
         }
     }
-    
+
     /**
      * @return string
      */
@@ -170,7 +171,7 @@ class GestionPlusInterface
         }
         return hash_hmac('sha256', utf8_encode($this->shaString), $this->secretKey);
     }
-    
+
     /**
      * @return string
      */
@@ -199,7 +200,7 @@ class GestionPlusInterface
      */
     public function getUrl()
     {
-        return $this->pspURL.$this->pspRequest;
+        return $this->pspURL . $this->pspRequest;
     }
 
     public function setUrl($pspUrl)
@@ -241,7 +242,7 @@ class GestionPlusInterface
         }
         $this->parameters['amount'] = $amount;
     }
-    
+
     public function setOperationAmount($amount)
     {
         if (!is_int($amount)) {
@@ -252,7 +253,7 @@ class GestionPlusInterface
         }
         $this->parameters['operationAmount'] = $amount;
     }
-    
+
     public function setOperationOrigin($origin)
     {
         $this->parameters['operationOrigin'] = $origin;
@@ -393,14 +394,14 @@ class GestionPlusInterface
 
     public function setBillingContactFirstname($firstname)
     {
-        $this->parameters['billingContact.firstname'] = str_replace(array("'", '"'), '', Normalizer::normalize($firstname)); // replace quotes
+        $this->parameters['billingContact.firstname'] = str_replace(["'", '"'], '', Normalizer::normalize($firstname)); // replace quotes
     }
 
     public function setBillingContactLastname($lastname)
     {
-        $this->parameters['billingContact.lastname'] = str_replace(array("'", '"'), '', Normalizer::normalize($lastname)); // replace quotes
+        $this->parameters['billingContact.lastname'] = str_replace(["'", '"'], '', Normalizer::normalize($lastname)); // replace quotes
     }
-    
+
     public function setCaptureDay($number)
     {
         if (strlen($number) > 2) {
@@ -408,7 +409,7 @@ class GestionPlusInterface
         }
         $this->parameters['captureDay'] = $number;
     }
-    
+
     public function setCaptureMode($value)
     {
         if (strlen($value) > 20) {
@@ -416,7 +417,7 @@ class GestionPlusInterface
         }
         $this->parameters['captureMode'] = $value;
     }
-    
+
     public function setMerchantTransactionDateTime($value)
     {
         if (strlen($value) > 25) {
@@ -424,12 +425,12 @@ class GestionPlusInterface
         }
         $this->parameters['merchantTransactionDateTime'] = $value;
     }
-    
+
     public function setInterfaceVersion($value)
     {
         $this->parameters['interfaceVersion'] = $value;
     }
-    
+
     public function setOrderChannel($value)
     {
         if (strlen($value) > 20) {
@@ -437,7 +438,7 @@ class GestionPlusInterface
         }
         $this->parameters['orderChannel'] = $value;
     }
-    
+
     public function setOrderId($value)
     {
         if (strlen($value) > 32) {
@@ -445,7 +446,7 @@ class GestionPlusInterface
         }
         $this->parameters['orderId'] = $value;
     }
-    
+
     public function setReturnContext($value)
     {
         if (strlen($value) > 255) {
@@ -453,7 +454,7 @@ class GestionPlusInterface
         }
         $this->parameters['returnContext'] = $value;
     }
-    
+
     public function setTransactionOrigin($value)
     {
         if (strlen($value) > 20) {
@@ -461,7 +462,7 @@ class GestionPlusInterface
         }
         $this->parameters['transactionOrigin'] = $value;
     }
-        
+
     // Methodes liees a la carte
     public function setCardNumber($number)
     {
@@ -473,7 +474,7 @@ class GestionPlusInterface
         }
         $this->parameters['cardNumber'] = $number;
     }
-    
+
     public function setCardExpiryDate($date)
     {
         if (strlen($date) != 6) {
@@ -481,7 +482,7 @@ class GestionPlusInterface
         }
         $this->parameters['cardExpiryDate'] = $date;
     }
-    
+
     public function setCardCSCValue($value)
     {
         if (strlen($value) > 4) {
@@ -489,9 +490,9 @@ class GestionPlusInterface
         }
         $this->parameters['cardCSCValue'] = $value;
     }
-    
+
     // Methodes liees a la lutte contre la fraude
-    
+
     public function setFraudDataBypass3DS($value)
     {
         if (strlen($value) > 128) {
@@ -499,9 +500,9 @@ class GestionPlusInterface
         }
         $this->parameters['fraudData.bypass3DS'] = $value;
     }
-    
+
     // Methodes liees au paiement one-click
-    
+
     public function setMerchantWalletId($wallet)
     {
         if (strlen($wallet) > 21) {
@@ -509,7 +510,7 @@ class GestionPlusInterface
         }
         $this->parameters['merchantWalletId'] = $wallet;
     }
-    
+
     public function setPaymentMeanId($value)
     {
         if (strlen($value) > 6) {
@@ -517,14 +518,14 @@ class GestionPlusInterface
         }
         $this->parameters['paymentMeanId'] = $value;
     }
-        
+
     // Methodes liees au paiement en n-fois
-    
+
     public function setInstalmentData(array $data)
     {
         $this->parameters['instalmentData'] = $data;
     }
-    
+
     public function setPaymentPattern($paymentPattern)
     {
         $this->parameters['paymentPattern'] = $paymentPattern;
@@ -594,7 +595,7 @@ class GestionPlusInterface
                 }
             }
         }
-    
+
         if ($this->pspRequest == self::REQUEST_WALLET_ORDER) {
             foreach ($this->requiredFieldsWalletOrder as $field) {
                 if (empty($this->parameters[$field])) {
@@ -613,10 +614,10 @@ class GestionPlusInterface
             throw new \InvalidArgumentException("Uri is too long");
         }
     }
-    
+
     // Traitement des reponses de Mercanet
     // -----------------------------------
-    
+
     /**
  * @var string
 */
@@ -638,18 +639,18 @@ class GestionPlusInterface
         // filter request for Sips parameters
         $this->parameters = $this->filterRequestParameters($httpRequest);
     }
-    
+
     /**
      * @var string
      */
     private $shaSign;
 
     private $dataString;
-    
+
     private $responseRequest;
     private $responseStatus;
     private $parameterArray;
-    
+
     /**
      * Filter http request parameters
      *
@@ -661,7 +662,7 @@ class GestionPlusInterface
         if (!array_key_exists(self::DATA_FIELD, $httpRequest) || $httpRequest[self::DATA_FIELD] == '') {
             throw new \InvalidArgumentException('Data parameter not present in parameters.');
         }
-        $parameters = array();
+        $parameters = [];
         $dataString = $httpRequest[self::DATA_FIELD];
         $this->dataString = $dataString;
         $dataParams = explode('|', $dataString);
@@ -712,7 +713,7 @@ class GestionPlusInterface
         $resultat = false;
         if ($this->responseStatus) {
             $this->parameterArray = json_decode($this->responseRequest, true);
-            
+
             $result = $this->mulsort($this->parameterArray);
             $this->shaString = "";
             if (self::TRACE == 1) {
@@ -720,7 +721,7 @@ class GestionPlusInterface
             }
             array_walk_recursive($result, [$this, 'shaCompose']);
             $compute = hash_hmac('sha256', utf8_encode($this->shaString), $this->secretKey);
-    
+
             if (self::TRACE == 1) {
                 echo "<br>signature compute = " . $compute . " from " . $this->shaString . "<br><br>signature received = " . $result['seal'] . "<br><br>";
             }
@@ -743,12 +744,12 @@ class GestionPlusInterface
     {
         return $this->parameterArray[$key];
     }
-    
+
     public function getResponseRequest()
     {
         return $this->responseRequest;
     }
-    
+
     public function executeRequest()
     {
         $ch = curl_init();
@@ -756,14 +757,14 @@ class GestionPlusInterface
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         curl_setopt($ch, CURLOPT_POST, true);
         curl_setopt($ch, CURLOPT_POSTFIELDS, $this->toParameterString());
-        curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/json', 'Accept:application/json'));
+        curl_setopt($ch, CURLOPT_HTTPHEADER, ['Content-Type: application/json', 'Accept:application/json']);
         curl_setopt($ch, CURLOPT_PORT, 443);
         $this->responseRequest = curl_exec($ch);
         $info = curl_getinfo($ch);
         // Manage errors
         if ($this->responseRequest == false || $info['http_code'] != 200) {
             if (curl_error($ch)) {
-                $this->responseRequest .= "\n". curl_error($ch);
+                $this->responseRequest .= "\n" . curl_error($ch);
             }
             $this->responseStatus = false;
         } else {

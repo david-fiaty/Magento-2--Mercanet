@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Naxero.com Magento 2 Mercanet Payment.
  *
@@ -23,7 +24,7 @@ class Watchdog
      * @var ManagerInterface
      */
     protected $messageManager;
- 
+
     /**
      * @var Config
      */

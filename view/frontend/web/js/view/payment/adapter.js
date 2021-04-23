@@ -33,7 +33,7 @@ define(
             getPaymentConfig: function () {
                 return window.checkoutConfig.payment['naxero_mercanet'];
             },
-        
+
             /**
              * Get payment code.
              *

@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Naxero.com Magento 2 Mercanet Payment.
  *
@@ -66,12 +67,12 @@ class Form extends \Magento\Payment\Block\Form\Cc
     ) {
         // Parent constructor
         parent::__construct($context, $paymentModelConfig);
-        
+
         // Assign the parameters
         $this->formHandler = $formHandler;
         $this->config = $config;
         $this->assetRepository = $assetRepository;
-        
+
         // Get the template config
         $template = $this->config->params[Core::moduleId() . '_admin_method'][Connector::KEY_FORM_TEMPLATE];
 

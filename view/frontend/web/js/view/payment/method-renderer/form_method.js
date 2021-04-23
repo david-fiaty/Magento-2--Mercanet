@@ -111,7 +111,7 @@ define(
 
                     // Disable jQuery validate checks
                     $(sel).validate().cancelSubmit = true;
-                
+
                     // Serialize the data
                     var payLoad = $(sel).serializeArray();
 
@@ -151,7 +151,7 @@ define(
                     if (AdditionalValidators.validate() && this.validateForm('#' + this.targetForm)) {
                         // Set the cookie data
                         Adapter.setCookieData(this.methodId);
-                    
+
                         // Check cart and submit
                         this.proceedWithSubmission();
                     } else {

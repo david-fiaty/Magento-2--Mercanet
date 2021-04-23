@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Naxero.com Magento 2 Mercanet Payment.
  *
@@ -13,7 +14,7 @@
  */
 
 namespace Naxero\Mercanet\Controller\Response;
- 
+
 use Naxero\Mercanet\Gateway\Processor\Connector;
 
 class Normal extends \Magento\Framework\App\Action\Action
@@ -22,7 +23,7 @@ class Normal extends \Magento\Framework\App\Action\Action
      * @var OrderHandlerService
      */
     protected $orderHandler;
-    
+
     /**
      * @var CheckoutSession
      */
@@ -74,7 +75,7 @@ class Normal extends \Magento\Framework\App\Action\Action
         $this->config                = $config;
         $this->methodHandler         = $methodHandler;
     }
- 
+
     public function execute()
     {
         // Get the request data
